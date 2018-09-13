@@ -1,0 +1,33 @@
+--[[
+**GUID Extractor**
+
+Attach this script to any object.
+
+When a container is placed on top of this object, the Description of this object
+will contain a newline separated list of all GUIDs inside the container, in
+order from top to bottom.
+
+Just copy the GUIDs out of this objects description.
+
+** WARNING ** CAN ONLY HANDLE ~40 CARDS AT A TIME. THE DESCRIPTION FIELD CAN'T CONTAIN MORE THAN THAT (ROUGHLY).
+--]]
+
+function onCollisionEnter(collision_info)
+    obj = collision_info.collision_object
+
+    -- Exit early if we collide with the table itself.
+    if obj.guid ~= nil then
+        objs = obj.getObjects()
+        guidArray = ObjsToGuidArray(objs)
+        self.setDescription(guidArray)
+    end
+end
+
+function ObjsToGuidArray(objs)
+    array = ''
+    len = #objs
+    for i = len, 1, -1 do
+        array = array .. objs[i].guid .. '\n'
+    end
+    return array
+end

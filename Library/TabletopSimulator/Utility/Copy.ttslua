@@ -1,0 +1,17 @@
+local Copy = {}
+
+-- Source: http://lua-users.org/wiki/CopyTable
+function Copy.BasicDeepCopy(orig)
+    local orig_type = type(orig)
+    local copy
+    if orig_type == 'table' then
+        copy = {}
+        for orig_key, orig_value in next, orig, nil do
+            copy[Copy.BasicDeepCopy(orig_key)] = Copy.BasicDeepCopy(orig_value)
+        end
+        setmetatable(copy, Copy.BasicDeepCopy(getmetatable(orig)))
+    else -- number, string, boolean, etc
+        copy = orig
+    end
+    return copy
+end

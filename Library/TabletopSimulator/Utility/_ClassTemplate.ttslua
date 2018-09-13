@@ -1,0 +1,37 @@
+--[[
+## Class
+public class MyClass
+{
+    -- Fields
+    public var data
+
+    -- Constructors
+    public MyClass:new(data)
+    public MyClass(data)
+
+    -- Methods
+
+}
+
+## Summary
+A useful description goes here. Lorem ipsum.
+--]]
+
+local MyClass = {}
+
+-- Can create a new MyClass instance by calling either MyClass:new() or just MyClass().
+setmetatable(MyClass, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+Return a new MyClass containing a piece of data.
+--]]
+function MyClass:new(data)
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.data = data
+
+    return obj
+end

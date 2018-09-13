@@ -1,0 +1,115 @@
+--[[
+## Summary
+A simple 'double-ended queue' data structure that can also be used as a Stack or Queue.
+
+## Class
+public class DoubleEndedQueue
+{
+    -- Constructors
+    public DoubleEndedQueue:new(data)
+    public DoubleEndedQueue(data)
+
+    -- Methods
+    public int Count()
+    public bool IsEmpty()
+
+    public void PushLeft(value)
+    public void PushRight(value)
+    public var PopLeft()
+    public var PopRight()
+
+    public void Enqueue()
+    public var DoubleEndedQueue()
+
+    public void Push()
+    public var Pop()
+}
+
+## Source
+Source: https://www.lua.org/pil/11.4.html (with some modifications).
+--]]
+
+local DoubleEndedQueue = {}
+
+-- Can create a new DoubleEndedQueue instance by calling either DoubleEndedQueue:new() or just DoubleEndedQueue().
+setmetatable(DoubleEndedQueue, { __call = function(self, ...) return self:new(...) end })
+
+-- Return a new DoubleEndedQueue instance.
+function DoubleEndedQueue:new ()
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.head = 0    -- Index of the leftmost value.
+    obj.tail = -1   -- Index of the rightmost value.
+
+    return obj
+end
+
+-- Return the number of elements in the queue.
+function DoubleEndedQueue:Count()
+    return self.tail - self.head + 1
+end
+
+function DoubleEndedQueue:IsEmpty()
+    return self:Count() == 0
+end
+
+-- Add data to the left end of the queue.
+function DoubleEndedQueue:PushLeft(value)
+    local head = self.head - 1
+    self.head = head
+    self[head] = value
+end
+
+-- Add data to the right end of the queue.
+function DoubleEndedQueue:PushRight(value)
+    local tail = self.tail + 1
+    self.tail = tail
+    self[tail] = value
+end
+
+-- Remove and return the leftmost value of the queue.
+-- Throws: error if queue is empty.
+function DoubleEndedQueue:PopLeft()
+    local head = self.head
+    if self:IsEmpty() then error("The queue is empty.") end
+    local value = self[head]
+    self[head] = nil   -- to allow garbage collection
+    self.head = head + 1
+    return value
+end
+
+-- Remove and return the rightmost value of the queue.
+-- Throws: error if queue is empty.
+function DoubleEndedQueue:PopRight()
+    local tail = self.tail
+    if self:IsEmpty() then error("The queue is empty.") end
+    local value = self[tail]
+    self[tail] = nil    -- to allow garbage collection
+    self.tail = tail - 1
+    return value
+end
+
+-- Queue style -----------------------------------------------------------------
+-- Add a value to the end of the queue.
+function DoubleEndedQueue:Enqueue(value)
+    self:PushRight(value)
+end
+
+-- Remove and return the value at the beginning of the queue.
+function DoubleEndedQueue:Dequeue()
+    return self:PopLeft()
+end
+
+-- Stack style -----------------------------------------------------------------
+-- Add a value to the top of the stack.
+function DoubleEndedQueue:Push(value)
+    self:PushRight(value)
+end
+
+-- Remove and return the topmost value of the stack.
+function DoubleEndedQueue:Pop()
+    return self:PopRight()
+end

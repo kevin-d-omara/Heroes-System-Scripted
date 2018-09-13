@@ -1,0 +1,59 @@
+#include !/TabletopSimulator/Utility/String
+
+--[[
+## Summary
+Call a global Lua function on another entity, even if it is nested inside of a table.
+
+## Example
+-- Invoke a method on another object by reference.
+local obj = getObjectFromGUID(objGuid)
+Invoke(obj, 'GameSetup.Player.SetDashboard', someParams)
+
+-- Invoke a method on another object by GUID.
+Invoke(objGuid, 'GameSetup.Player.SetDashboard', someParams)
+
+-- Invoke a method on Global.
+local params = {}
+Invoke(Global, 'ScoreKeeper.AddPoints', someParams)
+
+## Parameters
+<Object> objectOrGuid: The object to invoke the function on, or its guid.
+<string> functionName: The full path to the (non-local) function you want to activate.
+    Use the same syntax as if you were to call the method directly (ex: 'GameSetup.SetDashboard').
+<table> parameters: A Table containing any data you want to pass to that function.
+
+## Note
+To invoke methods directly on the game world (Global), you must include this script in the Global.ttslua file by either:
+(a) Copy and paste this code into Global.ttslua
+or
+(b) Including this file with:
+_ #include Path/To/This/File  -- ex: #include Utility/Invoke
+--]]
+function Invoke(objectOrGuid, functionName, parameters)
+    local object
+    if type(objectOrGuid) == 'string' then
+        object = getObjectFromGUID(objectOrGuid)
+    else
+        object = objectOrGuid
+    end
+
+    parameters._functionName_ = functionName
+    object.call('_InvokeHandler_', parameters)
+end
+
+function _InvokeHandler_(parameters)
+    local pathArray = String.Split(parameters._functionName_, '.')
+    parameters._functionName_ = nil
+
+    -- Get the first table or the function from the global namespace.
+    local func = _ENV[pathArray[1]]
+    if func == nil then
+        error("Reference '" .. tostring(pathArray[1]) .. "' cannot be accessed because it is either nil or local. Make sure it is not declared with local and that you have spelled it correctly.")
+    end
+
+    -- Get the function that is nested in tables.
+    for i = 2, #pathArray do
+        func = func[pathArray[i]]
+    end
+    func(parameters)
+end

@@ -1,0 +1,15 @@
+Class = {}
+
+--[[
+Return true if the object is an instance of class.
+--]]
+function Class.IsInstance(obj, class)
+    if class == nil then error('Cannot check the class of the object. The class is nil.') end
+
+    while obj do
+        obj = getmetatable(obj)
+        if class == obj then return true end
+    end
+
+    return false
+end

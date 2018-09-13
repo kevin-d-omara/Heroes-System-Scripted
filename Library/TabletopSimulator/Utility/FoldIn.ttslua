@@ -1,0 +1,27 @@
+--[[
+## Summary
+Copy all key-value pairs in the source table into the destination table.
+
+## Parameters
+<table> source: The table to copy key-value pairs from.
+<table> destination: The table to copy key-value pairs to.
+<table> parameters:
+    <bool> clobber: If true, allows pre-existing keys in the destination table to be overwritten.
+        [Optional, defaults to false.]
+
+## Returns
+<table> The input table 'destination'.
+
+## Throws
+Error if a key in the source table already exists in the destination table (unless parameters.clobber = true).
+--]]
+function FoldIn(source, destination, parameters)
+    parameters = parameters or {}
+    parameters.clobber = parameters.clobber or false
+    for k,v in pairs(source) do
+        if not parameters.clobber and destination[k] ~= nil then error('ERROR: destination table (' .. tostring(destination) .. ') already contains the key: ' .. tostring(k)) end
+        destination[k] = v
+    end
+
+    return destination
+end

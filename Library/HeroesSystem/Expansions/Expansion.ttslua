@@ -1,0 +1,42 @@
+--[[
+## Class
+public class Expansion
+{
+    -- Fields
+    public string name
+    public table manifest
+
+    -- Constructors
+    public Expansion:new(name, manifest)
+    public Expansion(name, manifest)
+
+    -- Methods
+
+}
+
+## Summary
+A single expansion for a Heroes System: Tactical Scale game.
+For example, the Heroes of Normandie Core Box, or the Shadows over Normandie Cthulhu Mythos 1.
+--]]
+
+local Expansion = {}
+
+-- Can create a new Expansion instance by calling either Expansion:new() or just Expansion().
+setmetatable(Expansion, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+## Parameters
+<string> nameAsKey: The name of this expansion as a valid Lua key (ex: "CoreBox").
+<table> manifest: The contents of this expansion.
+--]]
+function Expansion:new(nameAsKey, manifest)
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.name = name
+    obj.manifest = manifest
+
+    return obj
+end

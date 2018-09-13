@@ -1,0 +1,37 @@
+--[[
+## Summary
+A way to save callbacks and execute them later.
+
+Can be used to coordinate functions across two different Objects (including Global).
+--]]
+
+Callbacks = {}
+
+Callbacks.requests = {}
+Callbacks.requestCount = 0
+
+--[[
+Register a callback and return its request ID.
+--]]
+function Callbacks.AddRequest(callback)
+    local requestId = Callbacks.requestCount
+    Callbacks.requests[requestId] = callback
+    Callbacks.requestCount = requestId + 1
+
+    return requestId
+end
+
+--[[
+Execute the registered callback with the provided arguments.
+
+The `args` table must include the key `_requestId` to identify which callback to execute.
+--]]
+function Callbacks.OnSuccess(args)
+    local requestId = args._requestId
+    args._requestId = nil
+
+    local callback = Callbacks.requests[requestId]
+    Callbacks.requests[requestId] = nil
+
+    callback(args)
+end
