@@ -1,0 +1,32 @@
+--[[ Integration Test Runner ]]--
+--[[
+This script creates a big "Run Integration Tests" button on the object that includes it.
+
+To use, #include this file in the script of your test runner object, and override the RunIntegrationTests() function.
+--]]
+
+function onLoad()
+    CreateRunButton()
+end
+
+-- Create a button that is the same size as the object and is placed directly on top.
+function CreateRunButton()
+    local bounds = self.getBoundsNormalized()
+    local boundsScale = 65  -- Should just be 100, not sure what happened.
+
+    self.createButton({
+        click_function = "RunIntegrationTests",
+        label = "Run Integration\nTests",
+        tooltip = "Run Integration Tests",
+        function_owner = self,
+        position = {0, bounds.size.y, 0},   -- Place button directly above object.
+        rotation = {0, 180, 0},
+        width = bounds.size.x * boundsScale,
+        height = bounds.size.z * boundsScale,
+        font_size = 70,
+    })
+end
+
+function RunIntegrationTests()
+    -- TODO: As the user, you must override this function in files where you #include this.
+end

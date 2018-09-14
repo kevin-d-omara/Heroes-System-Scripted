@@ -1,0 +1,32 @@
+--[[ Test that the Core Box expansion is built properly. ]]--
+#include !/Tools/IntegrationTestRunner
+#include !/HeroesSystem/Expansions/HeroesOfNormandie/CoreBox
+
+function RunIntegrationTests()
+    Setup()
+
+    local parameters = {position = {0,0,0}, rotation = {0,180,0}, smooth = false}
+    -- TestTerrain(parameters)
+    TestRiflePlatoonBasic(parameters)
+end
+
+function Setup()
+    local expansion = GetExpansionManifest()
+    CoreBox = TTSObject.GenerateObjectTree(expansion.manifest)
+end
+
+-- Tests -----------------------------------------------------------------------
+function TestRiflePlatoonBasic(parameters)
+    GetNestedObjectFromGuids(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Officer:GetParentGuids(), parameters)
+    GetNestedObjectFromGuids(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Bazooka:GetParentGuids(), parameters)
+end
+
+function TestTerrain(parameters)
+    GetNestedObjectFromGuids(CoreBox.Terrain.C3_B:GetParentGuids(), parameters)
+    GetNestedObjectFromGuids(CoreBox.Terrain.C6_A:GetParentGuids(), parameters)
+    GetNestedObjectFromGuids(CoreBox.Terrain.C2_B:GetParentGuids(), parameters)
+end
+
+function TestTTSObjectGetNestedObject(parameters)
+    -- ttsObject:GetNestedObject(parameters)
+end
