@@ -38,14 +38,15 @@ Return a new RecruitmentTile instance with the specified GUID and parameters.
 --]]
 function RecruitmentTile:new(parameters)
     -- Validate inputs.
-    if parameters == nil then error('ERROR: Parameter 1, `parameters`, is missing') end
+    if parameters == nil then error('ERROR: Parameter 1, `parameters`, is missing.') end
+    if parameters.guid == nil then error('ERROR: Parameter 1, `parameters`, is missing the key `guid`.') end
 
     local obj = {}
     setmetatable(obj, self)
     self.__index = self
     self.__call = function(self, ...) return self:new(...) end
 
-    obj.guid        = guid
+    obj.guid        = parameters.guid
     obj.Includes    = parameters.Includes
     obj.Options     = parameters.Options
     obj.OptionSlots = parameters.OptionSlots
