@@ -55,7 +55,6 @@ function RecruitmentTile:new(parameters)
     -- Transform GUIDs into TTSObjects.
     for k,v in pairs(obj.Guids) do
         obj.Guids[k] = TTSObject(v)
-        obj.Guids[k]:SetParent(obj)
     end
 
     -- Assign this recruitment tile as the parent of each Option.
@@ -90,4 +89,11 @@ After
 function RecruitmentTile:FoldUp()
     FoldIn(self.Options, self.parentContainer)
     FoldIn(self.Guids, self.parentContainer)
+
+    for k,v in pairs(self.Options) do
+        v:SetParent(self.parentContainer)
+    end
+    for k,v in pairs(self.Guids) do
+        v:SetParent(self.parentContainer)
+    end
 end

@@ -6,8 +6,10 @@ function RunIntegrationTests()
     Setup()
 
     local parameters = {position = {0,0,0}, rotation = {0,180,0}, smooth = false}
-    -- TestTerrain(parameters)
     TestRiflePlatoonBasic(parameters)
+    TestTerrain(parameters)
+    TestOptions(parameters)
+    TestAdHoc(parameters)
 end
 
 function Setup()
@@ -25,6 +27,16 @@ function TestTerrain(parameters)
     GetNestedObjectFromGuids(CoreBox.Terrain.C3_B:GetParentGuids(), parameters)
     GetNestedObjectFromGuids(CoreBox.Terrain.C6_A:GetParentGuids(), parameters)
     GetNestedObjectFromGuids(CoreBox.Terrain.C2_B:GetParentGuids(), parameters)
+end
+
+function TestOptions(parameters)
+    GetNestedObjectFromGuids(CoreBox.US.ExtraUnits.Mortar_Option:GetParentGuids(), parameters)
+end
+
+function TestAdHoc(parameters)
+    GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile:GetParentGuids(), parameters)
+    GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile.Officer:GetParentGuids(), parameters)
+    GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile.Options.Airstrike_x1_Option:GetParentGuids(), parameters)
 end
 
 function TestTTSObjectGetNestedObject(parameters)
