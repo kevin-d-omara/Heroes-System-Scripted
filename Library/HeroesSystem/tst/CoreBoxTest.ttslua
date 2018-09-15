@@ -5,11 +5,14 @@
 function RunIntegrationTests()
     Setup()
 
+    for k,v in pairs(UnitTests) do
+        v()
+    end
+
     local parameters = {position = {0,0,0}, rotation = {0,180,0}, smooth = false}
-    TestRiflePlatoonBasic(parameters)
-    TestTerrain(parameters)
-    TestOptions(parameters)
-    TestAdHoc(parameters)
+    for k,v in pairs(IntegrationTests) do
+        v(parameters)
+    end
 end
 
 function Setup()
@@ -17,28 +20,83 @@ function Setup()
     CoreBox = TTSObject.GenerateObjectTree(expansion.manifest)
 end
 
--- Tests -----------------------------------------------------------------------
-function TestRiflePlatoonBasic(parameters)
+-- Unit Tests ------------------------------------------------------------------
+UnitTests = {}
+
+function UnitTests.TestGetParentGuids()
+    local expectedGuids = {
+        '5e407f',   -- CoreBox (bag)
+        '26put9',   -- US (bag)
+        'xludol',   -- RiflePlatoon8th (bag)
+        'hic75d',   -- Officer (tile)
+    }
+
+    local tile = CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Officer
+    local actualGuids = tile:GetParentGuids()
+
+    if #actualGuids ~= #expectedGuids then
+        error('FAILED: TestGetParentGuids: expected ' .. tostring(#expectedGuids) .. ' guids, but there were only ' .. tostring(#actualGuids) .. ' guids.')
+    end
+
+    for i,v in ipairs(actualGuids) do
+        if actualGuids[i] ~= expectedGuids[i] then
+            error('FAILED: TestGetParentGuids: expected guid # ' .. tostring(i) .. ' to be ' .. tostring(expectedGuids[i]) .. ', but instead found ' .. tostring(actualGuids[i]))
+        end
+    end
+end
+
+function UnitTests.TestFoldUpGuids()
+    local bag = CoreBox.US.RiflePlatoon8th
+
+    if bag.Bazooka == nil then
+        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Bazooka was nil.')
+    end
+    if bag.Recruitment_Tile.Bazooka == nil then
+        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Bazooka was nil.')
+    end
+    if bag.Recruitment_Tile.Guids.Bazooka == nil then
+        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Guids.Bazooka was nil')
+    end
+end
+
+function UnitTests.TestFoldUpOptions()
+    local bag = CoreBox.US.RiflePlatoon8th
+
+    if bag.Rifle_Squad_Option == nil then
+        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Rifle_Squad_Option was nil.')
+    end
+    if bag.Recruitment_Tile.Rifle_Squad_Option == nil then
+        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Rifle_Squad_Option was nil.')
+    end
+    if bag.Recruitment_Tile.Options.Rifle_Squad_Option == nil then
+        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Options.Rifle_Squad_Option was nil')
+    end
+end
+
+-- Integration Tests -----------------------------------------------------------
+IntegrationTests = {}
+
+function IntegrationTests.TestRiflePlatoonBasic(parameters)
     GetNestedObjectFromGuids(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Officer:GetParentGuids(), parameters)
     GetNestedObjectFromGuids(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Bazooka:GetParentGuids(), parameters)
 end
 
-function TestTerrain(parameters)
+function IntegrationTests.TestTerrain(parameters)
     GetNestedObjectFromGuids(CoreBox.Terrain.C3_B:GetParentGuids(), parameters)
     GetNestedObjectFromGuids(CoreBox.Terrain.C6_A:GetParentGuids(), parameters)
     GetNestedObjectFromGuids(CoreBox.Terrain.C2_B:GetParentGuids(), parameters)
 end
 
-function TestOptions(parameters)
+function IntegrationTests.TestOptions(parameters)
     GetNestedObjectFromGuids(CoreBox.US.ExtraUnits.Mortar_Option:GetParentGuids(), parameters)
 end
 
-function TestAdHoc(parameters)
+function IntegrationTests.TestAdHoc(parameters)
     GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile:GetParentGuids(), parameters)
     GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile.Officer:GetParentGuids(), parameters)
     GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile.Options.Airstrike_x1_Option:GetParentGuids(), parameters)
 end
 
-function TestTTSObjectGetNestedObject(parameters)
+function IntegrationTests.TestTTSObjectGetNestedObject(parameters)
     -- ttsObject:GetNestedObject(parameters)
 end
