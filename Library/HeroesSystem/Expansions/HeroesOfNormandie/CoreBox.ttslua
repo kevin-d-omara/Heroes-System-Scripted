@@ -107,9 +107,9 @@ function GetExpansionManifest()
                     guid =  'yma6kt',
                     Includes = {'Officer', 'Recon_Team', 'Fire_Team', 'Support_Team'},
                     Options = {
-                        _30cal_Squad_Option     = Option('u5hpl5', {'Fire_Team', 'Support_Team', '_30cal'}),
-                        Bazooka_Squad_Option    = Option('de1bis', {'Fire_Team', 'Support_Team', 'Bazooka'}),
-                        Rifle_Squad_Option      = Option('sgzhof', {'Recon_Team', 'Fire_Team', 'Support_Team'}),
+                        _30cal_Squad_Option     = Option({guid = 'u5hpl5', includes = {'Fire_Team', 'Support_Team', '_30cal'}}),
+                        Bazooka_Squad_Option    = Option({guid = 'de1bis', includes = {'Fire_Team', 'Support_Team', 'Bazooka'}}),
+                        Rifle_Squad_Option      = Option({guid = 'sgzhof', includes = {'Recon_Team', 'Fire_Team', 'Support_Team'}}),
                     },
                     OptionSlots = {
                         -- TODO: Actually measure these.
