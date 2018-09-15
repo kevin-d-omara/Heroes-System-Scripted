@@ -1,0 +1,27 @@
+function AssertEquals(expected, actual)
+    if expected ~= actual then
+        return ErrorMessage('AssertEquals', expected, actual)
+    end
+end
+
+function AssertNotEquals(expected, actual)
+    if expected == actual then
+        return ErrorMessage('AssertNotEquals', expected, actual)
+    end
+end
+
+function AssertTrue(condition)
+    if condition == false then
+        return ErrorMessage('AssertTrue', true, condition)
+    end
+end
+
+function AssertFalse(condition)
+    if condition == true then
+        return ErrorMessage('AssertFalse', false, condition)
+    end
+end
+
+function ErrorMessage(name, expected, actual)
+    return name .. ' failed. Expected: ' .. tostring(expected) .. ', Actual: ' .. tostring(actual)
+end
