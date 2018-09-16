@@ -58,7 +58,7 @@ The child is accessible through the parent by the given key (i.e. parentContaine
 --]]
 function TTSObject:AddChild(ttsObject, key)
     self[key] = ttsObject
-    ttsObject.parentContainer = self
+    ttsObject:SetParent(self)
 end
 
 --[[
@@ -67,6 +67,7 @@ Assign the parent container of this object.
 --]]
 function TTSObject:SetParent(parentContainer)
     self.parentContainer = parentContainer
+    self:FoldUp()
 end
 
 --[[
@@ -129,7 +130,6 @@ function TTSObject.GenerateObjectTree(obj)
         obj.guid = nil
         for k,v in pairs(obj) do
             ttsObject:AddChild(TTSObject.GenerateObjectTree(v), k)
-            ttsObject[k]:FoldUp()
         end
         return ttsObject
 
@@ -144,7 +144,8 @@ end
 ## Summary
 Copy some* key-value pairs from this object onto its parent.
 
-This method is called when TTSObject.GenerateObjectTree() encounters a TTSObject instance.
+This method is called during TTSObject:SetParent().
+It gives the object a chance to do late initializations that require having a parentContainer.
 --]]
 function TTSObject:FoldUp()
     -- *I am a virtual method. You may override me in your custom derived class.
