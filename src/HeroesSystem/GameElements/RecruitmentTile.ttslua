@@ -47,10 +47,10 @@ function RecruitmentTile:new(parameters)
     self.__call = function(self, ...) return self:new(...) end
 
     obj.guid        = parameters.guid
-    obj.Includes    = parameters.Includes
-    obj.Options     = parameters.Options
-    obj.OptionSlots = parameters.OptionSlots
-    obj.Guids       = parameters.Guids
+    obj.Includes    = parameters.Includes or {}
+    obj.Options     = parameters.Options or {}
+    obj.OptionSlots = parameters.OptionSlots or {}
+    obj.Guids       = parameters.Guids or {}
 
     -- Transform GUIDs into TTSObjects.
     for k,v in pairs(obj.Guids) do

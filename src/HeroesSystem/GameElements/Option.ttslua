@@ -41,7 +41,7 @@ function Option:new(parameters)
     self.__call = function(self, ...) return self:new(...) end
 
     obj.guid     = parameters.guid
-    obj.Includes = parameters.Includes
+    obj.Includes = parameters.Includes or {}
 
     return obj
 end
