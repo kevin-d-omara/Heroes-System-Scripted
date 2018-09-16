@@ -1,4 +1,4 @@
---[[ Test Runner ]]--
+--[[ Test Runner Button ]]--
 --[[
 This script creates a big "Run Tests" button on the object that includes it.
 

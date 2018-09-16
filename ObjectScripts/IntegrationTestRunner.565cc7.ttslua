@@ -1,1 +1,5 @@
-#include !/HeroesSystem/tst/CoreBoxTest
+-- Give this object a button to start the tests.
+#include !/TTSTest/TestRunnerButton
+
+--[[ #include TestSuites and TestClasses here. ]]--
+#include !/../tst/HeroesSystem/TestSuite

@@ -82,6 +82,7 @@ end
 Run all unit tests for all test classes that have been collected in _AllTests .
 --]]
 function RunAllTests()
+    print('== Begin Testing ==')
     for k,v in pairs(_AllTests) do
         _RunTestsForTestClass(k, v)
     end

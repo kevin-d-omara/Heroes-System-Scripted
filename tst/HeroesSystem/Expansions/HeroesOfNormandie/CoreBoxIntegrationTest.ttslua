@@ -1,0 +1,40 @@
+--[[ Test that the Core Box expansion is built properly. ]]--
+#include !/TTSTest/TestClass
+#include !/HeroesSystem/Expansions/HeroesOfNormandie/CoreBox
+
+-- Integration Tests -----------------------------------------------------------
+TestClass('CoreBox Integration Tests')
+
+function Test:BeforeClass()
+    local expansion = GetExpansionManifest()
+    CoreBox = TTSObject.GenerateObjectTree(expansion.manifest)
+end
+
+function Test:BeforeTest()
+    parameters = {position = {0,0,0}, rotation = {0,180,0}, smooth = false}
+end
+
+function Test:RiflePlatoonBasic()
+    GetNestedObjectFromGuids(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Officer:GetParentGuids(), parameters)
+    GetNestedObjectFromGuids(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Bazooka:GetParentGuids(), parameters)
+end
+
+function Test:Terrain()
+    GetNestedObjectFromGuids(CoreBox.Terrain.C3_B:GetParentGuids(), parameters)
+    GetNestedObjectFromGuids(CoreBox.Terrain.C6_A:GetParentGuids(), parameters)
+    GetNestedObjectFromGuids(CoreBox.Terrain.C2_B:GetParentGuids(), parameters)
+end
+
+function Test:Options()
+    GetNestedObjectFromGuids(CoreBox.US.ExtraUnits.Mortar_Option:GetParentGuids(), parameters)
+end
+
+function Test:AdHoc()
+    GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile:GetParentGuids(), parameters)
+    GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile.Officer:GetParentGuids(), parameters)
+    GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile.Options.Airstrike_x1_Option:GetParentGuids(), parameters)
+end
+
+function Test:TTSObjectGetNestedObject()
+    -- ttsObject:GetNestedObject(parameters)
+end

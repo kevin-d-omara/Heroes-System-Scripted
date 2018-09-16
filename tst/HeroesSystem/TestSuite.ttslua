@@ -1,0 +1,5 @@
+--[[ All of the tests for the HeroesSystem package. ]]--
+
+-- #include Expansions/HeroesOfNormandie/CoreBoxUnitTest
+-- #include Expansions/HeroesOfNormandie/CoreBoxIntegrationTest
+#include Expansions/HeroesOfNormandie/LayoutSimpleScenario
