@@ -1,0 +1,43 @@
+--[[ Help set snap points and offests for the recruitment tiles. ]]--
+#include !/TTSTest/TestClass
+#include !/HeroesSystem/Expansions/HeroesOfNormandie/CoreBox
+
+-- Integration Tests -----------------------------------------------------------
+TestClass('CoreBox Help Set Snap Points and Offsets')
+
+function Test:BeforeClass()
+    local expansion = GetExpansionManifest()
+    CoreBox = TTSObject.GenerateObjectTree(expansion.manifest)
+end
+
+function Test:BeforeTest()
+    parameters = {position = {0,0,0}, rotation = {0,180,0}, smooth = false}
+end
+
+function Place(ttsObject, parameters)
+    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
+end
+
+function Ignore:LayAllRecruitmentTiles()
+    Place(CoreBox.US.RiflePlatoon8th.Recruitment_Tile,      {position = {0,0,10}, rotation = {0,180,0}, smooth = false})
+    Place(CoreBox.US.RiflePlatoon22nd.Recruitment_Tile,     {position = {0,0,7}, rotation = {0,180,0}, smooth = false})
+    Place(CoreBox.US.FieldCommand.Recruitment_Tile,         {position = {0,0,4}, rotation = {0,180,0}, smooth = false})
+    Place(CoreBox.GE.Panzergrenadiere901.Recruitment_Tile,  {position = {0,0,1}, rotation = {0,180,0}, smooth = false})
+    Place(CoreBox.GE.Panzergrenadiere902.Recruitment_Tile,  {position = {0,0,-2}, rotation = {0,180,0}, smooth = false})
+    Place(CoreBox.GE.Feldkommando.Recruitment_Tile,         {position = {0,0,-5}, rotation = {0,180,0}, smooth = false})
+
+    Place(CoreBox.US.ExtraUnits.Sherman_M4_Option,          {position = {8,0,0}, rotation = {0,180,0}, smooth = false})
+    Place(CoreBox.US.ExtraUnits.Mortar_Option,              {position = {10,0,0}, rotation = {0,180,0}, smooth = false})
+    Place(CoreBox.GE.ExtraUnits.Panzer_IV_Option,           {position = {12,0,0}, rotation = {0,180,0}, smooth = false})
+    Place(CoreBox.GE.ExtraUnits.Zundapp_Option,             {position = {14,0,0}, rotation = {0,180,0}, smooth = false})
+end
+
+function Test:LaySingleTile()
+    Place(CoreBox.GE.Feldkommando.Recruitment_Tile,         {position = {0,0,0}, rotation = {0,0,0}, smooth = false})
+    local slot1 = CoreBox.GE.Feldkommando.Recruitment_Tile.OptionSlots[1]; slot1[2] = 10
+    local slot2 = CoreBox.GE.Feldkommando.Recruitment_Tile.OptionSlots[2]; slot2[2] = 10
+    local slot3 = CoreBox.GE.Feldkommando.Recruitment_Tile.OptionSlots[3]; slot3[2] = 10
+    Place(CoreBox.GE.ExtraUnits.Zundapp_Option,             {position = slot1, rotation = {0,0,0}, smooth = false})
+    Place(CoreBox.GE.ExtraUnits.Zundapp_Option,             {position = slot2, rotation = {0,0,0}, smooth = false})
+    Place(CoreBox.GE.ExtraUnits.Panzer_IV_Option,           {position = slot3, rotation = {0,0,0}, smooth = false})
+end

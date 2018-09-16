@@ -1,5 +1,9 @@
 --[[ All of the tests for the HeroesSystem package. ]]--
 
+--[[ #include tests here. ]]
 #include Expansions/HeroesOfNormandie/CoreBoxUnitTest
 #include Expansions/HeroesOfNormandie/CoreBoxIntegrationTest
 #include Expansions/HeroesOfNormandie/LayoutSimpleScenario
+
+--[[ #include tools/adhoc here. ]]
+-- #include Expansions/HeroesOfNormandie/CoreBoxSnapPoints

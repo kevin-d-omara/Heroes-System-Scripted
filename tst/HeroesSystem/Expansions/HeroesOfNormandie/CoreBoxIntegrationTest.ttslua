@@ -14,25 +14,46 @@ function Test:BeforeTest()
     parameters = {position = {0,0,0}, rotation = {0,180,0}, smooth = false}
 end
 
-function Test:RiflePlatoonBasic()
-    GetNestedObjectFromGuids(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Officer:GetParentGuids(), parameters)
-    GetNestedObjectFromGuids(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Bazooka:GetParentGuids(), parameters)
-end
-
-function Test:Terrain()
-    GetNestedObjectFromGuids(CoreBox.Terrain.C3_B:GetParentGuids(), parameters)
-    GetNestedObjectFromGuids(CoreBox.Terrain.C6_A:GetParentGuids(), parameters)
-    GetNestedObjectFromGuids(CoreBox.Terrain.C2_B:GetParentGuids(), parameters)
-end
-
-function Test:Options()
-    GetNestedObjectFromGuids(CoreBox.US.ExtraUnits.Mortar_Option:GetParentGuids(), parameters)
+function Place(ttsObject, parameters)
+    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
 end
 
 function Test:AdHoc()
-    GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile:GetParentGuids(), parameters)
-    GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile.Officer:GetParentGuids(), parameters)
-    GetNestedObjectFromGuids(CoreBox.US.FieldCommand.Recruitment_Tile.Options.Airstrike_x1_Option:GetParentGuids(), parameters)
+    
+end
+
+function Test:RiflePlatoonBasic()
+    Place(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Officer, parameters)
+    Place(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Bazooka, parameters)
+end
+
+function Test:Terrain()
+    Place(CoreBox.Terrain.C3_B, parameters)
+    Place(CoreBox.Terrain.C6_A, parameters)
+    Place(CoreBox.Terrain.C2_B, parameters)
+end
+
+function Test:Options()
+    Place(CoreBox.US.ExtraUnits.Mortar_Option, parameters)
+end
+
+function Test:US_Heroes()
+    -- Get Clint
+    Place(CoreBox.US.Heroes.Clint, parameters)
+    Place(CoreBox.US.Heroes.Recruitment_Tile_Clint, parameters)
+
+    -- Get The Rock
+    Place(CoreBox.US.Heroes.Recruitment_Tile_The_Rock, parameters)
+    Place(CoreBox.US.Heroes.Recruitment_Tile_The_Rock.The_Rock, parameters)
+
+    -- Get Oddball
+    Place(CoreBox.US.Heroes.Recruitment_Tile_Oddball, parameters)
+    Place(CoreBox.US.Heroes.Recruitment_Tile_Oddball.Guids.Oddball, parameters)
+end
+
+function Test:US_Gears()
+    Place(CoreBox.US.Gears.Ammo, parameters)
+    Place(CoreBox.US.Gears.Ammo_Option, parameters)
 end
 
 function Test:TTSObjectGetNestedObject()
