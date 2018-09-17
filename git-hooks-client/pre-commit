@@ -1,6 +1,76 @@
 #!/bin/sh
 #
-# Creates a temporary file ".ignore_me_if_you_see_me" to be used as a trigger for the post-commit.
-echo
-touch .ignore_me_if_you_see_me
-exit
+### Summary
+# Before a commit is made, check if there are changes to the Tabletop Simulator object script files.
+# These are the scripts that get attached the game objects.
+# It is easy to forget to copy them into the repository after making changes within Tabletop Simulator, which is why this pre-commit hook exists.
+#
+# If there are no changes, continue with the commit.
+# Otherwise, show which files have changed and ask the developer if they want to continue or abort.
+#
+### Note
+# The script needs to be modified depending on which operating system you are developing on.
+# Please update the sections below where the phrase "DEVELOPER" is posted.
+
+# DEVELOPER: Put in the username for the operating system you are developing on.
+USERNAME_WINDOWS="Kevin O'Mara"
+USERNAME_MAC=""
+USERNAME_LINUX=""
+
+# Directory where Tabletop Simulator holds scripts attached to game objects, by operating system.
+TTS_FILE_LOCATION_WINDOWS=/c/Users/$USERNAME_WINDOWS/AppData/Local/Temp/TabletopSimulator/Tabletop\ Simulator\ Lua
+TTS_FILE_LOCATION_MAC=""
+TTS_FILE_LOCATION_LINUX=""
+
+# DEVELOPER: Pick the location for the operating system you are developing on.
+TTS_FILES_LOCATION=$TTS_FILE_LOCATION_WINDOWS
+
+# Directory in this repository where the Tabletop Simulator object scripts are held.
+TTS_FILES_GIT='ObjectScripts'
+
+
+# Summary
+#   Prompts the user for yes/no input and returns the result.
+#   Continues prompting if the user enters something other than yes or no.
+# Arguments
+#   $1 (prompt): The phrase to prompt the user with. Will have ' [y|n]' appended.
+# Returns
+#   $? (status): 0 if reply was Yes, 1 if reply was No.
+function get_yes_no_reply {
+    # Allow us to read user input even though we are in a non-interactive environment (a git hook).
+    # Assigns stdin to the keyboard.
+    exec < /dev/tty
+
+    local prompt=$1
+    while true; do
+        read -p "$prompt [y|n]" yn
+        case $yn in
+            [Yy]* ) return 0; break;;
+            [Nn]* ) return 1;;
+            * ) log "Please answer yes (y|Y) or no (n|N).";;
+        esac
+    done
+
+    # Close stdout.
+    exec <&-
+}
+
+
+diff_results="$(diff --brief "$TTS_FILES_LOCATION" "$TTS_FILES_GIT")"
+if [ -n "$diff_results" ]; then
+    echo 'There are un-recorded changes to some Tabletop Simulator object scripts.'
+    get_yes_no_reply 'See which files have changed?'
+    if [ "$?" -eq 0 ]; then
+        diff --brief "$TTS_FILES_LOCATION" "$TTS_FILES_GIT"
+        get_yes_no_reply 'Abort the commit so you can inspect these files?'
+        if [ "$?" -eq 0 ]; then
+            echo "To see the changes run:"
+            echo "diff --brief \""$TTS_FILES_LOCATION"\" \""$TTS_FILES_GIT"\""
+            # Exit with "error". The commit is aborted.
+            exit 1
+        fi
+    fi
+fi
+
+# Exit with success. The commit continues.
+exit 0
