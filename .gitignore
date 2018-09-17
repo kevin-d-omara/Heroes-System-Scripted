@@ -1,1 +1,5 @@
+# Ignore Windows shortcut files.
 *.lnk
+
+# Ignore the flag-file that is used by the git hooks.
+.ignore_me_if_you_see_me

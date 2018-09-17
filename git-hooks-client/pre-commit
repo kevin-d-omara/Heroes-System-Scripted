@@ -1,0 +1,6 @@
+#!/bin/sh
+#
+# Creates a temporary file ".ignore_me_if_you_see_me" to be used as a trigger for the post-commit.
+echo
+touch .ignore_me_if_you_see_me
+exit
