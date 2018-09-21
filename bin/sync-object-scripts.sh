@@ -27,7 +27,26 @@ TTS_FILE_LOCATION_LINUX=""
 TTS_FILES_LOCATION=$TTS_FILE_LOCATION_WINDOWS
 
 # Directory in this repository where the Tabletop Simulator object scripts are held.
-TTS_FILES_GIT='ObjectScripts'
+TTS_FILES_GIT="ObjectScripts"
 
-rm "$TTS_FILES_GIT"/* || echo "ERROR: There are no files in ObjectScripts/" && exit 1
-cp "$TTS_FILES_LOCATION"/* "$TTS_FILES_GIT"/ || echo "ERROR: Make sure Tabletop Simulator is running and that you have clicked 'Scripting > Save and Play'." && exit 1
+function isEmptyDirectory {
+    if [ -z "`ls -A "$1"`" ]; then
+        # True, the directory is empty.
+        return 0
+    else
+        # False, the directory is not empty.
+       return 1
+    fi
+}
+
+if isEmptyDirectory "$TTS_FILES_LOCATION"; then
+    echo "ERROR: There are no Tabletop Simulator object script files in "$TTS_FILES_LOCATION
+    echo "ERROR: Make sure Tabletop Simulator is running and that you have clicked 'Scripting > Save and Play'."
+    exit 1
+fi
+
+if ! isEmptyDirectory "$TTS_FILES_GIT"; then
+    rm "$TTS_FILES_GIT"/*
+fi
+
+cp "$TTS_FILES_LOCATION"/* "$TTS_FILES_GIT"/
