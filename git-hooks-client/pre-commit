@@ -55,8 +55,7 @@ function get_yes_no_reply {
     exec <&-
 }
 
-
-diff_results="$(diff --brief "$TTS_FILES_LOCATION" "$TTS_FILES_GIT")"
+diff_results="$(diff --brief --strip-trailing-cr "$TTS_FILES_LOCATION" "$TTS_FILES_GIT")"
 if [ -n "$diff_results" ]; then
     echo 'There are un-recorded changes to some Tabletop Simulator object scripts.'
     get_yes_no_reply 'See which files have changed?'
@@ -65,7 +64,7 @@ if [ -n "$diff_results" ]; then
         get_yes_no_reply 'Abort the commit so you can inspect these files?'
         if [ "$?" -eq 0 ]; then
             echo "To see the changes run:"
-            echo "diff --brief \""$TTS_FILES_LOCATION"\" \""$TTS_FILES_GIT"\""
+            echo "diff --brief --strip-trailing-cr \""$TTS_FILES_LOCATION"\" \""$TTS_FILES_GIT"\""
             # Exit with "error". The commit is aborted.
             exit 1
         fi
