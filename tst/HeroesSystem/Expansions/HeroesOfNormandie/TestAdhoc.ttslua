@@ -1,0 +1,63 @@
+--[[ Layout a simple scenario. ]]--
+#include !/TTSTest/TestClass
+#include !/HeroesSystem/Expansions/HeroesOfNormandie/CoreBox
+
+TestClass('Layout A Simple Scenario')
+
+function Test:BeforeClass()
+    local expansion = GetExpansionManifest()
+    CoreBox = TTSObject.GenerateObjectTree(expansion.manifest)
+
+    callback = function(obj) print(obj.getBoundsNormalized().size.y) end
+end
+
+function Place(ttsObject, parameters)
+    parameters.callback_function = callback
+    -- parameters.smooth = true
+    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
+end
+
+function Test:SetupBattlefield()
+    local tileWidth = 7.84
+    -- local tileHeight =  0.20000009
+    local tileHeight =  0.7
+    local posAbove = 1.4
+
+    -- Lay the ground tiles.
+    Place(CoreBox.Terrain.C3_A, {
+        position = {-tileWidth * 2, tileHeight, 0},
+        rotation = {0, 270, 0},
+    })
+    Place(CoreBox.Terrain.C2_A, {
+        position = {0, tileHeight, 0},
+        rotation = {0, 180, 0},
+    })
+    Place(CoreBox.Terrain.C4_B, {
+        position = {tileWidth * 2, tileHeight, 0},
+        rotation = {0, 180, 0},
+    })
+
+    -- Lay the toppers.
+    Place(CoreBox.Terrain.House_1x1,{
+        position = {-7.82, posAbove, -5.57},
+        rotation = {0, 180, 0},
+    })
+
+    Place(CoreBox.US.RiflePlatoon22nd.Recruitment_Tile, {
+        position = {0, 0, -10},
+        rotation = {0, 180, 0},
+    })
+    Place(CoreBox.US.RiflePlatoon22nd.Halftrack_1, {
+        position = {14.6, posAbove, -3.3},
+        rotation = {0, 135, 0},
+    })
+    Place(CoreBox.US.RiflePlatoon22nd.Fire_Team, {
+        position = {15.7, posAbove, 0},
+        rotation = {0, 180, 0},
+    })
+    Place(CoreBox.US.RiflePlatoon22nd.Recon_Team, {
+        position = {13.45, posAbove, -6.66},
+        rotation = {0, 180, 0},
+        flip = true,
+    })
+end

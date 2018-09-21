@@ -91,6 +91,10 @@ function _Delver.Global.GetNestedObjectFromGuids(parameters)
 
     -- Callback function that places the object somewhere.
     local function PlaceTheObject(takenObject)
+        if (parameters.flip == true) then
+            -- Flip the object using rotation because "takenObject.flip()" glitches when combined with setRotationSmooth().
+            parameters.rotation[3] = parameters.rotation[3] + 180
+        end
         if (parameters.smooth == true) then
             takenObject.setPositionSmooth(parameters.position, false, false)
             takenObject.setRotationSmooth(parameters.rotation, false, false)
@@ -98,11 +102,10 @@ function _Delver.Global.GetNestedObjectFromGuids(parameters)
             takenObject.setPosition(parameters.position)
             takenObject.setRotation(parameters.rotation)
         end
-        if (parameters.flip == true) then
-            takenObject.flip()
-        end
 
-        NotifyCallerOfSuccess(takenObject)
+        -- Wait 2 frames so the object is fully materialized.
+        -- In this frame, the object has the same guid as its clone and sometimes has a {0,0,0} bounding box.
+        Wait.frames(function() NotifyCallerOfSuccess(takenObject) end, 2)
     end
 
     local rootContainer = getObjectFromGUID(guidArray[1])
