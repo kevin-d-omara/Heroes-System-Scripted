@@ -1,4 +1,4 @@
-#include !/TabletopSimulator/Utility/String
+#include !/TabletopSimulator/Utility/GetElementFromNestedTables
 
 --[[
 ## Summary
@@ -42,18 +42,7 @@ function Invoke(objectOrGuid, functionName, parameters)
 end
 
 function _InvokeHandler_(parameters)
-    local pathArray = String.Split(parameters._functionName_, '.')
+    local func = GetElementFromNestedTables(parameters._functionName_)
     parameters._functionName_ = nil
-
-    -- Get the first table or the function from the global namespace.
-    local func = _ENV[pathArray[1]]
-    if func == nil then
-        error("Reference '" .. tostring(pathArray[1]) .. "' cannot be accessed because it is either nil or local. Make sure it is not declared with local and that you have spelled it correctly.")
-    end
-
-    -- Get the function that is nested in tables.
-    for i = 2, #pathArray do
-        func = func[pathArray[i]]
-    end
     func(parameters)
 end

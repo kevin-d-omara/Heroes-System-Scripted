@@ -73,7 +73,7 @@ end
 --[[ Global ]]------------------------------------------------------------------
 function _Delver.Global.GetNestedObjectFromGuids(parameters)
     -- Set default values for parameters.
-    parameters = parameters or {}
+    local parameters = parameters or {}
     parameters.position = parameters.position or {0,0,0}
     if type(parameters.asCopy) ~= 'boolean' then parameters.asCopy = true end
     -- to be continued ...
