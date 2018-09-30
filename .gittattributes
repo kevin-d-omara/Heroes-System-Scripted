@@ -2,5 +2,4 @@
 * text=auto
 
 # Count '.ttslua' files as Lua files for the repository language breakdown.
-*.ttslua linguist-detectable=true
 *.ttslua linguist-language=Lua
