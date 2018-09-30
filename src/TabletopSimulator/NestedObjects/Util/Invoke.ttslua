@@ -1,0 +1,103 @@
+--[[
+## Summary
+Call a global Lua function on another entity, even if it is nested inside of a table.
+
+## Example
+-- Invoke a method on another object by reference.
+local obj = getObjectFromGUID(objGuid)
+Invoke(obj, 'GameSetup.Player.SetDashboard', someParams)
+
+-- Invoke a method on another object by GUID.
+Invoke(objGuid, 'GameSetup.Player.SetDashboard', someParams)
+
+-- Invoke a method on Global.
+local params = {}
+Invoke(Global, 'ScoreKeeper.AddPoints', someParams)
+
+## Parameters
+<Object> objectOrGuid: The object to invoke the function on, or its guid.
+<string> functionName: The full path to the (non-local) function you want to activate.
+    Use the same syntax as if you were to call the method directly (ex: 'GameSetup.SetDashboard').
+<table> parameters: A Table containing any data you want to pass to that function.
+
+## Note
+To invoke methods directly on the game world (Global), you must include this script in the Global.ttslua file by either:
+(a) Copy and paste this code into Global.ttslua
+or
+(b) Including this file with:
+_ #include Path/To/This/File  -- ex: #include Utility/Invoke
+--]]
+function Invoke(objectOrGuid, functionName, parameters)
+    local object
+    if type(objectOrGuid) == 'string' then
+        object = getObjectFromGUID(objectOrGuid)
+    else
+        object = objectOrGuid
+    end
+
+    parameters._functionName_ = functionName
+    object.call('_InvokeHandler_', parameters)
+end
+
+function _InvokeHandler_(parameters)
+    local func = _GetElementFromNestedTables_(parameters._functionName_)
+    parameters._functionName_ = nil
+    func(parameters)
+end
+
+
+
+--------------------------------------------------------------------------------
+-- [[Helper Methods ]] ---------------------------------------------------------
+--------------------------------------------------------------------------------
+
+--[[
+## Summary
+Return an element nested inside a set of tables by the absolute path to the element by name (i.e. "Animals.Dogs.Fido")
+
+## Parameters
+<string> stringPath: A delimited string that specifies a list of tables leading to the element to be returned. The first element must be a globally accessible variable.
+<string> delimiter: The delimiter used to separate tables.
+    [Optional, defaults to '.']
+
+## Throws
+Error if the first element is either nil or local.
+--]]
+function _GetElementFromNestedTables_(stringPath, delimiter)
+    local delimiter = delimiter or '.'
+    local pathArray = _SplitString_(stringPath, delimiter)
+
+    -- Get the table matching the first element.
+    local root = _ENV[pathArray[1]]
+    if root == nil then
+        error("Variable '" .. tostring(pathArray[1]) .. "' cannot be accessed because it is either nil or local. Make sure it is not declared with local and that you have spelled it correctly.")
+    end
+
+    -- Get the final element from the nested tables.
+    for i = 2, #pathArray do
+        root = root[pathArray[i]]
+    end
+
+    return root
+end
+
+--[[
+## Summary
+Split a string into an array of strings by separating the string into substrings,
+using a specified separator string to determine where to make each split.
+
+## Source
+https://stackoverflow.com/a/7615129
+--]]
+function _SplitString_(inputstr, sep)
+    if sep == nil then
+            sep = "%s"
+    end
+    local t={}
+    local i=1
+    for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+            t[i] = str
+            i = i + 1
+    end
+    return t
+end

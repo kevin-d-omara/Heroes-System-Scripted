@@ -1,0 +1,29 @@
+--[[ Layout a simple scenario. ]]--
+#include !/TabletopSimulator/TTSTest/TestClass
+#include !/Lua/Table/GetElementFromNestedTables
+#include !/HeroesSystemTacticalScale/GameEngine/ScenarioElements/Battlefield
+#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/CoreBox/_all
+
+TestClass('Test the Battlefield class.')
+
+function Test:BeforeClass()
+    local expansion = GetExpansionManifest()
+    HoN = {
+        CoreBox = TTSObject.GenerateObjectTree(expansion.manifest)
+    }
+end
+
+function Place(ttsObject, parameters)
+    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
+end
+
+function Place2(path, parameters)
+    local ttsObject = GetElementFromNestedTables(path)
+    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
+end
+
+function Test:SingleTerrainTile()
+    Place2("HoN.CoreBox.Terrain.C3_A", {position = {0,0,0}, rotation = {0,0,0}})
+    --
+    -- battlefield:Setup()
+end

@@ -26,7 +26,7 @@ TTS_FILE_LOCATION_LINUX=""
 TTS_FILES_LOCATION=$TTS_FILE_LOCATION_WINDOWS
 
 # Directory in this repository where the Tabletop Simulator object scripts are held.
-TTS_FILES_GIT='ObjectScripts'
+TTS_FILES_GIT='tts-object-scripts'
 
 
 # Summary

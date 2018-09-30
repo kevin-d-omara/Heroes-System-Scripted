@@ -1,0 +1,11 @@
+--[[ All of the tests for the HeroesSystem package. ]]--
+
+--[[ #include tests here. ]]
+#include Resources/HeroesOfNormandie/CoreBox/CoreBoxUnitTest
+#include Resources/HeroesOfNormandie/CoreBox/CoreBoxIntegrationTest
+#include Resources/HeroesOfNormandie/CoreBox/LayoutSimpleScenario
+#include GameEngine/ScenarioElements/TestBattlefield
+
+--[[ #include tools/adhoc here. ]]
+#include Resources/HeroesOfNormandie/TestAdhoc
+#include Resources/HeroesOfNormandie/CoreBox/CoreBoxSnapPoints

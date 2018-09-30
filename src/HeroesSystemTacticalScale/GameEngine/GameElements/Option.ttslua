@@ -1,0 +1,51 @@
+#include !/TabletopSimulator/NestedObjects/TTSObject
+
+--[[
+## Class
+public class Option : TTSObject
+{
+    -- Fields
+    public array<string> Includes
+
+    -- Constructors
+    public Option:new(guid, includes)
+    public Option(guid, includes)
+
+    -- Methods
+
+}
+
+## Summary
+A Heroes System option tile. For example: 'Rifle Grenade' from the Core Box, which includes 3x the 'Rifle Grenade' marker.
+--]]
+
+local Option = TTSObject()
+
+--[[
+## Summary
+Return a new Option instance with the specified GUID and Includes.
+
+## Parameters
+<table> parameters:
+    <string> guid: The GUID of the Tabletop Simulator Object that this Option represents.
+    <array<string>> includes: The names of the TTSObjects that are included with this option (for example, in the Core Box, 'Ambush_Squad_Option' includes {'Recon_Team', 'Recon_Team', 'Bazooka'}. Each name must match a TTSObject that shares a parent with this Option.
+--]]
+function Option:new(parameters)
+    -- Validate inputs.
+    if parameters == nil then error('ERROR: Parameter 1, `parameters`, is missing.') end
+    if parameters.guid == nil then error('ERROR: Parameter 1, `parameters`, is missing the key `guid`.') end
+
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.guid     = parameters.guid
+    obj.Includes = parameters.Includes or {}
+
+    return obj
+end
+
+function Option:AttachNodes(parentNode)
+
+end

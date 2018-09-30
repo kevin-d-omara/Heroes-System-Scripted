@@ -5,9 +5,9 @@
 # These are the scripts that get attached the game objects.
 #
 # This script:
-#   (1) deletes all files in 'ObjectScripts/'
+#   (1) deletes all files in 'tts-object-scripts/'
 #       then
-#   (2) copies all files in 'TTS_FILE_LOCATION/' to 'ObjectScripts/'.
+#   (2) copies all files in 'TTS_FILE_LOCATION/' to 'tts-object-scripts/'.
 #
 ### Note
 # The script needs to be modified depending on which operating system you are developing on.
@@ -27,7 +27,7 @@ TTS_FILE_LOCATION_LINUX=""
 TTS_FILES_LOCATION=$TTS_FILE_LOCATION_WINDOWS
 
 # Directory in this repository where the Tabletop Simulator object scripts are held.
-TTS_FILES_GIT="ObjectScripts"
+TTS_FILES_GIT="tts-object-scripts"
 
 function isEmptyDirectory {
     if [ -z "`ls -A "$1"`" ]; then

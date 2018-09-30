@@ -1,0 +1,61 @@
+--[[ Test that the Core Box expansion is built properly. ]]--
+#include !/TabletopSimulator/TTSTest/TestClass
+#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/CoreBox/_all
+
+-- Integration Tests -----------------------------------------------------------
+TestClass('CoreBox Integration Tests')
+
+function Test:BeforeClass()
+    local expansion = GetExpansionManifest()
+    CoreBox = TTSObject.GenerateObjectTree(expansion.manifest)
+end
+
+function Test:BeforeTest()
+    parameters = {position = {0,0,0}, rotation = {0,180,0}, smooth = false}
+end
+
+function Place(ttsObject, parameters)
+    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
+end
+
+function Test:AdHoc()
+
+end
+
+function Test:RiflePlatoonBasic()
+    Place(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Officer, parameters)
+    Place(CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Bazooka, parameters)
+end
+
+function Test:Terrain()
+    Place(CoreBox.Terrain.C3_B, parameters)
+    Place(CoreBox.Terrain.C6_A, parameters)
+    Place(CoreBox.Terrain.C2_B, parameters)
+end
+
+function Test:Options()
+    Place(CoreBox.US.ExtraUnits.Mortar_Option, parameters)
+end
+
+function Test:US_Heroes()
+    -- Get Clint
+    Place(CoreBox.US.Heroes.Clint, parameters)
+    Place(CoreBox.US.Heroes.Recruitment_Tile_Clint, parameters)
+
+    -- Get The Rock
+    Place(CoreBox.US.Heroes.Recruitment_Tile_The_Rock, parameters)
+    Place(CoreBox.US.Heroes.Recruitment_Tile_The_Rock.The_Rock, parameters)
+
+    -- Get Oddball
+    Place(CoreBox.US.Heroes.Recruitment_Tile_Oddball, parameters)
+    Place(CoreBox.US.Heroes.Recruitment_Tile_Oddball.Guids.Oddball, parameters)
+end
+
+function Test:US_Gears()
+    Place(CoreBox.US.Gears.Ammo, parameters)
+    Place(CoreBox.US.Gears.Ammo_Option, parameters)
+end
+
+function Test:TTSObjectGetNestedObject()
+    -- ttsObject:GetNestedObject(parameters)
+end
