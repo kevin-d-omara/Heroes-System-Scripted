@@ -65,6 +65,8 @@ if [ -n "$diff_results" ]; then
         if [ "$?" -eq 0 ]; then
             echo "To see the changes run:"
             echo "diff --brief --strip-trailing-cr \""$TTS_FILES_LOCATION"\" \""$TTS_FILES_GIT"\""
+            echo "To sync the repository files with the live game files run:"
+            echo "bin/sync-object-scripts.sh"
             # Exit with "error". The commit is aborted.
             exit 1
         fi
