@@ -2,7 +2,7 @@
 #include !/TTSTest/TestClass
 #include !/HeroesSystem/Expansions/HeroesOfNormandie/CoreBox
 
-TestClass('Layout A Simple Scenario')
+TestClass('Adhoc Tests')
 
 function Test:BeforeClass()
     local expansion = GetExpansionManifest()

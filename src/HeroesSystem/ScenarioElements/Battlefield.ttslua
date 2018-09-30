@@ -1,0 +1,92 @@
+#include !/TabletopSimulator/Tile
+#include !/TabletopSimulator/Utility/Matrix
+
+--[[
+## Class
+public class Battlefield
+{
+    -- Fields
+    public int Width
+    public int Height
+    public Matrix2D<Tile> Tiles              -- Indices are expressed as {row, column} and start at {1,1} (the top left terrain tile of the battlefield).
+    public array<table> Elements
+
+    -- Constructors
+    public Battlefield:new(parameters)
+    public Battlefield(parameters)
+
+    -- Methods
+    public void SetupEntireBattlefield()    -- Place the tiles and then place the elements on top.
+    public void GetBounds()                 -- Get the physical bounds of the board. Let's us know where to put the player forces.
+    public void PlaceTerrainElement()       -- Place a terrain element onto the already existing board. This is useful, for example, during Turn Tracker events.
+}
+
+## Summary
+A collection of terrain tiles with terrain elements on top.
+})
+--]]
+
+local Battlefield = {}
+
+-- Can create a new Battlefield instance by calling either Battlefield:new() or just Battlefield().
+setmetatable(Battlefield, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+## Parameters
+<table> parameters: The following key-value pairs:
+    <int> width:  The number of terrain tiles wide the battlefield is. TODO: specify along which dimension (x,y,z axis).
+    <int> height: The number of terrain tiles tall the battlefield is.
+    <array<string|Tile>> tiles: The terrain tiles in order of left-to-right, top-to-bottom (i.e. starting at the top left of the map).
+    <array<table>> elements: The terrain elements (i.e. things to place on top of the terrain tiles).
+        <Vector2> tile: Index of the tile this element should be placed on. Indices are expressed as {row, column} and start at {1,1} (the top left tile of the battlefield).
+        <Vector2> space: Coordinates of the space within the tile that this element should be placed on. Coordinates start at {1,1} from the bottom left space of the tile.
+            [Optional, no default. Only use interspace or space, never both.]
+        <Vector2> interspace: Coordinates of the interspace within the tile that this element should be placed on. Coordinates start at {1,1} from the bottom left interspace of the tile.
+            [Optional, no default. Only use interspace or space, never both.]
+        <string|Tile> element = The terrain element.
+--]]
+function Battlefield:new(parameters)
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.Width      = parameters.width
+    obj.Height     = parameters.height
+    obj.Tiles      = parameters.tiles
+    obj.Elements   = parameters.elements
+
+    -- Transform tiles and elements into the "Tile" class.
+    for i,v in ipairs(obj.Tiles) do
+        obj.Tiles[i] = Tile(v)
+    end
+    for i,v in ipairs(obj.Elements) do
+        obj.Elements[i].element = Tile(v.element)
+    end
+
+    -- Transform 1d array of terrain elements into a 2d matrix.
+    local matrix = Matrix(obj.Tiles, obj.Width, obj.Height)
+    print(matrix.height)
+    obj.Tiles = matrix
+
+    return obj
+end
+
+function Battlefield:Setup()
+    local tileWidth = 7.84  -- Tiles are square.
+
+    local totalWidth = tileWidth * self.Width
+    local totalHeight = tileWidth * self.Height
+    local startX = (totalWidth - 1) / 2     -- Center position for leftmost tiles (i.e. the first tile in the row).
+    local startY = (totalHeight - 1) / 2    -- Center position for topmost tiles (i.e. the first tile in the column).
+
+    self.Tiles:ForEach(
+        function(tiles, row, col)
+            local x = startX + tileWidth * (row - 1)
+            local y = startY + tileWidth * (col - 1)
+
+            print("(" .. tostring(row) .. ", " .. tostring(col) .. "): (" .. tostring(x) .. ", " .. tostring(y) .. ")")
+            print(tiles[row][col].path)
+        end
+    )
+end

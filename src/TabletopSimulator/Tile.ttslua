@@ -1,0 +1,64 @@
+#include !/TabletopSimulator/Utility/Class
+
+--[[
+## Class
+public class Tile
+{
+    -- Fields
+    public string path
+    public float rotation
+    public bool isFlipped
+
+    -- Constructors
+    public Tile:new(path, parameters)
+    public Tile(path, parameters)
+    public Tile:new(tile)
+    public Tile(tile)
+
+    -- Methods
+
+}
+
+## Summary
+Configuration data for how a Tabletop Simulator Object should be placed or instantiated.
+For example, the rotation and scale the object should be instantiated with.
+--]]
+
+local Tile = {}
+
+-- Can create a new Tile instance by calling either Tile:new() or just Tile().
+setmetatable(Tile, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+## Parameters
+<string> path: A string path to the object (i.e. "HoN.CoreBox.Terrain.C1_A").
+<table> parameters: The following key-value pairs:
+    <float> rotation: The rotation (along the y-axis) the object should be placed with.
+        [Optional, defaults to nil (the object maintains its current rotation).]
+    <bool> isFlipped: True if the tile should be flipped over when it is placed; False if the object should maintain its current facing.
+        [Optional, defaults to false.]
+
+## Note
+Can also be called as 'Tile:new(tile)', in which case the supplied tile is returned.
+--]]
+function Tile:new(path, parameters)
+    -- Check if the object is already a "Tile" object.
+    if Class.IsInstance(path, Tile) then
+        return path
+    end
+
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    -- Set parameter defaults.
+    local parameters = parameters or {}
+    parameters.isFlipped = parameters.isFlipped or false
+
+    obj.path = path
+    obj.rotation  = parameters.rotation
+    obj.isFlipped = parameters.isFlipped
+
+    return obj
+end

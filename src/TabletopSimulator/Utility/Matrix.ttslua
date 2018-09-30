@@ -1,0 +1,80 @@
+--[[
+## Class
+public class Matrix
+{
+    -- Fields
+    public int width
+    public int height
+
+    -- Constructors
+    public Matrix:new(array1d, width, height)
+    public Matrix(array1d, width, height)
+
+    -- Methods
+    public void ForEach(func)
+}
+
+## Summary
+A simple 2d matrix, which is indexed by (row, column) and is 1-based, just like tables in Lua.
+The elements are stored in column-major order (i.e. elements in the same row are quick to iterate over).
+--]]
+
+local Matrix = {}
+
+-- Can create a new Matrix instance by calling either Matrix:new() or just Matrix().
+setmetatable(Matrix, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+## Summary
+Transform a flat 1-d array into a 2-d matrix.
+The matrix is indexed by (row, column) and is 1-based, just like tables in Lua.
+
+## Example
+local array = {1, 2, 3, 4, 5, 6}
+local matrix = Matrix(array, 3, 2)
+
+print(matrix[1][2])     -- 2
+print(matrix[2][3])     -- 6
+--]]
+function Matrix:new(array1d, width, height)
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.width = width
+    obj.height = height
+
+    for row = 1, height do
+        obj[row] = {}
+        for col = 1, width do
+            local index = width * (row - 1) + col
+            obj[row][col] = array1d[index]
+        end
+    end
+
+    return obj
+end
+
+--[[
+## Summary
+Iterates over the matrix in row-first order and applies an optional function to each element.
+
+## Parameters
+<function> func: A method to apply to each element. The function must have the signature: function(matrix, row, column)
+
+## Example
+local array = {1, 2, 3, 4, 5, 6}
+local matrix = Matrix(array, 3, 2)
+
+local func = function(matrix, row, col) print(matrix[row][col]) end
+matrix:ForEach(func)    -- 1 2 3 4 5 6
+--]]
+function Matrix:ForEach(func)
+    local func = func or function(row, column) end
+    for row  = 1, self.height do
+        for col = 1, self.width do
+            func(self, row, col)
+        end
+    end
+end
