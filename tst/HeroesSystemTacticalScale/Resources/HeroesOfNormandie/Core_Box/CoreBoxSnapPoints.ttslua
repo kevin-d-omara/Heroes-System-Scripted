@@ -1,6 +1,6 @@
 --[[ Help set snap points and offests for the recruitment tiles. ]]--
 #include !/TabletopSimulator/TTSTest/TestClass
-#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/CoreBox/_all
+#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/Core_Box/product
 
 -- Integration Tests -----------------------------------------------------------
 TestClass('CoreBox Help Set Snap Points and Offsets')

@@ -1,0 +1,8 @@
+function GetProductInfo()
+    return {
+        Game = "HoN",
+        Name = "Steiner_Kampfgruppe",
+    }
+end
+
+#include objects

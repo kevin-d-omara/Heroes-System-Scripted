@@ -2,7 +2,7 @@
 #include !/TabletopSimulator/TTSTest/TestClass
 #include !/Lua/Table/GetElementFromNestedTables
 #include !/HeroesSystemTacticalScale/GameEngine/ScenarioElements/Battlefield
-#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/CoreBox/_all
+#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/Core_Box/product
 
 TestClass('Test the Battlefield class.')
 

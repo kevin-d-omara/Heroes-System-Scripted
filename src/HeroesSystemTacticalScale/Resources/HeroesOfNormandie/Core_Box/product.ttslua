@@ -1,0 +1,9 @@
+function GetProductInfo()
+    return {
+        Game = "HoN",
+        Name = "Core_Box",
+    }
+end
+
+#include objects
+#include Scenarios/_all

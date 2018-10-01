@@ -1,6 +1,6 @@
 --[[ Test that the Core Box expansion is built properly. ]]--
 #include !/TabletopSimulator/TTSTest/TestClass
-#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/CoreBox/_all
+#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/Core_Box/product
 
 TestClass('CoreBox Unit Tests')
 

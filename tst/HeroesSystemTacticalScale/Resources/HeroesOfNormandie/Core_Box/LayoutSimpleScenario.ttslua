@@ -1,6 +1,6 @@
 --[[ Layout a simple scenario. ]]--
 #include !/TabletopSimulator/TTSTest/TestClass
-#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/CoreBox/_all
+#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/Core_Box/product
 
 TestClass('Layout A Simple Scenario')
 
