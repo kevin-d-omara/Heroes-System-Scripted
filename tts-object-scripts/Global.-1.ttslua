@@ -1,1 +1,11 @@
+-- [[ Functions that are required to be included in Global. ]]------------------
 #include TabletopSimulator/NestedObjects/GetNestedObjectFromGuids
+--------------------------------------------------------------------------------
+
+#include HeroesSystemTacticalScale/GameEngine/CompileResources
+function onLoad()
+    BuildHeroesSystem()
+    print(HoN.Core_Box.US.FieldCommand.Bluff_Option.guid)
+    print(HoN.Core_Box.Terrain.House_1x1)
+    print(HoN.Steiner_Kampfgruppe)
+end

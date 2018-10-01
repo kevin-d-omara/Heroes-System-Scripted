@@ -1,0 +1,95 @@
+--[[
+## Class
+public class ClassMapper
+{
+    -- Fields
+    public table Classes        -- Map of class identity to class constructor.
+    public string MappingKey    -- The key where domain specific classes store their identity
+
+    -- Constructors
+    public ClassMapper:new(classes, parameters)
+    public ClassMapper(classes, parameters)
+
+    -- Methods
+    public ? MapToClassRecursive(tbl)   -- Recursively transform all tables within this table to the class they each represent.
+    public ? MapToClass(tbl)            -- Transform a table into the class it represents (or leave as is if not a class).
+}
+
+## Summary
+A helper for mapping pure Lua tables to domain specific classes.
+--]]
+
+local ClassMapper = {class = "ClassMapper"}
+
+-- Can create a new ClassMapper instance by calling either ClassMapper:new() or just ClassMapper().
+setmetatable(ClassMapper, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+## Summary
+Instantiate a new ClassMapper which can map a specific set of classes.
+
+## Parameters
+<table> classes: A set of key-value pairs where the key is the identity of a class and the value is the constructor for that class.
+<table> parameters: The following key-value pairs:
+    <string> mappingKey: The key where domain specific classes store their identity.
+        [Optional, defaults to 'class'.]
+--]]
+function ClassMapper:new(classes, parameters)
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    local parameters = parameters or {}
+
+    obj.Classes = classes or {}
+    obj.MappingKey = parameters.mappingKey or 'class'
+
+    return obj
+end
+
+--[[
+Recursively transform all tables within this table to the class they each represent.
+See 'ClassMapper:MapToClass' for details.
+--]]
+function ClassMapper:MapToClassRecursive(tbl)
+    if type(tbl) ~= 'table' then
+        return tbl, false
+    end
+
+    for k,v in pairs(tbl) do
+        local mappedObj, wasMapped = self:MapToClassRecursive(v)
+        if wasMapped then
+            tbl[k] = mappedObj
+        end
+    end
+
+    return self:MapToClass(tbl)
+end
+
+--[[
+## Summary
+Transform a table into the class it represents (or leave as is if not a class).
+
+For a class to be mappable, it must have a <key-value> pair with:
+    key   == self.MappingKey
+    value == A key in self.Classes
+
+## Returns
+<table> mappedObj: The object as a class (if it is one), or the original table otherwise.
+<bool> wasMapped: True if the object was mapped to a class, false otherwise.
+--]]
+function ClassMapper:MapToClass(tbl)
+    local classType = tbl[self.MappingKey]
+    if classType == nil then
+        -- This is not a mappable class because it doesn't contain a matching key.
+        return tbl, false
+    else
+        local constructor = self.Classes[classType]
+        if constructor == nil then
+            error("Table cannot be mapped to a class: there is no constructor for the class type '" .. tostring(classType) .. "'. Perhaps you made a typo. Please double check your spelling. The table is: " .. tostring(tbl))
+        else
+            return constructor(tbl), true
+        end
+    end
+end

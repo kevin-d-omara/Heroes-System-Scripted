@@ -1,0 +1,56 @@
+#include /Model/HeroesClassMapper
+#include !/Lua/Table/DeepCopy
+
+--[[
+Searches the game world for all game objects that have product information, which are any of the functions:
+    GetProductInfo
+    GetObjects
+    GetScenarios
+
+This allows users to add and share their own creations, with the full power of the automated scenario setup and free battle mode.
+
+The end result:
+    Each unique "Game" key (from GetProductInfo) is a global variable that holds all products with the same Game key.
+    Each unique "Name" key (from GetProductInfo) is a table directly within the "Game" table, that has the contents of GetObjects transformed to the classes that make up the HeroesSystemTacticalScale.
+--]]
+function BuildHeroesSystem()
+    local spawnedObjects = getAllObjects()
+    for i,product in ipairs(spawnedObjects) do
+        local info = CallIfExists(product, 'GetProductInfo')
+        if info ~= nil then
+            -- Export the game system name into the environment (i.e. make 'HoN' a global variable, etc.)
+            if _ENV[info.Game] == nil then
+                _ENV[info.Game] = {}
+            end
+
+            -- Load the physical contents of this product.
+            local objects = CallIfExists(product, 'GetObjects')
+            if objects ~= nil then
+                local copiedObjects = DeepCopy(objects)
+                local mappedObjects = HeroesMapper:MapToClassRecursive(copiedObjects)
+                local objectTree = TTSObject.GenerateObjectTree(mappedObjects)
+                _ENV[info.Game][info.Name] = objectTree
+            end
+
+            -- local scenarios = CallIfExists(product, 'GetObjects')
+        end
+    end
+end
+
+--[[
+## Summary
+Call a Lua function on another entity, but only if it exists.
+See: https://api.tabletopsimulator.com/object/#call
+
+## Return
+<var> result: The return value of the entity's function, or false if the function does not exist.
+<bool> success: True if the function exists, false otherwise.
+--]]
+function CallIfExists(obj, func_name, func_params)
+    local func = obj.getVar(func_name)
+    if func == nil then
+        return nil, false
+    end
+
+    return obj.call(func_name, func_params), true
+end
