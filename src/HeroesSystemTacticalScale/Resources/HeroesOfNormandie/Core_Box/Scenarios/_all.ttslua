@@ -1,1 +1,7 @@
-#include Godsend
+function GetScenarios()
+    return {
+        #include Godsend
+        ,
+        #include Out_of_Gas
+    }
+end
