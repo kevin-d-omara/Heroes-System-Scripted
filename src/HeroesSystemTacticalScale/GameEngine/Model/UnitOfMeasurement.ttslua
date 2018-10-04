@@ -1,0 +1,6 @@
+--[[
+Holds hardcoded numbers for converting between different units of measurement.
+--]]
+UnitOfMeasurement = {
+    Cell = 2.23 -- 1 Terrain tile cell = 2.23 Unity Units = 458 pixels in Photoshop
+}
