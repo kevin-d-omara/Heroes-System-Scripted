@@ -24,16 +24,16 @@ Learnings:
                 {"HoN.CoreBox.Terrain.C3_A"},
             },
             Elements = {
-                -- element                                      , tile, space-type   , index, options{}
-                {"HoN.CoreBox.Tokens.Bonus_Tactic_Random"       , {1,1}, "interspace", {7,3}},                      -- Showcase random selection.
-                {"HoN.CoreBox.Tokens.Bonus_Tactic_Random"       , {1,3}, "interspace", {5,6}},
-                {"HoN.CoreBox.Tokens.Bonus_Tactic_Random"       , {1,3}, "interspace", {8,3}},
-                {"HoN.CoreBox.Terrain.Thicket_Random"           , {1,2}, "space"     , {5,7}},
-                {"HoN.CoreBox.Terrain.House_2x1"                , {1,2}, "line-x"    , {5,1}, {rotation = 90}},     -- Showcase line-based coordinates.
-                {"HoN.CoreBox.Terrain.House_1x1"                , {1,3}, "interspace", {3,3}, {rotation = 180}},    -- Showcase rotation.
-                {"HoN.CoreBox.Tokens.Objective_Gas"             , {1,3}, "interspace", {3,3}, {rotation = 180}},
-                {"HoN.CoreBox.US.Rifle_Platoon_12th.Halftrack_1", {1,1}, "line-x"    , {8,5}},
-                {"HoN.CoreBox.US.Rifle_Platoon_12th.Halftrack_2", {1,1}, "line-x"    , {8,6}, {isFlipped = true}},  -- Showcase flipping of object.
+                -- path                                         ,  tile,  index, index-type,   options{} (most are the same as in the Tile class)
+                {"HoN.CoreBox.Tokens.Bonus_Tactic_Random"       , "C6_A", {7,3}, "interspace"},                      -- Showcase random selection.
+                {"HoN.CoreBox.Tokens.Bonus_Tactic_Random"       , "C5_A", {5,6}, "interspace"},
+                {"HoN.CoreBox.Tokens.Bonus_Tactic_Random"       , "C5_A", {8,3}, "interspace"},
+                {"HoN.CoreBox.Terrain.Thicket_Random"           , "C4_B", {5,7}, "space"     },
+                {"HoN.CoreBox.Terrain.House_2x1"                , "C4_B", {5,1}, "line-x"    , {rotation =  90}},    -- Showcase line-based coordinates.
+                {"HoN.CoreBox.Terrain.House_1x1"                , "C5_A", {3,3}, "interspace", {rotation = 180}},    -- Showcase rotation.
+                {"HoN.CoreBox.Tokens.Objective_Gas"             , "C5_A", {3,3}, "interspace", {rotation = 180}},
+                {"HoN.CoreBox.US.Rifle_Platoon_12th.Halftrack_1", "C6_A", {8,5}, "line-x"    },
+                {"HoN.CoreBox.US.Rifle_Platoon_12th.Halftrack_2", "C6_A", {8,6}, "line-x"    , {isFlipped = true}},  -- Showcase flipping of object.
             },
         },
     },

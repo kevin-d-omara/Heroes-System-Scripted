@@ -32,7 +32,10 @@ function BuildHeroesSystem()
                 _ENV[info.Game][info.Name] = objectTree
             end
 
-            -- local scenarios = CallIfExists(product, 'GetObjects')
+            local scenarios = CallIfExists(product, 'GetScenarios')
+            if scenarios ~= nil then
+                _ENV[info.Game][info.Name].Scenarios = scenarios
+            end
         end
     end
 end

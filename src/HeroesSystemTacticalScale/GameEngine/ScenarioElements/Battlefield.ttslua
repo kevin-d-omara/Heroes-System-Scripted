@@ -1,6 +1,3 @@
-#include !/TabletopSimulator/NestedObjects/Tile
-#include !/Lua/Matrix
-
 --[[
 ## Class
 public class Battlefield
@@ -8,22 +5,19 @@ public class Battlefield
     -- Fields
     public int Width
     public int Height
-    public Matrix2D<Tile> Tiles              -- Indices are expressed as {row, column} and start at {1,1} (the top left terrain tile of the battlefield).
-    public array<table> Elements
+    public array Terrain
+    public array Elements
 
     -- Constructors
     public Battlefield:new(parameters)
     public Battlefield(parameters)
 
     -- Methods
-    public void SetupEntireBattlefield()    -- Place the tiles and then place the elements on top.
-    public void GetBounds()                 -- Get the physical bounds of the board. Let's us know where to put the player forces.
-    public void PlaceTerrainElement()       -- Place a terrain element onto the already existing board. This is useful, for example, during Turn Tracker events.
+
 }
 
 ## Summary
-A collection of terrain tiles with terrain elements on top.
-})
+A representation of a Heroes System battlefield, including both terrain tiles and the elements that go on top (i.e. houses, objectives, units, etc.).
 --]]
 
 local Battlefield = {}
@@ -33,60 +27,84 @@ setmetatable(Battlefield, { __call = function(self, ...) return self:new(...) en
 
 --[[
 ## Parameters
-<table> parameters: The following key-value pairs:
-    <int> width:  The number of terrain tiles wide the battlefield is. TODO: specify along which dimension (x,y,z axis).
-    <int> height: The number of terrain tiles tall the battlefield is.
-    <array<string|Tile>> tiles: The terrain tiles in order of left-to-right, top-to-bottom (i.e. starting at the top left of the map).
-    <array<table>> elements: The terrain elements (i.e. things to place on top of the terrain tiles).
-        <Vector2> tile: Index of the tile this element should be placed on. Indices are expressed as {row, column} and start at {1,1} (the top left tile of the battlefield).
-        <Vector2> space: Coordinates of the space within the tile that this element should be placed on. Coordinates start at {1,1} from the bottom left space of the tile.
-            [Optional, no default. Only use interspace or space, never both.]
-        <Vector2> interspace: Coordinates of the interspace within the tile that this element should be placed on. Coordinates start at {1,1} from the bottom left interspace of the tile.
-            [Optional, no default. Only use interspace or space, never both.]
-        <string|Tile> element = The terrain element.
+    Width
+    Height
+    [IndexType = "tile" | "cell"]
+    Terrain {
+        {path, [{index, alias, rotation, isFlipped}]}   -- index: {x,y} on the grid where the top-left cell of the tile should be placed after it has been rotated.
+    }
+    Elements {
+        {path, tile, index, indexType, [{rotation, isFlipped}]}
+    }
 --]]
 function Battlefield:new(parameters)
+    local errorMsg = Battlefield._ValidateParameters(parameters)
+    if errorMsg ~= nil then
+        error(errorMsg)
+    end
+
+    if Battlefield._TerrainIndexIsMissing(parameters.Terrain) then
+        -- Add the Vector2 "index" key-value to each Terrain tile.
+        -- The indices move left-to-right, top-to-bottom in a grid of size Width x Height.
+        local width = parameters.Width
+        local height = parameters.Height
+        for row = 1, height do
+            for col = 1, width do
+                local index = width * (row - 1) + col
+                local tile = parameters.Terrain[index]
+                if type(tile[2]) ~= "table" then
+                    tile[2] = {}
+                end
+                -- The index is the upper-left cell of the terrain tile.
+                tile[2].index = {1+7*(row-1), 1+7*(col-1)}  -- TODO: use actual Vector2 class.
+            end
+        end
+    end
+
+    if parameters.IndexType == nil or parameters.IndexType == "tile" then
+        -- Convert from terrain tiles (7x7 cells) to individual cells.
+        parameters.Width  = parameters.Width  * 7
+        parameters.Height = parameters.Height * 7
+    end
+
     local obj = {}
     setmetatable(obj, self)
     self.__index = self
     self.__call = function(self, ...) return self:new(...) end
 
-    obj.Width      = parameters.width
-    obj.Height     = parameters.height
-    obj.Tiles      = parameters.tiles
-    obj.Elements   = parameters.elements
-
-    -- Transform tiles and elements into the "Tile" class.
-    for i,v in ipairs(obj.Tiles) do
-        obj.Tiles[i] = Tile(v)
-    end
-    for i,v in ipairs(obj.Elements) do
-        obj.Elements[i].element = Tile(v.element)
-    end
-
-    -- Transform 1d array of terrain elements into a 2d matrix.
-    local matrix = Matrix(obj.Tiles, obj.Width, obj.Height)
-    print(matrix.height)
-    obj.Tiles = matrix
+    obj.Width  = parameters.Width
+    obj.Height = parameters.Height
+    obj.Terrain = parameters.Terrain
+    obj.Elements = parameters.Elements
 
     return obj
 end
 
-function Battlefield:Setup()
-    local tileWidth = 7.84  -- Tiles are square.
 
-    local totalWidth = tileWidth * self.Width
-    local totalHeight = tileWidth * self.Height
-    local startX = (totalWidth - 1) / 2     -- Center position for leftmost tiles (i.e. the first tile in the row).
-    local startY = (totalHeight - 1) / 2    -- Center position for topmost tiles (i.e. the first tile in the column).
+function Battlefield._ValidateParameters(parameters)
+    if type(parameters) ~= 'table'          then return "Argument [1] parameters: table expected, but got " .. tostring(type(parameters)) .. "." end
+    if type(parameters.Width) ~= 'number'   then return "Argument [1] parameters.Width: integer number expected, but got " .. tostring(type(parameters.Width)) .. "." end
+    if type(parameters.Height) ~= 'number'  then return "Argument [1] parameters.Height: integer number expected, but got " .. tostring(type(parameters.Height)) .. "." end
+    if type(parameters.Terrain) ~= 'table'  then return "Argument [1] parameters.Terrain: table expected, but got " .. tostring(type(parameters.Terrain)) .. "." end
+    if #parameters.Terrain < 1              then return "Argument [1] parameters.Terrain: array expected, but 0 elements found." end
+    if parameters.IndexType ~= nil and (parameters.IndexType ~= "tile" or parameters.IndexType ~= "cell")
+                                            then return "Argument [1] parameters.IndexType: the string 'tile' or 'cell' expected, but got " .. tostring(parameters.IndexType) .. "." end
+    if parameters.IndexType == "cell" and (parameters.Terrain[1][2] == nil or parameters.Terrain[1][2].index == nil)
+                                            then return "Terrain elements must contain an index (i.e. Terrain[1][2].index must be a Vector2.)" end
 
-    self.Tiles:ForEach(
-        function(tiles, row, col)
-            local x = startX + tileWidth * (row - 1)
-            local y = startY + tileWidth * (col - 1)
+    return nil
+end
 
-            print("(" .. tostring(row) .. ", " .. tostring(col) .. "): (" .. tostring(x) .. ", " .. tostring(y) .. ")")
-            print(tiles[row][col].path)
-        end
-    )
+--[[
+Returns true if the first terrain tile does not include an "indexType" key.
+ex: tile = {"SoN.Core_Box.Terrain.S3_B", {index = {1, 1}, rotation = -90}}
+--]]
+function Battlefield._TerrainIndexIsMissing(terrainTiles)
+    local tile = terrainTiles[1]    -- {"SoN.Core_Box.Terrain.S3_B", {index = {1, 1}, rotation = -90}}
+    local params = tile[2]          -- {index = {1, 1}, rotation = -90}
+    if params == nil or params.index == nil then
+        return true
+    else
+        return false
+    end
 end

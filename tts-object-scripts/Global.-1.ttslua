@@ -5,7 +5,16 @@
 #include HeroesSystemTacticalScale/GameEngine/CompileResources
 function onLoad()
     BuildHeroesSystem()
-    print(HoN.Core_Box.US.FieldCommand.Bluff_Option.guid)
-    print(HoN.Core_Box.Terrain.House_1x1)
-    print(HoN.Steiner_Kampfgruppe)
+    -- print(HoN.Core_Box.US.FieldCommand.Bluff_Option.guid)
+    -- print(HoN.Core_Box.Terrain.House_1x1)
+    TestBattlefield()
+end
+
+#include HeroesSystemTacticalScale/GameEngine/ScenarioElements/Battlefield
+function TestBattlefield()
+    local scenario = HoN.Core_Box.Scenarios[2]
+    print(scenario.Name)
+    local battlefield = Battlefield(scenario.Model.Battlefield)
+    print(battlefield.Terrain[5][2].index[1])
+    print(battlefield.Terrain[5][2].index[2])
 end
