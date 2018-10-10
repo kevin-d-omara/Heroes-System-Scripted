@@ -1,23 +1,28 @@
 --[[ Test that the Core Box expansion is built properly. ]]--
 #include !/TabletopSimulator/TTSTest/TestClass
-#include !/HeroesSystemTacticalScale/Resources/HeroesOfNormandie/Core_Box/product
+#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
 
-TestClass('CoreBox Unit Tests')
+TestClass('Core_Box Unit Tests')
 
 function Test:BeforeClass()
-    local expansion = GetExpansionManifest()
-    CoreBox = TTSObject.GenerateObjectTree(expansion.manifest)
+    Database.Initialize()
 end
+
+function Place(path, parameters)
+    local ttsObject = Database.GetData(path)
+    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
+end
+
 
 function Test:GetParentGuids()
     local expectedGuids = {
-        '5e407f',   -- CoreBox (bag)
+        '5e407f',   -- Core_Box (bag)
         '26put9',   -- US (bag)
         'xludol',   -- RiflePlatoon8th (bag)
         'hic75d',   -- Officer (tile)
     }
 
-    local tile = CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Officer
+    local tile = Database.GetData("HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Officer")
     local actualGuids = tile:GetParentGuids()
 
     if #actualGuids ~= #expectedGuids then
@@ -32,7 +37,7 @@ function Test:GetParentGuids()
 end
 
 function Test:FoldUpGuids()
-    local bag = CoreBox.US.RiflePlatoon8th
+    local bag = Database.GetData("HoN.Core_Box.US.RiflePlatoon8th")
 
     if bag.Bazooka == nil then
         error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Bazooka was nil.')
@@ -46,7 +51,7 @@ function Test:FoldUpGuids()
 end
 
 function Test:FoldUpOptions()
-    local bag = CoreBox.US.RiflePlatoon8th
+    local bag = Database.GetData("HoN.Core_Box.US.RiflePlatoon8th")
 
     if bag.Rifle_Squad_Option == nil then
         error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Rifle_Squad_Option was nil.')

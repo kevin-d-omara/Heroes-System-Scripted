@@ -1,0 +1,79 @@
+#include !/Lua/Table/GetElementFromNestedTables
+#include !/Lua/Table/DeepCopy
+#include !/HeroesSystemTacticalScale/GameEngine/Model/HeroesClassMapper
+
+--[[
+Holds the TTSObject trees that define how Tabletop Simulator Objects are stored in the game world and also has the scenarios.
+--]]
+Database = {
+    Data = {}
+}
+
+--[[
+Return the data specified by the path (i.e. "HoN.Core_Box.Terrain.C6_A").
+--]]
+function Database.GetData(path)
+    return GetElementFromNestedTables("Database.Data." .. path)
+end
+
+--[[
+## Overview
+Searches the game world for all game objects that have product information provided by the functions:
+    Required:
+        GetProductInfo()
+    Optional:
+        GetObjects()    -- If the product has physical components (i.e. terrain tiles, recruitment tiles, etc.).
+        GetScenarios()  -- If the product has scenarios.
+
+Users can add and share their own creations by creating a single bag containing all physical components and with a script attached with these functions.
+
+## Output
+Each unique "Game" key (from GetProductInfo) is a table in Database.Data that holds all products with the same Game key.
+Each unique "Name" key (from GetProductInfo) is a table directly within the "Game" table that has the contents of GetObjects() transformed into classes from HeroesSystemTacticalScale.
+Each unique "Name" key (from GetScenarios) is a table directly within the product table that has the contents of GetScenarios() transformed into classes from HeroesSystemTacticalScale.
+--]]
+function Database.Initialize()
+    local spawnedObjects = getAllObjects()
+    for i,product in ipairs(spawnedObjects) do
+        local info = CallIfExists(product, 'GetProductInfo')
+        if info ~= nil then
+            -- Create a table for this new game system (i.e. Database.Data.HoN becomes a table, etc.)
+            if Database.Data[info.Game] == nil then
+                Database.Data[info.Game] = {}
+            end
+
+            -- Load the physical contents for this product.
+            local objects = CallIfExists(product, 'GetObjects')
+            if objects ~= nil then
+                local copiedObjects = DeepCopy(objects)
+                local mappedObjects = HeroesMapper:MapToClassRecursive(copiedObjects)
+                local objectTree = TTSObject.GenerateObjectTree(mappedObjects)
+                Database.Data[info.Game][info.Name] = objectTree
+            end
+
+            -- Load the scenarios for this product.
+            local scenarios = CallIfExists(product, 'GetScenarios')
+            if scenarios ~= nil then
+                Database.Data[info.Game][info.Name].Scenarios = scenarios
+            end
+        end
+    end
+end
+
+--[[
+## Summary
+Call a Lua function on another entity, but only if it exists.
+See: https://api.tabletopsimulator.com/object/#call
+
+## Return
+<var> result: The return value of the entity's function, or false if the function does not exist.
+<bool> success: True if the function exists, false otherwise.
+--]]
+function CallIfExists(obj, func_name, func_params)
+    local func = obj.getVar(func_name)
+    if func == nil then
+        return nil, false
+    end
+
+    return obj.call(func_name, func_params), true
+end
