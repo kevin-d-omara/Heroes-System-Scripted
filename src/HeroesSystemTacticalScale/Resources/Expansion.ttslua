@@ -26,7 +26,7 @@ setmetatable(Expansion, { __call = function(self, ...) return self:new(...) end 
 
 --[[
 ## Parameters
-<string> nameAsKey: The name of this expansion as a valid Lua key (ex: "CoreBox").
+<string> nameAsKey: The name of this expansion as a valid Lua key (ex: "Core_Box").
 <table> manifest: The contents of this expansion.
 --]]
 function Expansion:new(nameAsKey, manifest)

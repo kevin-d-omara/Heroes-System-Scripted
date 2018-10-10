@@ -29,7 +29,7 @@ setmetatable(Tile, { __call = function(self, ...) return self:new(...) end })
 
 --[[
 ## Parameters
-<string> path: A string path to the object (i.e. "HoN.CoreBox.Terrain.C1_A").
+<string> path: A string path to the object (i.e. "HoN.Core_Box.Terrain.C1_A").
 <table> parameters: The following key-value pairs:
     <float> rotation: The rotation (along the y-axis) the object should be placed with.
         [Optional, defaults to nil (the object maintains its current rotation).]

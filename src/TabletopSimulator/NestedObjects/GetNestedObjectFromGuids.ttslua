@@ -118,8 +118,8 @@ end
 
 --[[
 Samples:
-    CoreBox.Terrain.TileC02
-    CoreBox.US.RiflePlatoon12th.ReconTeam
+    Core_Box.Terrain.TileC02
+    Core_Box.US.RiflePlatoon12th.ReconTeam
     Steiner.FireGroup
 --]]
 

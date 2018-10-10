@@ -35,13 +35,13 @@ function Test:FoldUpGuids()
     local bag = CoreBox.US.RiflePlatoon8th
 
     if bag.Bazooka == nil then
-        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Bazooka was nil.')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Bazooka was nil.')
     end
     if bag.Recruitment_Tile.Bazooka == nil then
-        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Bazooka was nil.')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Bazooka was nil.')
     end
     if bag.Recruitment_Tile.Guids.Bazooka == nil then
-        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Guids.Bazooka was nil')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Guids.Bazooka was nil')
     end
 end
 
@@ -49,12 +49,12 @@ function Test:FoldUpOptions()
     local bag = CoreBox.US.RiflePlatoon8th
 
     if bag.Rifle_Squad_Option == nil then
-        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Rifle_Squad_Option was nil.')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Rifle_Squad_Option was nil.')
     end
     if bag.Recruitment_Tile.Rifle_Squad_Option == nil then
-        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Rifle_Squad_Option was nil.')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Rifle_Squad_Option was nil.')
     end
     if bag.Recruitment_Tile.Options.Rifle_Squad_Option == nil then
-        error('FAILED: TestFoldUp: HoN.CoreBox.US.RiflePlatoon8th.Recruitment_Tile.Options.Rifle_Squad_Option was nil')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Options.Rifle_Squad_Option was nil')
     end
 end
