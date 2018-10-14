@@ -1,3 +1,11 @@
+#include !/HeroesSystemTacticalScale/GameEngine/Model/UnitOfMeasurement
+
+#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
+function Place(path, parameters)
+    local ttsObject = Database.GetData(path)
+    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
+end
+
 --[[
 ## Class
 public class Battlefield
@@ -13,11 +21,29 @@ public class Battlefield
     public Battlefield(parameters)
 
     -- Methods
-
+    public void PlaceAllTiles(parameters)
+    public Vector3 GetWorldPositionForSpace(space)
 }
 
 ## Summary
 A representation of a Heroes System battlefield, including both terrain tiles and the elements that go on top (i.e. houses, objectives, units, etc.).
+
+## Coordinate Systems
+There are two coordinate systems used to describe the location of Terrain and Elements.
+In all cases, origin is at the bottom left with +x to the right and +y to the top (Cartesian Coordinates).
+
+Terrain Coordinates:
+    Measured by either "tile" or "space":
+    tile: (1,1) is the bottom-left terrain tile of the battlefield. Each unit is an entire terrain tile (7x7 spaces).
+    space: (1,1) is the bottom-left space of the bottom-left terrain tile of the battlefield. Each unit is a single space.
+
+Element Coordinates:
+    Measured by either "space" or "interspace":
+    space: (1,1) is the bottom-left space of the terrain tile. Each unit is a single space.
+    interspace: (0,0) is the bottom-left interspace of the terrain tile (physically on the corner of the tile). Each unit is a single interspace.
+
+## Notes
+Internally, all Terrain Coordinates are measured by "spaces".
 --]]
 
 local Battlefield = {}
@@ -27,15 +53,35 @@ setmetatable(Battlefield, { __call = function(self, ...) return self:new(...) en
 
 --[[
 ## Parameters
-    Width
-    Height
-    [IndexType = "tile" | "cell"]
-    Terrain {
-        {path, [{index, alias, rotation, isFlipped}]}   -- index: {x,y} on the grid where the top-left cell of the tile should be placed after it has been rotated.
-    }
-    Elements {
-        {path, tile, index, indexType, [{rotation, isFlipped}]}
-    }
+<table> parameters: A table with the following key-value pairs:
+    <bool> IsIndexedBySpaces: True if the Width, Height, and Terrain indices are measured in individual spaces. False if measured in whole terrain tiles (7x7 spaces). (see Coordinate Systems)
+        [Optional, defaults to false.]
+    <int> Width:  The number of terrain tiles or spaces wide the battlefield is.
+    <int> Height: The number of terrain tiles or spaces high the battlefield is.
+    <table> Terrain: An array of terrain tiles, which are arrays with the following elements:
+        <string> [1] (path): The URI for this terrain tile resource (i.e. "HoN.Core_Box.Terrain.C6_A").
+        <table> [2] (options): The following key-value pairs:
+            [Optional, defaults to having no options.]
+            <Vector2> index: The (x,y) Terrain Coordinates of this tile. Measured by either "tile" or "space" according to IsIndexedBySpaces.
+                [Optional, defaults to the "tile" coordinates of this space according to its order within the array. Tiles are ordered left-to-right, top-to-bottom.]
+            <string> alias: The name/key to use when placing Elements onto this tile.
+                [Optional, defaults to the leaf key in the path URI (i.e. "C6_A" for "HoN.Core_Box.Terrain.C6_A")].
+            <float> rotation: Degrees clockwise to rotate this tile.
+                [Optional, defaults to 0 degrees.]
+            <bool> isFlipped: True if the tile should be placed on its reverse side. False if the front should be showing.
+                [Optional, defaults to false.]
+    <table> Elements: An array of terrain elements, which are arrays with the following elements:
+        [Optional, defaults to having no terrain elements.]
+        <string> [1] (path): The URI for this terrain element resource (i.e. "HoN.Core_Box.Terrain.House_1x1").
+        <Vector2> [2] (tile): The alias of the terrain tile this element will be placed on.
+        <Vector2> [3] (index): The (x,y) Element Coordinates on the terrain tile that this element will be placed. Is measured according to the "indexType".
+        <string> [4] (indexType): Either "space" or "interspace". (see Coordinate Systems)
+        <table> [5] (options): The following key-values pairs:
+            [Optional, defaults to having no options.]
+            <float> rotation: Degrees clockwise to rotate this tile.
+                [Optional, defaults to 0 degrees.]
+            <bool> isFlipped: True if the tile should be placed on its reverse side. False if the front should be showing.
+                [Optional, defaults to false.]
 --]]
 function Battlefield:new(parameters)
     local errorMsg = Battlefield._ValidateParameters(parameters)
@@ -44,42 +90,81 @@ function Battlefield:new(parameters)
     end
 
     if Battlefield._TerrainIndexIsMissing(parameters.Terrain) then
-        -- Add the Vector2 "index" key-value to each Terrain tile.
-        -- The indices move left-to-right, top-to-bottom in a grid of size Width x Height.
-        local width = parameters.Width
-        local height = parameters.Height
-        for row = 1, height do
-            for col = 1, width do
-                local index = width * (row - 1) + col
-                local tile = parameters.Terrain[index]
-                if type(tile[2]) ~= "table" then
-                    tile[2] = {}
-                end
-                -- The index is the upper-left cell of the terrain tile.
-                tile[2].index = {1+7*(row-1), 1+7*(col-1)}  -- TODO: use actual Vector2 class.
-            end
-        end
+        Battlefield._AddIndexToTerrainTiles(parameters.Terrain, parameters.Width, parameters.Height)
     end
 
     if parameters.IndexType == nil or parameters.IndexType == "tile" then
-        -- Convert from terrain tiles (7x7 cells) to individual cells.
+        -- Convert from terrain tiles (7x7 spaces) to individual spaces.
         parameters.Width  = parameters.Width  * 7
         parameters.Height = parameters.Height * 7
     end
+
+    -- TODO: append alias to tiles.
 
     local obj = {}
     setmetatable(obj, self)
     self.__index = self
     self.__call = function(self, ...) return self:new(...) end
 
-    obj.Width  = parameters.Width
-    obj.Height = parameters.Height
-    obj.Terrain = parameters.Terrain
+    obj.Width    = parameters.Width
+    obj.Height   = parameters.Height
+    obj.Terrain  = parameters.Terrain
     obj.Elements = parameters.Elements
 
     return obj
 end
 
+--[[
+## Summary
+Place all the Terrain Tiles and Terrain Elements onto the table.
+Pieces are centered around the origin (0,0,0), which is the center of the table.
+--]]
+function Battlefield:PlaceAllTiles()
+    -- Lay terrain.
+    for k,v in pairs(self.Terrain) do
+        local index = v[2].index                    -- the upper-left space of this 7x7 tile
+        local center = {index[1] + 3, index[2] - 3} -- the center space of this 7x7 tile
+        local worldPos = self:GetWorldPositionForSpace(center)
+        local worldPos = {worldPos[1], worldPos[2] + UnitOfMeasurement.MinimumPlacementHeight, worldPos[3]}
+
+        local rotationDegrees = v[2].rotation or 0
+        local isFlipped = v[2].isFlipped or false
+
+        Place(v[1], {
+            position = worldPos,
+            rotation = {0,rotationDegrees,0},
+            flip = isFlipped,
+        })
+    end
+
+    -- Lay elements.
+
+end
+
+function Battlefield:GetWorldPositionForSpace(cell)
+    cell[3] = 0
+    local originBattlefieldWorld = {0,0,0}
+    local originBattlefieldCell = {(self.Width + 1)/2, (self.Height + 1)/2, 0}
+
+    local worldPositionCell = {
+        (originBattlefieldCell[1] - cell[1]) * UnitOfMeasurement.Cell + originBattlefieldWorld[1],
+        (originBattlefieldCell[2] - cell[2]) * UnitOfMeasurement.Cell + originBattlefieldWorld[2],
+        (originBattlefieldCell[3] - cell[3]) * UnitOfMeasurement.Cell + originBattlefieldWorld[3],
+    }
+
+    worldPositionCell = {
+        worldPositionCell[1],   -- world x = local x
+        worldPositionCell[3],   -- world y = local z
+        worldPositionCell[2],   -- world z = local y
+    }
+
+    return worldPositionCell
+end
+
+
+--------------------------------------------------------------------------------
+-- [[ Initialization methods ]] ------------------------------------------------
+--------------------------------------------------------------------------------
 
 function Battlefield._ValidateParameters(parameters)
     if type(parameters) ~= 'table'          then return "Argument [1] parameters: table expected, but got " .. tostring(type(parameters)) .. "." end
@@ -87,9 +172,9 @@ function Battlefield._ValidateParameters(parameters)
     if type(parameters.Height) ~= 'number'  then return "Argument [1] parameters.Height: integer number expected, but got " .. tostring(type(parameters.Height)) .. "." end
     if type(parameters.Terrain) ~= 'table'  then return "Argument [1] parameters.Terrain: table expected, but got " .. tostring(type(parameters.Terrain)) .. "." end
     if #parameters.Terrain < 1              then return "Argument [1] parameters.Terrain: array expected, but 0 elements found." end
-    if parameters.IndexType ~= nil and (parameters.IndexType ~= "tile" or parameters.IndexType ~= "cell")
-                                            then return "Argument [1] parameters.IndexType: the string 'tile' or 'cell' expected, but got " .. tostring(parameters.IndexType) .. "." end
-    if parameters.IndexType == "cell" and (parameters.Terrain[1][2] == nil or parameters.Terrain[1][2].index == nil)
+    if parameters.IndexType ~= nil and (parameters.IndexType ~= "tile" or parameters.IndexType ~= "space")
+                                            then return "Argument [1] parameters.IndexType: the string 'tile' or 'space' expected, but got " .. tostring(parameters.IndexType) .. "." end
+    if parameters.IndexType == "space" and (parameters.Terrain[1][2] == nil or parameters.Terrain[1][2].index == nil)
                                             then return "Terrain elements must contain an index (i.e. Terrain[1][2].index must be a Vector2.)" end
 
     return nil
@@ -106,5 +191,48 @@ function Battlefield._TerrainIndexIsMissing(terrainTiles)
         return true
     else
         return false
+    end
+end
+
+--[[
+## Summary
+Populate the "index" option with the coordinates of each tile's upper-left space.
+Indices move left-to-right, top-to-bottom in a grid of size (width, height).
+
+## Example
+For a 2 by 2 battlefield that looks like:
+A|B
+C|D
+{
+    {"HoN.Core_Box.Terrain.A"},
+    {"HoN.Core_Box.Terrain.B", {rotation = 90}},
+    {"HoN.Core_Box.Terrain.C"},
+    {"HoN.Core_Box.Terrain.D"},
+}
+becomes
+{
+    {"HoN.Core_Box.Terrain.A". {index = {1,14}               }},    -- Tile (1,2) has the index (1,14) for its upper-left space.
+    {"HoN.Core_Box.Terrain.B", {index = {8,14}, rotation = 90}},    -- Tile (2,2) has the index (8,14) for its upper-left space.
+    {"HoN.Core_Box.Terrain.C". {index = {1,7}                }},    -- Tile (1,1) has the index (1,7)  for its upper-left space.
+    {"HoN.Core_Box.Terrain.D", {index = {8,7}                }},    -- Tile (2,1) has the index (8,7)  for its upper-left space.
+}
+--]]
+function Battlefield._AddIndexToTerrainTiles(terrainTiles, width, height)
+    local i = 0
+    for y = height, 1, -1 do    -- Height is measured in terrain tiles.
+        for x = 1, width do     -- Width  is measured in terrain tiles.
+            i = i + 1
+            local tile = terrainTiles[i]
+
+            if type(tile[2]) ~= "table" then
+                -- Add empty "options" to this element if it doesn't already have any options.
+                tile[2] = {}
+            end
+
+            -- The index is the upper-left space of the terrain tile.
+            local coordX = 1 + 7*(x-1)
+            local coordY = 1 + 7*(y-1) + 6
+            tile[2].index = {coordX, coordY}   -- TODO: use actual Vector2 class.
+        end
     end
 end

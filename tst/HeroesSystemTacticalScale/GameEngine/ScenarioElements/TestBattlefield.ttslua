@@ -8,11 +8,11 @@ function Test:BeforeClass()
     Database.Initialize()
 end
 
-function Place(path, parameters)
-    local ttsObject = Database.GetData(path)
-    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
-end
-
-function Test:SingleTerrainTile()
-    Place("HoN.Core_Box.Terrain.C3_A", {position = {0,0,0}, rotation = {0,0,0}})
+#include !/HeroesSystemTacticalScale/GameEngine/ScenarioElements/Battlefield
+function Test:LayoutScenario_Out_of_Gas()
+    local scenarios = Database.GetData("HoN.Core_Box.Scenarios")
+    local scenario = scenarios[2]   -- Out_of_Gas scenario
+    local battlefield = Battlefield(scenario.Model.Battlefield)
+    
+    battlefield:PlaceAllTiles()
 end

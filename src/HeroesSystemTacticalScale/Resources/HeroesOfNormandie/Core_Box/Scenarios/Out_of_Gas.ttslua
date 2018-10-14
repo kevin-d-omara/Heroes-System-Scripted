@@ -5,9 +5,6 @@ Learnings:
         - Optimized: use a quadtree to find collisions.
     * How do we handle randomized Bonus Tactics (etc.)?
         - Include "RandomCollections" as a defineable class in the 'object.ttslua' config file. Add a special HeroesSystemTacticalScale "get resource by string" wrapper that does the lookup and substitution.
-    * How about objects that need to be placed off-center.
-        - Include an option: "offset", which allows the user to adjust the final placement by any amount.
-        - User just puts in a floating point value instead of integer.
 --]]
 {
     Name = "Out_of_Gas",
@@ -24,16 +21,18 @@ Learnings:
                 {"HoN.Core_Box.Terrain.C3_A"},
             },
             Elements = {
-                -- path                                         ,  tile,  index, index-type,   options{} (most are the same as in the Tile class)
-                {"HoN.Core_Box.Tokens.Bonus_Tactic_Random"       , "C6_A", {7,3}, "interspace"},                      -- Showcase random selection.
-                {"HoN.Core_Box.Tokens.Bonus_Tactic_Random"       , "C5_A", {5,6}, "interspace"},
-                {"HoN.Core_Box.Tokens.Bonus_Tactic_Random"       , "C5_A", {8,3}, "interspace"},
-                {"HoN.Core_Box.Terrain.Thicket_Random"           , "C4_B", {5,7}, "space"     },
-                {"HoN.Core_Box.Terrain.House_2x1"                , "C4_B", {5,1}, "line-x"    , {rotation =  90}},    -- Showcase line-based coordinates.
-                {"HoN.Core_Box.Terrain.House_1x1"                , "C5_A", {3,3}, "interspace", {rotation = 180}},    -- Showcase rotation.
-                {"HoN.Core_Box.Tokens.Objective_Gas"             , "C5_A", {3,3}, "interspace", {rotation = 180}},
-                {"HoN.Core_Box.US.Rifle_Platoon_12th.Halftrack_1", "C6_A", {8,5}, "line-x"    },
-                {"HoN.Core_Box.US.Rifle_Platoon_12th.Halftrack_2", "C6_A", {8,6}, "line-x"    , {isFlipped = true}},  -- Showcase flipping of object.
+                -- path                                          , tile,  index,    index-type,   options{} (most are the same as in the Tile class)
+                {"HoN.Core_Box.Terrain.Thicket_Random"           , "C5_A", {2,1},   "space"     },                      -- Showcase random selection.
+                {"HoN.Core_Box.Terrain.Thicket_Random"           , "C5_A", {6,2},   "space"     },
+                {"HoN.Core_Box.Terrain.Thicket_Random"           , "C4_B", {7,3},   "space"     },
+                {"HoN.Core_Box.Terrain.House_2x1"                , "C4_B", {0.5,3}, "interspace", {rotation =  90}},    -- Showcase half-spacing placement.
+                {"HoN.Core_Box.Terrain.House_1x1"                , "C5_A", {2,5},   "interspace", {rotation = 180}},    -- Showcase rotation.
+                {"HoN.Core_Box.Tokens.Objective_Gas"             , "C5_A", {2,5},   "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic_Random"       , "C6_A", {2,1},   "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic_Random"       , "C5_A", {2,0},   "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic_Random"       , "C5_A", {5,3},   "interspace"},
+                {"HoN.Core_Box.US.Rifle_Platoon_12th.Halftrack_1", "C6_A", {4.5,0}, "interspace"},
+                {"HoN.Core_Box.US.Rifle_Platoon_12th.Halftrack_2", "C6_A", {5.5,0}, "interspace", {isFlipped = true}},  -- Showcase flipping of object.
             },
         },
     },
