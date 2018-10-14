@@ -29,7 +29,9 @@ _ #include Path/To/This/File  -- ex: #include Utility/Invoke
 --]]
 function Invoke(objectOrGuid, functionName, parameters)
     local object
-    if type(objectOrGuid) == 'string' then
+    if objectOrGuid == "-1" then
+        object = Global
+    elseif type(objectOrGuid) == 'string' then
         object = getObjectFromGUID(objectOrGuid)
     else
         object = objectOrGuid
