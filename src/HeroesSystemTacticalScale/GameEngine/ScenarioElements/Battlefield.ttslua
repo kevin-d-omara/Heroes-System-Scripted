@@ -1,4 +1,6 @@
 #include !/HeroesSystemTacticalScale/GameEngine/Model/UnitOfMeasurement
+#include !/TabletopSimulator/Vector2
+#include !/TabletopSimulator/Vector3
 
 #include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
 function Place(path, parameters)
@@ -101,6 +103,15 @@ function Battlefield:new(parameters)
 
     -- TODO: append alias to tiles.
 
+    -- Transform Terrain indices to Vector2.
+    for k,v in ipairs(parameters.Terrain) do
+        v[2].index = Vector2(v[2].index)
+    end
+    -- Transform Element indices to Vector2.
+    for k,v in ipairs(parameters.Elements) do
+        v[3] = Vector2(v[3])
+    end
+
     local obj = {}
     setmetatable(obj, self)
     self.__index = self
@@ -117,20 +128,23 @@ end
 --[[
 ## Summary
 Place all the Terrain Tiles and Terrain Elements onto the table.
-Pieces are centered around the origin (0,0,0), which is the center of the table.
+Pieces are centered around the center of the table.
 --]]
 function Battlefield:PlaceAllTiles()
     -- Lay terrain.
-    for k,v in pairs(self.Terrain) do
-        local index = v[2].index                    -- the upper-left space of this 7x7 tile
-        local center = {index[1] + 3, index[2] - 3} -- the center space of this 7x7 tile
+    for k,tile in pairs(self.Terrain) do
+        local path    = tile[1]
+        local options = tile[2]
+
+        local index = options.index     -- the upper-left space of this 7x7 tile
+        local center = index + {3, -3}  -- the center space of this 7x7 tile
         local worldPos = self:GetWorldPositionForSpace(center)
-        local worldPos = {worldPos[1], worldPos[2] + UnitOfMeasurement.MinimumPlacementHeight, worldPos[3]}
+        worldPos.y = worldPos.y + UnitOfMeasurement.MinimumPlacementHeight
 
-        local rotationDegrees = v[2].rotation or 0
-        local isFlipped = v[2].isFlipped or false
+        local rotationDegrees = options.rotation or 0
+        local isFlipped       = options.isFlipped or false
 
-        Place(v[1], {
+        Place(path, {
             position = worldPos,
             rotation = {0,rotationDegrees,0},
             flip = isFlipped,
@@ -141,24 +155,26 @@ function Battlefield:PlaceAllTiles()
 
 end
 
+--[[
+Return the World Coordinates (x,y,z) for the Terrain Coordinates (x,y).
+
+The Terrain Coordinates are measured in spaces.
+The World Coordinate's y component (height) is always 0.
+--]]
 function Battlefield:GetWorldPositionForSpace(cell)
-    cell[3] = 0
-    local originBattlefieldWorld = {0,0,0}
-    local originBattlefieldCell = {(self.Width + 1)/2, (self.Height + 1)/2, 0}
+    local cell = Vector3(cell)
+    local originBattlefieldWorld = Vector3.zero
+    local originBattlefieldCell  = Vector3((self.Width + 1)/2, (self.Height + 1)/2, 0)
 
-    local worldPositionCell = {
-        (originBattlefieldCell[1] - cell[1]) * UnitOfMeasurement.Cell + originBattlefieldWorld[1],
-        (originBattlefieldCell[2] - cell[2]) * UnitOfMeasurement.Cell + originBattlefieldWorld[2],
-        (originBattlefieldCell[3] - cell[3]) * UnitOfMeasurement.Cell + originBattlefieldWorld[3],
-    }
+    local worldPositionCell =
+        (originBattlefieldCell - cell) * UnitOfMeasurement.Cell + originBattlefieldWorld
 
-    worldPositionCell = {
-        worldPositionCell[1],   -- world x = local x
-        worldPositionCell[3],   -- world y = local z
-        worldPositionCell[2],   -- world z = local y
-    }
-
-    return worldPositionCell
+    return Vector3(
+        -- Rotate from local coordinate system to world coordinate system.
+        worldPositionCell.x,   -- world x-axis = local x-axis
+        worldPositionCell.z,   -- world y-axis = local z-axis
+        worldPositionCell.y    -- world z-axis = local y-axis
+    )
 end
 
 
@@ -232,7 +248,7 @@ function Battlefield._AddIndexToTerrainTiles(terrainTiles, width, height)
             -- The index is the upper-left space of the terrain tile.
             local coordX = 1 + 7*(x-1)
             local coordY = 1 + 7*(y-1) + 6
-            tile[2].index = {coordX, coordY}   -- TODO: use actual Vector2 class.
+            tile[2].index = {coordX, coordY}
         end
     end
 end
