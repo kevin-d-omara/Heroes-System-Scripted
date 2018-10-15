@@ -1,13 +1,22 @@
--- Source: http://lua-users.org/wiki/CopyTable
+--[[
+Return a copy of the original, except metatables are shared between the original and the copy.
+
+No pointers are shared between the original and the copy, except for metatables.
+All key-value pairs of the original are copied into the clone.
+All tables in the original are replaced with new table references in the clone.
+If `orig` has a metatable, then `copy` will share a pointer to the same metatable.
+
+Adapted from: http://lua-users.org/wiki/CopyTable
+--]]
 function DeepCopy(orig)
     local orig_type = type(orig)
     local copy
     if orig_type == 'table' then
         copy = {}
-        for orig_key, orig_value in next, orig, nil do
+        for orig_key, orig_value in pairs(orig) do
             copy[DeepCopy(orig_key)] = DeepCopy(orig_value)
         end
-        setmetatable(copy, DeepCopy(getmetatable(orig)))
+        setmetatable(copy, getmetatable(orig))
     else -- number, string, boolean, etc
         copy = orig
     end
