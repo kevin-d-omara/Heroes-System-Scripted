@@ -1,0 +1,94 @@
+#include !/TabletopSimulator/TTSTest/TestClass
+#include !/TabletopSimulator/TTSTest/Assert
+#include !/TabletopSimulator/Vector2
+
+TestClass('Vector2 unit tests')
+
+function Test:Constructor_DefaultZero()
+    local err = AssertEquals(Vector2(), Vector2.zero)
+    if err then error(err) end
+end
+
+function Test:Equals_Function_AreEqualBarely()
+    local a = Vector2(0,1)
+    local b = Vector2(0,1.000001)
+
+    local err = AssertTrue(Vector2.Equals(a,b))
+    if err then error(err) end
+end
+
+function Test:Equals_Function_NotEqualBarely()
+    local a = Vector2(0,1)
+    local b = Vector2(0,1.00001)
+
+    local err = AssertFalse(Vector2.Equals(a,b))
+    if err then error(err) end
+end
+
+function Test:Equals_Operator_AreEqual()
+    local a = Vector2(1,2)
+    local b = Vector2(1,2)
+
+    local err = AssertTrue(Vector2.Equals(a,b))
+    if err then error(err) end
+end
+
+function Test:Add_Function()
+    local a = Vector2(1,2)
+    local b = Vector2(0,0)
+
+    local c = Vector2.Add(a,b)
+
+    local err = AssertEquals(c, Vector2(1,2))
+    if err then error(err) end
+end
+
+function Test:Add_Operator()
+    local a = Vector2(1,2)
+    local b = Vector2(0,0)
+
+    local c = a + b
+
+    local err = AssertEquals(c, Vector2(1,2))
+    if err then error(err) end
+end
+
+function Test:Subtract_Function()
+    local a = Vector2(1,2)
+    local b = Vector2(1,1)
+
+    local c = Vector2.Subtract(a,b)
+
+    local err = AssertEquals(c, Vector2(0,1))
+    if err then error(err) end
+end
+
+function Test:Subtract_Operator()
+    local a = Vector2(1,2)
+    local b = Vector2(1,1)
+
+    local c = a - b
+
+    local err = AssertEquals(c, Vector2(0,1))
+    if err then error(err) end
+end
+
+function Test:Multiply_Function()
+    local a = Vector2(-2, 3)
+    local d = 2.5
+
+    local c = Vector2.Multiply(a, d)
+
+    local err = AssertEquals(c, Vector2(-5.0, 7.5))
+    if err then error(err) end
+end
+
+function Test:Multiply_Operator()
+    local a = Vector2(-2, 3)
+    local d = 2.5
+
+    local c = a * d
+
+    local err = AssertEquals(c, Vector2(-5.0, 7.5))
+    if err then error(err) end
+end

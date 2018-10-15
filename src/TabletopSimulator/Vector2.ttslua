@@ -1,0 +1,236 @@
+--[[
+## Class
+public class Vector2
+{
+    -- Static Properties
+    up                  Shorthand for writing Vector2(0, 1).
+    down                Shorthand for writing Vector2(0, -1).
+    right               Shorthand for writing Vector2(1, 0).
+    left                Shorthand for writing Vector2(-1, 0).
+    one                 Shorthand for writing Vector2(1, 1).
+    zero                Shorthand for writing Vector2(0, 0).
+    negativeInfinity    Shorthand for writing Vector2(math.huge, math.huge).
+    positiveInfinity    Shorthand for writing Vector2(-math.huge, -math.huge).
+
+    -- Properties
+    float x  -- X component of the vector.
+    float y  -- Y component of the vector.
+    float self[int] -- Access the x and y components using [0] and [1] respectively (i.e. myVector[1] == myVector.x)
+
+    -- Constructors
+    Vector2:new(x,y)
+    Vector2:new(table)
+    Vector2(x,y)
+    Vector2(table)
+
+    -- Public Methods
+
+    -- Static Methods
+    Vector2 Add(a, b)
+    Vector2 Subtract(a, b)
+    Vector2 Multiply(a, d)
+    Vector2 Divide(a, d)
+    Vector2 Negate(a)
+
+    float Magnitude(a)
+    float SqrMagnitude(a)
+    Vector2 Normalized(a)
+    Vector2 Normalize(a)
+    Vector2 Dot(a, b)
+
+    bool Equals(a, b)
+    string ToString(a)
+
+    -- Operators
+    Vector2 + (a, b)    -- Add
+    Vector2 - (a, b)    -- Subtract
+    Vector2 * (a, d)    -- Multiply by scalar
+    Vector2 / (a, d)    -- Divide by scalar
+    Vector2 - (a)       -- Negate
+    Vector2 == (a, b)   -- Equals
+    Vector2 ~- (a, b)   -- Not Equals
+    string tostring(a)  -- To String
+}
+
+## Summary
+Representation of 2D vectors and points. It also contains functions for doing common vector operations.
+
+A class-based version of the TabletopSimulator API Vector (although for just 2 dimensions: x and y) (https://api.tabletopsimulator.com/types/#vector) that is modelled on the Unity Vector2 (https://docs.unity3d.com/ScriptReference/Vector2.html).
+--]]
+
+Vector2 = {}
+
+-- Can create a new Vector2 instance by calling either Vector2:new() or just Vector2().
+setmetatable(Vector2, {__call = function(self, ...) return self:new(...) end })
+
+--[[
+## Overview
+Creates a new vector with given x and y components.
+
+## Overloads
+Vector2(float x, float y)
+Vector2(table tbl)
+    tbl uses either the keys "x,y": {x = float, y = float} or the indices "1,2": {float, float}.
+--]]
+function Vector2:new(x, y)
+    local vector = {}
+    setmetatable(vector, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    if type(x) == 'table' then
+        local args = x
+
+        if args[1] == nil then
+            -- Uses keys "x,y", i.e. {x=0,y=0}.
+            vector.x = args.x or 0
+            vector.y = args.y or 0
+        else
+            -- Uses indices "1,2", i.e. {0,0}.
+            vector.x = args[1] or 0
+            vector.y = args[2] or 0
+        end
+    else
+        -- Uses the parameters x and y directly.
+        vector.x = x or 0
+        vector.y = y or 0
+    end
+
+    -- Make sure the components can also be accessed by index/array element.
+    vector[1] = vector.x
+    vector[2] = vector.y
+
+    return vector
+end
+
+-- Add two vectors component-wise.
+function Vector2.Add(a, b)
+    return Vector2(
+        a[1] + b[1],
+        a[2] + b[2]
+    )
+end
+
+-- Subtract two vectors component-wise.
+function Vector2.Subtract(a, b)
+    return Vector2(
+        a[1] - b[1],
+        a[2] - b[2]
+    )
+end
+
+-- Multiply each component of the vector `a` by the number `d`.
+function Vector2.Multiply(a, d)
+    return Vector2(
+        a[1] * d,
+        a[2] * d
+    )
+end
+
+-- Divide each component of the vector `a` by the number `d`.
+function Vector2.Divide(a, d)
+    return Vector2(
+        a[1] / d,
+        a[2] / d
+    )
+end
+
+-- Negate the vector component-wise.
+function Vector2.Negate(a)
+    return Vector2(
+        -a[1],
+        -a[2]
+    )
+end
+
+--[[
+Returns the length of a vector.
+
+The length of the vector is square root of (x*x + y*y).
+
+If you only need to compare magnitudes of some vectors, you can compare squared magnitudes of them using `SqrMagnitude` (computing squared magnitudes is faster).
+--]]
+function Vector2.Magnitude(a)
+    return math.sqrt(Vector2.Dot(a, a))
+end
+
+--[[
+Returns the squared length of a vector.
+
+The squared length of the vector is (x*x + y*y).
+
+The magnitude of a vector v is calculated as math.sqrt(Vector2.Dot(v, v)). However, the Sqrt calculation is quite complicated and takes longer to execute than the normal arithmetic operations. Calculating the squared magnitude instead of using `Magnitude` is much faster - the calculation is basically the same only without the slow Sqrt call. If you are using magnitudes simply to compare distances, then you can just as well compare squared magnitudes against the squares of distances since the comparison will give the same result.
+--]]
+function Vector2.SqrMagnitude(a)
+    return a[1]*a[1] + a[2]*a[2]
+end
+
+--[[
+Returns the vector with a `Magnitude` of 1.
+
+When normalized, a vector keeps the same direction but its length is 1.0.
+
+Note that the current vector is unchanged and a new normalized vector is returned. If you want to normalize the current vector, use `Normalize` function.
+--]]
+function Vector2.Normalized(a)
+    return a / Vector2.Magnitude(a)
+end
+
+--[[
+Makes this vector have a `Magnitude` of 1.
+
+When normalized, a vector keeps the same direction but its length is 1.0.
+
+Note that this function will change the current vector. If you want to keep the current vector unchanged, use `Normalized` variable.
+--]]
+function Vector2.Normalize(a)
+    local normalized = Vector2.Normalized(a)
+    a[1] = normalized[1]
+    a[2] = normalized[2]
+    return a
+end
+
+--[[
+Dot Product of two vectors.
+
+The dot product is a float value equal to the magnitudes of the two vectors multiplied together and then multiplied by the cosine of the angle between them.
+
+For `Normalized` vectors Dot returns 1 if they point in exactly the same direction, -1 if they point in completely opposite directions and zero if the vectors are perpendicular.
+--]]
+function Vector2.Dot(a, b)
+    return a[1]*b[1] +  a[2]*b[2]
+end
+
+--[[
+Returns true if two vectors are approximately equal.
+
+To allow for floating point inaccuracies, the two vectors are considered equal if the magnitude of their difference is less than 1e-5.
+--]]
+function Vector2.Equals(a, b)
+    return
+        math.abs(a[1] - b[1]) < 0.00001 and
+        math.abs(a[2] - b[2]) < 0.00001
+end
+
+function Vector2.ToString(a)
+    return "Vector2({x=" .. tostring(a[1]) .. ", y=" .. tostring(a[2]) .. "})"
+end
+
+-- Metamethod operators
+Vector2.__add       = Vector2.Add
+Vector2.__sub       = Vector2.Subtract
+Vector2.__mul       = Vector2.Multiply
+Vector2.__div       = Vector2.Divide
+Vector2.__unm       = Vector2.Negate
+Vector2.__eq        = Vector2.Equals
+Vector2.__tostring  = Vector2.ToString
+
+-- Static Properties
+Vector2.up                  = Vector2( 0,  1)
+Vector2.down                = Vector2( 0, -1)
+Vector2.right               = Vector2( 1,  0)
+Vector2.left                = Vector2(-1,  0)
+Vector2.one                 = Vector2( 1,  1)
+Vector2.zero                = Vector2( 0,  0)
+Vector2.negativeInfinity    = Vector2( math.huge,  math.huge)
+Vector2.positiveInfinity    = Vector2(-math.huge, -math.huge)
