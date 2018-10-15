@@ -31,5 +31,5 @@ function CreateRunButton()
 end
 
 function OnClicked()
-    RunAllTests()
+    RunAllTests()   -- RunAllTests() is defined in TabletopSimulator/TTSTest/TestClass
 end

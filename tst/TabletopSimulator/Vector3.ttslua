@@ -1,0 +1,94 @@
+#include !/TabletopSimulator/TTSTest/TestClass
+#include !/TabletopSimulator/TTSTest/Assert
+#include !/TabletopSimulator/Vector3
+
+TestClass('Vector3 unit tests')
+
+function Test:Constructor_DefaultZero()
+    local err = AssertEquals(Vector3(), Vector3.zero)
+    if err then error(err) end
+end
+
+function Test:Equals_Function_AreEqualBarely()
+    local a = Vector3(0,0,1)
+    local b = Vector3(0,0,1.000001)
+
+    local err = AssertTrue(Vector3.Equals(a,b))
+    if err then error(err) end
+end
+
+function Test:Equals_Function_NotEqualBarely()
+    local a = Vector3(0,0,1)
+    local b = Vector3(0,0,1.00001)
+
+    local err = AssertFalse(Vector3.Equals(a,b))
+    if err then error(err) end
+end
+
+function Test:Equals_Operator_AreEqual()
+    local a = Vector3(1,2,3)
+    local b = Vector3(1,2,3)
+
+    local err = AssertTrue(Vector3.Equals(a,b))
+    if err then error(err) end
+end
+
+function Test:Add_Function()
+    local a = Vector3(1,2,3)
+    local b = Vector3(0,0,0)
+
+    local c = Vector3.Add(a,b)
+
+    local err = AssertEquals(c, Vector3(1,2,3))
+    if err then error(err) end
+end
+
+function Test:Add_Operator()
+    local a = Vector3(1,2,3)
+    local b = Vector3(0,0,0)
+
+    local c = a + b
+
+    local err = AssertEquals(c, Vector3(1,2,3))
+    if err then error(err) end
+end
+
+function Test:Subtract_Function()
+    local a = Vector3(1,2,3)
+    local b = Vector3(1,1,1)
+
+    local c = Vector3.Subtract(a,b)
+
+    local err = AssertEquals(c, Vector3(0,1,2))
+    if err then error(err) end
+end
+
+function Test:Subtract_Operator()
+    local a = Vector3(1,2,3)
+    local b = Vector3(1,1,1)
+
+    local c = a - b
+
+    local err = AssertEquals(c, Vector3(0,1,2))
+    if err then error(err) end
+end
+
+function Test:Multiply_Function()
+    local a = Vector3(-2, 3, 7)
+    local d = 2.5
+
+    local c = Vector3.Multiply(a, d)
+
+    local err = AssertEquals(c, Vector3(-5.0, 7.5, 17.5))
+    if err then error(err) end
+end
+
+function Test:Multiply_Operator()
+    local a = Vector3(-2, 3, 7)
+    local d = 2.5
+
+    local c = a * d
+
+    local err = AssertEquals(c, Vector3(-5.0, 7.5, 17.5))
+    if err then error(err) end
+end

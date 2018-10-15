@@ -1,0 +1,252 @@
+--[[
+## Class
+public class Vector3
+{
+    -- Static Properties
+    up                  Shorthand for writing Vector3(0, 1, 0).
+    down                Shorthand for writing Vector3(0, -1, 0).
+    forward             Shorthand for writing Vector3(0, 0, 1).
+    back                Shorthand for writing Vector3(0, 0, -1).
+    left                Shorthand for writing Vector3(-1, 0, 0).
+    right               Shorthand for writing Vector3(1, 0, 0).
+    one                 Shorthand for writing Vector3(1, 1, 1).
+    zero                Shorthand for writing Vector3(0, 0, 0).
+    positiveInfinity    Shorthand for writing Vector3(math.huge, math.huge, math.huge).
+    negativeInfinity    Shorthand for writing Vector3(-math.huge, -math.huge, -math.huge).
+
+    -- Properties
+    float x  -- X component of the vector.
+    float y  -- Y component of the vector.
+    float z  -- Z component of the vector.
+    float self[int] -- Access the x, y, z components using [0], [1], [2] respectively (i.e. myVector[1] == myVector.x)
+
+    -- Constructors
+    Vector3:new(x,y,z)
+    Vector3:new(table)
+    Vector3(x,y,z)
+    Vector3(table)
+
+    -- Public Methods
+
+    -- Static Methods
+    Vector3 Add(a, b)
+    Vector3 Subtract(a, b)
+    Vector3 Multiply(a, d)
+    Vector3 Divide(a, d)
+    Vector3 Negate(a)
+
+    float Magnitude(a)
+    float SqrMagnitude(a)
+    Vector3 Normalized(a)
+    Vector3 Normalize(a)
+    Vector3 Dot(a, b)
+
+    bool Equals(a, b)
+    string ToString(a)
+
+    -- Operators
+    Vector3 + (a, b)    -- Add
+    Vector3 - (a, b)    -- Subtract
+    Vector3 * (a, d)    -- Multiply by scalar
+    Vector3 / (a, d)    -- Divide by scalar
+    Vector3 - (a)       -- Negate
+    Vector3 == (a, b)   -- Equals
+    Vector3 ~- (a, b)   -- Not Equals
+    string tostring(a)  -- To String
+}
+
+## Summary
+Representation of 3D vectors and points. It also contains functions for doing common vector operations.
+
+A class-based version of the TabletopSimulator API Vector (https://api.tabletopsimulator.com/types/#vector) that is modelled on the Unity Vector3 (https://docs.unity3d.com/ScriptReference/Vector3.html).
+--]]
+
+Vector3 = {}
+
+-- Can create a new Vector3 instance by calling either Vector3:new() or just Vector3().
+setmetatable(Vector3, {__call = function(self, ...) return self:new(...) end })
+
+--[[
+## Overview
+Creates a new vector with given x, y, z components.
+
+## Overloads
+Vector3(float x, float y, float z)
+Vector3(table tbl)
+    tbl uses either the keys "x,y,z": {x = float, y = float, z = float} or the indices "1,2,3": {float, float, float}.
+--]]
+function Vector3:new(x, y, z)
+    local vector = {}
+    setmetatable(vector, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    if type(x) == 'table' then
+        local args = x
+
+        if args[1] == nil then
+            -- Uses keys "x,y,z", i.e. {x=0,y=0,z=0}.
+            vector.x = args.x or 0
+            vector.y = args.y or 0
+            vector.z = args.z or 0
+        else
+            -- Uses indices "1,2,3", i.e. {0,0,0}.
+            vector.x = args[1] or 0
+            vector.y = args[2] or 0
+            vector.z = args[3] or 0
+        end
+    else
+        -- Uses the parameters x, y, and z directly.
+        vector.x = x or 0
+        vector.y = y or 0
+        vector.z = z or 0
+    end
+
+    -- Make sure the components can also be accessed by index/array element.
+    vector[1] = vector.x
+    vector[2] = vector.y
+    vector[3] = vector.z
+
+    return vector
+end
+
+-- Add two vectors component-wise.
+function Vector3.Add(a, b)
+    return Vector3(
+        a[1] + b[1],
+        a[2] + b[2],
+        a[3] + b[3]
+    )
+end
+
+-- Subtract two vectors component-wise.
+function Vector3.Subtract(a, b)
+    return Vector3(
+        a[1] - b[1],
+        a[2] - b[2],
+        a[3] - b[3]
+    )
+end
+
+-- Multiply each component of the vector `a` by the number `d`.
+function Vector3.Multiply(a, d)
+    return Vector3(
+        a[1] * d,
+        a[2] * d,
+        a[3] * d
+    )
+end
+
+-- Divide each component of the vector `a` by the number `d`.
+function Vector3.Divide(a, d)
+    return Vector3(
+        a[1] / d,
+        a[2] / d,
+        a[3] / d
+    )
+end
+
+-- Negate the vector component-wise.
+function Vector3.Negate(a)
+    return Vector3(
+        -a[1],
+        -a[2],
+        -a[3]
+    )
+end
+
+--[[
+Returns the length of a vector.
+
+The length of the vector is square root of (x*x + y*y + z*z).
+
+If you only need to compare magnitudes of some vectors, you can compare squared magnitudes of them using `SqrMagnitude` (computing squared magnitudes is faster).
+--]]
+function Vector3.Magnitude(a)
+    return math.sqrt(Vector3.Dot(a, a))
+end
+
+--[[
+Returns the squared length of a vector.
+
+The squared length of the vector is (x*x + y*y + z*z).
+
+The magnitude of a vector v is calculated as math.sqrt(Vector3.Dot(v, v)). However, the Sqrt calculation is quite complicated and takes longer to execute than the normal arithmetic operations. Calculating the squared magnitude instead of using `Magnitude` is much faster - the calculation is basically the same only without the slow Sqrt call. If you are using magnitudes simply to compare distances, then you can just as well compare squared magnitudes against the squares of distances since the comparison will give the same result.
+--]]
+function Vector3.SqrMagnitude(a)
+    return a[1]*a[1] + a[2]*a[2] + a[3]*a[3]
+end
+
+--[[
+Returns the vector with a `Magnitude` of 1.
+
+When normalized, a vector keeps the same direction but its length is 1.0.
+
+Note that the current vector is unchanged and a new normalized vector is returned. If you want to normalize the current vector, use `Normalize` function.
+--]]
+function Vector3.Normalized(a)
+    return a / Vector3.Magnitude(a)
+end
+
+--[[
+Makes this vector have a `Magnitude` of 1.
+
+When normalized, a vector keeps the same direction but its length is 1.0.
+
+Note that this function will change the current vector. If you want to keep the current vector unchanged, use `Normalized` variable.
+--]]
+function Vector3.Normalize(a)
+    local normalized = Vector3.Normalized(a)
+    a[1] = normalized[1]
+    a[2] = normalized[2]
+    a[3] = normalized[3]
+    return a
+end
+
+--[[
+Dot Product of two vectors.
+
+The dot product is a float value equal to the magnitudes of the two vectors multiplied together and then multiplied by the cosine of the angle between them.
+
+For `Normalized` vectors Dot returns 1 if they point in exactly the same direction, -1 if they point in completely opposite directions and zero if the vectors are perpendicular.
+--]]
+function Vector3.Dot(a, b)
+    return a[1]*b[1] +  a[2]*b[2] + a[3]*b[3]
+end
+
+--[[
+Returns true if two vectors are approximately equal.
+
+To allow for floating point inaccuracies, the two vectors are considered equal if the magnitude of their difference is less than 1e-5.
+--]]
+function Vector3.Equals(a, b)
+    return
+        math.abs(a[1] - b[1]) < 0.00001 and
+        math.abs(a[2] - b[2]) < 0.00001 and
+        math.abs(a[3] - b[3]) < 0.00001
+end
+
+function Vector3.ToString(a)
+    return "Vector3({x=" .. tostring(a[1]) .. ", y=" .. tostring(a[2]) .. ", z=" .. tostring(a[3]) .. "})"
+end
+
+-- Metamethod operators
+Vector3.__add       = Vector3.Add
+Vector3.__sub       = Vector3.Subtract
+Vector3.__mul       = Vector3.Multiply
+Vector3.__div       = Vector3.Divide
+Vector3.__unm       = Vector3.Negate
+Vector3.__eq        = Vector3.Equals
+Vector3.__tostring  = Vector3.ToString
+
+-- Static Properties
+Vector3.up                  = Vector3( 0,  1,  0)
+Vector3.down                = Vector3( 0, -1,  0)
+Vector3.forward             = Vector3( 0,  0,  1)
+Vector3.back                = Vector3( 0,  0, -1)
+Vector3.left                = Vector3(-1,  0,  0)
+Vector3.right               = Vector3( 1,  0,  0)
+Vector3.one                 = Vector3( 1,  1,  1)
+Vector3.zero                = Vector3( 0,  0,  0)
+Vector3.positiveInfinity    = Vector3( math.huge,  math.huge,  math.huge)
+Vector3.negativeInfinity    = Vector3(-math.huge, -math.huge, -math.huge)
