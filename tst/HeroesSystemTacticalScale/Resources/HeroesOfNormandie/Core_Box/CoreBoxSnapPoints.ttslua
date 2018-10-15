@@ -21,7 +21,7 @@ end
 
 function Ignore:LayAllRecruitmentTiles()
     Place("HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile",      {position = {0,0,10}, rotation = {0,180,0}, smooth = false})
-    Place("HoN.Core_Box.US.RiflePlatoon22nd.Recruitment_Tile",     {position = {0,0,7}, rotation = {0,180,0}, smooth = false})
+    Place("HoN.Core_Box.US.Rifle_Platoon_22nd.Recruitment_Tile",     {position = {0,0,7}, rotation = {0,180,0}, smooth = false})
     Place("HoN.Core_Box.US.FieldCommand.Recruitment_Tile",         {position = {0,0,4}, rotation = {0,180,0}, smooth = false})
     Place("HoN.Core_Box.GE.Panzergrenadiere901.Recruitment_Tile",  {position = {0,0,1}, rotation = {0,180,0}, smooth = false})
     Place("HoN.Core_Box.GE.Panzergrenadiere902.Recruitment_Tile",  {position = {0,0,-2}, rotation = {0,180,0}, smooth = false})

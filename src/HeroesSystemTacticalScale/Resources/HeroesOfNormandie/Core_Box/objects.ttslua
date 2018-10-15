@@ -124,16 +124,16 @@ function GetObjects()
                     },
                 },
             },
-            RiflePlatoon22nd = {
+            Rifle_Platoon_22nd = {
                 guid =  'rwog7f',
                 Recruitment_Tile = {
                     class = 'RecruitmentTile',
                     guid = 'b74l5u',
                     Includes = {'Officer', 'Fire_Team', 'Support_Team', '_30cal'},
                     Options = {
-                        Bazooka_Squad_Option = {class = 'Option', guid = 'fqwfr5', Includes = {'Fire_Team', 'Support_Team', 'Bazooka'}},
-                        Mechanized_Option = {class = 'Option', guid = '7pl0tb', Includes = {'Halftrack_1', 'Halftrack_2'}},
-                        Rifle_Squad_Option = {class = 'Option', guid = '7mftir', Includes = {'Recon_Team', 'Fire_Team', 'Support_Team'}},
+                        Bazooka_Squad_Option    = {class = 'Option', guid = 'fqwfr5', Includes = {'Fire_Team', 'Support_Team', 'Bazooka'}},
+                        Mechanized_Option       = {class = 'Option', guid = '7pl0tb', Includes = {'Halftrack_1', 'Halftrack_2'}},
+                        Rifle_Squad_Option      = {class = 'Option', guid = '7mftir', Includes = {'Recon_Team', 'Fire_Team', 'Support_Team'}},
                     },
                     OptionSlots = {
                         { 3.24, 0, 0.17},

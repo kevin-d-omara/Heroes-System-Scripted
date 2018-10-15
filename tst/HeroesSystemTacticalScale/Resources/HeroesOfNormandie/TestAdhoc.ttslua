@@ -47,19 +47,19 @@ function Test:SetupBattlefield()
         rotation = {0, 180, 0},
     })
 
-    PlaceSpecial("HoN.Core_Box.US.RiflePlatoon22nd.Recruitment_Tile", {
+    PlaceSpecial("HoN.Core_Box.US.Rifle_Platoon_22nd.Recruitment_Tile", {
         position = {0, 0, -10},
         rotation = {0, 180, 0},
     })
-    PlaceSpecial("HoN.Core_Box.US.RiflePlatoon22nd.Halftrack_1", {
+    PlaceSpecial("HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_1", {
         position = {14.6, posAbove, -3.3},
         rotation = {0, 135, 0},
     })
-    PlaceSpecial("HoN.Core_Box.US.RiflePlatoon22nd.Fire_Team", {
+    PlaceSpecial("HoN.Core_Box.US.Rifle_Platoon_22nd.Fire_Team", {
         position = {15.7, posAbove, 0},
         rotation = {0, 180, 0},
     })
-    PlaceSpecial("HoN.Core_Box.US.RiflePlatoon22nd.Recon_Team", {
+    PlaceSpecial("HoN.Core_Box.US.Rifle_Platoon_22nd.Recon_Team", {
         position = {13.45, posAbove, -6.66},
         rotation = {0, 180, 0},
         flip = true,
