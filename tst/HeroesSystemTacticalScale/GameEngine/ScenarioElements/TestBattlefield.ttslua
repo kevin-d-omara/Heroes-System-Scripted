@@ -13,6 +13,6 @@ function Test:LayoutScenario_Out_of_Gas()
     local scenarios = Database.GetData("HoN.Core_Box.Scenarios")
     local scenario = scenarios[2]   -- Out_of_Gas scenario
     local battlefield = Battlefield(scenario.Model.Battlefield)
-    
-    battlefield:PlaceAllTiles()
+
+    battlefield:SetupOntoTable()
 end
