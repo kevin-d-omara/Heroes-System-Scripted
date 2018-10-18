@@ -1,5 +1,6 @@
 #include !/Lua/Table/GetElementFromNestedTables
 #include !/Lua/Table/DeepCopy
+#include !/TabletopSimulator/Object/CallIfExists
 #include !/HeroesSystemTacticalScale/GameEngine/Model/HeroesClassMapper
 
 --[[
@@ -13,6 +14,7 @@ Database = {
 Return the data specified by the path (i.e. "HoN.Core_Box.Terrain.C6_A").
 --]]
 function Database.GetData(path)
+    -- TODO: If path is an alias, replace it with the true path.
     return GetElementFromNestedTables("Database.Data." .. path)
 end
 
@@ -58,22 +60,4 @@ function Database.Initialize()
             end
         end
     end
-end
-
---[[
-## Summary
-Call a Lua function on another entity, but only if it exists.
-See: https://api.tabletopsimulator.com/object/#call
-
-## Return
-<var> result: The return value of the entity's function, or false if the function does not exist.
-<bool> success: True if the function exists, false otherwise.
---]]
-function CallIfExists(obj, func_name, func_params)
-    local func = obj.getVar(func_name)
-    if func == nil then
-        return nil, false
-    end
-
-    return obj.call(func_name, func_params), true
 end

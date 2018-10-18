@@ -1,0 +1,17 @@
+--[[
+## Summary
+Call a Lua function on another entity, but only if it exists.
+See: https://api.tabletopsimulator.com/object/#call
+
+## Return
+<var> result: The return value of the entity's function, or false if the function does not exist.
+<bool> success: True if the function exists, false otherwise.
+--]]
+function CallIfExists(obj, func_name, func_params)
+    local func = obj.getVar(func_name)
+    if func == nil then
+        return nil, false
+    end
+
+    return obj.call(func_name, func_params), true
+end
