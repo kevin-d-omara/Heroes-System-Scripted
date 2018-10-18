@@ -1,0 +1,40 @@
+--[[ Bounds Checker ]]
+--[[
+Attach this script to any object.
+
+Prints the bounds (https://api.tabletopsimulator.com/object/#getbounds) of any object placed on top of this object.
+--]]
+
+function onCollisionEnter(collision_info)
+    obj = collision_info.collision_object
+
+    -- 'nil' is the table itself
+    if obj.guid ~= nil then
+        local bounds = obj.getBounds()
+        PrintBounds(bounds)
+    end
+end
+
+--[[
+Example of what is printed:
+{
+    center = {x=0, y=3, z=0}
+    size = {x=5, y=5, z=5}
+    offset = {x=0, y=-1}
+}
+--]]
+function PrintBounds(bounds)
+    local center = "center = {x=" .. trim(bounds.center.x) .. ", y=" .. trim(bounds.center.y) .. ", z=" .. trim(bounds.center.z) .. "}"
+    local size   = "size   = {x=" .. trim(bounds.size.x)   .. ", y=" .. trim(bounds.size.y)   .. ", z=" .. trim(bounds.size.z)   .. "}"
+    local offset = "offset = {x=" .. trim(bounds.offset.x) .. ", y=" .. trim(bounds.offset.y) .. ", z=" .. trim(bounds.offset.z) .. "}"
+
+    print("{")
+    print("    " .. center)
+    print("    " .. size)
+    print("    " .. offset)
+    print("}")
+end
+
+function trim(num)
+    return string.format("%.2f", num)
+end

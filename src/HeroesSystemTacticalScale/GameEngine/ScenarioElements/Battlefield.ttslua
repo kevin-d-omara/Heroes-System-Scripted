@@ -27,8 +27,8 @@ class Battlefield
     -- Methods
     void SetupOntoTable()
 
-    void PlaceOnTerrainSpace(path, terrainAlias, index, options) index), options)
-    void PlaceOnTerrainInterspace(path, terrainAlias, index, options) index), options)
+    void PlaceOnTerrainSpace(path, terrainAlias, index, options)
+    void PlaceOnTerrainInterspace(path, terrainAlias, index, options)
     void PlaceOnBattlefieldSpace(path, index, options)
     void PlaceOnBattlefieldInterspace(path, index, options) options)
     void PlaceOnBattlefield(path, worldPosition, options)
@@ -166,8 +166,8 @@ function Battlefield:new(parameters)
     obj.Width           = parameters.Width
     obj.Height          = parameters.Height
     obj.TerrainBoards   = parameters.TerrainBoards
-    obj.TerrainTiles    = parameters.TerrainTiles
-    obj.Objects         = parameters.Objects
+    obj.TerrainTiles    = parameters.TerrainTiles or {}
+    obj.Objects         = parameters.Objects or {}
     obj.AliasToTerrainBoardMap = AliasToTerrainBoardMap
 
     return obj
@@ -197,13 +197,10 @@ function Battlefield:SetupOntoTable()
         local options   = tile[5]
         options.lockObject = true
 
-        -- Temporary hack to place *on top* of other objects.
         if indexType == "space" then
-            local worldPosition = self:GetWorldPositionForTerrainSpace(alias, index) + Vector3.up
-            self:PlaceOnBattlefield(path, worldPosition, options)
+            self:PlaceOnTerrainSpace(path, alias, index, options)
         elseif indexType == "interspace" then
-            local worldPosition = self:GetWorldPositionForTerrainInterspace(alias, index) + Vector3.up
-            self:PlaceOnBattlefield(path, worldPosition, options)
+            self:PlaceOnTerrainInterspace(path, alias, index, options)
         else
             error()
         end
@@ -217,13 +214,10 @@ function Battlefield:SetupOntoTable()
         local indexType = object[4]
         local options   = object[5]
 
-        -- Temporary hack to place *on top* of other objects.
         if indexType == "space" then
-            local worldPosition = self:GetWorldPositionForTerrainSpace(alias, index) + Vector3.up
-            self:PlaceOnBattlefield(path, worldPosition, options)
+            self:PlaceOnTerrainSpace(path, alias, index, options)
         elseif indexType == "interspace" then
-            local worldPosition = self:GetWorldPositionForTerrainInterspace(alias, index) + Vector3.up
-            self:PlaceOnBattlefield(path, worldPosition, options)
+            self:PlaceOnTerrainInterspace(path, alias, index, options)
         else
             error()
         end
@@ -262,23 +256,63 @@ The object is placed on top of anything already existing in the Game World, rega
         [Optional, defaults to false.]
 --]]
 function Battlefield:PlaceOnBattlefield(path, worldPosition, options)
-    worldPosition = worldPosition + Vector3.up * UnitOfMeasurement.MinimumPlacementHeight   -- TODO: Place the object *above* other existing objects.
-
     local options         = options or {}
     local rotationDegrees = options.rotation  or 0
     local isFlipped       = options.isFlipped or false
 
-    local callback_function = nil
-    if options.lockObject then
-        callback_function = |obj| obj.setLock(true)
+    local callback_function = function(obj)
+        worldPosition = worldPosition + Vector3.up * Battlefield.GetMinimumPlacementHeight(worldPosition, obj)
+        obj.setPosition(worldPosition)
+
+        if options.lockObject then
+            obj.setLock(true)
+        end
     end
 
     Place(path, {
-        position = worldPosition,
+        position = {100,1,1}, -- TODO: Make this somewhere else, like on top of the bag or something.
         rotation = {0,rotationDegrees,0},
         flip = isFlipped,
         callback_function = callback_function,
     })
+end
+
+--[[
+## Summary
+Return the minimum height (y-axis) that the object may be placed and still be on top of all other objects below it.
+
+## Parameters
+<Vector3> worldPosition: The (x,y,z) point in the Game World to check. The y component is ignored.
+<Tabletop Simulator Object> object: The object that will be placed.
+--]]
+function Battlefield.GetMinimumPlacementHeight(worldPosition, object)
+    local MAX_CAST_HEIGHT = 1000    -- The Maximum height (y-axis) from which a Physics box cast will still return hits.
+
+    local bounds = object.getBounds()
+    local castSize = Vector3(bounds.size) * 0.99    -- Scale down slightly to avoid clipping with closely placed neighbors.
+    local castOrigin = Vector3(
+        worldPosition.x,
+        MAX_CAST_HEIGHT,
+        worldPosition.z
+    )
+    local hits = Physics.cast({
+        origin       = castOrigin,
+        direction    = Vector3.down,
+        type         = 3,           -- Box shaped cast.
+        size         = castSize,
+    })
+
+    -- Despite what the documentation states, entries are not in the order of being it.
+    -- See: https://api.tabletopsimulator.com/physics/#cast
+    local maxHeight = 0
+    for i,hit in ipairs(hits) do
+        local height = hit.point.y
+        if height > maxHeight then
+            maxHeight = height
+        end
+    end
+
+    return maxHeight
 end
 
 --[[

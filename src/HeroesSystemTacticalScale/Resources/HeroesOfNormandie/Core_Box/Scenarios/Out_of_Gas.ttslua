@@ -1,8 +1,5 @@
 --[[
 Learnings:
-    * How do we make sure objects are placed on top of each other?
-        - Naive implementation: store list of all objects. Do AABB bounding box to get a list of objects. Then z-order them and place above with an offset.
-        - Optimized: use a quadtree to find collisions.
     * How do we handle randomized Bonus Tactics (etc.)?
         - Include "RandomCollections" as a defineable class in the 'object.ttslua' config file. Add a special HeroesSystemTacticalScale "get resource by string" wrapper that does the lookup and substitution.
 --]]

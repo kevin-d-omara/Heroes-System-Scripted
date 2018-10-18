@@ -3,7 +3,6 @@ Magic numbers for converting *to* Unity Units (the unit of measurement of Tablet
 --]]
 UnitOfMeasurement = {
     Cell = 2.2375,                  -- 1 Terrain tile cell = 2.2375 Unity Units = 458 pixels in Photoshop
-    MinimumPlacementHeight = 0.96,  -- The lowest y-value that objects should be placed on the table with to prevent them from getting stuck inside the table.
     TerrainThickness = 0.2,         -- The "Thickness" value of the Custom Tile/Token for terrain related objects.
     DefaultThickness = 0.16,        -- The default "Thickness" value of the Custom Tile/Token for all HeroesSystemTacticalScale objects.
 }
