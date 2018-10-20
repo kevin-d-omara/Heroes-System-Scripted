@@ -1,21 +1,61 @@
-#include !/Lua/Table/GetElementFromNestedTables
 #include !/Lua/Table/DeepCopy
+#include !/Lua/Table/AliasMapper
+#include !/Lua/Table/GetElementFromNestedTables
 #include !/TabletopSimulator/Object/CallIfExists
 #include !/HeroesSystemTacticalScale/GameEngine/Model/HeroesClassMapper
 
 --[[
-Holds the TTSObject trees that define how Tabletop Simulator Objects are stored in the game world and also has the scenarios.
+## Class
+static class Database
+{
+    -- Static Fields
+
+    -- Static Methods
+    void Initialize()
+    void PlaceObject(path, parameters)
+    table GetData(path)
+}
+
+## Summary
+Database provides access to the Tabletop Simulator Objects that are nested in bags in the Game World.
 --]]
 Database = {
-    Data = {}
+    Data = {},
+    AliasMapper = AliasMapper(),
 }
 
 --[[
-Return the data specified by the path (i.e. "HoN.Core_Box.Terrain.C6_A").
+## Summary
+Take on object from the database and place it somewhere in the game world.
+
+## Summary
+<string> path: The path to the object (i.e. "HoN.Core_Box.Terrain.C6_A").
+<table> parameters: The same parameters as https://api.tabletopsimulator.com/object/#takeobject, plus:
+    <bool> asCopy: If true, leave a copy of the final object in the container. The copy will have the same GUID as was used to get it, but the returned object will have a new GUID.
+        [Optional, defaults to true.]
+--]]
+function Database.PlaceObject(path, parameters)
+    local ttsObject = Database.GetData(path)
+    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
+end
+
+--[[
+Return the data stored in the database by the path (i.e. "HoN.Core_Box.Terrain.C6_A" or "HoN.Core_Box.Scenarios").
+
+The path may be a registered alias (i.e. "HoN.Core_Box.Scenario.Bonus_Tactic").
 --]]
 function Database.GetData(path)
-    -- TODO: If path is an alias, replace it with the true path.
-    return GetElementFromNestedTables("Database.Data." .. path)
+    local rawPath = Database.AliasMapper:GetKey(path)
+    return Database._GetDataWithoutAlias(rawPath)
+end
+
+function Database._GetDataWithoutAlias(path)
+    local data = GetElementFromNestedTables("Database.Data." .. path)
+    if data == nil then
+        error("Data not found for path: '" .. tostring(path) .. "'. Check to make sure your spelling is correct and that all of the dependencies for this data exist.")
+    end
+
+    return data
 end
 
 --[[
@@ -27,6 +67,10 @@ Searches the game world for all game objects that have product information provi
         GetObjects()    -- If the product has physical components (i.e. terrain tiles, recruitment tiles, etc.).
         GetScenarios()  -- If the product has scenarios.
 
+Aslo searches for game objects that have the following functions defined:
+    Optional:
+        GetAliases()    -- If the product has any aliases. This may actually be used on its own, without GetProductInfo() being defined.
+
 Users can add and share their own creations by creating a single bag containing all physical components and with a script attached with these functions.
 
 ## Output
@@ -35,29 +79,88 @@ Each unique "Name" key (from GetProductInfo) is a table directly within the "Gam
 Each unique "Name" key (from GetScenarios) is a table directly within the product table that has the contents of GetScenarios() transformed into classes from HeroesSystemTacticalScale.
 --]]
 function Database.Initialize()
-    local spawnedObjects = getAllObjects()
-    for i,product in ipairs(spawnedObjects) do
-        local info = CallIfExists(product, 'GetProductInfo')
-        if info ~= nil then
-            -- Create a table for this new game system (i.e. Database.Data.HoN becomes a table, etc.)
-            if Database.Data[info.Game] == nil then
-                Database.Data[info.Game] = {}
-            end
+    local objects = getAllObjects()
 
-            -- Load the physical contents for this product.
-            local objects = CallIfExists(product, 'GetObjects')
-            if objects ~= nil then
-                local copiedObjects = DeepCopy(objects)
-                local mappedObjects = HeroesMapper:MapToClassRecursive(copiedObjects)
-                local objectTree = TTSObject.GenerateObjectTree(mappedObjects)
-                Database.Data[info.Game][info.Name] = objectTree
-            end
+    for i,object in ipairs(objects) do
+        local info = CallIfExists(object, 'GetProductInfo')
+        Database.AddProduct(object, info)
+    end
 
-            -- Load the scenarios for this product.
-            local scenarios = CallIfExists(product, 'GetScenarios')
-            if scenarios ~= nil then
-                Database.Data[info.Game][info.Name].Scenarios = scenarios
+    -- Add the aliases after adding all products in case an alias references another product.
+    for i,object in ipairs(objects) do
+        local aliases = CallIfExists(object, 'GetAliases')
+        Database.AddAliases(aliases)
+    end
+end
+
+function Database.AddProduct(gameObject, info)
+    if info ~= nil then
+        -- Create a table for this new game system (i.e. Database.Data.HoN becomes a table, etc.)
+        if Database.Data[info.Game] == nil then
+            Database.Data[info.Game] = {}
+        end
+
+        local objects = CallIfExists(gameObject, 'GetObjects')
+        if objects ~= nil then
+            local copiedObjects = DeepCopy(objects)
+            local mappedObjects = HeroesMapper:MapToClassRecursive(copiedObjects)
+            local objectTree = TTSObject.GenerateObjectTree(mappedObjects)
+            Database.Data[info.Game][info.Name] = objectTree
+        end
+
+        local scenarios = CallIfExists(gameObject, 'GetScenarios')
+        if scenarios ~= nil then
+            Database.Data[info.Game][info.Name].Scenarios = scenarios
+        end
+    end
+end
+
+function Database.AddAliases(aliases)
+    if aliases ~= nil then
+        local randomMaps = aliases.RandomMaps
+        for i,map in ipairs(randomMaps) do
+            local alias = map[1]
+            local keys  = map[2]
+
+            if type(keys) == "table" then
+                Database.AliasMapper:AddRandomMap(alias, keys)
+            else
+                local prefix, pattern, tbl = Database.GetPreffixAndPostfix(keys)
+                Database.AliasMapper:AddRandomMapByPattern(alias, prefix .. ".", pattern, tbl)
             end
         end
+    end
+end
+
+--[[
+## Parameters
+Split a table path into a prefix and postfix based on where the table doesn't have the next key.
+
+It works by splitting the string on '.' and then traversing the table until a key is nil.
+Then it returns the string up to that point as the preffix, and the remaining string as the pattern.
+
+Warning: this is not resilient to typos.
+
+## Return
+<string> prefix: The table path leading up to the missing key.
+<string> postfix: The table path from the missing key to the end.
+<table> tbl: The table that was missing the next key.
+
+## Example
+local foo = {bar = {baz = 'buz'}}
+Database.GetPreffixAndPostfix("foo.bar.baz.b.*")  -- "foo.bar.baz", "buz", (table: foo.bar.baz)
+--]]
+#include !/Lua/String/SplitString
+function Database.GetPreffixAndPostfix(str)
+    local keys = SplitString(str, ".")
+    local tbl = Database._GetDataWithoutAlias(keys[1])
+    for i = 2, #keys do
+        local nextTbl = tbl[keys[i]]
+        if nextTbl == nil then
+            local prefix  = table.concat(keys, ".", 1, i - 1)
+            local postfix = table.concat(keys, ".", i, #keys)
+            return prefix, postfix, tbl
+        end
+        tbl = nextTbl
     end
 end

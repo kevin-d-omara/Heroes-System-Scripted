@@ -1,0 +1,145 @@
+--[[
+## Class
+class AliasMapper
+{
+    -- Fields
+
+    -- Constructors
+    AliasMapper:new()
+    AliasMapper()
+
+    -- Methods
+    string GetKey(alias)
+    void AddRandomMap(alias, keys)
+    void AddRandomMapByPattern(alias, preffix, pattern, tbl)
+}
+
+## Summary
+A data structure that maps aliases (strings) to keys (other strings).
+--]]
+
+local AliasMapper = {}
+
+-- Can create a new AliasMapper instance by calling either AliasMapper:new() or just AliasMapper().
+setmetatable(AliasMapper, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+Return a new instance of an AliasMapper.
+--]]
+function AliasMapper:new()
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.FixedMaps  = {}
+    obj.RandomMaps = {}
+
+    return obj
+end
+
+--[[
+Return the key pointed to by the alias, or the alias itself if it is not a registered alias.
+
+## Example
+myAliasMapper:GetKey("HoN.Terrain.C6_A")                           -- "HoN.Core_Box.Terrain.C6_A"
+myAliasMapper:GetKey("HoN.Core_Box.Tokens.Bonus_Tactic_Random")    -- "HoN.Core_Box.Tokens.Bonus_Tactic_Card" (or any other bonus tactic)
+--]]
+function AliasMapper:GetKey(alias)
+    local randomMap = self.RandomMaps[alias]
+    if randomMap ~= nil then
+        local index = math.random(#randomMap)
+        return randomMap[index]
+    end
+
+    local key = self.FixedMaps[alias]
+    if key ~= nil then
+        return key
+    end
+
+    return alias
+end
+
+--[[
+## Summary
+Register an alias that maps to one or more keys, using a pattern to specify the keys. A random key will be returned when `GetKey()` is called for this alias.
+
+If the alias is already registered, the keys will be added to the existing aliases set of random keys.
+
+## Parameters
+<string> alias: The alias to register.
+<string> preffix: A preffix to prepend to the keys.
+<string> pattern: A Lua pattern (see: https://www.lua.org/pil/20.2.html and http://lua-users.org/wiki/PatternsTutorial).
+<table> tbl: The table to find the keys in.
+
+## Example
+AddRandomMap("HoN.Terrain.Random_Thicket", "HoN.Core_Box.Terrain.", "Thicket_.*", HoN.Core_Box.Terrain)
+AddRandomMap("HoN.Terrain.Random_Position", "HoN.Core_Box.Terrain.", "Position_%d", HoN.Core_Box.Terrain)
+--]]
+function AliasMapper:AddRandomMapByPattern(alias, preffix, pattern, tbl)
+    local matches = self:_FindMatchingKeys(pattern, tbl)
+    local keys = {}
+    for i,v in ipairs(matches) do
+        keys[i] = preffix .. v
+    end
+
+    self:AddRandomMap(alias, keys)
+end
+
+--[[
+## Summary
+Register an alias that maps to one or more keys, using an array to specify the keys. A random key will be returned when `GetKey()` is called for this alias.
+
+If the alias is already registered, the keys will be added to the existing aliases set of random keys.
+
+## Parameters
+<string> alias: The alias to register.
+<array> keys: The keys to register for this alias.
+
+## Example
+AddRandomMap("HoN.Terrain.Random_Thicket", {"HoN.Core_Box.Terrain.Thicket_1", "HoN.Core_Box.Terrain.Thicket_2"})
+--]]
+function AliasMapper:AddRandomMap(alias, keys)
+    if self.FixedMaps[alias] then
+        -- Alias already exists, append keys to it.
+        local map = self.RandomMaps[alias]
+        for i,v in ipairs(keys) do
+            map[#map + 1] = v
+        end
+    else
+        -- Alias is new, create a new mapping with the keys.
+        self.RandomMaps[alias] = keys
+    end
+end
+
+--[[
+## Summary
+Return all keys in the table that match the pattern.
+
+The pattern must be a valid Lua pattern as seen here: https://www.lua.org/pil/20.2.html and http://lua-users.org/wiki/PatternsTutorial.
+
+## Parameters
+<string> pattern: A Lua pattern (see: https://www.lua.org/pil/20.2.html and http://lua-users.org/wiki/PatternsTutorial).
+<table> table: The table to check for matching keys.
+
+## Example
+HoN = {
+    Terrain = {
+        C1_A        = '77cyf6',
+        C1_B        = 'iu6qdz',
+        Thicket_1   = '5uwlmz',
+        Thicket_2   = 'hanvil',
+    }
+}
+_FindMatchingKeys("C%d_%w", HoN.Terrain)  -- Returns {"C1_A", "C1_B"}
+--]]
+function AliasMapper:_FindMatchingKeys(pattern, tbl)
+    local keys = {}
+    for k,v in pairs(tbl) do
+        local match = string.match(k, pattern)
+        if match and #match == #k then
+            keys[#keys + 1] = match
+        end
+    end
+    return keys
+end

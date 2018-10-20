@@ -1,0 +1,18 @@
+function GetAliases()
+    return {
+        RandomMaps = {
+            -- Terrain
+            {"HoN.Core_Box.Terrain.Position", "HoN.Core_Box.Terrain.Position_%d"},
+            {"HoN.Core_Box.Terrain.Thicket" , "HoN.Core_Box.Terrain.Thicket_%d"},
+
+            -- Tokens
+                -- Scenarios
+            {"HoN.Core_Box.Tokens.Bonus_Tactic"          , "HoN.Core_Box.Tokens.Bonus_Tactic_.*"},
+            {"HoN.Core_Box.Tokens.Secondary_Objective_US", "HoN.Core_Box.Tokens.Secondary_Objective_US_%d"},
+            {"HoN.Core_Box.Tokens.Secondary_Objective_GE", "HoN.Core_Box.Tokens.Secondary_Objective_GE_%d"},
+            {"HoN.Core_Box.Tokens.Item"                  , "HoN.Core_Box.Tokens.Item_.*"},
+                -- Gameplay
+            {"HoN.Core_Box.Tokens.Vehicle_Damage", "HoN.Core_Box.Tokens.Vehicle_Damage_.*"},
+        },
+    }
+end

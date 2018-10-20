@@ -1,8 +1,3 @@
---[[
-Learnings:
-    * How do we handle randomized Bonus Tactics (etc.)?
-        - Include "RandomCollections" as a defineable class in the 'object.ttslua' config file. Add a special HeroesSystemTacticalScale "get resource by string" wrapper that does the lookup and substitution.
---]]
 {
     Name = "Out_of_Gas",
     Model = {
@@ -18,18 +13,18 @@ Learnings:
                 {"HoN.Core_Box.Terrain.C3_A"},
             },
             TerrainTiles = {
-                -- path                                          , tile,  index,    index-type,   options{} (most are the same as in the Tile class)
-                {"HoN.Core_Box.Terrain.Thicket_1"                , "C5_A", {2,1},   "space"     },                      -- Showcase random selection.
-                {"HoN.Core_Box.Terrain.Thicket_2"                , "C5_A", {6,2},   "space"     },  -- TODO: Use aliases instead, ex: "HoN.Core_Box.Terrain.Thicket_Random
-                {"HoN.Core_Box.Terrain.Thicket_3"                , "C4_B", {7,3},   "space"     },
-                {"HoN.Core_Box.Terrain.House_2x1"                , "C4_B", {1,3.5}, "space"     , {rotation =  90}},    -- Showcase half-spacing placement.
-                {"HoN.Core_Box.Terrain.House_1x1"                , "C5_A", {2,5},   "interspace", {rotation = 180}},    -- Showcase rotation.
+                -- path                                          , tile,   index,   index-type,   options{}
+                {"HoN.Core_Box.Terrain.Thicket"                  , "C5_A", {2,1},   "space"     },                      -- Showcase random selection.
+                {"HoN.Core_Box.Terrain.Thicket"                  , "C5_A", {6,2},   "space"     },
+                {"HoN.Core_Box.Terrain.Thicket"                  , "C4_B", {7,3},   "space"     },
+                {"HoN.Core_Box.Terrain.House_2x1"                , "C4_B", {1,3.5}, "space"     , {rotation =  90}},    -- Showcase half-spacing placement and rotation.
+                {"HoN.Core_Box.Terrain.House_1x1"                , "C5_A", {2,5},   "interspace", {rotation = 180}},
             },
             Objects = {
-                {"HoN.Core_Box.Tokens.Objective_Gas"             , "C5_A", {2,5},   "interspace"},
-                {"HoN.Core_Box.Tokens.Bonus_Tactic_Initiative"   , "C6_A", {2,1},   "interspace"},  -- TODO: Use aliases instead, ex: HoN.Core_Box.Tokens.Bonus_Tactic_Random
-                {"HoN.Core_Box.Tokens.Bonus_Tactic_Card"         , "C5_A", {2,0},   "interspace"},
-                {"HoN.Core_Box.Tokens.Bonus_Tactic_Order"        , "C5_A", {5,3},   "interspace"},
+                {"HoN.Core_Box.Tokens.Item_Gas"                  , "C5_A", {2,5},   "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C6_A", {2,1},   "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C5_A", {2,0},   "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C5_A", {5,3},   "interspace"},
                 {"HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_1", "C6_A", {4.5,0}, "interspace"},
                 {"HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_2", "C6_A", {5.5,0}, "interspace", {isFlipped = true}},  -- Showcase flipping of object.
             },

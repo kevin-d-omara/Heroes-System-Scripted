@@ -66,7 +66,7 @@ function GetObjects()
             Blast_Blue      = '3469l4',
             Blast_Orange    = 'ucrfq8',
 
-            -- Objective Locations
+            -- Objectives
             Primary_Objective           = 'b3lq0l',
             Primary_Objective_US        = '4a7qtf',
             Primary_Objective_GE        = 'kgber1',
@@ -78,15 +78,15 @@ function GetObjects()
             Secondary_Objective_GE_2    = 'e9lcew',
             Secondary_Objective_GE_3    = '97fxcn',
 
-            -- Special Objective Objects
-            Objective_Detonator = 'kzooxk',
-            Objective_Antenna   = '6fihup',
-            Objective_Gas       = 'wzsvur',
-            Objective_Files     = 'i4z363',
-            Objective_Micro     = 'dcf64f',
-            Objective_Dynamite  = 'c7qyu4',
-            Objective_Radio     = 'sgkp3o',
-            Objective_Rex       = '1d4xgw',
+            -- Items
+            Item_Detonator = 'kzooxk',
+            Item_Antenna   = '6fihup',
+            Item_Gas       = 'wzsvur',
+            Item_Files     = 'i4z363',
+            Item_Micro     = 'dcf64f',
+            Item_Dynamite  = 'c7qyu4',
+            Item_Radio     = 'sgkp3o',
+            Item_Rex       = '1d4xgw',
 
             -- Bonus Tactics
             Bonus_Tactic_Initiative     = '5xr9v2',

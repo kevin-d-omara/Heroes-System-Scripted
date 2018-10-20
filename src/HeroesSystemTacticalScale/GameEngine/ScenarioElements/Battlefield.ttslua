@@ -3,10 +3,6 @@
 #include !/TabletopSimulator/Vector3
 
 #include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
-function Place(path, parameters)
-    local ttsObject = Database.GetData(path)
-    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
-end
 
 --[[
 ## Class
@@ -269,7 +265,7 @@ function Battlefield:PlaceOnBattlefield(path, worldPosition, options)
         end
     end
 
-    Place(path, {
+    Database.PlaceObject(path, {
         position = {100,1,1}, -- TODO: Make this somewhere else, like on top of the bag or something.
         rotation = {0,rotationDegrees,0},
         flip = isFlipped,

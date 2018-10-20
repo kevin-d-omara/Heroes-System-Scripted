@@ -6,4 +6,5 @@ function GetProductInfo()
 end
 
 #include objects
+#include aliases
 #include Scenarios/_all
