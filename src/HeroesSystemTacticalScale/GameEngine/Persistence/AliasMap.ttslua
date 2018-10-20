@@ -1,32 +1,36 @@
+#include !/Lua/Collections/RandomSet
+
 --[[
 ## Class
-class AliasMapper
+class AliasMap
 {
     -- Fields
 
     -- Constructors
-    AliasMapper:new()
-    AliasMapper()
+    AliasMap:new()
+    AliasMap()
 
     -- Methods
     string GetKey(alias)
-    void AddRandomMap(alias, keys)
-    void AddRandomMapByPattern(alias, preffix, pattern, tbl)
+    void AddRandomMap(alias, keys, options)
+    void AddRandomMapByPattern(alias, preffix, pattern, tbl, options)
 }
 
 ## Summary
-A data structure that maps aliases (strings) to keys (other strings).
+A dictionary structure that maps keys to other keys.
+
+Keys can be mapped either 1:1 or 1:many. In a 1:many mapping, the keys are returned in a random order.
 --]]
 
-local AliasMapper = {}
+local AliasMap = {}
 
--- Can create a new AliasMapper instance by calling either AliasMapper:new() or just AliasMapper().
-setmetatable(AliasMapper, { __call = function(self, ...) return self:new(...) end })
+-- Can create a new AliasMap instance by calling either AliasMap:new() or just AliasMap().
+setmetatable(AliasMap, { __call = function(self, ...) return self:new(...) end })
 
 --[[
-Return a new instance of an AliasMapper.
+Return a new instance of an AliasMap.
 --]]
-function AliasMapper:new()
+function AliasMap:new()
     local obj = {}
     setmetatable(obj, self)
     self.__index = self
@@ -42,14 +46,13 @@ end
 Return the key pointed to by the alias, or the alias itself if it is not a registered alias.
 
 ## Example
-myAliasMapper:GetKey("HoN.Terrain.C6_A")                           -- "HoN.Core_Box.Terrain.C6_A"
-myAliasMapper:GetKey("HoN.Core_Box.Tokens.Bonus_Tactic_Random")    -- "HoN.Core_Box.Tokens.Bonus_Tactic_Card" (or any other bonus tactic)
+myAliasMap:GetKey("HoN.Terrain.C6_A")                           -- "HoN.Core_Box.Terrain.C6_A"
+myAliasMap:GetKey("HoN.Core_Box.Tokens.Bonus_Tactic_Random")    -- "HoN.Core_Box.Tokens.Bonus_Tactic_Card" (or any other bonus tactic)
 --]]
-function AliasMapper:GetKey(alias)
-    local randomMap = self.RandomMaps[alias]
-    if randomMap ~= nil then
-        local index = math.random(#randomMap)
-        return randomMap[index]
+function AliasMap:GetKey(alias)
+    local randomSet = self.RandomMaps[alias]
+    if randomSet ~= nil then
+        return randomSet:GetElement()
     end
 
     local key = self.FixedMaps[alias]
@@ -71,19 +74,21 @@ If the alias is already registered, the keys will be added to the existing alias
 <string> preffix: A preffix to prepend to the keys.
 <string> pattern: A Lua pattern (see: https://www.lua.org/pil/20.2.html and http://lua-users.org/wiki/PatternsTutorial).
 <table> tbl: The table to find the keys in.
+<table> options: Optional, with the following key values pairs:
+    <bool> withReplacement: If true, any key may be returned by 'GetKey()' multiple times. If false, all keys will be returned once before any key is returned a second time. Set to true if the alias should be used like a dice roll (ex: Vehicle Damage markers). Set to false if the alias should be used like an exhuastible collection (ex: Bonus Tactic objectives).
 
 ## Example
 AddRandomMap("HoN.Terrain.Random_Thicket", "HoN.Core_Box.Terrain.", "Thicket_.*", HoN.Core_Box.Terrain)
 AddRandomMap("HoN.Terrain.Random_Position", "HoN.Core_Box.Terrain.", "Position_%d", HoN.Core_Box.Terrain)
 --]]
-function AliasMapper:AddRandomMapByPattern(alias, preffix, pattern, tbl)
+function AliasMap:AddRandomMapByPattern(alias, preffix, pattern, tbl, options)
     local matches = self:_FindMatchingKeys(pattern, tbl)
     local keys = {}
     for i,v in ipairs(matches) do
         keys[i] = preffix .. v
     end
 
-    self:AddRandomMap(alias, keys)
+    self:AddRandomMap(alias, keys, options)
 end
 
 --[[
@@ -95,20 +100,22 @@ If the alias is already registered, the keys will be added to the existing alias
 ## Parameters
 <string> alias: The alias to register.
 <array> keys: The keys to register for this alias.
+<table> options: Optional, with the following key values pairs:
+    <bool> withReplacement: If true, any key may be returned by 'GetKey()' multiple times. If false, all keys will be returned once before any key is returned a second time. Set to true if the alias should be used like a dice roll (ex: Vehicle Damage markers). Set to false if the alias should be used like an exhuastible collection (ex: Bonus Tactic objectives).
 
 ## Example
 AddRandomMap("HoN.Terrain.Random_Thicket", {"HoN.Core_Box.Terrain.Thicket_1", "HoN.Core_Box.Terrain.Thicket_2"})
 --]]
-function AliasMapper:AddRandomMap(alias, keys)
-    if self.FixedMaps[alias] then
-        -- Alias already exists, append keys to it.
-        local map = self.RandomMaps[alias]
+function AliasMap:AddRandomMap(alias, keys, options)
+    local randomSet = self.FixedMaps[alias]
+    if randomSet then
+        -- Alias is already registered, append keys to it.
         for i,v in ipairs(keys) do
-            map[#map + 1] = v
+            randomSet:AddElement(v)
         end
     else
         -- Alias is new, create a new mapping with the keys.
-        self.RandomMaps[alias] = keys
+        self.RandomMaps[alias] = RandomSet(keys, options)
     end
 end
 
@@ -133,7 +140,7 @@ HoN = {
 }
 _FindMatchingKeys("C%d_%w", HoN.Terrain)  -- Returns {"C1_A", "C1_B"}
 --]]
-function AliasMapper:_FindMatchingKeys(pattern, tbl)
+function AliasMap:_FindMatchingKeys(pattern, tbl)
     local keys = {}
     for k,v in pairs(tbl) do
         local match = string.match(k, pattern)

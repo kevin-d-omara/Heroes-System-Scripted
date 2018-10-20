@@ -12,7 +12,7 @@ function GetAliases()
             {"HoN.Core_Box.Tokens.Secondary_Objective_GE", "HoN.Core_Box.Tokens.Secondary_Objective_GE_%d"},
             {"HoN.Core_Box.Tokens.Item"                  , "HoN.Core_Box.Tokens.Item_.*"},
                 -- Gameplay
-            {"HoN.Core_Box.Tokens.Vehicle_Damage", "HoN.Core_Box.Tokens.Vehicle_Damage_.*"},
+            {"HoN.Core_Box.Tokens.Vehicle_Damage", "HoN.Core_Box.Tokens.Vehicle_Damage_.*", {withReplacement = true}},
         },
     }
 end

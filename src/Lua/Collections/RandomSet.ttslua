@@ -1,0 +1,107 @@
+--[[
+## Class
+public class RandomSet
+{
+    -- Fields
+    bool WithReplacement
+
+    -- Constructors
+    public RandomSet:new(elements, options)
+    public RandomSet(elements, options)
+
+    -- Methods
+    void AddElement()
+    var GetElement()
+    void ClearTakenElements()
+}
+
+## Summary
+A collection of elements that may only be accessed in a random order.
+--]]
+
+local RandomSet = {}
+
+-- Can create a new RandomSet instance by calling either RandomSet:new() or just RandomSet().
+setmetatable(RandomSet, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+## Summary
+Create a new RandomSet containing the elements and with the options.
+
+## Parameters
+<array> elements: The elements to put in the random set.
+<table> options: The following key-value pairs:
+    [Optional, defaults to having no options.]
+    <bool> withReplacement: If false, calling GetElement() will remove the element from the set so it can no longer be taken until all elements have been taken once.
+        [Optional, defaults to false.]
+--]]
+function RandomSet:new(elements, options)
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    options = options or {}
+    obj.WithReplacement = options.withReplacement or false
+    obj.Elements = elements or {}
+
+    -- This array tracks which elements have been taken without being replaced.
+    local _IsTakenMask = {}
+    for i = 1, #obj.Elements do
+        _IsTakenMask[i] = false
+    end
+    obj._IsTakenMask = _IsTakenMask
+    obj._NumElementsRemaining = #obj.Elements
+
+    return obj
+end
+
+function RandomSet:AddElement(element)
+    self.Elements[#self.Elements + 1] = element
+    self._IsTakenMask[#self._IsTakenMask + 1] = false
+    self._NumElementsRemaining = self._NumElementsRemaining + 1
+end
+
+--[[
+## Summary
+Return a random element from the set, or nil if the set is empty.
+
+If 'self.WithReplacement' is false, the element is removed from the set.
+If all elements have been taken, the set will be reset so all elements are available again.
+--]]
+function RandomSet:GetElement()
+    if #self.Elements == 0 then
+        return nil
+    end
+    if self._NumElementsRemaining == 0 then
+        self:ClearTakenElements()
+    end
+
+    local rand = math.random(self._NumElementsRemaining)
+    local hitCount = 0
+    local i = 0
+    while hitCount < rand do
+        i = i + 1
+        if not self._IsTakenMask[i] then
+            hitCount = hitCount + 1
+        end
+    end
+
+    if not self.WithReplacement then
+        self._IsTakenMask[i] = true
+        self._NumElementsRemaining = self._NumElementsRemaining - 1
+    end
+
+    return self.Elements[i]
+end
+
+--[[
+## Summary
+Make all elements available to be taken again.
+--]]
+function RandomSet:ClearTakenElements()
+    for i,v in ipairs(self._IsTakenMask) do
+        self._IsTakenMask[i] = false
+    end
+    self._NumElementsRemaining = #self._IsTakenMask
+end

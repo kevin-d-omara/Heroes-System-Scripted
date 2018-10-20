@@ -1,5 +1,5 @@
+#include AliasMap
 #include !/Lua/Table/DeepCopy
-#include !/Lua/Table/AliasMapper
 #include !/Lua/Table/GetElementFromNestedTables
 #include !/TabletopSimulator/Object/CallIfExists
 #include !/HeroesSystemTacticalScale/GameEngine/Model/HeroesClassMapper
@@ -21,7 +21,7 @@ Database provides access to the Tabletop Simulator Objects that are nested in ba
 --]]
 Database = {
     Data = {},
-    AliasMapper = AliasMapper(),
+    AliasMap = AliasMap(),
 }
 
 --[[
@@ -45,7 +45,7 @@ Return the data stored in the database by the path (i.e. "HoN.Core_Box.Terrain.C
 The path may be a registered alias (i.e. "HoN.Core_Box.Scenario.Bonus_Tactic").
 --]]
 function Database.GetData(path)
-    local rawPath = Database.AliasMapper:GetKey(path)
+    local rawPath = Database.AliasMap:GetKey(path)
     return Database._GetDataWithoutAlias(rawPath)
 end
 
@@ -119,14 +119,15 @@ function Database.AddAliases(aliases)
     if aliases ~= nil then
         local randomMaps = aliases.RandomMaps
         for i,map in ipairs(randomMaps) do
-            local alias = map[1]
-            local keys  = map[2]
+            local alias     = map[1]
+            local keys      = map[2]
+            local options   = map[3]
 
             if type(keys) == "table" then
-                Database.AliasMapper:AddRandomMap(alias, keys)
+                Database.AliasMap:AddRandomMap(alias, keys, options)
             else
                 local prefix, pattern, tbl = Database.GetPreffixAndPostfix(keys)
-                Database.AliasMapper:AddRandomMapByPattern(alias, prefix .. ".", pattern, tbl)
+                Database.AliasMap:AddRandomMapByPattern(alias, prefix .. ".", pattern, tbl, options)
             end
         end
     end
