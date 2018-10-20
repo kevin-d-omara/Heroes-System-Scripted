@@ -14,7 +14,6 @@ class Battlefield
     array TerrainBoards
     array TerrainTiles
     array Objects
-    array AliasToTerrainBoardMap
 
     -- Constructors
     Battlefield:new(parameters)
@@ -107,6 +106,11 @@ function Battlefield:new(parameters)
     end
 
     if Battlefield._TerrainBoardIsMissingIndex(parameters.TerrainBoards) then
+        if #parameters.TerrainBoards ~= (parameters.Width * parameters.Height) then
+            local quantity = #parameters.TerrainBoards < (parameters.Width * parameters.Height) and 'few' or 'many'
+            error("There are too " .. quantity .. " Terrain Boards for the specified Width and Height: " .. tostring(parameters.Width) .. " by " .. tostring(parameters.Height) .. ".")
+        end
+
         Battlefield._AddIndexToTerrainBoards(parameters.TerrainBoards, parameters.Width, parameters.Height)
 
         -- Convert from terrain boards (7x7 spaces) to individual spaces.
@@ -129,6 +133,7 @@ function Battlefield:new(parameters)
         v[2].index  = Vector2(v[2].index)
         v[2].bounds = Vector2(v[2].bounds)
     end
+    parameters.TerrainTiles = parameters.TerrainTiles or {}
     for k,v in ipairs(parameters.TerrainTiles) do
         -- Set default values.
         v[5] = v[5] or {}
@@ -138,6 +143,7 @@ function Battlefield:new(parameters)
         -- Transform to Vector2.
         v[3] = Vector2(v[3])
     end
+    parameters.Objects = parameters.Objects or {}
     for k,v in ipairs(parameters.Objects) do
         -- Set default values.
         v[5] = v[5] or {}
@@ -149,9 +155,9 @@ function Battlefield:new(parameters)
     end
 
     -- A map from alias to terrain board.
-    local AliasToTerrainBoardMap = {}
+    local _AliasToTerrainBoardMap = {}
     for i,v in ipairs(parameters.TerrainBoards) do
-        AliasToTerrainBoardMap[v[2].alias] = v
+        _AliasToTerrainBoardMap[v[2].alias] = v
     end
 
     local obj = {}
@@ -164,7 +170,7 @@ function Battlefield:new(parameters)
     obj.TerrainBoards   = parameters.TerrainBoards
     obj.TerrainTiles    = parameters.TerrainTiles or {}
     obj.Objects         = parameters.Objects or {}
-    obj.AliasToTerrainBoardMap = AliasToTerrainBoardMap
+    obj._AliasToTerrainBoardMap = _AliasToTerrainBoardMap
 
     return obj
 end
@@ -346,7 +352,7 @@ function Battlefield:GetWorldPositionForTerrainInterspace(terrainAlias, index)
 end
 
 function Battlefield:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index)
-    local board = self.AliasToTerrainBoardMap[terrainAlias]
+    local board = self:_GetTerrainBoardForAlias(terrainAlias)
     local bounds = board[2].bounds
 
     local centerBoardBattlefield = board[2].index                                   -- The (x,y) Terrain Coordinates of the center of this board on the battlefield.
@@ -358,6 +364,15 @@ end
 
 function Battlefield:ConvertTerrainInterspaceToBattlefieldInterspace(terrainAlias, index)
     return self:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, Vector2(index) + {0.5, 0.5})
+end
+
+function Battlefield:_GetTerrainBoardForAlias(terrainAlias)
+    local board = self._AliasToTerrainBoardMap[terrainAlias]
+    if board == nil then
+        error("Terrain alias not found: '" .. tostring(terrainAlias) .. "'. Check your spelling and make sure this Terrain Board is actually being used.")
+    end
+
+    return board
 end
 
 --------------------------------------------------------------------------------
