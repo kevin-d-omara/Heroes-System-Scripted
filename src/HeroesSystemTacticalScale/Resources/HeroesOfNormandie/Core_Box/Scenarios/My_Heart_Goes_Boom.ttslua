@@ -1,0 +1,29 @@
+{
+    Name = "My_Heart_Goes_Boom",
+    Model = {
+        Battlefield = {
+            Width = 3,
+            Height = 2,
+            TerrainBoards = {
+                {"HoN.Core_Box.Terrain.C3_A", {rotation = -90}},
+                {"HoN.Core_Box.Terrain.C4_A", {rotation = 180}},
+                {"HoN.Core_Box.Terrain.C1_B"},
+                {"HoN.Core_Box.Terrain.C6_B", {rotation =  90}},
+                {"HoN.Core_Box.Terrain.C5_B", {rotation =  90}},
+                {"HoN.Core_Box.Terrain.C2_B", {rotation =  90}},
+            },
+            TerrainTiles = {
+                {"HoN.Core_Box.Terrain.Position"    , "C4_A", {4,6},   "space"},
+                {"HoN.Core_Box.Terrain.Position"    , "C4_A", {7,2},   "space"},
+                {"HoN.Core_Box.Terrain.Position"    , "C5_B", {2,7},   "space"},
+                {"HoN.Core_Box.Terrain.Position_1x2", "C5_B", {5.5,3}, "space"},
+                {"HoN.Core_Box.Terrain.House_2x2"   , "C4_A", {4,3},   "space", {rotation =  90}},
+            },
+            Objects = {
+                {"HoN.Core_Box.Tokens.Primary_Objective_US", "C4_A", {4,3}, "space"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A", {5,3}, "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C1_B", {2,1}, "interspace"},
+            },
+        },
+    },
+}

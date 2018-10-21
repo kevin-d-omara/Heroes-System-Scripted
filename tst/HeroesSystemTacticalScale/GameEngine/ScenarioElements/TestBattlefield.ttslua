@@ -1,6 +1,7 @@
 --[[ Layout a simple scenario. ]]--
 #include !/TabletopSimulator/TTSTest/TestClass
 #include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
+#include !/HeroesSystemTacticalScale/GameEngine/ScenarioElements/Battlefield
 
 TestClass('Test the Battlefield class.')
 
@@ -8,11 +9,24 @@ function Test:BeforeClass()
     Database.Initialize()
 end
 
-#include !/HeroesSystemTacticalScale/GameEngine/ScenarioElements/Battlefield
-function Test:LayoutScenario_Out_of_Gas()
+function LayoutScenario(index)
     local scenarios = Database.GetData("HoN.Core_Box.Scenarios")
-    local scenario = scenarios[2]   -- Out_of_Gas scenario
+    local scenario = scenarios[index]
     local battlefield = Battlefield(scenario.Model.Battlefield)
 
     battlefield:SetupOntoTable()
+end
+
+function Ignore:LayoutScenario_Godsend()
+    LayoutScenario(1)
+end
+
+function Ignore:LayoutScenario_Out_of_Gas()
+    LayoutScenario(2)
+end
+
+function Test:LayoutAllScenariosInCoreBox()
+    for i = 1, 10 do
+        LayoutScenario(i)
+    end
 end

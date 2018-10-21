@@ -1,0 +1,18 @@
+{
+    Name = "Saving_Private_Rex",
+    Model = {
+        Battlefield = {
+            Width = 2,
+            Height = 2,
+            TerrainBoards = {
+                {"HoN.Core_Box.Terrain.C5_B", {rotation = 180}},
+                {"HoN.Core_Box.Terrain.C2_B", {rotation =  90}},
+                {"HoN.Core_Box.Terrain.C4_A"},
+                {"HoN.Core_Box.Terrain.C3_A"},
+            },
+            Objects = {
+                {"HoN.Core_Box.GE.Feldkommando.MG_Nest", "C2_B", {3,1}, "space", {rotation = -90}},
+            },
+        },
+    },
+}

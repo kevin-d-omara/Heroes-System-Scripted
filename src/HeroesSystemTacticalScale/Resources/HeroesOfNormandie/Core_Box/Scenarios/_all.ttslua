@@ -2,6 +2,22 @@ function GetScenarios()
     return {
         #include Godsend
         ,
-        #include Out_of_Gas
+        #include Saving_Private_Rex
+        ,
+        #include Plain_Carnage
+        ,
+        #include Slaughterhouse_5
+        ,
+        #include My_Heart_Goes_Boom
+        ,
+        #include The_Road_To_Death
+        ,
+        #include Out_Of_Gas
+        ,
+        #include War_Its_A_Mess
+        ,
+        #include The_Best_Defense_Is_A_Good_Offense
+        ,
+        #include Tempest_Of_Fire
     }
 end

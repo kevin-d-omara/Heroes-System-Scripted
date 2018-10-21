@@ -1,0 +1,20 @@
+{
+    Name = "Plain_Carnage",
+    Model = {
+        Battlefield = {
+            Width = 2,
+            Height = 1,
+            TerrainBoards = {
+                {"HoN.Core_Box.Terrain.C4_B"},
+                {"HoN.Core_Box.Terrain.C3_A", {rotation = -90}},
+            },
+            TerrainTiles = {
+                {"HoN.Core_Box.Terrain.Position_1x2", "C4_B", {6,3.5}, "space", {rotation = -90}},
+            },
+            Objects = {
+                {"HoN.Core_Box.Tokens.Bonus_Tactic"       , "C3_A", {0,6}, "interspace"},
+                {"HoN.Core_Box.Tokens.Secondary_Objective", "C3_A", {0,1}, "interspace"},
+            },
+        },
+    },
+}

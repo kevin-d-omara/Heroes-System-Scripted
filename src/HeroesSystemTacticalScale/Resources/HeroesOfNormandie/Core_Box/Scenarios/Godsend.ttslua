@@ -1,3 +1,20 @@
 {
-    
+    Name = "Godsend",
+    Model = {
+        Battlefield = {
+            Width = 2,
+            Height = 1,
+            TerrainBoards = {
+                {"HoN.Core_Box.Terrain.C2_B", {rotation = -90}},
+                {"HoN.Core_Box.Terrain.C1_B", {rotation =  90}},
+            },
+            Objects = {
+                {"HoN.Core_Box.Tokens.Vehicle_Damage_1"  , "C1_B", {1,1}, "interspace"},
+                {"HoN.Core_Box.Tokens.Vehicle_Damage_5"  , "C1_B", {1,5}, "interspace"},
+                {"HoN.Core_Box.Tokens.Vehicle_Damage_2"  , "C2_B", {6,1}, "interspace"},
+                {"HoN.Core_Box.Tokens.Vehicle_Damage_6"  , "C2_B", {6,5}, "interspace"},
+                {"HoN.Core_Box.Tokens.Vehicle_Damage_3_4", "C2_B", {7,3}, "interspace"},
+            },
+        },
+    },
 }

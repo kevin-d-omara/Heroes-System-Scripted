@@ -1,0 +1,21 @@
+{
+    Name = "The_Road_To_Death",
+    Model = {
+        Battlefield = {
+            Width = 3,
+            Height = 1,
+            TerrainBoards = {
+                {"HoN.Core_Box.Terrain.C6_B", {rotation =  90}},
+                {"HoN.Core_Box.Terrain.C1_B", {rotation =  -90}},
+                {"HoN.Core_Box.Terrain.C2_B"},
+            },
+            Objects = {
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B", {6,4}, "space"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C1_B", {3,3}, "space"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C1_B", {7,4}, "space"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C2_B", {4,4}, "space"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C2_B", {6,4}, "space"},
+            },
+        },
+    },
+}

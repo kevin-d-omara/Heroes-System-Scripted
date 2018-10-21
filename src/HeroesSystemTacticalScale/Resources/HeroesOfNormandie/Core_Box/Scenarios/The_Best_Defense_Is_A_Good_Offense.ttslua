@@ -1,0 +1,29 @@
+{
+    Name = "The_Best_Defense_Is_A_Good_Offense",
+    Model = {
+        Battlefield = {
+            Width = 3,
+            Height = 2,
+            TerrainBoards = {
+                {"HoN.Core_Box.Terrain.C6_A", {rotation =  90}},
+                {"HoN.Core_Box.Terrain.C4_B", {rotation = 180}},
+                {"HoN.Core_Box.Terrain.C5_A"},
+                {"HoN.Core_Box.Terrain.C3_A", {rotation = -90}},
+                {"HoN.Core_Box.Terrain.C1_B", {rotation = 180}},
+                {"HoN.Core_Box.Terrain.C2_A", {rotation = 180}},
+            },
+            TerrainTiles = {
+                {"HoN.Core_Box.Terrain.House_1x1", "C4_B", {1,5},   "interspace", {rotation = 180}},
+                {"HoN.Core_Box.Terrain.House_2x1", "C4_B", {6,3.5}, "interspace"},
+            },
+            Objects = {
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_B", {3,3}, "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_B", {4,6}, "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C1_B", {3,1}, "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C1_B", {4,4}, "interspace"},
+                {"HoN.Core_Box.Tokens.Primary_Objective_GE", "C4_B", {0,0}, "interspace"},
+                {"HoN.Core_Box.Tokens.Primary_Objective_US", "C5_A", {0,0}, "interspace"},
+            },
+        },
+    },
+}

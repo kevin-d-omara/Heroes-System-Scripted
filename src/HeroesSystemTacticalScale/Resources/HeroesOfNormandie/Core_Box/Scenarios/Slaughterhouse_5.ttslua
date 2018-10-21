@@ -1,0 +1,25 @@
+{
+    Name = "Slaughterhouse_5",
+    Model = {
+        Battlefield = {
+            Width = 2,
+            Height = 2,
+            TerrainBoards = {
+                {"HoN.Core_Box.Terrain.C1_B"},
+                {"HoN.Core_Box.Terrain.C3_A", {rotation =  180}},
+                {"HoN.Core_Box.Terrain.C2_B", {rotation =  180}},
+                {"HoN.Core_Box.Terrain.C6_B", {rotation =  -90}},
+            },
+            TerrainTiles = {
+                {"HoN.Core_Box.Terrain.House_2x2", "C6_B", {5,6}, "space", {rotation = -90}},
+            },
+            Objects = {
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C1_B", {2,1}, "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A", {0,3}, "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C2_B", {2,6}, "interspace"},
+                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B", {0,4}, "interspace"},
+                {"HoN.Core_Box.US.RiflePlatoon8th.Recon_Team", "C6_B", {3.968,4.968}, "interspace", {isFlipped = true}},
+            },
+        },
+    },
+}

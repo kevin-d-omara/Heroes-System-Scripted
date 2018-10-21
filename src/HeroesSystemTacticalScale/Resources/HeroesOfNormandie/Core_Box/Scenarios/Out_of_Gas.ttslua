@@ -1,5 +1,5 @@
 {
-    Name = "Out_of_Gas",
+    Name = "Out_Of_Gas",
     Model = {
         Battlefield = {
             Width = 3,
@@ -26,7 +26,7 @@
                 {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C5_A", {2,0},   "interspace"},
                 {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C5_A", {5,3},   "interspace"},
                 {"HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_1", "C6_A", {4.5,0}, "interspace"},
-                {"HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_2", "C6_A", {5.5,0}, "interspace", {isFlipped = true}},  -- Showcase flipping of object.
+                {"HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_2", "C6_A", {5.5,0}, "interspace"},
             },
         },
     },
