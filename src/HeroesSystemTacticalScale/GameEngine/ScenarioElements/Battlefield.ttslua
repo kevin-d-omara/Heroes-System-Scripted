@@ -281,11 +281,13 @@ end
 
 --[[
 ## Summary
-Return the minimum height (y-axis) that the object may be placed and still be on top of all other objects below it.
+Return the height (y-axis) that the object should be placed so that it is perfectly above all other objects below it.
+
+The return value should be used as the y-component of the position passed into `object.setPosition or object.setPositionSmooth` (see: https://api.tabletopsimulator.com/object/#setpositionsmooth).
 
 ## Parameters
-<Vector3> worldPosition: The (x,y,z) point in the Game World to check. The y component is ignored.
-<Tabletop Simulator Object> object: The object that will be placed.
+<Vector3> worldPosition: The (x,y,z) point in the Game World where the object will be placed. The y component is ignored.
+<Tabletop Simulator Object> object: The object that will be placed. Used to get the object's bounds (https://api.tabletopsimulator.com/object/#getbounds).
 --]]
 function Battlefield.GetMinimumPlacementHeight(worldPosition, object)
     local MAX_CAST_HEIGHT = 1000    -- The Maximum height (y-axis) from which a Physics box cast will still return hits.
@@ -304,7 +306,8 @@ function Battlefield.GetMinimumPlacementHeight(worldPosition, object)
         size         = castSize,
     })
 
-    -- Despite what the documentation states, entries are not in the order of being it.
+    -- Get the maximum y-value from among the hit objects.
+    -- Despite the documentation, entries are not in the order of being hit, so hits[1] is not the heighest object.
     -- See: https://api.tabletopsimulator.com/physics/#cast
     local maxHeight = 0
     for i,hit in ipairs(hits) do
@@ -314,7 +317,9 @@ function Battlefield.GetMinimumPlacementHeight(worldPosition, object)
         end
     end
 
-    return maxHeight
+    -- In Tabletop Simulator, the position of a game object is at the *bottom* of the physical object, not the center.
+    -- The y component of object.setPosition(vector) must correspond to where the bottom of the object should be placed.
+    return (maxHeight + bounds.size.y/2) + bounds.offset.y
 end
 
 --[[
