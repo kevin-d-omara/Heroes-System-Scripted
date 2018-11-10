@@ -1,0 +1,47 @@
+#include !/HeroesSystemTacticalScale/GameEngine/Models/ScenarioModel
+#include !/HeroesSystemTacticalScale/GameEngine/Views/BattlefieldView
+
+--[[
+## Class
+public class ScenarioController
+{
+    -- Fields
+    private ScenarioModel Model
+
+    -- Constructors
+    public ScenarioController:new(data)
+    public ScenarioController(data)
+
+    -- Methods
+    void PhysicallySetupScenario()
+}
+
+## Summary
+Controller class for a single scenario. Offers public API methods to interact with the scenario.
+--]]
+
+local ScenarioController = {}
+
+-- Can create a new ScenarioController instance by calling either ScenarioController:new() or just ScenarioController().
+setmetatable(ScenarioController, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+## Parameters
+<table> model: See constructor for ScenarioModel.
+--]]
+function ScenarioController:new(model)
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.Model = ScenarioModel(model)
+    obj.View = {}
+
+    return obj
+end
+
+function ScenarioController:PhysicallySetupScenario()
+    self.View.Battlefield = BattlefieldView(self.Model.Battlefield)
+    self.View.Battlefield:Materialize()
+end

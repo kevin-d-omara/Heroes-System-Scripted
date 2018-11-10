@@ -1,0 +1,44 @@
+#include BattlefieldModel
+
+--[[
+## Class
+public class ScenarioModel
+{
+    -- Public Fields
+    BattlefieldModel Battlefield
+    TurnCounterModel TurnCounter
+    table<ArmyModel> Armies
+    TeamsModel Teams
+
+    -- Constructors
+    public ScenarioModel:new(data)
+    public ScenarioModel(data)
+}
+
+## Summary
+Container for all physical components of a Scenario.
+--]]
+
+local ScenarioModel = {}
+
+-- Can create a new ScenarioModel instance by calling either ScenarioModel:new() or just ScenarioModel().
+setmetatable(ScenarioModel, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+## Parameters
+<table> data: A table with the following key-value pairs:
+    <table> Battlefield: See constructor for BattlefieldModel.
+    <table> TurnCounter: See constructor for TurnCounterModel.
+    <array<table>> Armies: See constructor for ArmyModel.
+    <table> Teams: See constructor for TeamsModel.
+--]]
+function ScenarioModel:new(data)
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.Battlefield = BattlefieldModel(data.Battlefield)
+
+    return obj
+end

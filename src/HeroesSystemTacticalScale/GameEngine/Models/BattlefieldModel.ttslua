@@ -1,12 +1,8 @@
-#include !/HeroesSystemTacticalScale/GameEngine/Model/UnitOfMeasurement
 #include !/TabletopSimulator/Vector2
-#include !/TabletopSimulator/Vector3
-
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
 
 --[[
 ## Class
-class Battlefield
+class BattlefieldModel
 {
     -- Fields
     int Width
@@ -16,22 +12,10 @@ class Battlefield
     array Objects
 
     -- Constructors
-    Battlefield:new(parameters)
-    Battlefield(parameters)
+    BattlefieldModel:new(parameters)
+    BattlefieldModel(parameters)
 
     -- Methods
-    void SetupOntoTable()
-
-    void PlaceOnTerrainSpace(path, terrainAlias, index, options)
-    void PlaceOnTerrainInterspace(path, terrainAlias, index, options)
-    void PlaceOnBattlefieldSpace(path, index, options)
-    void PlaceOnBattlefieldInterspace(path, index, options) options)
-    void PlaceOnBattlefield(path, worldPosition, options)
-
-    Vector2 GetWorldPositionForTerrainSpace(terrainAlias, index)
-    Vector2 GetWorldPositionForTerrainInterspace(terrainAlias, index)
-    Vector2 GetWorldPositionForBattlefieldSpace(index)
-    Vector2 GetWorldPositionForBattlefieldInterspace(index)
     Vector2 ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index)
     Vector2 ConvertTerrainInterspaceToBattlefieldInterspace(terrainAlias, index)
 }
@@ -60,10 +44,10 @@ Element Coordinates:
 Internally, all Terrain Coordinates are measured by "spaces".
 --]]
 
-local Battlefield = {}
+local BattlefieldModel = {}
 
--- Can create a new Battlefield instance by calling either Battlefield:new() or just Battlefield().
-setmetatable(Battlefield, { __call = function(self, ...) return self:new(...) end })
+-- Can create a new BattlefieldModel instance by calling either BattlefieldModel:new() or just BattlefieldModel().
+setmetatable(BattlefieldModel, { __call = function(self, ...) return self:new(...) end })
 
 --[[
 ## Parameters
@@ -99,19 +83,19 @@ setmetatable(Battlefield, { __call = function(self, ...) return self:new(...) en
     <table> Objects: An array of objects to place on top of the Battlefield after the Terrain Boards and Terrain Tiles have been placed. The array elements contain the same fields as for `TerrainTiles`.
         [Optional, defaults to having no Objects.]
 --]]
-function Battlefield:new(parameters)
-    local errorMsg = Battlefield._ValidateParameters(parameters)
+function BattlefieldModel:new(parameters)
+    local errorMsg = BattlefieldModel._ValidateParameters(parameters)
     if errorMsg ~= nil then
         error(errorMsg)
     end
 
-    if Battlefield._TerrainBoardIsMissingIndex(parameters.TerrainBoards) then
+    if BattlefieldModel._TerrainBoardIsMissingIndex(parameters.TerrainBoards) then
         if #parameters.TerrainBoards ~= (parameters.Width * parameters.Height) then
             local quantity = #parameters.TerrainBoards < (parameters.Width * parameters.Height) and 'few' or 'many'
             error("There are too " .. quantity .. " Terrain Boards for the specified Width and Height: " .. tostring(parameters.Width) .. " by " .. tostring(parameters.Height) .. ".")
         end
 
-        Battlefield._AddIndexToTerrainBoards(parameters.TerrainBoards, parameters.Width, parameters.Height)
+        BattlefieldModel._AddIndexToTerrainBoards(parameters.TerrainBoards, parameters.Width, parameters.Height)
 
         -- Convert from terrain boards (7x7 spaces) to individual spaces.
         parameters.Width  = parameters.Width  * 7
@@ -175,188 +159,7 @@ function Battlefield:new(parameters)
     return obj
 end
 
---[[
-## Summary
-Place all the Terrain Boards and Terrain Tiles and Objects onto the table.
-Pieces are centered around the center of the table.
---]]
-function Battlefield:SetupOntoTable()
-    -- Lay Terrain Boards.
-    for k,board in pairs(self.TerrainBoards) do
-        local path      = board[1]
-        local index     = board[2].index
-        local options   = board[2]
-        options.lockObject = true
-        self:PlaceOnBattlefieldSpace(path, index, options)
-    end
-
-    -- Lay Terrain Tiles.
-    for k,tile in pairs(self.TerrainTiles) do
-        local path      = tile[1]
-        local alias     = tile[2]
-        local index     = tile[3]
-        local indexType = tile[4]
-        local options   = tile[5]
-        options.lockObject = true
-
-        if indexType == "space" then
-            self:PlaceOnTerrainSpace(path, alias, index, options)
-        elseif indexType == "interspace" then
-            self:PlaceOnTerrainInterspace(path, alias, index, options)
-        else
-            error()
-        end
-    end
-
-    -- Lay Objects
-    for k,object in pairs(self.Objects) do
-        local path      = object[1]
-        local alias     = object[2]
-        local index     = object[3]
-        local indexType = object[4]
-        local options   = object[5]
-
-        if indexType == "space" then
-            self:PlaceOnTerrainSpace(path, alias, index, options)
-        elseif indexType == "interspace" then
-            self:PlaceOnTerrainInterspace(path, alias, index, options)
-        else
-            error()
-        end
-    end
-end
-
-function Battlefield:PlaceOnTerrainSpace(path, terrainAlias, index, options)
-    self:PlaceOnBattlefield(path, self:GetWorldPositionForTerrainSpace(terrainAlias, index), options)
-end
-
-function Battlefield:PlaceOnTerrainInterspace(path, terrainAlias, index, options)
-    self:PlaceOnBattlefield(path, self:GetWorldPositionForTerrainInterspace(terrainAlias, index), options)
-end
-
-function Battlefield:PlaceOnBattlefieldSpace(path, index, options)
-    self:PlaceOnBattlefield(path, self:GetWorldPositionForBattlefieldSpace(index), options)
-end
-
-function Battlefield:PlaceOnBattlefieldInterspace(path, index, options)
-    self:PlaceOnBattlefield(path, self:GetWorldPositionForBattlefieldInterspace(index), options)
-end
-
---[[
-## Summary
-Place the object onto the battlefield on top of any Objects already existing in the Game World.
-
-The object is placed on top of anything already existing in the Game World, regardless of where it came from. For example, if there are dice lying on the battlefield and the object is supposed to be placed there, it will be placed on top of the dice.
-
-## Parameters
-<string> path: The path to the resource (i.e. "HoN.Core_Box.Terrain.C6_A").
-<Vector3> worldPosition: The (x,y,z) position in World Coordinates to place this object.
-<table> options: A table with the following key-value pairs:
-    <float> rotationDegrees: Degrees clockwise to rotate this object after placing it.
-        [Optional, defaults to 0 degrees.]
-    <bool> isFlipped: True if the object should be placed on its reverse side. False if the front should be showing.
-        [Optional, defaults to false.]
---]]
-function Battlefield:PlaceOnBattlefield(path, worldPosition, options)
-    local options         = options or {}
-    local rotationDegrees = options.rotation  or 0
-    local isFlipped       = options.isFlipped or false
-
-    local callback_function = function(obj)
-        worldPosition = worldPosition + Vector3.up * Battlefield.GetMinimumPlacementHeight(worldPosition, obj)
-        obj.setPosition(worldPosition)
-
-        if options.lockObject then
-            obj.setLock(true)
-        end
-    end
-
-    Database.PlaceObject(path, {
-        position = {100,1,1}, -- TODO: Make this somewhere else, like on top of the bag or something.
-        rotation = {0,rotationDegrees,0},
-        flip = isFlipped,
-        callback_function = callback_function,
-    })
-end
-
---[[
-## Summary
-Return the height (y-axis) that the object should be placed so that it is perfectly above all other objects below it.
-
-The return value should be used as the y-component of the position passed into `object.setPosition or object.setPositionSmooth` (see: https://api.tabletopsimulator.com/object/#setpositionsmooth).
-
-## Parameters
-<Vector3> worldPosition: The (x,y,z) point in the Game World where the object will be placed. The y component is ignored.
-<Tabletop Simulator Object> object: The object that will be placed. Used to get the object's bounds (https://api.tabletopsimulator.com/object/#getbounds).
---]]
-function Battlefield.GetMinimumPlacementHeight(worldPosition, object)
-    local MAX_CAST_HEIGHT = 1000    -- The Maximum height (y-axis) from which a Physics box cast will still return hits.
-
-    local bounds = object.getBounds()
-    local castSize = Vector3(bounds.size) * 0.99    -- Scale down slightly to avoid clipping with closely placed neighbors.
-    local castOrigin = Vector3(
-        worldPosition.x,
-        MAX_CAST_HEIGHT,
-        worldPosition.z
-    )
-    local hits = Physics.cast({
-        origin       = castOrigin,
-        direction    = Vector3.down,
-        type         = 3,           -- Box shaped cast.
-        size         = castSize,
-    })
-
-    -- Get the maximum y-value from among the hit objects.
-    -- Despite the documentation, entries are not in the order of being hit, so hits[1] is not the heighest object.
-    -- See: https://api.tabletopsimulator.com/physics/#cast
-    local maxHeight = 0
-    for i,hit in ipairs(hits) do
-        local height = hit.point.y
-        if height > maxHeight then
-            maxHeight = height
-        end
-    end
-
-    -- In Tabletop Simulator, the position of a game object is at the *bottom* of the physical object, not the center.
-    -- The y component of object.setPosition(vector) must correspond to where the bottom of the object should be placed.
-    return (maxHeight + bounds.size.y/2) + bounds.offset.y
-end
-
---[[
-Return the World Coordinates (x,y,z) for the Terrain Coordinates (x,y).
-
-The Terrain Coordinates are measured in spaces and start from (1,1) which is the bottom left space of the battlefield.
-The World Coordinate's y component (height) is always 0.
---]]
-function Battlefield:GetWorldPositionForBattlefieldSpace(cell)
-    local cell = Vector3(cell)
-    local originBattlefieldWorld = Vector3.zero
-    local originBattlefieldCell  = Vector3((self.Width + 1)/2, (self.Height + 1)/2, 0)
-
-    local worldPositionCell =
-        (originBattlefieldCell - cell) * UnitOfMeasurement.Cell + originBattlefieldWorld
-
-    return Vector3(
-        -- Rotate from local coordinate system to world coordinate system.
-        worldPositionCell.x,   -- world x-axis = local x-axis
-        worldPositionCell.z,   -- world y-axis = local z-axis
-        worldPositionCell.y    -- world z-axis = local y-axis
-    )
-end
-
-function Battlefield:GetWorldPositionForBattlefieldInterspace(index)
-    return self:GetWorldPositionForBattlefieldSpace(index)
-end
-
-function Battlefield:GetWorldPositionForTerrainSpace(terrainAlias, index)
-    return self:GetWorldPositionForBattlefieldSpace(self:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index))
-end
-
-function Battlefield:GetWorldPositionForTerrainInterspace(terrainAlias, index)
-    return self:GetWorldPositionForBattlefieldInterspace(self:ConvertTerrainInterspaceToBattlefieldInterspace(terrainAlias, index))
-end
-
-function Battlefield:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index)
+function BattlefieldModel:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index)
     local board = self:_GetTerrainBoardForAlias(terrainAlias)
     local bounds = board[2].bounds
 
@@ -367,11 +170,11 @@ function Battlefield:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index)
     return indexBattlefield
 end
 
-function Battlefield:ConvertTerrainInterspaceToBattlefieldInterspace(terrainAlias, index)
+function BattlefieldModel:ConvertTerrainInterspaceToBattlefieldInterspace(terrainAlias, index)
     return self:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, Vector2(index) + {0.5, 0.5})
 end
 
-function Battlefield:_GetTerrainBoardForAlias(terrainAlias)
+function BattlefieldModel:_GetTerrainBoardForAlias(terrainAlias)
     local board = self._AliasToTerrainBoardMap[terrainAlias]
     if board == nil then
         error("Terrain alias not found: '" .. tostring(terrainAlias) .. "'. Check your spelling and make sure this Terrain Board is actually being used.")
@@ -384,7 +187,7 @@ end
 -- [[ Initialization methods ]] ------------------------------------------------
 --------------------------------------------------------------------------------
 
-function Battlefield._ValidateParameters(parameters)
+function BattlefieldModel._ValidateParameters(parameters)
     if type(parameters) ~= 'table'                  then return "Argument [1] parameters: table expected, but got " .. tostring(type(parameters)) .. "." end
     if type(parameters.Width) ~= 'number'           then return "Argument [1] parameters.Width: integer number expected, but got " .. tostring(type(parameters.Width)) .. "." end
     if type(parameters.Height) ~= 'number'          then return "Argument [1] parameters.Height: integer number expected, but got " .. tostring(type(parameters.Height)) .. "." end
@@ -398,7 +201,7 @@ end
 Returns true if the first terrain board does not include an "indexType" key.
 ex: board = {"SoN.Core_Box.Terrain.S3_B", {index = {1, 1}, rotation = -90}}
 --]]
-function Battlefield._TerrainBoardIsMissingIndex(terrainBoards)
+function BattlefieldModel._TerrainBoardIsMissingIndex(terrainBoards)
     local board = terrainBoards[1]  -- {"SoN.Core_Box.Terrain.S3_B", {index = {1, 1}, rotation = -90}}
     local params = board[2]         -- {index = {1, 1}, rotation = -90}
     if params == nil or params.index == nil then
@@ -431,7 +234,7 @@ becomes
     {"HoN.Core_Box.Terrain.D", {index = {11, 4}               }},   -- Board (2,1) has the index (11 ,4) for its center space.
 }
 --]]
-function Battlefield._AddIndexToTerrainBoards(terrainBoards, width, height)
+function BattlefieldModel._AddIndexToTerrainBoards(terrainBoards, width, height)
     local i = 0
     for y = height, 1, -1 do    -- Height is measured in terrain boards.
         for x = 1, width do     -- Width  is measured in terrain boards.

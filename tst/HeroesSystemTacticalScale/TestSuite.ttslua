@@ -4,7 +4,7 @@
 -- #include Resources/HeroesOfNormandie/Core_Box/CoreBoxUnitTest
 -- #include Resources/HeroesOfNormandie/Core_Box/CoreBoxIntegrationTest
 -- #include Resources/HeroesOfNormandie/Core_Box/LayoutSimpleScenario
-#include GameEngine/ScenarioElements/TestBattlefield
+#include GameEngine/Controllers/TestScenarioController
 
 --[[ #include tools/adhoc here. ]]
 -- #include Resources/HeroesOfNormandie/TestAdhoc
