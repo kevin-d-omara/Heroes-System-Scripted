@@ -24,7 +24,11 @@ end
 -- end
 
 -- function Test:LayoutScenario_Out_of_Gas()
---     LayoutScenario(2)
+--     LayoutScenario(7)
+-- end
+
+-- function Test:LayoutScenario_Adhoc()
+--     LayoutScenario(10)
 -- end
 
 function Test:LayoutAllScenariosInCoreBox()

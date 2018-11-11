@@ -1,0 +1,114 @@
+#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
+#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Placement
+#include !/TabletopSimulator/Vector2
+
+--[[
+## Class
+public class TurnCounterView
+{
+    -- Public Fields
+    TurnCounterModel Model
+    TurnCounterCooordinates Coordinates
+    Object Object
+
+    -- Constructors
+    public TurnCounterView(model)
+
+    -- Methods
+    void Materialize(parameters)
+    void PlaceEventMarker(tile, index)
+    void PlaceInitiativeMarker(tile, index)
+    void PlaceWeatherMarker(tile)
+}
+
+## Summary
+Physical representation of the TurnCounter. Offers methods for placing event and initiative markers and setting the weather.
+--]]
+
+local TurnCounterView = {}
+
+-- Can create a new TurnCounterView instance by calling either TurnCounterView:new() or just TurnCounterView().
+setmetatable(TurnCounterView, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+## Parameters
+<TurnCounterModel> model: All data needed to physically manifest the TurnCounterView.
+--]]
+function TurnCounterView:new(model)
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.Model = model
+    obj.Coordinates = Database.GetData(model.Path)
+
+    return obj
+end
+
+--[[
+## Parameters
+<table> parameters:
+    <Vector2> position: The position on the table to place the TurnCounter.
+    <func> callback: A function to invoke when the TurnCounter is finshed being physically materialized.
+        [Optional, defaults to nil.]
+--]]
+function TurnCounterView:Materialize(parameters)
+    parameters = parameters or {}
+    parameters.position = parameters.position or Vector2.zero
+
+    Placement.PlaceObjectAbove(self.Model.Path, {
+        position = parameters.position,
+        lock = true,
+        callback_function = |obj| self:_PlaceMarkers(obj, parameters.callback)
+    })
+end
+
+-- Physically place all of the tiles onto the table.
+function TurnCounterView:_PlaceMarkers(object, callback)
+    -- Capture a reference to the physically isntantiated turn counter.
+    self.Object = object
+
+    -- Both of the following use pairs instead of ipairs because the indices may not be consecutive. In this case, ipairs() stops too early.
+    for k,v in pairs(self.Model.InitiativeMarkers) do
+        self:PlaceInitiativeMarker(v, k)
+    end
+    for k,v in pairs(self.Model.EventMarkers) do
+        self:PlaceEventMarker(v, k)
+    end
+    if self.Model.WeatherTile ~= nil then
+        self:PlaceWeatherMarker(self.Model.WeatherTile)
+    end
+
+    if callback ~= nil then callback() end
+end
+
+function TurnCounterView:PlaceInitiativeMarker(tile, index)
+    local localCoord = self.Coordinates:GetOffsetForInitiativeMarker(index)
+    self:_PlaceMarker(tile, localCoord)
+end
+
+function TurnCounterView:PlaceEventMarker(tile, index)
+    local localCoord = self.Coordinates:GetOffsetForEventMarker(index)
+    self:_PlaceMarker(tile, localCoord)
+end
+
+function TurnCounterView:PlaceWeatherMarker(tile)
+    error("Not yet implemented.")
+    -- local localCoord = self.getBounds().size.z + self.WEATHER_MARKER_BUFFER
+    -- local worldCoord = self:getPosition() + localCoord
+    -- Place(tile, worldCoord)
+end
+
+function TurnCounterView:_PlaceMarker(tile, localCoord)
+    local worldCoord = self.Object.getPosition() + Vector3({
+        x = localCoord.x,
+        y = 0,
+        z = localCoord.y,
+    })
+    Placement.PlaceObjectAbove(tile.Path, {
+        position = worldCoord,
+        rotation = tile.Rotation,
+        flip = tile.Flip,
+    })
+end

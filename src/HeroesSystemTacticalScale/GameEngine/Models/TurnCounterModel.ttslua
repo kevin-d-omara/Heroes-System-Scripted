@@ -1,0 +1,94 @@
+#include Tile
+#include !/Lua/Collections/RandomSet
+
+--[[
+## Class
+public class TurnCounterModel
+{
+    -- Public Fields
+    string Path
+    Tile WeatherTile
+    array<Tile> InitiativeMarkers
+    array<Tile> EventMarkers
+
+    -- Constructors
+    public TurnCounterModel:new(data)
+    public TurnCounterModel(data)
+}
+
+## Summary
+Container for all physical components of a Turn Counter.
+--]]
+
+local TurnCounterModel = {}
+
+-- Can create a new TurnCounterModel instance by calling either TurnCounterModel:new() or just TurnCounterModel().
+setmetatable(TurnCounterModel, { __call = function(self, ...) return self:new(...) end })
+
+--[[
+## Notes
+Most parameters may be either a "string" or a "Tile".
+Use Tile to specify how the object should be placed (rotated and/or flipped over).
+
+## Parameters
+<table> data:
+    <string> path: The path to the specific turn counter.
+    <string|Tile> weatherTile: The path to the weather tile.
+        [Optional, defaults to nil (no weather tile).]
+    <array<string|Tile>> initiativeMarkers: An array of paths of objects to place on the initiative track.
+        [Optional, defaults to nil (no initiative markers).]
+    <array<string|Tile>> eventMarkers: An array of paths of objects to place on the event track.
+        [Optional, defaults to nil (no event markers).]
+    <bool> useRandomInitiativeOrder: True if the order of the initiative makers should be shuffled.
+        [Optional, defaults to false.]
+--]]
+function TurnCounterModel:new(data)
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.Path = data.path
+
+    -- Transform to Tile class.
+    if data.weatherTile ~= nil then
+        obj.WeatherTile = Tile(data.weatherTile)
+    end
+
+    -- Transform to Tile class.
+    obj.InitiativeMarkers = {}
+    if data.initiativeMarkers ~= nil then
+        for k,v in pairs(data.initiativeMarkers) do
+            obj.InitiativeMarkers[k] = Tile(v)
+        end
+    end
+
+    -- Transform to Tile class.
+    obj.EventMarkers = {}
+    if data.eventMarkers ~= nil then
+        for k,v in pairs(data.eventMarkers) do
+            obj.EventMarkers[k] = Tile(v)
+        end
+    end
+
+    -- Shuffle order of initiatve markers.
+    -- Note: uses pairs() because the initiatve marker indices may be non-consecutive (i.e. 1, 2, 4) and ipairs() would stop early (i.e. at 2).
+    if data.useRandomInitiativeOrder then
+        -- Put keys into a randomized bag.
+        local randomSet = RandomSet()
+        for k,v in pairs(data.initiativeMarkers) do
+            randomSet:AddElement(k)
+        end
+
+        -- Pull the keys out and re-build the initiatve marker array.
+        local initMarkers = {}
+        for k,v in pairs(data.initiativeMarkers) do
+            local index = randomSet:GetElement()
+            initMarkers[k] = obj.InitiativeMarkers[index]
+        end
+
+        obj.InitiativeMarkers = initMarkers
+    end
+
+    return obj
+end

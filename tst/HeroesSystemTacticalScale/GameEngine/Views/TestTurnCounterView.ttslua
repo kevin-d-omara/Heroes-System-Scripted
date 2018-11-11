@@ -1,0 +1,36 @@
+--[[ Layout a simple scenario. ]]--
+#include !/TabletopSimulator/TTSTest/TestClass
+#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
+
+#include !/HeroesSystemTacticalScale/GameEngine/Models/TurnCounterModel
+#include !/HeroesSystemTacticalScale/GameEngine/Views/TurnCounterView
+
+TestClass('Test the TurnCounterView class.')
+
+function Test:BeforeClass()
+    Database.Initialize()
+end
+
+function LayoutTurnCounterForScenario(index)
+    local scenarios = Database.GetData("HoN.Core_Box.Scenarios")
+    local scenario = scenarios[index]
+    local scenarioModel = scenario.Model
+
+    local model = TurnCounterModel(scenarioModel.TurnCounter)
+    local view = TurnCounterView(model)
+    view:Materialize({0,0})
+end
+
+function Test:Godsend()
+    LayoutTurnCounterForScenario(1)
+end
+
+-- function Test:Out_of_Gas()
+--     LayoutTurnCounterForScenario(2)
+-- end
+
+-- function Test:LayoutAllScenariosInCoreBox()
+--     for i = 1, 10 do
+--         LayoutTurnCounterForScenario(i)
+--     end
+-- end

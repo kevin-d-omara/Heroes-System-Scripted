@@ -16,5 +16,18 @@
                 {"HoN.Core_Box.Tokens.Vehicle_Damage_3_4", "C2_B", {7,3}, "interspace"},
             },
         },
+        TurnCounter = {
+            path = "HoN.Core_Box.Tokens.Turn_Counter",
+            initiativeMarkers = {
+                [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+            },
+            useRandomInitiativeOrder = true,
+            eventMarkers = {
+                [2] = "HoN.Core_Box.Tokens.Event_Generic",
+                [3] = "HoN.Core_Box.Tokens.Event_Generic",
+                [6] = "HoN.Core_Box.Tokens.Event_End",
+            }
+        },
     },
 }

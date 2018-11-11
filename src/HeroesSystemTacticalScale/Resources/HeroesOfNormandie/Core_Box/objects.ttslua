@@ -40,9 +40,16 @@ function GetObjects()
         Tokens = {
             guid = 'trlmgl',
 
-            -- Turn Tracker
-            Turn_Tracker        = '0f8c7e',
-            Initiative_US_GE    = 'urn3m6',
+            -- Turn Counter
+            Turn_Counter        = {
+                class = 'TurnCounterCoordinates',
+                guid = '0f8c7e',
+                InitiativeMarkerOrigin = {-0.61, -4.1},
+                EventMarkerOrigin      = { 0.61, -4.1},
+                MarkerSpacingVertical  = 1.19,
+            },
+            Initiative_US       = 'urn3m6',
+            Initiative_GE       = 'c3un8g',
             Event_End           = 'o5i4u6',
             Event_Generic       = 'kpd2li',
             Event_US            = '2qwrot',

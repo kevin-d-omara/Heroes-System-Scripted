@@ -17,6 +17,7 @@ class BattlefieldView
 
     -- Methods
     void Materialize()
+    Vector2 GetSize()
 
     void PlaceOnTerrainSpace(path, terrainAlias, index, options)
     void PlaceOnTerrainInterspace(path, terrainAlias, index, options)
@@ -58,6 +59,11 @@ end
 ## Summary
 Place all the Terrain Boards and Terrain Tiles and Objects onto the table.
 Pieces are centered around the center of the table.
+
+## Parameters
+<table> parameters:
+    <func> callback: A function to invoke when the Battlefield is finshed being physically materialized.
+        [Optional, defaults to nil.]
 --]]
 function BattlefieldView:Materialize(parameters)
     local parameters = parameters or {}
@@ -105,6 +111,19 @@ function BattlefieldView:Materialize(parameters)
             error("Improper value for indexType: 'space' or 'interspace' expected, but got " .. tostring(indexType))
         end
     end
+
+    if parameters.callback ~= nil then parameters.callback() end
+end
+
+--[[
+## Summary
+Return the size of the battlefield measured in Unity units.
+--]]
+function BattlefieldView:GetSize()
+    return Vector2({
+        x = self.Model.Width * UnitOfMeasurement.Cell,
+        y = self.Model.Height * UnitOfMeasurement.Cell,
+    })
 end
 
 function BattlefieldView:PlaceOnTerrainSpace(path, terrainAlias, index, options)

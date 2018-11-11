@@ -29,5 +29,18 @@
                 {"HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_2", "C6_A", {5.5,0}, "interspace"},
             },
         },
+        TurnCounter = {
+            path = "HoN.Core_Box.Tokens.Turn_Counter",
+            initiativeMarkers = {
+                [1] = "HoN.Core_Box.Tokens.Initiative_GE",
+                [2] = "HoN.Core_Box.Tokens.Initiative_US",
+            },
+            eventMarkers = {
+                [2] = "HoN.Core_Box.Tokens.Event_US",
+                [4] = "HoN.Core_Box.Tokens.Event_Generic",
+                [6] = "HoN.Core_Box.Tokens.Event_US",
+                [8] = "HoN.Core_Box.Tokens.Event_End",
+            }
+        },
     },
 }

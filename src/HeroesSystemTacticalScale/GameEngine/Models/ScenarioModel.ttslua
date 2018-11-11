@@ -1,4 +1,5 @@
 #include BattlefieldModel
+#include TurnCounterModel
 
 --[[
 ## Class
@@ -33,12 +34,21 @@ setmetatable(ScenarioModel, { __call = function(self, ...) return self:new(...) 
     <table> Teams: See constructor for TeamsModel.
 --]]
 function ScenarioModel:new(data)
+    if type(data) ~= 'table' then error("Argument [1] data: table expected, but got " .. tostring(type(data)) .. ".") end
+    if type(data.Battlefield) ~= 'table' then
+        error("Argument [1] parameters.Battlefield: table expected, but got " .. tostring(type(data.Battlefield)) .. ".")
+    end
+    if type(data.TurnCounter) ~= 'table' then
+        error("Argument [1] parameters.TurnCounter: table expected, but got " .. tostring(type(data.TurnCounter)) .. ".")
+    end
+
     local obj = {}
     setmetatable(obj, self)
     self.__index = self
     self.__call = function(self, ...) return self:new(...) end
 
     obj.Battlefield = BattlefieldModel(data.Battlefield)
+    obj.TurnCounter = TurnCounterModel(data.TurnCounter)
 
     return obj
 end

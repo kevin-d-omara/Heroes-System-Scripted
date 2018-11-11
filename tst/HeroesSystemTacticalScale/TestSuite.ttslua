@@ -5,6 +5,7 @@
 -- #include Resources/HeroesOfNormandie/Core_Box/CoreBoxIntegrationTest
 -- #include Resources/HeroesOfNormandie/Core_Box/LayoutSimpleScenario
 #include GameEngine/Controllers/TestScenarioController
+-- #include GameEngine/Views/TestTurnCounterView
 
 --[[ #include tools/adhoc here. ]]
 -- #include Resources/HeroesOfNormandie/TestAdhoc

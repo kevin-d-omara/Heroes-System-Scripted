@@ -14,5 +14,18 @@
                 {"HoN.Core_Box.GE.Feldkommando.MG_Nest", "C2_B", {3,1}, "space", {rotation = -90}},
             },
         },
+        TurnCounter = {
+            path = "HoN.Core_Box.Tokens.Turn_Counter",
+            initiativeMarkers = {
+                [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+            },
+            useRandomInitiativeOrder = true,
+            eventMarkers = {
+                [2] = "HoN.Core_Box.Tokens.Event_Generic",
+                [3] = "HoN.Core_Box.Tokens.Event_US",
+                [7] = "HoN.Core_Box.Tokens.Event_End",
+            }
+        },
     },
 }

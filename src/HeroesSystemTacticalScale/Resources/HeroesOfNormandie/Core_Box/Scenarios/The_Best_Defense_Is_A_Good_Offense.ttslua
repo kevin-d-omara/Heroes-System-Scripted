@@ -25,5 +25,16 @@
                 {"HoN.Core_Box.Tokens.Primary_Objective_US", "C5_A", {0,0}, "interspace"},
             },
         },
+        TurnCounter = {
+            path = "HoN.Core_Box.Tokens.Turn_Counter",
+            initiativeMarkers = {
+                [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+            },
+            useRandomInitiativeOrder = true,
+            eventMarkers = {
+                [6] = "HoN.Core_Box.Tokens.Event_End",
+            }
+        },
     },
 }

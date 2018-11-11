@@ -1,5 +1,6 @@
 #include !/HeroesSystemTacticalScale/GameEngine/Models/ScenarioModel
 #include !/HeroesSystemTacticalScale/GameEngine/Views/BattlefieldView
+#include !/HeroesSystemTacticalScale/GameEngine/Views/TurnCounterView
 
 --[[
 ## Class
@@ -20,7 +21,9 @@ public class ScenarioController
 Controller class for a single scenario. Offers public API methods to interact with the scenario.
 --]]
 
-local ScenarioController = {}
+local ScenarioController = {
+    BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD = 3,
+}
 
 -- Can create a new ScenarioController instance by calling either ScenarioController:new() or just ScenarioController().
 setmetatable(ScenarioController, { __call = function(self, ...) return self:new(...) end })
@@ -43,5 +46,21 @@ end
 
 function ScenarioController:PhysicallySetupScenario()
     self.View.Battlefield = BattlefieldView(self.Model.Battlefield)
-    self.View.Battlefield:Materialize()
+    self.View.Battlefield:Materialize({
+        callback = || self:_PlaceTurnCounter()
+    })
+end
+
+function ScenarioController:_PlaceTurnCounter()
+    self.View.TurnCounter = TurnCounterView(self.Model.TurnCounter)
+
+    local size = self.View.Battlefield:GetSize()
+    local buffer = self.BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD
+    local x = (size.x / 2) + buffer
+    local position = Vector3.right * x
+
+    self.View.TurnCounter:Materialize({
+        position = position,
+        callback = || print('placed')
+    })
 end

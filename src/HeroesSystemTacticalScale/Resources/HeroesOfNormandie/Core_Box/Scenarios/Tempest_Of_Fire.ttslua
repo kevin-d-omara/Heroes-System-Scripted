@@ -42,5 +42,16 @@
                 {"HoN.Core_Box.Tokens.Item_Antenna", "C2_B", {4,5}, "interspace"},
             },
         },
+        TurnCounter = {
+            path = "HoN.Core_Box.Tokens.Turn_Counter",
+            initiativeMarkers = {
+                [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+            },
+            eventMarkers = {
+                [4] = "HoN.Core_Box.Tokens.Event_US",
+                [8] = "HoN.Core_Box.Tokens.Event_End",
+            }
+        },
     },
 }

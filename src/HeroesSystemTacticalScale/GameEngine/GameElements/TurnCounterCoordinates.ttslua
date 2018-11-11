@@ -1,0 +1,75 @@
+#include !/TabletopSimulator/NestedObjects/TTSObject
+#include !/TabletopSimulator/Vector2
+
+--[[
+## Class
+public class TurnCounterCoordinates : TTSObject
+{
+    -- Public Fields
+    Vector2 InitiativeMarkerOrigin  -- The (x,y) offset from the center of this tile to the center of the first initiatve marker space.
+    Vector2 EventMarkerOrigin       -- The (x,y) offset from the center of this tile to the center of the first event marker space.
+    float MarkerSpacingVertical     -- The distance between successive marker spaces (for both initiatve markers and event markers).
+
+    -- Constructors
+    public TurnCounterCoordinates(parameters)
+
+    -- Public Methods
+    Vector2 GetOffsetForInitiativeMarker(index) -- Get the (x,y) offset between the center of this tile and the n'th initiatve marker space.
+    Vector2 GetOffsetForEventMarker(index)      -- Get the (x,y) offset between the center of this tile and the n'th event marker space.
+}
+
+## Summary
+Collection of magic numbers that describe where markers should be placed on this TurnCounter Object.
+--]]
+
+local TurnCounterCoordinates = TTSObject()
+
+--[[
+## Parameters
+    <string> guid: The GUID of the Tabletop Simulator Object that this TurnCounter represents.
+    <Vector2> InitiativeMarkerOrigin
+    <Vector2> EventMarkerOrigin
+    float MarkerSpacingVertical
+--]]
+function TurnCounterCoordinates:new(parameters)
+    -- Validate inputs.
+    if type(parameters) ~= 'table' then
+        error("Argument [1] parameters: table expected, but got " .. tostring(type(parameters)) .. ".")
+    end
+    if type(parameters.guid) ~= 'string' then
+        error("Argument [1] parameters.guid: string expected, but got " .. tostring(type(parameters.guid)) .. ".")
+    end
+    if type(parameters.InitiativeMarkerOrigin) ~= 'table' then
+        error("Argument [1] parameters.InitiativeMarkerOrigin: table expected, but got " .. tostring(type(parameters.InitiativeMarkerOrigin)) .. ".")
+    end
+    if type(parameters.EventMarkerOrigin)  ~= 'table' then
+        error("Argument [1] parameters.EventMarkerOrigin: table expected, but got " .. tostring(type(parameters.EventMarkerOrigin)) .. ".")
+    end
+    if type(parameters.MarkerSpacingVertical) ~= 'number' then
+        error("Argument [1] parameters.MarkerSpacingVertical: number expected, but got " .. tostring(type(parameters.MarkerSpacingVertical)) .. ".")
+    end
+
+    local obj = {}
+    setmetatable(obj, self)
+    self.__index = self
+    self.__call = function(self, ...) return self:new(...) end
+
+    obj.guid = parameters.guid
+    obj.InitiativeMarkerOrigin  = Vector2(parameters.InitiativeMarkerOrigin)
+    obj.EventMarkerOrigin       = Vector2(parameters.EventMarkerOrigin)
+    obj.MarkerSpacingVertical   = parameters.MarkerSpacingVertical
+
+    return obj
+end
+
+-- Get the (x,y) offset between the center of this tile and the n'th initiatve marker space.
+function TurnCounterCoordinates:GetOffsetForInitiativeMarker(index)
+    if type(index) ~= 'number' then error("Argument [1] index: number expected, but got " .. tostring(type(index)) .. ".") end
+    return self.EventMarkerOrigin + Vector2.up * self.MarkerSpacingVertical * (index - 1)
+end
+
+-- Get the (x,y) offset between the center of this tile and the n'th event marker space.
+function TurnCounterCoordinates:GetOffsetForEventMarker(index)
+    if type(index) ~= 'number' then error("Argument [1] index: number expected, but got " .. tostring(type(index)) .. ".") end
+    return self.InitiativeMarkerOrigin + Vector2.up * self.MarkerSpacingVertical * (index - 1)
+end

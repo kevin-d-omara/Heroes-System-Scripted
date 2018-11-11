@@ -38,6 +38,7 @@ The default value of 'smooth' is different than in 'takeObject()'. Here, the def
 --]]
 function Placement.PlaceObject(path, parameters)
     -- Override default values of 'GetNestedObjectFromGuids()'.
+    parameters = parameters or {}
     parameters.rotation = parameters.rotation or 0                  -- Default is no rotation.
     parameters.rotation = Vector3.up * parameters.rotation          -- Rotation is only about the y-axis.
     if parameters.smooth == nil then parameters.smooth = false end  -- Default is instantaneous.
@@ -57,6 +58,8 @@ For example, if there are dice lying on the battlefield and the object is suppos
 The y-component of 'parameters.position' is overriden.
 --]]
 function Placement.PlaceObjectAbove(path, parameters)
+    parameters = parameters or {}
+
     local PlaceAbove = function(obj)
         -- Default values.
         parameters.position = parameters.position or obj.getPosition()  -- Defaults to the container's position + 2 on the y axis.
@@ -101,6 +104,7 @@ This function is useful if you need to use 'getBounds()' before taking an action
         [Optional, defaults to true.]
 --]]
 function Placement.MaterializeObject(path, callback, parameters)
+    parameters = parameters or {}
     parameters.callback_function = callback
     Placement.PlaceObject(path, parameters)
 end

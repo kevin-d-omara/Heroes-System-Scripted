@@ -25,5 +25,15 @@
                 {"HoN.Core_Box.Tokens.Bonus_Tactic", "C1_B", {2,1}, "interspace"},
             },
         },
+        TurnCounter = {
+            path = "HoN.Core_Box.Tokens.Turn_Counter",
+            initiativeMarkers = {
+                [1] = "HoN.Core_Box.Tokens.Initiative_GE",
+                [2] = "HoN.Core_Box.Tokens.Initiative_US",
+            },
+            eventMarkers = {
+                [6] = "HoN.Core_Box.Tokens.Event_End",
+            }
+        },
     },
 }

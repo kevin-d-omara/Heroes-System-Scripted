@@ -21,5 +21,16 @@
                 {"HoN.Core_Box.US.RiflePlatoon8th.Recon_Team", "C6_B", {3.968,4.968}, "interspace", {flip = true}},
             },
         },
+        TurnCounter = {
+            path = "HoN.Core_Box.Tokens.Turn_Counter",
+            initiativeMarkers = {
+                [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+            },
+            eventMarkers = {
+                [1] = "HoN.Core_Box.Tokens.Event_GE",
+                [6] = "HoN.Core_Box.Tokens.Event_End",
+            }
+        },
     },
 }

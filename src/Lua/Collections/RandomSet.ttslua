@@ -10,7 +10,7 @@ public class RandomSet
     public RandomSet(elements, options)
 
     -- Methods
-    void AddElement()
+    void AddElement(element)
     var GetElement()
     void ClearTakenElements()
 }
