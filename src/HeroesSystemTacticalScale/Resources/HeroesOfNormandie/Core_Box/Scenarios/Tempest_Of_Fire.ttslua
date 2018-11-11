@@ -33,9 +33,9 @@
                 {"HoN.Core_Box.Tokens.Primary_Objective_US"  , "C1_A", {3,1}, "interspace"},
                 {"HoN.Core_Box.Tokens.Secondary_Objective_GE", "C1_A", {6,2}, "space"},
 
-                {"HoN.Core_Box.GE.ExtraUnits.Puma"                , "C4_B", {4.5,3}, "space"     , {rotation = -90, isFlipped = true}},
-                {"HoN.Core_Box.GE.ExtraUnits.Panzer_IV"           , "C3_A", {2,5},   "interspace", {rotation =  45, isFlipped = true}},
-                {"HoN.Core_Box.GE.Panzergrenadiere902.Halftrack_1", "C2_B", {4,4},   "interspace", {rotation = -45, isFlipped = true}},
+                {"HoN.Core_Box.GE.ExtraUnits.Puma"                , "C4_B", {4.5,3}, "space"     , {rotation = -90, flip = true}},
+                {"HoN.Core_Box.GE.ExtraUnits.Panzer_IV"           , "C3_A", {2,5},   "interspace", {rotation =  45, flip = true}},
+                {"HoN.Core_Box.GE.Panzergrenadiere902.Halftrack_1", "C2_B", {4,4},   "interspace", {rotation = -45, flip = true}},
 
                 {"HoN.Core_Box.Tokens.Item_Micro"  , "C4_B", {4,2}, "interspace"},
                 {"HoN.Core_Box.Tokens.Item_Radio"  , "C3_A", {3,6}, "interspace"},

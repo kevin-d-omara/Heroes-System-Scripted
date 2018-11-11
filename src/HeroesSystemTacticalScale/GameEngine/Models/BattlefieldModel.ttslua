@@ -64,9 +64,9 @@ setmetatable(BattlefieldModel, { __call = function(self, ...) return self:new(..
                 [Optional, defaults to Vector2(7,7).]
             <string> alias: The name/key to use when placing Terrain Tiles and Objects onto this board.
                 [Optional, defaults to the leaf key in the path (i.e. "C6_A" for "HoN.Core_Box.Terrain.C6_A")].
-            <float> rotation: Degrees clockwise to rotate this board.
+            <float> rotation: Degrees clockwise about the y-axis to rotate this board.
                 [Optional, defaults to 0 degrees.]
-            <bool> isFlipped: True if the board should be placed on its reverse side. False if the front should be showing.
+            <bool> flip: True if the board should be placed on its reverse side. False if the front should be showing.
                 [Optional, defaults to false.]
     <table> TerrainTiles: An array of Terrain Tiles, which are arrays with the following elements:
         [Optional, defaults to having no Terrain Tiles.]
@@ -76,9 +76,9 @@ setmetatable(BattlefieldModel, { __call = function(self, ...) return self:new(..
         <string> [4] (indexType): Either "space" or "interspace". (see Coordinate Systems)
         <table> [5] (options): The following key-values pairs:
             [Optional, defaults to having no options.]
-            <float> rotation: Degrees clockwise to rotate this tile.
+            <float> rotation: Degrees clockwise about the y-axis to rotate this tile.
                 [Optional, defaults to 0 degrees.]
-            <bool> isFlipped: True if the tile should be placed on its reverse side. False if the front should be showing.
+            <bool> flip: True if the tile should be placed on its reverse side. False if the front should be showing.
                 [Optional, defaults to false.]
     <table> Objects: An array of objects to place on top of the Battlefield after the Terrain Boards and Terrain Tiles have been placed. The array elements contain the same fields as for `TerrainTiles`.
         [Optional, defaults to having no Objects.]
@@ -105,9 +105,9 @@ function BattlefieldModel:new(parameters)
     -- Defaults.
     for k,v in ipairs(parameters.TerrainBoards) do
         -- Set default values.
-        v[2].bounds    = v[2].bounds    or {7,7}
-        v[2].rotation  = v[2].rotation  or 0
-        v[2].isFlipped = v[2].isFlipped or false
+        v[2].bounds   = v[2].bounds or {7,7}
+        v[2].rotation = v[2].rotation or 0
+        v[2].flip     = v[2].flip or false
         if v[2].alias == nil then
             local pathArray = SplitString(v[1], '.')
             v[2].alias = pathArray[#pathArray]  -- The default alias is the leaf key in the path (i.e. 'C6_A' for 'HoN.Core_Box.Terrain.C6_A').
@@ -121,8 +121,8 @@ function BattlefieldModel:new(parameters)
     for k,v in ipairs(parameters.TerrainTiles) do
         -- Set default values.
         v[5] = v[5] or {}
-        v[5].rotation  = v[5].rotation  or 0
-        v[5].isFlipped = v[5].isFlipped or false
+        v[5].rotation = v[5].rotation or 0
+        v[5].flip     = v[5].flip or false
 
         -- Transform to Vector2.
         v[3] = Vector2(v[3])
@@ -131,8 +131,8 @@ function BattlefieldModel:new(parameters)
     for k,v in ipairs(parameters.Objects) do
         -- Set default values.
         v[5] = v[5] or {}
-        v[5].rotation  = v[5].rotation  or 0
-        v[5].isFlipped = v[5].isFlipped or false
+        v[5].rotation = v[5].rotation or 0
+        v[5].flip     = v[5].flip or false
 
         -- Transform to Vector2.
         v[3] = Vector2(v[3])

@@ -21,8 +21,10 @@ Tabletop Simulator provides the 'takeObject()' method to pull an object out of a
     The first GUID is for a container that can be returned with the global function (https://api.tabletopsimulator.com/base/#getobjectfromguid).
     Each subsequent GUID is for an object that would be returned from calling (https://api.tabletopsimulator.com/object/#takeobject) on the object returned from the previous GUID in the list.
 <table> parameters: The same parameters as https://api.tabletopsimulator.com/object/#takeobject, plus:
-    <bool> asCopy: If true, leave a copy of the final object in the container. The copy will have the same GUID as was used to get it, but the returned object will have a new GUID.
+    <bool> copy: If a copy of the object is left in the container. The copy will have the same GUID as was used to get it, but the returned object will have a new GUID.
         [Optional, defaults to true.]
+    <bool> lock: If the object is locked in place.
+        [Optional, defaults to false.]
 --]]
 function GetNestedObjectFromGuids(guidArray, parameters)
     local isValid, errorString = _Delver.Local.IsArrayOfStrings(guidArray)
@@ -74,8 +76,9 @@ end
 function _Delver.Global.GetNestedObjectFromGuids(parameters)
     -- Set default values for parameters.
     local parameters = parameters or {}
-    if parameters.asCopy == nil then parameters.asCopy = true end
+    if parameters.copy   == nil then parameters.copy   = true end
     if parameters.smooth == nil then parameters.smooth = true end
+    if parameters.lock   == nil then parameters.lock   = false end
     -- The other default values (position & rotation) happen once the object is materialized.
 
     -- Unpack the extra parameters.
@@ -108,7 +111,7 @@ function _Delver.Global.GetNestedObjectFromGuids(parameters)
 
         -- Wait 2 frames so the object is fully materialized.
         -- In the current frame the object has the same guid as its clone and sometimes has a {0,0,0} bounding box.
-        Wait.frames(function() takenObject.setLock(false); NotifyCallerOfSuccess(takenObject) end, 2)
+        Wait.frames(function() takenObject.setLock(parameters.lock); NotifyCallerOfSuccess(takenObject) end, 2)
     end
 
     local rootContainer = getObjectFromGUID(guidArray[1])

@@ -15,7 +15,7 @@ public class TTSObject
     -- Methods
     public void AddChild(ttsObject, key)
     public void SetParent(parentContainer)
-    public Async<void> GetNestedObject(parameters, asCopy)  -- TODO
+    public Async<void> GetNestedObject(parameters, copy)  -- TODO
     public arrary<string> GetParentGuids()
     public array<TTSObject> GetParents()
 

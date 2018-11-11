@@ -2,7 +2,7 @@
 #include !/TabletopSimulator/Vector2
 #include !/TabletopSimulator/Vector3
 
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
+#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Placement
 
 --[[
 ## Class
@@ -67,7 +67,7 @@ function BattlefieldView:Materialize(parameters)
         local path      = board[1]
         local index     = board[2].index
         local options   = board[2]
-        options.lockObject = true
+        options.lock = true
         self:PlaceOnBattlefieldSpace(path, index, options)
     end
 
@@ -78,14 +78,14 @@ function BattlefieldView:Materialize(parameters)
         local index     = tile[3]
         local indexType = tile[4]
         local options   = tile[5]
-        options.lockObject = true
+        options.lock = true
 
         if indexType == "space" then
             self:PlaceOnTerrainSpace(path, alias, index, options)
         elseif indexType == "interspace" then
             self:PlaceOnTerrainInterspace(path, alias, index, options)
         else
-            error()
+            error("Improper value for indexType: 'space' or 'interspace' expected, but got " .. tostring(indexType))
         end
     end
 
@@ -102,105 +102,29 @@ function BattlefieldView:Materialize(parameters)
         elseif indexType == "interspace" then
             self:PlaceOnTerrainInterspace(path, alias, index, options)
         else
-            error()
+            error("Improper value for indexType: 'space' or 'interspace' expected, but got " .. tostring(indexType))
         end
     end
 end
 
 function BattlefieldView:PlaceOnTerrainSpace(path, terrainAlias, index, options)
-    self:PlaceOnBattlefield(path, self:GetWorldPositionForTerrainSpace(terrainAlias, index), options)
+    options.position = self:GetWorldPositionForTerrainSpace(terrainAlias, index)
+    Placement.PlaceObjectAbove(path, options)
 end
 
 function BattlefieldView:PlaceOnTerrainInterspace(path, terrainAlias, index, options)
-    self:PlaceOnBattlefield(path, self:GetWorldPositionForTerrainInterspace(terrainAlias, index), options)
+    options.position = self:GetWorldPositionForTerrainInterspace(terrainAlias, index)
+    Placement.PlaceObjectAbove(path, options)
 end
 
 function BattlefieldView:PlaceOnBattlefieldSpace(path, index, options)
-    self:PlaceOnBattlefield(path, self:GetWorldPositionForBattlefieldSpace(index), options)
+    options.position = self:GetWorldPositionForBattlefieldSpace(index)
+    Placement.PlaceObjectAbove(path, options)
 end
 
 function BattlefieldView:PlaceOnBattlefieldInterspace(path, index, options)
-    self:PlaceOnBattlefield(path, self:GetWorldPositionForBattlefieldInterspace(index), options)
-end
-
---[[
-## Summary
-Place the object onto the battlefield on top of any Objects already existing in the Game World.
-
-The object is placed on top of anything already existing in the Game World, regardless of where it came from. For example, if there are dice lying on the battlefield and the object is supposed to be placed there, it will be placed on top of the dice.
-
-## Parameters
-<string> path: The path to the resource (i.e. "HoN.Core_Box.Terrain.C6_A").
-<Vector3> worldPosition: The (x,y,z) position in World Coordinates to place this object.
-<table> options: A table with the following key-value pairs:
-    <float> rotationDegrees: Degrees clockwise to rotate this object after placing it.
-        [Optional, defaults to 0 degrees.]
-    <bool> isFlipped: True if the object should be placed on its reverse side. False if the front should be showing.
-        [Optional, defaults to false.]
---]]
-function BattlefieldView:PlaceOnBattlefield(path, worldPosition, options)
-    local options         = options or {}
-    local rotationDegrees = options.rotation  or 0
-    local isFlipped       = options.isFlipped or false
-
-    local callback_function = function(obj)
-        worldPosition = worldPosition + Vector3.up * BattlefieldView.GetMinimumPlacementHeight(worldPosition, obj)
-        obj.setPosition(worldPosition)
-
-        if options.lockObject then
-            obj.setLock(true)
-        end
-    end
-
-    Database.PlaceObject(path, {
-        position = {100,1,1}, -- TODO: Make this somewhere else, like on top of the bag or something.
-        rotation = {0,rotationDegrees,0},
-        flip = isFlipped,
-        callback_function = callback_function,
-    })
-end
-
---[[
-## Summary
-Return the height (y-axis) that the object should be placed so that it is perfectly above all other objects below it.
-
-The return value should be used as the y-component of the position passed into `object.setPosition or object.setPositionSmooth` (see: https://api.tabletopsimulator.com/object/#setpositionsmooth).
-
-## Parameters
-<Vector3> worldPosition: The (x,y,z) point in the Game World where the object will be placed. The y component is ignored.
-<Tabletop Simulator Object> object: The object that will be placed. Used to get the object's bounds (https://api.tabletopsimulator.com/object/#getbounds).
---]]
-function BattlefieldView.GetMinimumPlacementHeight(worldPosition, object)
-    local MAX_CAST_HEIGHT = 1000    -- The Maximum height (y-axis) from which a Physics box cast will still return hits.
-
-    local bounds = object.getBounds()
-    local castSize = Vector3(bounds.size) * 0.99    -- Scale down slightly to avoid clipping with closely placed neighbors.
-    local castOrigin = Vector3(
-        worldPosition.x,
-        MAX_CAST_HEIGHT,
-        worldPosition.z
-    )
-    local hits = Physics.cast({
-        origin       = castOrigin,
-        direction    = Vector3.down,
-        type         = 3,           -- Box shaped cast.
-        size         = castSize,
-    })
-
-    -- Get the maximum y-value from among the hit objects.
-    -- Despite the documentation, entries are not in the order of being hit, so hits[1] is not the heighest object.
-    -- See: https://api.tabletopsimulator.com/physics/#cast
-    local maxHeight = 0
-    for i,hit in ipairs(hits) do
-        local height = hit.point.y
-        if height > maxHeight then
-            maxHeight = height
-        end
-    end
-
-    -- In Tabletop Simulator, the position of a game object is at the *bottom* of the physical object, not the center.
-    -- The y component of object.setPosition(vector) must correspond to where the bottom of the object should be placed.
-    return (maxHeight + bounds.size.y/2) + bounds.offset.y
+    options.position = self:GetWorldPositionForBattlefieldInterspace(index)
+    Placement.PlaceObjectAbove(path, options)
 end
 
 --[[

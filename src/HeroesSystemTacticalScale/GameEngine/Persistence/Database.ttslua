@@ -31,7 +31,7 @@ Take on object from the database and place it somewhere in the game world.
 ## Summary
 <string> path: The path to the object (i.e. "HoN.Core_Box.Terrain.C6_A").
 <table> parameters: The same parameters as https://api.tabletopsimulator.com/object/#takeobject, plus:
-    <bool> asCopy: If true, leave a copy of the final object in the container. The copy will have the same GUID as was used to get it, but the returned object will have a new GUID.
+    <bool> copy: If true, leave a copy of the final object in the container. The copy will have the same GUID as was used to get it, but the returned object will have a new GUID.
         [Optional, defaults to true.]
 --]]
 function Database.PlaceObject(path, parameters)

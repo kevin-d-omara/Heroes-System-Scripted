@@ -1,0 +1,149 @@
+#include Database
+#include !/TabletopSimulator/Vector3
+#include !/Lua/Table/GetElementFromNestedTables
+
+--[[
+## Summary
+Helper methods for placing objects onto the table from within the nested bags.
+--]]
+Placement = {}
+
+--[[
+## Summary
+Instantiate an object from the database and place it somewhere in the game world.
+
+## Parameters
+<string> path: The path to the object (i.e. "HoN.Core_Box.Terrain.C6_A").
+<table> parameters:
+    <Vector3> position: Position to place the Object.
+        [Optional, defaults to container's position +2 on the y axis.]
+    <float> rotation: Degrees clockwise about the y-axis to rotate the Object.
+        [Optional, defaults zero rotation.]
+    <bool> flip: If the Object is flipped over.
+        [Optional, defaults to false.]
+    <bool> smooth: If the Object moves smoothly or instantly.
+        [Optional, defaults to false.]
+    <bool> copy: If a copy of the object is left in the container. The copy will have the same GUID as was used to get it, but the returned object will have a new GUID.
+        [Optional, defaults to true.]
+    <bool> lock: If the object is locked in place.
+        [Optional, defaults to false.]
+    <func> callback_function: A function to invoke once the object is fully materialized.
+        [Optional, defaults to not being used (nil).]
+
+## Notes
+See also: https://api.tabletopsimulator.com/object/#takeobject
+
+The behavior of 'rotation' is different than in 'takeObject()'. Here, the rotation is only about the y-axis.
+The default value of 'smooth' is different than in 'takeObject()'. Here, the default value is false.
+--]]
+function Placement.PlaceObject(path, parameters)
+    -- Override default values of 'GetNestedObjectFromGuids()'.
+    parameters.rotation = parameters.rotation or 0                  -- Default is no rotation.
+    parameters.rotation = Vector3.up * parameters.rotation          -- Rotation is only about the y-axis.
+    if parameters.smooth == nil then parameters.smooth = false end  -- Default is instantaneous.
+
+    local ttsObject = Database.GetData(path)
+    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
+end
+
+--[[
+## Summary
+The same as 'PlaceObject()', except the object is placed on top of any Objects already existing in the Game World.
+
+The object is placed on top of anything already existing in the Game World, regardless of where it came from.
+For example, if there are dice lying on the battlefield and the object is supposed to be placed there, it will be placed on top of the dice.
+
+## Notes
+The y-component of 'parameters.position' is overriden.
+--]]
+function Placement.PlaceObjectAbove(path, parameters)
+    local PlaceAbove = function(obj)
+        -- Default values.
+        parameters.position = parameters.position or obj.getPosition()  -- Defaults to the container's position + 2 on the y axis.
+        if parameters.lock == nil then parameters.lock = false end
+
+        local worldPosition = Vector3(parameters.position)
+        worldPosition.y = Placement.GetMinimumPlacementHeight(worldPosition, obj)
+        if parameters.smooth then
+            obj.setPositionSmooth(worldPosition, false, false)
+        else
+            obj.setPosition(worldPosition)
+        end
+
+        obj.setLock(parameters.lock)
+        if parameters.callback_function ~= nil then parameters.callback_function(obj) end
+    end
+
+    Placement.MaterializeObject(path, PlaceAbove, {
+        rotation = parameters.rotation,
+        flip = parameters.flip,
+        copy = parameters.copy,
+    })
+end
+
+--[[
+## Summary
+Instantiate an Object from the database and callback once the Object is fully materialized.
+
+The object is flipped and rotated before calling back. It is also placed directly above the bag it was contained within.
+
+This function is useful if you need to use 'getBounds()' before taking an action (https://api.tabletopsimulator.com/object/#getbounds).
+
+## Parameters
+<string> path: The path to the object (i.e. "HoN.Core_Box.Terrain.C6_A").
+<func> callback: A function to invoke once the object is fully materialized.
+<table> parameters:
+    <float> rotation: Degrees clockwise about the y-axis to rotate the Object.
+        [Optional, defaults zero rotation.]
+    <bool> flip: If the Object is flipped over.
+        [Optional, defaults to false.]
+    <bool> copy: If a copy of the object is left in the container. The copy will have the same GUID as was used to get it, but the returned object will have a new GUID.
+        [Optional, defaults to true.]
+--]]
+function Placement.MaterializeObject(path, callback, parameters)
+    parameters.callback_function = callback
+    Placement.PlaceObject(path, parameters)
+end
+
+--[[
+## Summary
+Return the height (y-axis) that the object should be placed so that it is perfectly above all other objects below it.
+
+The return value should be used as the y-component of the position passed into `object.setPosition or object.setPositionSmooth` (see: https://api.tabletopsimulator.com/object/#setpositionsmooth).
+
+## Parameters
+<Vector3> worldPosition: The (x,y,z) point in the Game World where the object will be placed. The y component is ignored.
+<Object> object: The object that will be placed. Used to get the object's bounds (https://api.tabletopsimulator.com/object/#getbounds).
+--]]
+function Placement.GetMinimumPlacementHeight(worldPosition, object)
+    local MAX_CAST_HEIGHT = 1000    -- The Maximum height (y-axis) from which a Physics box cast will still return hits.
+
+    local bounds = object.getBounds()
+    local castSize = Vector3(bounds.size) * 0.99    -- Scale down slightly to avoid clipping with closely placed neighbors.
+    local castOrigin = Vector3(
+        worldPosition.x,
+        MAX_CAST_HEIGHT,
+        worldPosition.z
+    )
+    local hits = Physics.cast({
+        origin       = castOrigin,
+        direction    = Vector3.down,
+        type         = 3,           -- Box shaped cast.
+        size         = castSize,
+    })
+
+    -- Get the maximum y-value from among the hit objects.
+    -- Despite the documentation, entries are not in the order of being hit, so hits[1] is not the heighest object.
+    -- See: https://api.tabletopsimulator.com/physics/#cast
+    local maxHeight = 0
+    for i,hit in ipairs(hits) do
+        local height = hit.point.y
+        if height > maxHeight then
+            maxHeight = height
+        end
+    end
+
+    -- In Tabletop Simulator, the position of a game object is at the *bottom* of the physical object, not the center.
+    -- The y component of object.setPosition(vector) must correspond to where the bottom of the object should be placed.
+    return (maxHeight + bounds.size.y/2) + bounds.offset.y
+end

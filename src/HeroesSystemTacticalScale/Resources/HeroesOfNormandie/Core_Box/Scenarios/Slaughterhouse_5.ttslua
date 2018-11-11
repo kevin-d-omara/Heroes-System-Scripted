@@ -18,7 +18,7 @@
                 {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A", {0,3}, "interspace"},
                 {"HoN.Core_Box.Tokens.Bonus_Tactic", "C2_B", {2,6}, "interspace"},
                 {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B", {0,4}, "interspace"},
-                {"HoN.Core_Box.US.RiflePlatoon8th.Recon_Team", "C6_B", {3.968,4.968}, "interspace", {isFlipped = true}},
+                {"HoN.Core_Box.US.RiflePlatoon8th.Recon_Team", "C6_B", {3.968,4.968}, "interspace", {flip = true}},
             },
         },
     },
