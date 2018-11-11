@@ -74,9 +74,9 @@ end
 function _Delver.Global.GetNestedObjectFromGuids(parameters)
     -- Set default values for parameters.
     local parameters = parameters or {}
-    parameters.position = parameters.position or {0,0,0}
-    if type(parameters.asCopy) ~= 'boolean' then parameters.asCopy = true end
-    -- to be continued ...
+    if parameters.asCopy == nil then parameters.asCopy = true end
+    if parameters.smooth == nil then parameters.smooth = true end
+    -- The other default values (position & rotation) happen once the object is materialized.
 
     -- Unpack the extra parameters.
     local guidArray = parameters._guidArray
@@ -91,6 +91,9 @@ function _Delver.Global.GetNestedObjectFromGuids(parameters)
 
     -- Callback function that places the object somewhere.
     local function PlaceTheObject(takenObject)
+        parameters.position = parameters.position or takenObject.getPosition()  -- Defaults to the container's position + 2 on the y axis.
+        parameters.rotation = parameters.rotation or takenObject.getRotation()  -- Defaults to the container's rotation.
+
         if (parameters.flip == true) then
             -- Flip the object using rotation because "takenObject.flip()" glitches when combined with setRotationSmooth().
             parameters.rotation[3] = parameters.rotation[3] + 180
@@ -104,16 +107,14 @@ function _Delver.Global.GetNestedObjectFromGuids(parameters)
         end
 
         -- Wait 2 frames so the object is fully materialized.
-        -- In this frame, the object has the same guid as its clone and sometimes has a {0,0,0} bounding box.
-        Wait.frames(function() NotifyCallerOfSuccess(takenObject) end, 2)
+        -- In the current frame the object has the same guid as its clone and sometimes has a {0,0,0} bounding box.
+        Wait.frames(function() takenObject.setLock(false); NotifyCallerOfSuccess(takenObject) end, 2)
     end
 
     local rootContainer = getObjectFromGUID(guidArray[1])
     local nextIndex = 2
 
-    TaskScheduler.AddTask(
-        function() _Delver.Global.TakeObjectFromNestedBags(rootContainer, guidArray, nextIndex, PlaceTheObject) end
-    )
+    TaskScheduler.AddTask(|| _Delver.Global.TakeObjectFromNestedBags(rootContainer, guidArray, nextIndex, PlaceTheObject))
 end
 
 --[[
@@ -148,8 +149,8 @@ function _Delver.Global.TakeObjectFromNestedBags(currentObject, guidArray, nextI
     if nextIndex > #guidArray then
         -- This is the object we have been looking for.
         -- Clone it and return the clone to the parent container.
-        currentObject.setLock(false)
         clone = currentObject.clone()
+        clone.setLock(false)
         _Delver.Global.ReturnObjectToContainer(clone, parentObject)
         if endingCallback ~= nil then
             endingCallback(currentObject)
