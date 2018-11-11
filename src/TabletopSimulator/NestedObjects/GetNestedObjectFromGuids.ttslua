@@ -99,7 +99,7 @@ function _Delver.Global.GetNestedObjectFromGuids(parameters)
 
         if (parameters.flip == true) then
             -- Flip the object using rotation because "takenObject.flip()" glitches when combined with setRotationSmooth().
-            parameters.rotation[3] = parameters.rotation[3] + 180
+            parameters.rotation.z = parameters.rotation.z + 180
         end
         if (parameters.smooth == true) then
             takenObject.setPositionSmooth(parameters.position, false, false)
