@@ -5,6 +5,7 @@ public class Tile
     -- Public Fields
     string Path             -- The path to this resource (i.e. "HoN.Core_Box.Terrain.Thicket_1")
     bool Flip = false       -- True if the object should be flipped over when placed.
+    bool Lock = false       -- True if the object should be locked/frozen when placed.
     float Rotation = 0      -- Number of degrees about the y-axis the object should be rotated when placed.
 
     -- Constructors
@@ -28,6 +29,7 @@ Tile(table data)
     data:
         <string> 1|path     -- The key can be either [1] or ['path'].
         <bool> flip
+        <bool> lock
         <float> rotation
 --]]
 function Tile:new(data)
@@ -39,10 +41,12 @@ function Tile:new(data)
     if type(data) == 'string' then
         obj.Path = data
         obj.Flip = false
+        obj.Lock = false
         obj.Rotation = 0
     elseif type(data) == 'table' then
         obj.Path        = data.path or data[1]
         obj.Flip        = data.flip or false
+        obj.Lock        = data.lock or false
         obj.Rotation    = data.rotation or 0
     else
         error("Argument [1] data: string or table expected, but got " .. tostring(type(data)) .. ".")
@@ -56,7 +60,7 @@ function Tile:new(data)
 end
 
 function Tile.ToString(tile)
-    return "Tile({path=" .. tostring(tile.Path) .. ", flip=" .. tostring(tile.Flip) .. ", rotation=" .. tostring(tile.Rotation) .. "})"
+    return "Tile({path=" .. tostring(tile.Path) .. ", flip=" .. tostring(tile.Flip) .. ", lock=" .. tostring(tile.Lock) .. ", rotation=" .. tostring(tile.Rotation) .. "})"
 end
 
 -- Metamethod operators

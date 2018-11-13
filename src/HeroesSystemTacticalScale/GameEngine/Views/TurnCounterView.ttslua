@@ -110,5 +110,6 @@ function TurnCounterView:_PlaceMarker(tile, localCoord)
         position = worldCoord,
         rotation = tile.Rotation,
         flip = tile.Flip,
+        lock = tile.Lock,
     })
 end
