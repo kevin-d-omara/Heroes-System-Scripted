@@ -19,10 +19,11 @@ class BattlefieldView
     void Materialize()
     Vector2 GetSize()
 
-    void PlaceOnTerrainSpace(path, terrainAlias, index, options)
-    void PlaceOnTerrainInterspace(path, terrainAlias, index, options)
+    void PlaceOnTerrain(tile)
+    void PlaceOnTerrainSpace(path, index, terrainBoardAlias, options)
+    void PlaceOnTerrainInterspace(path, index, terrainBoardAlias, options)
     void PlaceOnBattlefieldSpace(path, index, options)
-    void PlaceOnBattlefieldInterspace(path, index, options) options)
+    void PlaceOnBattlefieldInterspace(path, index, options)
     void PlaceOnBattlefield(path, worldPosition, options)
 
     Vector2 GetWorldPositionForTerrainSpace(terrainAlias, index)
@@ -70,46 +71,18 @@ function BattlefieldView:Materialize(parameters)
 
     -- Lay Terrain Boards.
     for k,board in pairs(self.Model.TerrainBoards) do
-        local path      = board[1]
-        local index     = board[2].index
-        local options   = board[2]
-        options.lock = true
-        self:PlaceOnBattlefieldSpace(path, index, options)
+        local options = self:_GetOptionsFromTile(board)
+        self:PlaceOnBattlefieldSpace(board.Path, board.Index, options)
     end
 
     -- Lay Terrain Tiles.
     for k,tile in pairs(self.Model.TerrainTiles) do
-        local path      = tile[1]
-        local alias     = tile[2]
-        local index     = tile[3]
-        local indexType = tile[4]
-        local options   = tile[5]
-        options.lock = true
-
-        if indexType == "space" then
-            self:PlaceOnTerrainSpace(path, alias, index, options)
-        elseif indexType == "interspace" then
-            self:PlaceOnTerrainInterspace(path, alias, index, options)
-        else
-            error("Improper value for indexType: 'space' or 'interspace' expected, but got " .. tostring(indexType))
-        end
+        self:PlaceOnTerrain(tile)
     end
 
     -- Lay Objects
-    for k,object in pairs(self.Model.Objects) do
-        local path      = object[1]
-        local alias     = object[2]
-        local index     = object[3]
-        local indexType = object[4]
-        local options   = object[5]
-
-        if indexType == "space" then
-            self:PlaceOnTerrainSpace(path, alias, index, options)
-        elseif indexType == "interspace" then
-            self:PlaceOnTerrainInterspace(path, alias, index, options)
-        else
-            error("Improper value for indexType: 'space' or 'interspace' expected, but got " .. tostring(indexType))
-        end
+    for k,tile in pairs(self.Model.Objects) do
+        self:PlaceOnTerrain(tile)
     end
 
     if parameters.callback ~= nil then parameters.callback() end
@@ -126,13 +99,28 @@ function BattlefieldView:GetSize()
     })
 end
 
-function BattlefieldView:PlaceOnTerrainSpace(path, terrainAlias, index, options)
-    options.position = self:GetWorldPositionForTerrainSpace(terrainAlias, index)
+--[[
+## Parameters
+<TerrainElement> tile
+--]]
+function BattlefieldView:PlaceOnTerrain(tile)
+    local options = self:_GetOptionsFromTile(tile)
+    if tile.IndexType == "space" then
+        self:PlaceOnTerrainSpace(tile.Path, tile.Index, tile.TerrainBoardAlias, options)
+    elseif tile.IndexType == "interspace" then
+        self:PlaceOnTerrainInterspace(tile.Path, tile.Index, tile.TerrainBoardAlias, options)
+    else
+        error("Improper value for indexType: 'space' or 'interspace' expected, but got " .. tostring(indexType))
+    end
+end
+
+function BattlefieldView:PlaceOnTerrainSpace(path, index, terrainBoardAlias, options)
+    options.position = self:GetWorldPositionForTerrainSpace(terrainBoardAlias, index)
     Placement.PlaceObjectAbove(path, options)
 end
 
-function BattlefieldView:PlaceOnTerrainInterspace(path, terrainAlias, index, options)
-    options.position = self:GetWorldPositionForTerrainInterspace(terrainAlias, index)
+function BattlefieldView:PlaceOnTerrainInterspace(path, index, terrainBoardAlias, options)
+    options.position = self:GetWorldPositionForTerrainInterspace(terrainBoardAlias, index)
     Placement.PlaceObjectAbove(path, options)
 end
 
@@ -178,4 +166,19 @@ end
 
 function BattlefieldView:GetWorldPositionForTerrainInterspace(terrainAlias, index)
     return self:GetWorldPositionForBattlefieldInterspace(self.Model:ConvertTerrainInterspaceToBattlefieldInterspace(terrainAlias, index))
+end
+
+--[[
+## Summary
+Extract the options from the tile and package them into a form that is useable by the BattlefieldView methods above.
+
+## Parameters
+<Tile> tile
+--]]
+function BattlefieldView:_GetOptionsFromTile(tile)
+    return {
+        flip = tile.Flip,
+        lock = tile.Lock,
+        rotation = tile.Rotation,
+    }
 end

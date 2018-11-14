@@ -1,3 +1,5 @@
+#include TerrainBoard
+#include TerrainElement
 #include !/TabletopSimulator/Vector2
 
 --[[
@@ -7,9 +9,9 @@ class BattlefieldModel
     -- Fields
     int Width
     int Height
-    array TerrainBoards
-    array TerrainTiles
-    array Objects
+    array<TerrainBoard> TerrainBoards
+    array<TerrainElement> TerrainTiles
+    array<TerrainElement> Objects
 
     -- Constructors
     BattlefieldModel:new(parameters)
@@ -50,120 +52,84 @@ local BattlefieldModel = {}
 setmetatable(BattlefieldModel, { __call = function(self, ...) return self:new(...) end })
 
 --[[
-## Parameters
-<table> parameters: A table with the following key-value pairs:
-    <int> Width:  The number of Terrain Boards or spaces wide the battlefield is (boards if the TerrainBoards array elements don't have an "index" key, spaces otherwise).
-    <int> Height: The number of Terrain Boards or spaces high the battlefield is (boards if the TerrainBoards array elements don't have an "index" key, spaces otherwise).
-    <table> TerrainBoards: An array of Terrain Boards, which are arrays with the following elements:
-        <string> [1] (path): The path to this terrain board resource (i.e. "HoN.Core_Box.Terrain.C6_A").
-        <table> [2] (options): The following key-value pairs:
-            [Optional, defaults to having no options.]
-            <Vector2> index: The (x,y) Terrain Coordinates (in spaces) of this board.
-                [Optional, defaults to the center space of this board on the battlefield, according to its order within the array. Boards are ordered left-to-right, top-to-bottom.]
-            <Vector2> bounds: The width and height (in spaces) of this board after it has been rotated (i.e. a 2x3 board that is rotated 90 degrees would have bounds of 3x2).
-                [Optional, defaults to Vector2(7,7).]
-            <string> alias: The name/key to use when placing Terrain Tiles and Objects onto this board.
-                [Optional, defaults to the leaf key in the path (i.e. "C6_A" for "HoN.Core_Box.Terrain.C6_A")].
-            <float> rotation: Degrees clockwise about the y-axis to rotate this board.
-                [Optional, defaults to 0 degrees.]
-            <bool> flip: True if the board should be placed on its reverse side. False if the front should be showing.
-                [Optional, defaults to false.]
-    <table> TerrainTiles: An array of Terrain Tiles, which are arrays with the following elements:
-        [Optional, defaults to having no Terrain Tiles.]
-        <string> [1] (path): The path to this terrain tile resource (i.e. "HoN.Core_Box.Terrain.House_1x1").
-        <Vector2> [2] (tile): The alias of the terrain board this element will be placed on.
-        <Vector2> [3] (index): The (x,y) Element Coordinates on the terrain board that this element will be placed. Is measured according to the "indexType".
-        <string> [4] (indexType): Either "space" or "interspace". (see Coordinate Systems)
-        <table> [5] (options): The following key-values pairs:
-            [Optional, defaults to having no options.]
-            <float> rotation: Degrees clockwise about the y-axis to rotate this tile.
-                [Optional, defaults to 0 degrees.]
-            <bool> flip: True if the tile should be placed on its reverse side. False if the front should be showing.
-                [Optional, defaults to false.]
-    <table> Objects: An array of objects to place on top of the Battlefield after the Terrain Boards and Terrain Tiles have been placed. The array elements contain the same fields as for `TerrainTiles`.
-        [Optional, defaults to having no Objects.]
+## Notes
+There are two different constructors for the BattlefieldModel model:
+    1. The most commonly used. Assumes all TerrainBoards are the large 7x7 tiles. The 'index' and 'bounds' key of each TerrainBoard should not be specified.
+    2. Only used for special scenarios where the TerrainBoards may be of any size or shape (ex: caves from Shadow Hunters SoN expansion) or when there is a secondary battlefield (ex: sewers from HoS or underground area from Radar Station & Factory).
+
+## Signatures
+BattlefieldModel(data)
+    data:
+        <int> Height: The number of large (7x7) boards tall the battlefield is.
+        <int> Width: The number of large (7x7) boards wide the battlefield is.
+        <table> TerrainBoards:          -- Array of <TerrainBoard> objects which are the first set of tiles to be placed on the board (ex: the large 7x7 tiles or the smaller cave or sewer pieces from the expansions).
+            <string> [1] (path)
+            <table> [2] (options):
+                [Optional, defaults to the following defaults.]
+                flip                    -- True if the object will be flipped over when placed.
+                    [Optional, defaults to false.]
+                rotation                -- Number of degrees about the y-axis (clockwise) the object will be rotated when placed.
+                    [Optional, defaults to no rotation (0 degrees).]
+                alias                   -- The name/key to specify to place objects on this tile.
+                    [Optional, defaults to the leaf key in the path (i.e. "C6_A" for "HoN.Core_Box.Terrain.C6_A").]
+        <table> TerrainTiles            -- Array of <TerrainElement> objects which are placed on top of the Terrain Boards (ex: houses, defensive positions, barbed wire, etc.).
+            [Optional, defaults to having no TerrainElements.]
+        <table> Objects                 -- Array of <TerrainElement> objects which are placed on top of the Terrain Tiles and Terrain Boards (ex: units, objectives, etc.).
+            [Optional, defaults to having no Objects.]
+
+BattlefieldModel(data)
+    Same as above, except TerrainBoards[2] (options) has two additional keys:
+        index: The (x,y) Terrain Coordinates (in spaces) of the center of this board.
+        bounds: The width and height (in spaces) of this board after it has been rotated (i.e. a 2x3 board that is rotated 90 degrees would have bounds of 3x2).
+    Furthermore, Height and Width measure the number of spaces, not boards (there are 7x7 spaces per standard large terrain board).
 --]]
 function BattlefieldModel:new(parameters)
-    local errorMsg = BattlefieldModel._ValidateParameters(parameters)
-    if errorMsg ~= nil then
-        error(errorMsg)
-    end
-
-    if BattlefieldModel._TerrainBoardIsMissingIndex(parameters.TerrainBoards) then
-        if #parameters.TerrainBoards ~= (parameters.Width * parameters.Height) then
-            local quantity = #parameters.TerrainBoards < (parameters.Width * parameters.Height) and 'few' or 'many'
-            error("There are too " .. quantity .. " Terrain Boards for the specified Width and Height: " .. tostring(parameters.Width) .. " by " .. tostring(parameters.Height) .. ".")
-        end
-
-        BattlefieldModel._AddIndexToTerrainBoards(parameters.TerrainBoards, parameters.Width, parameters.Height)
-
-        -- Convert from terrain boards (7x7 spaces) to individual spaces.
-        parameters.Width  = parameters.Width  * 7
-        parameters.Height = parameters.Height * 7
-    end
-
-    -- Defaults.
-    for k,v in ipairs(parameters.TerrainBoards) do
-        -- Set default values.
-        v[2].bounds   = v[2].bounds or {7,7}
-        v[2].rotation = v[2].rotation or 0
-        v[2].flip     = v[2].flip or false
-        if v[2].alias == nil then
-            local pathArray = SplitString(v[1], '.')
-            v[2].alias = pathArray[#pathArray]  -- The default alias is the leaf key in the path (i.e. 'C6_A' for 'HoN.Core_Box.Terrain.C6_A').
-        end
-
-        -- Transform to Vector2.
-        v[2].index  = Vector2(v[2].index)
-        v[2].bounds = Vector2(v[2].bounds)
-    end
-    parameters.TerrainTiles = parameters.TerrainTiles or {}
-    for k,v in ipairs(parameters.TerrainTiles) do
-        -- Set default values.
-        v[5] = v[5] or {}
-        v[5].rotation = v[5].rotation or 0
-        v[5].flip     = v[5].flip or false
-
-        -- Transform to Vector2.
-        v[3] = Vector2(v[3])
-    end
-    parameters.Objects = parameters.Objects or {}
-    for k,v in ipairs(parameters.Objects) do
-        -- Set default values.
-        v[5] = v[5] or {}
-        v[5].rotation = v[5].rotation or 0
-        v[5].flip     = v[5].flip or false
-
-        -- Transform to Vector2.
-        v[3] = Vector2(v[3])
-    end
-
-    -- A map from alias to terrain board.
-    local _AliasToTerrainBoardMap = {}
-    for i,v in ipairs(parameters.TerrainBoards) do
-        _AliasToTerrainBoardMap[v[2].alias] = v
-    end
+    -- Validate input.
+    if type(parameters) ~= 'table'                  then return error("Argument [1] parameters: table expected, but got " .. tostring(type(parameters)) .. ".") end
+    if type(parameters.Width) ~= 'number'           then return error("Argument [1] parameters.Width: integer number expected, but got " .. tostring(type(parameters.Width)) .. ".") end
+    if type(parameters.Height) ~= 'number'          then return error("Argument [1] parameters.Height: integer number expected, but got " .. tostring(type(parameters.Height)) .. ".") end
+    if type(parameters.TerrainBoards) ~= 'table'    then return error("Argument [1] parameters.TerrainBoards: table expected, but got " .. tostring(type(parameters.TerrainBoards)) .. ".") end
+    if #parameters.TerrainBoards < 1                then return error("Argument [1] parameters.TerrainBoards: array expected, but 0 elements found.") end
 
     local obj = {}
     setmetatable(obj, self)
     self.__index = self
     self.__call = function(self, ...) return self:new(...) end
 
+    -- Default values.
+    parameters = BattlefieldModel._TryUseSignatureOne(parameters)
+    parameters.TerrainTiles = parameters.TerrainTiles or {}
+    parameters.Objects = parameters.Objects or {}
+
     obj.Width           = parameters.Width
     obj.Height          = parameters.Height
-    obj.TerrainBoards   = parameters.TerrainBoards
-    obj.TerrainTiles    = parameters.TerrainTiles or {}
-    obj.Objects         = parameters.Objects or {}
-    obj._AliasToTerrainBoardMap = _AliasToTerrainBoardMap
+    obj.TerrainBoards = {}
+    for i,v in ipairs(parameters.TerrainBoards) do
+        obj.TerrainBoards[i] = TerrainBoard(v[1], v[2].index, v[2])
+        obj.TerrainBoards[i].Lock = true
+    end
+    obj.TerrainTiles = {}
+    for i,v in ipairs(parameters.TerrainTiles) do
+        obj.TerrainTiles[i] = TerrainElement(v)
+        obj.TerrainTiles[i].Lock = true
+    end
+    obj.Objects = {}
+    for i,v in ipairs(parameters.Objects) do
+        obj.Objects[i] = TerrainElement(v)
+    end
+    obj._AliasToTerrainBoardMap = {}
+    for i,v in ipairs(obj.TerrainBoards) do
+        obj._AliasToTerrainBoardMap[v.Alias] = v
+    end
 
     return obj
 end
 
 function BattlefieldModel:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index)
     local board = self:_GetTerrainBoardForAlias(terrainAlias)
-    local bounds = board[2].bounds
+    local bounds = board.Bounds
 
-    local centerBoardBattlefield = board[2].index                                   -- The (x,y) Terrain Coordinates of the center of this board on the battlefield.
+    local centerBoardBattlefield = board.Index                                      -- The (x,y) Terrain Coordinates of the center of this board on the battlefield.
     local centerBoardTerrain = Vector2((bounds.x + 1)/2, (bounds.y + 1)/2)          -- The (x,y) Element Coordinates of the center of this board within the board itself.
     local indexBattlefield = index - centerBoardTerrain + centerBoardBattlefield    -- The (x,y) Terrain Coordinates of the index on the battlefield.
 
@@ -183,38 +149,50 @@ function BattlefieldModel:_GetTerrainBoardForAlias(terrainAlias)
     return board
 end
 
---------------------------------------------------------------------------------
--- [[ Initialization methods ]] ------------------------------------------------
---------------------------------------------------------------------------------
 
-function BattlefieldModel._ValidateParameters(parameters)
-    if type(parameters) ~= 'table'                  then return "Argument [1] parameters: table expected, but got " .. tostring(type(parameters)) .. "." end
-    if type(parameters.Width) ~= 'number'           then return "Argument [1] parameters.Width: integer number expected, but got " .. tostring(type(parameters.Width)) .. "." end
-    if type(parameters.Height) ~= 'number'          then return "Argument [1] parameters.Height: integer number expected, but got " .. tostring(type(parameters.Height)) .. "." end
-    if type(parameters.TerrainBoards) ~= 'table'    then return "Argument [1] parameters.TerrainBoards: table expected, but got " .. tostring(type(parameters.TerrainBoards)) .. "." end
-    if #parameters.TerrainBoards < 1                then return "Argument [1] parameters.TerrainBoards: array expected, but 0 elements found." end
-
-    return nil
-end
+--------------------------------------------------------------------------------
+-- [[ Methods for constructor signature 1 ]] -----------------------------------
+--------------------------------------------------------------------------------
 
 --[[
-Returns true if the first terrain board does not include an "indexType" key.
-ex: board = {"SoN.Core_Box.Terrain.S3_B", {index = {1, 1}, rotation = -90}}
+## Summary
+Check if the first constructor signature is being used, and if so apply it.
 --]]
-function BattlefieldModel._TerrainBoardIsMissingIndex(terrainBoards)
-    local board = terrainBoards[1]  -- {"SoN.Core_Box.Terrain.S3_B", {index = {1, 1}, rotation = -90}}
-    local params = board[2]         -- {index = {1, 1}, rotation = -90}
-    if params == nil or params.index == nil then
-        return true
-    else
-        return false
+function BattlefieldModel._TryUseSignatureOne(parameters)
+    -- If any terrain board is missing the key named 'index' from its options, then the first constructor signature is used.
+    local isSignatureOne = false
+    for i,v in ipairs(parameters.TerrainBoards) do
+        local options = v[2]
+        if options == nil or options.index == nil then
+            isSignatureOne = true
+            break
+        end
     end
+
+    if isSignatureOne then
+        local numBoardsActual   = #parameters.TerrainBoards
+        local numBoardsExpected = parameters.Width * parameters.Height
+        if numBoardsActual ~= numBoardsExpected then
+            local adjective = numBoardsActual < numBoardsExpected and 'few' or 'many'
+            error("There are too " .. adjective .. " Terrain Boards for the specified Width and Height: " .. tostring(parameters.Width) .. " by " .. tostring(parameters.Height) .. ".")
+        end
+
+        BattlefieldModel._Signature1_AddIndexToTerrainBoards(parameters.TerrainBoards, parameters.Width, parameters.Height)
+
+        -- Convert width/height from 'number of terrain boards' (which are 7x7 spaces each) to 'number of spaces'.
+        parameters.Width  = parameters.Width  * 7
+        parameters.Height = parameters.Height * 7
+    end
+
+    return parameters
 end
 
 --[[
 ## Summary
-Populate the "index" option with the coordinates of each Terrain Board's center space.
-Indices move left-to-right, top-to-bottom in a grid of size (width, height).
+Populate each Terrain Board's 'index' with the coordinates of it's center space relative to the entire battlefield.
+
+The boards are mapped onto a grid of size 'width' x 'height'.
+The boards are mapped starting from the top left and then moving left-to-right, top-to-bottom.
 
 ## Example
 For a 2 by 2 battlefield that looks like:
@@ -234,7 +212,7 @@ becomes
     {"HoN.Core_Box.Terrain.D", {index = {11, 4}               }},   -- Board (2,1) has the index (11 ,4) for its center space.
 }
 --]]
-function BattlefieldModel._AddIndexToTerrainBoards(terrainBoards, width, height)
+function BattlefieldModel._Signature1_AddIndexToTerrainBoards(terrainBoards, width, height)
     local i = 0
     for y = height, 1, -1 do    -- Height is measured in terrain boards.
         for x = 1, width do     -- Width  is measured in terrain boards.
@@ -246,7 +224,7 @@ function BattlefieldModel._AddIndexToTerrainBoards(terrainBoards, width, height)
                 board[2] = {}
             end
 
-            -- The index is the center space of the terrain board.
+            -- The index is the space at the center of the terrain board, which is (4,4) for a 7x7 tile.
             local coordX = 4 + 7*(x-1)
             local coordY = 4 + 7*(y-1)
             board[2].index = {coordX, coordY}

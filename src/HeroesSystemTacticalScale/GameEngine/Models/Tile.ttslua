@@ -6,7 +6,7 @@ public class Tile
     string Path             -- The path to this resource (i.e. "HoN.Core_Box.Terrain.Thicket_1")
     bool Flip = false       -- True if the object should be flipped over when placed.
     bool Lock = false       -- True if the object should be locked/frozen when placed.
-    float Rotation = 0      -- Number of degrees about the y-axis the object should be rotated when placed.
+    float Rotation = 0      -- Number of degrees about the y-axis (clockwise) the object should be rotated when placed.
 
     -- Constructors
     public Tile(string path)
