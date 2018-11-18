@@ -1,0 +1,28 @@
+--[[
+## Interface
+interface IForceModel
+{
+    -- Methods
+    ForceModelDto TransformIntoForceModelDto()  -- Returns a copy of the IForceModel as a ForceModelDto.
+}
+
+## Summary
+A ForceModel is the building block of an Army.
+Usually it is a RecruitmentTile but may also be a smaller group of units.
+
+ForceModels must implement this interface in order to be used by the View.
+
+## Examples:
+A Recruitment Tile (Rifle Platoon 22nd, etc.) with a few Options (Grenades, Mortar, etc.) and a scenario objective (Dynamite, Signal Flares, etc.).
+A group of US Paratroopers: The "Pathfinder Squad" Option + "Engineers Squad" Option.
+--]]
+
+local IForceModel = {}
+
+--[[
+## Summary
+Returns the ForceModel as a ForceModelDto object.
+--]]
+function IForceModel:TransformIntoForceModelDto()
+    error('Not yet implemented.')
+end

@@ -1,0 +1,28 @@
+#include !/../lib/30log/class
+
+--[[
+## Class
+public class ForceModelDto
+{
+    -- Public Fields
+    array<array<Tile>> Tiles
+
+    -- Constructors
+    public ForceModelDto(data)
+
+    -- Methods
+
+}
+
+## Summary
+A "data transfer object" of the IForceModel that is used by the View to physically place tiles in the Game World.
+--]]
+
+local ForceModelDto = class('ForceModelDto')
+
+function ForceModelDto:init(tiles)
+    assert(type(tiles) == 'table', "Argument [1] 'tiles': table expected, but got " .. tostring(tiles) .. ".")
+    assert(type(tiles[1]) == 'table', "Argument [1][1] 'tiles[1]': table expected, but got " .. tostring(tiles[1]) .. ".")
+
+    self.Tiles = tiles
+end

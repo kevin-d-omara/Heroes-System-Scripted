@@ -1,0 +1,73 @@
+#include !/../lib/30log/class
+#include CombatGroup
+#include !/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile
+
+--[[
+## Class
+class RecruitmentTileForceModel : CombatGroup, IForceModel
+{
+    -- Public Fields
+    Tile Tile                           -- The RecruitmentTile that this ForceModel is based on.
+    array<CombatGroup> Options  = nil   -- The Options that are slotted into the RecruitmentTile.
+    array<string> Disclude      = nil   -- Tiles to disclude from the "Includes" of this Tile (ex: disclude 'Officer' from 'Rifle_Platoon_8th').
+    array<Tile> Include         = nil   -- Tiles to add to the "Includes" of this Tile (ex: 'Recon_Team' or 'HoN.Core_Box.Terrain.Position_1x1').
+    array<Tile> Modify          = nil   -- Parameters to alter how the "Includes" of this Tile are placed (ex: flipped, rotated, etc.)
+    array<array<Tile>> Extra    = nil   -- Extra Tiles to add to this ForceModel beyond the RecruitmentTile.Includes and the Options.
+
+    -- Public Constructors
+    RecruitmentTileForceModel(table data)
+
+    -- Public Methods
+    ForceModelDto TransformIntoForceModelDto()  -- Returns a copy of this ForceModel as a ForceModelDto.
+}
+
+## Summary
+A concrete implementation of a ForceModel that is composed of a single Recruitment Tile with its Options and anything extra.
+
+## Example
+-- From Scenario "Out of Gas", Heroes of Normandie, Core Box Scenarios, pg 9
+RecruitmentTileForceModel({
+    'Rifle_Platoon_22nd',
+    options = {
+        'Bazooka_Squad_Option',
+        'Rifle_Grenades_Option',
+        'Willys_50cal_Option',
+        {'Mechanized', disclude = {'Halftrack', 'Halftrack'}}   -- They are already deployed to the battlefield.
+    },
+})
+--]]
+
+local RecruitmentTileForceModel = CombatGroup:extend('RecruitmentTileForceModel'):with(IForceModel)
+
+--[[
+## Constructor
+RecruitmentTileForceModel(table data)
+    data:
+        <Tile> 1|tile       -- The key can be either [1] or ['tile'].
+        array<CombatGroup> options  = nil   -- This array is special, you may include non-consecutive elements (i.e. [1], [2], [4]).
+        array<string> disclude      = nil
+        array<Tile> include         = nil
+        array<Tile> modify          = nil
+        array<array<Tile>>|array<Tile> extra = nil
+--]]
+function RecruitmentTileForceModel:init(data)
+    RecruitmentTileForceModel.super.init(self, data)
+
+    data.options    = data.options or {}
+    if data.extra ~= nil and (type(data.extra[1]) == 'string' or #data.extra[1] <= 1) then
+        data.extra = {data.extra}
+    end
+    data.extra = data.extra or {}
+
+    self.Options = {}
+    for k,v in pairs(data.options) do
+        self.Options[k] = CombatGroup(v)    -- Use `pairs` instead of `ipairs` because elements may be non-consecutive (i.e. {[1] = 'a', [3] = 'b'}).
+    end
+    self.Extra = {}
+    for i,row in ipairs(data.extra) do
+        self.Extra[i] = {}
+        for j,element in ipairs(row) do
+            self.Extra[i][j] = Tile(element)
+        end
+    end
+end

@@ -1,0 +1,40 @@
+#include !/TabletopSimulator/TTSTest/TestClass
+#include !/TabletopSimulator/TTSTest/Assert
+#include !/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/Impl/RecruitmentTileForceModel
+
+TestClass('RecruitmentTileForceModel unit tests')
+
+function Test:Constructor_ComplexExample()
+    local config =
+    {
+        'Rifle_Platoon_22nd',
+        options = {
+            'Bazooka_Squad_Option',
+            'Rifle_Grenades_Option',
+            'Willys_50cal_Option',
+            {'Mechanized', disclude = {'Halftrack', 'Halftrack'}}   -- They are already deployed to the battlefield.
+        },
+    }
+    local expected = config.options[4].disclude[1]
+    local instance = RecruitmentTileForceModel(config)
+    local actual = instance.Options[4].Disclude[1]
+
+    local err = AssertEquals(expected, actual); assert(not err, err)
+end
+
+function Test:Constructor_NonConsecutiveOptions()
+    local config =
+    {
+        'Rifle_Platoon_22nd',
+        options = {
+            [1] = 'Bazooka_Squad_Option',
+            [2] = 'Rifle_Grenades_Option',
+            [4] = {'Mechanized', disclude = {'Halftrack', 'Halftrack'}}   -- They are already deployed to the battlefield.
+        },
+    }
+    local expected = config.options[4].disclude[1]
+    local instance = RecruitmentTileForceModel(config)
+    local actual = instance.Options[4].Disclude[1]
+
+    local err = AssertEquals(expected, actual); assert(not err, err)
+end

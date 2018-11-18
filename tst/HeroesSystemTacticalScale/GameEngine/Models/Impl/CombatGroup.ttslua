@@ -1,0 +1,25 @@
+#include !/TabletopSimulator/TTSTest/TestClass
+#include !/TabletopSimulator/TTSTest/Assert
+#include !/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/Impl/CombatGroup
+
+TestClass('CombatGroup unit tests')
+
+function Test:Constructor_JustString()
+    local config = 'Pathfinders_Squad_Option'
+    local instance = CombatGroup(config)
+
+    local err = AssertEquals(instance.Tile.Path, config); assert(not err, err)
+    local err = AssertEquals(#instance.Disclude, 0); assert(not err, err)
+    local err = AssertEquals(#instance.Include, 0); assert(not err, err)
+    local err = AssertEquals(#instance.Modify, 0); assert(not err, err)
+end
+
+function Test:Constructor_ComplexExample()
+    local config = {
+        'Mechanized',
+        disclude = {'Halftrack', 'Halftrack'}
+    }
+    local instance = CombatGroup(config)
+
+    local err = AssertEquals(#instance.Disclude, 2); assert(not err, err)
+end

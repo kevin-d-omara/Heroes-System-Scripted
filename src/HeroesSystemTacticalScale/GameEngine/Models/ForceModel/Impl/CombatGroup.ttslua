@@ -1,0 +1,74 @@
+#include !/../lib/30log/class
+#include !/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile
+
+--[[
+## Class
+class CombatGroup : Tile
+{
+    -- Public Fields
+    Tile Tile                       -- A Tile which comes bundled with other Tiles (ex: "Ambush_Squad_Option").
+    array<string> Disclude  = nil   -- Tiles to disclude from the "Includes" of this Tile (ex: disclude 'Recon_Team' from 'Ambush_Squad_Option').
+    array<Tile> Include     = nil   -- Tiles to add to the "Includes" of this Tile (ex: 'Recon_Team' or 'HoN.Core_Box.Terrain.Position_1x1').
+    array<Tile> Modify      = nil   -- Parameters to alter how the "Includes" of this Tile are placed (ex: flipped, rotated, etc.)
+
+    -- Public Constructors
+    CombatGroup(data)
+}
+
+## Summary
+Wrapper for Tile that defines how to modify the extra Tiles that come included with this one.
+
+For example could be "Pathfinders_Signallers_Option" with an extra "Item_Transmitter" or "Halftracks_x2" discluding one of the Halftracks.
+--]]
+
+local CombatGroup = class("CombatGroup")
+
+--[[
+## Constructors
+CombatGroup(string path)
+CombatGroup(table data)
+    data:
+        <Tile> 1|tile       -- The key can be either [1] or ['tile'].
+        array<string> disclude  = nil
+        array<Tile> include     = nil
+        array<Tile> modify      = nil
+
+## Examples
+-- Each of the three elements below is a valid input to CombatGroup().
+options = {
+    [1] = 'Ambush_Squad',
+    [2] = {
+        'Halftracks_x2',
+        exclude = {'Halftrack', 'Halftrack'},
+    },
+    [4] = {
+        {'Halftracks_x2', flip = true},
+        exclude = {'Halftrack', 'Halftrack'},
+    },
+}
+--]]
+function CombatGroup:init(data)
+    if type(data) == 'string' then
+        data = {data}
+    end
+
+    -- Format input data.
+    data.tile = data[1] or data.tile
+    data.disclude   = data.disclude or {}
+    data.include    = data.include or {}
+    data.modify     = data.modify or {}
+
+    self.Tile = Tile(data.tile)
+    self.Disclude = {}
+    for i,v in ipairs(data.disclude) do
+        self.Disclude[i] = v
+    end
+    self.Include = {}
+    for i,v in ipairs(data.include) do
+        self.Include[i] = Tile(v)
+    end
+    self.Modify = {}
+    for i,v in ipairs(data.modify) do
+        self.Modify[i] = Tile(v)
+    end
+end

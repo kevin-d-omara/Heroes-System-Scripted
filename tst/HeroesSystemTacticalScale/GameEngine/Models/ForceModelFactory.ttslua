@@ -1,0 +1,116 @@
+#include !/TabletopSimulator/TTSTest/TestClass
+#include !/TabletopSimulator/TTSTest/Assert
+#include !/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/ForceModelFactory
+
+TestClass('ForceModelFactory unit tests')
+
+function Test:Constructor_ComplexExample()
+    local config =
+    {
+        'Rifle_Platoon_22nd',
+        options = {
+            'Bazooka_Squad_Option',
+            'Rifle_Grenades_Option',
+            'Willys_50cal_Option',
+            {'Mechanized', disclude = {'Halftrack', 'Halftrack'}}   -- They are already deployed to the battlefield.
+        },
+    }
+    local expected = config.options[4].disclude[1]
+    local instance = ForceModelFactory.Create(config)
+    local actual = instance.Options[4].Disclude[1]
+
+    local err = AssertEquals(expected, actual); assert(not err, err)
+    local err = AssertTrue(instance:instanceOf(RecruitmentTileForceModel)); assert(not err, err)
+end
+
+function Test:Constructor_NonConsecutiveOptions()
+    local config =
+    {
+        'Rifle_Platoon_22nd',
+        options = {
+            [1] = 'Bazooka_Squad_Option',
+            [2] = 'Rifle_Grenades_Option',
+            [4] = {'Mechanized', disclude = {'Halftrack', 'Halftrack'}}   -- They are already deployed to the battlefield.
+        },
+    }
+    local expected = config.options[4].disclude[1]
+    local instance = ForceModelFactory.Create(config)
+    local actual = instance.Options[4].Disclude[1]
+
+    local err = AssertEquals(expected, actual); assert(not err, err)
+    local err = AssertTrue(instance:instanceOf(RecruitmentTileForceModel)); assert(not err, err)
+end
+
+function Test:Constructor_SimpleArray()
+    local config = {
+        'Pathfinders_Squad_Option',
+        'Engineers_Squad_Option',
+        {'Signallers_Option', include = {'Item_Eureka_Ground_Radar'}},
+    }
+    local expected = config[3].include[1]
+    local instance = CombatGroupForceModel(config)
+    local actual = instance.CombatGroups[3].Include[1].Path
+
+    local err = AssertEquals(3, #instance.CombatGroups); assert(not err, err)
+    local err = AssertEquals(expected, actual); assert(not err, err)
+end
+
+function Test:Constructor_Extra_SingleArray_FirstElementString()
+    local config = {
+        tiles = {'Pathfinders_Squad_Option'},
+        extra = {
+            'Item_Halifane_Light',
+            'Item_Halifane_Light',
+        },
+    }
+    local expected = config.extra[1]    -- TODO: Change database to DeepCopy result so I don't have to worry about modifying data there.
+    local instance = ForceModelFactory.Create(config)
+    local actual = instance.Extra[1][1].Path
+
+    local err = AssertEquals(expected, actual); assert(not err, err)
+end
+
+function Test:Constructor_Extra_SingleArray_FirstElementTile_ImplicitPath()
+    local config = {
+        tiles = {'Pathfinders_Squad_Option'},
+        extra = {
+            {'Item_Halifane_Light', flip = true},
+            'Item_Halifane_Light',
+        },
+    }
+    local expected = config.extra[1][1]
+    local instance = ForceModelFactory.Create(config)
+    local actual = instance.Extra[1][1].Path
+
+    local err = AssertEquals(expected, actual); assert(not err, err)
+end
+
+function Test:Constructor_Extra_SingleArray_FirstElementTile_ExplicitPath()
+    local config = {
+        tiles = {'Pathfinders_Squad_Option'},
+        extra = {
+            {path = 'Item_Halifane_Light', flip = true},
+            'Item_Halifane_Light',
+        },
+    }
+    local expected = config.extra[1].path
+    local instance = ForceModelFactory.Create(config)
+    local actual = instance.Extra[1][1].Path
+
+    local err = AssertEquals(expected, actual); assert(not err, err)
+end
+
+function Test:Constructor_Extra_NestedArray()
+    local config = {
+        tiles = {'Pathfinders_Squad_Option'},
+        extra = {
+            {'Item_Halifane_Light', 'Item_Halifane_Light'},
+            {'Item_Halifane_Light', 'Item_Halifane_Light'},
+        },
+    }
+    local expected = config.extra[1][1]
+    local instance = ForceModelFactory.Create(config)
+    local actual = instance.Extra[1][1].Path
+
+    local err = AssertEquals(expected, actual); assert(not err, err)
+end

@@ -1,0 +1,75 @@
+#include !/../lib/30log/class
+#include CombatGroup
+#include !/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile
+
+--[[
+## Class
+class CombatGroupForceModel : IForceModel
+{
+    -- Public Fields
+    array<CombatGroup> CombatGroups     -- The CombatGroups that make up this ForceModel.
+    array<array<Tile>> Extra = nil      -- Extra Tiles to add to this ForceModel beyond the CombatGroups.
+
+    -- Public Constructors
+    CombatGroupForceModel(array<CombatGroup> data)
+    CombatGroupForceModel(table data)
+
+    -- Public Methods
+    ForceModelDto TransformIntoForceModelDto()  -- Returns a copy of this ForceModel as a ForceModelDto.
+}
+
+## Summary
+A concrete implementation of a ForceModel that is composed of smaller Combat Groups instead of a large Recruitment Tile.
+
+## Example
+-- From Scenario "Pathfinders", Heroes of Normandie, Sainte-Mere Eglise Campaign Book, pg 6.
+local units = CombatGroupForceModel({
+    tiles = {
+        'Pathfinders_Squad_Option',
+        'Engineers_Squad_Option',
+        {'Signallers_Option', include = {'Item_Eureka_Ground_Radar'}},
+    },
+    extra = {
+        'Item_Halifane_Light',
+        'Item_Halifane_Light',
+        'Item_Halifane_Light',
+    },
+})
+local gears = CombatGroupForceModel({
+    'Camo_Option',
+    'Grenades_Option',
+    'Hawkins_Mines_Option',
+})
+--]]
+
+local CombatGroupForceModel = class('CombatGroupForceModel'):with(IForceModel)
+
+--[[
+## Constructor
+CombatGroupForceModel(array<CombatGroup> data)
+CombatGroupForceModel(table data)
+    data:
+        array<CombatGroup> tiles
+        array<array<Tile>>|array<Tile> extra = nil
+--]]
+function CombatGroupForceModel:init(data)
+    if data.tiles == nil then
+        data.tiles = data
+    end
+    if data.extra ~= nil and (type(data.extra[1]) == 'string' or #data.extra[1] <= 1) then
+        data.extra = {data.extra}
+    end
+    data.extra = data.extra or {}
+
+    self.CombatGroups = {}
+    for i,v in ipairs(data.tiles) do
+        self.CombatGroups[i] = CombatGroup(v)
+    end
+    self.Extra = {}
+    for i,row in ipairs(data.extra) do
+        self.Extra[i] = {}
+        for j,element in ipairs(row) do
+            self.Extra[i][j] = Tile(element)
+        end
+    end
+end
