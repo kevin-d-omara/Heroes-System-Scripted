@@ -1,10 +1,11 @@
+#include !/../lib/30log/class
 #include Tile
 #include !/TabletopSimulator/Vector2
 #include !/Lua/String/SplitString
 
 --[[
 ## Class
-public class TerrainBoard
+public class TerrainBoardTile : Tile
 {
     -- Public Fields
     string Path                     -- The path to this resource (i.e. "HoN.Core_Box.Terrain.Thicket_1")
@@ -21,11 +22,12 @@ public class TerrainBoard
 }
 
 ## Summary
-Data object that describes how to place a Terrain Board onto the Battlefield.
+Extension of Tile that defines how to place an Object onto the Battlefield as a TerrainBoard (i.e. what coordinates, etc).
+
+For example could be "C6_A", "SH1_B", etc.
 --]]
 
-local TerrainBoard = Tile('')    -- Must pass a string to the constructor, otherwise it will call error().
-TerrainBoard.Path = nil          -- Get rid of the path. There shouldn't be a default/fallback path.
+local TerrainBoardTile = Tile:extend("TerrainBoardTile")
 
 --[[
 ## Parameters
@@ -40,34 +42,27 @@ TerrainBoard.Path = nil          -- Get rid of the path. There shouldn't be a de
     <string> alias
         [Optional, defaults to the leaf key in the path (i.e. "C6_A" for "HoN.Core_Box.Terrain.C6_A").]
 --]]
-function TerrainBoard:new(path, index, options)
+function TerrainBoardTile:init(path, index, options)
     if type(path)  ~= 'string' then error("Argument [1] path: string expected, but got: " .. tostring(type(path))  .. ".") end
     if type(index) ~= 'table'  then error("Argument [2] index: table expected, but got: " .. tostring(type(index)) .. ".") end
 
-    local obj = {}
-    setmetatable(obj, self)
-    self.__index = self
-    self.__call = function(self, ...) return self:new(...) end
+    -- Pass the options and path to the parent constructor.
+    tile = options or {}
+    tile.path = path
+    TerrainBoardTile.super.init(self, tile)
 
-    obj.Path  = path
-    obj.Index = Vector2(index)
-
-    options = options or {}
-    obj.Flip = options.flip or false
-    obj.Lock = options.lock or false
-    obj.Rotation = options.rotation or 0
+    -- Extra parameters
+    self.Index = Vector2(index)
     if options.bounds == nil then
-        obj.Bounds = Vector2(7,7)
+        self.Bounds = Vector2(7,7)
     else
-        obj.Bounds = Vector2(options.bounds)
+        self.Bounds = Vector2(options.bounds)
     end
     if options.alias == nil then
-        local array = SplitString(obj.Path, '.')
+        local array = SplitString(self.Path, '.')
         local key = array[#array]   -- The leaf key in the path (i.e. 'C6_A' for 'HoN.Core_Box.Terrain.C6_A').
-        obj.Alias = key
+        self.Alias = key
     else
-        obj.Alias = options.alias
+        self.Alias = options.alias
     end
-
-    return obj
 end

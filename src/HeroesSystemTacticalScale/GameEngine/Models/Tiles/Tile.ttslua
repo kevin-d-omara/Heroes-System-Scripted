@@ -1,0 +1,52 @@
+#include !/../lib/30log/class
+
+--[[
+## Class
+public class Tile
+{
+    -- Public Fields
+    string Path             -- The path to this resource (i.e. "HoN.Core_Box.Terrain.Thicket_1")
+    bool Flip = false       -- True if the selfect should be flipped over when placed.
+    bool Lock = false       -- True if the selfect should be locked/frozen when placed.
+    float Rotation = 0      -- Number of degrees about the y-axis (clockwise) the selfect should be rotated when placed.
+
+    -- Constructors
+    public Tile(string path)
+    public Tile(table data)
+}
+
+## Summary
+Data container that defines the path to an Object and how to place it in the world (ex: whether to flip it over, how much to rotate it, etc).
+--]]
+
+local Tile = class('Tile')
+
+--[[
+## Signatures
+Tile(string path)
+Tile(table data)
+    data:
+        <string> 1|path     -- The key can be either [1] or ['path'].
+        <bool> flip
+        <bool> lock
+        <float> rotation
+--]]
+function Tile:init(data)
+    if type(data) == 'string' then
+        data = {path = data}
+    elseif type(data) == 'table' then
+        assert(type(data.path) == 'string' or type(data[1]) == 'string',"Argument [1] 'data': string or table with key ['path'] or [1] expected, but got " .. tostring(data) .. ".")
+    else
+        error("Argument [1] 'data': string or table expected, but got " .. tostring(type(data)) .. ".")
+    end
+
+    self.Path        = data.path or data[1]
+    self.Flip        = data.flip or false
+    self.Lock        = data.lock or false
+    self.Rotation    = data.rotation or 0
+end
+
+-- Metamethod operators
+Tile.__tostring = function(tile)
+    return "Tile({path=" .. tostring(tile.Path) .. ", flip=" .. tostring(tile.Flip) .. ", lock=" .. tostring(tile.Lock) .. ", rotation=" .. tostring(tile.Rotation) .. "})"
+end

@@ -1,5 +1,5 @@
-#include TerrainBoard
-#include TerrainElement
+#include Tiles/TerrainBoardTile
+#include Tiles/TerrainElementTile
 #include !/TabletopSimulator/Vector2
 
 --[[
@@ -9,9 +9,9 @@ class BattlefieldModel
     -- Fields
     int Width
     int Height
-    array<TerrainBoard> TerrainBoards
-    array<TerrainElement> TerrainTiles
-    array<TerrainElement> Objects
+    array<TerrainBoardTile> TerrainBoards
+    array<TerrainElementTile> TerrainTiles
+    array<TerrainElementTile> Objects
 
     -- Constructors
     BattlefieldModel:new(parameters)
@@ -54,7 +54,7 @@ setmetatable(BattlefieldModel, { __call = function(self, ...) return self:new(..
 --[[
 ## Notes
 There are two different constructors for the BattlefieldModel model:
-    1. The most commonly used. Assumes all TerrainBoards are the large 7x7 tiles. The 'index' and 'bounds' key of each TerrainBoard should not be specified.
+    1. The most commonly used. Assumes all TerrainBoards are the large 7x7 tiles. The 'index' and 'bounds' key of each TerrainBoardTile should not be specified.
     2. Only used for special scenarios where the TerrainBoards may be of any size or shape (ex: caves from Shadow Hunters SoN expansion) or when there is a secondary battlefield (ex: sewers from HoS or underground area from Radar Station & Factory).
 
 ## Signatures
@@ -62,7 +62,7 @@ BattlefieldModel(data)
     data:
         <int> Height: The number of large (7x7) boards tall the battlefield is.
         <int> Width: The number of large (7x7) boards wide the battlefield is.
-        <table> TerrainBoards:          -- Array of <TerrainBoard> objects which are the first set of tiles to be placed on the board (ex: the large 7x7 tiles or the smaller cave or sewer pieces from the expansions).
+        <table> TerrainBoards:          -- Array of <TerrainBoardTile> objects which are the first set of tiles to be placed on the board (ex: the large 7x7 tiles or the smaller cave or sewer pieces from the expansions).
             <string> [1] (path)
             <table> [2] (options):
                 [Optional, defaults to the following defaults.]
@@ -72,9 +72,9 @@ BattlefieldModel(data)
                     [Optional, defaults to no rotation (0 degrees).]
                 alias                   -- The name/key to specify to place objects on this tile.
                     [Optional, defaults to the leaf key in the path (i.e. "C6_A" for "HoN.Core_Box.Terrain.C6_A").]
-        <table> TerrainTiles            -- Array of <TerrainElement> objects which are placed on top of the Terrain Boards (ex: houses, defensive positions, barbed wire, etc.).
+        <table> TerrainTiles            -- Array of <TerrainElementTile> objects which are placed on top of the Terrain Boards (ex: houses, defensive positions, barbed wire, etc.).
             [Optional, defaults to having no TerrainElements.]
-        <table> Objects                 -- Array of <TerrainElement> objects which are placed on top of the Terrain Tiles and Terrain Boards (ex: units, objectives, etc.).
+        <table> Objects                 -- Array of <TerrainElementTile> objects which are placed on top of the Terrain Tiles and Terrain Boards (ex: units, objectives, etc.).
             [Optional, defaults to having no Objects.]
 
 BattlefieldModel(data)
@@ -105,17 +105,17 @@ function BattlefieldModel:new(parameters)
     obj.Height          = parameters.Height
     obj.TerrainBoards = {}
     for i,v in ipairs(parameters.TerrainBoards) do
-        obj.TerrainBoards[i] = TerrainBoard(v[1], v[2].index, v[2])
+        obj.TerrainBoards[i] = TerrainBoardTile(v[1], v[2].index, v[2])
         obj.TerrainBoards[i].Lock = true
     end
     obj.TerrainTiles = {}
     for i,v in ipairs(parameters.TerrainTiles) do
-        obj.TerrainTiles[i] = TerrainElement(v)
+        obj.TerrainTiles[i] = TerrainElementTile(v)
         obj.TerrainTiles[i].Lock = true
     end
     obj.Objects = {}
     for i,v in ipairs(parameters.Objects) do
-        obj.Objects[i] = TerrainElement(v)
+        obj.Objects[i] = TerrainElementTile(v)
     end
     obj._AliasToTerrainBoardMap = {}
     for i,v in ipairs(obj.TerrainBoards) do

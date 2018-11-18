@@ -1,8 +1,9 @@
+#include !/../lib/30log/class
 #include Tile
 
 --[[
 ## Class
-public class TerrainElement
+public class TerrainElementTile : Tile
 {
     -- Public Fields
     string Path                 -- The path to this resource (i.e. "HoN.Core_Box.Terrain.Thicket_1")
@@ -19,11 +20,12 @@ public class TerrainElement
 }
 
 ## Summary
-Data object that describes how to place an object on the Battlefield.
+Extension of Tile that defines how to place an Object onto the Battlefield (i.e. which tile, what coordinates, etc.).
+
+For example, could be a "Fire_Team", "Position_1x1", "Item_Dynamite", etc.
 --]]
 
-local TerrainElement = Tile('')    -- Must pass a string to the constructor, otherwise it will call error().
-TerrainElement.Path = nil          -- Get rid of the path. There shouldn't be a default/fallback path.
+local TerrainElementTile = Tile:extend("TerrainElementTile")
 
 --[[
 ## Parameters
@@ -38,27 +40,22 @@ TerrainElement.Path = nil          -- Get rid of the path. There shouldn't be a 
         <bool> lock = false
         <float> rotation = 0
 --]]
-function TerrainElement:new(data)
+function TerrainElementTile:init(data)
     if type(data)    ~= 'table'  then error("Argument [1] data: table expected, but got: " .. tostring(type(data)) .. ".")           end
     if type(data[1]) ~= 'string' then error("Argument [1][1] data[1]: string expected, but got: " .. tostring(type(data[1])) .. ".") end
     if type(data[2]) ~= 'string' then error("Argument [1][2] data[2]: string expected, but got: " .. tostring(type(data[2])) .. ".") end
     if type(data[3]) ~= 'table'  then error("Argument [1][3] data[3]: table expected, but got: "  .. tostring(type(data[3])) .. ".") end
     if type(data[4]) ~= 'string' then error("Argument [1][4] data[4]: string expected, but got: " .. tostring(type(data[4])) .. ".") end
 
-    local obj = {}
-    setmetatable(obj, self)
-    self.__index = self
-    self.__call = function(self, ...) return self:new(...) end
+    -- Pass the options and path to the parent constructor.
+    local tile = data[5] or {}
+    tile.path = data[1]
+    TerrainElementTile.super.init(self, tile)
 
-    obj.Path                = data[1]
-    obj.TerrainBoardAlias   = data[2]
-    obj.Index               = Vector2(data[3])
-    obj.IndexType           = data[4]
+    -- Extra parameters
+    self.TerrainBoardAlias   = data[2]
+    self.Index               = data[3]
+    self.IndexType           = data[4]
 
-    local options = data[5] or {}
-    obj.Flip = options.flip or false
-    obj.Lock = options.lock or false
-    obj.Rotation = options.rotation or 0
-
-    return obj
+    return self
 end
