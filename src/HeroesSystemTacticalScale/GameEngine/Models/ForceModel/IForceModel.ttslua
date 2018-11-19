@@ -1,3 +1,5 @@
+#include ForceModelDto
+
 --[[
 ## Interface
 interface IForceModel
@@ -8,7 +10,7 @@ interface IForceModel
 
 ## Summary
 A ForceModel is the building block of an Army.
-Usually it is a RecruitmentTile but may also be a smaller group of units.
+Usually it is a RecruitmentTile but may also be a collection of smaller units (ex: Options, individual units & markers, etc).
 
 ForceModels must implement this interface in order to be used by the View.
 

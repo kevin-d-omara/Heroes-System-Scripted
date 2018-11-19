@@ -16,13 +16,28 @@ public class ForceModelDto
 
 ## Summary
 A "data transfer object" of the IForceModel that is used by the View to physically place tiles in the Game World.
+
+Is simply a 2d array of Tiles, with each path fully specified (ex: 'HoN.Core_Box.Rifle_Platoon_22nd.Recon_Team').
+
+## Example
+RecruitmentTile: Rifle_Platoon_22nd
+    w/ Options: Ambush_Squad_Option, Grenades_Option
+
+Tiles = {
+    {Rifle_Platoon_22nd_Recruitment_Tile},
+    {Officer, Recon_Team, Fire_Team, Support_Team},
+    {Recon_Team, Recon_Team, Bazooka_Team},
+    {Grenade, Grenade, Grenade},
+}
 --]]
 
 local ForceModelDto = class('ForceModelDto')
 
 function ForceModelDto:init(tiles)
     assert(type(tiles) == 'table', "Argument [1] 'tiles': table expected, but got " .. tostring(tiles) .. ".")
-    assert(type(tiles[1]) == 'table', "Argument [1][1] 'tiles[1]': table expected, but got " .. tostring(tiles[1]) .. ".")
+    for i,v in ipairs(tiles) do
+        assert(type(tiles[i]) == 'table', "Argument [1][" .. tostring(i) .. "] 'tiles[" .. tostring(i) .. "]': table expected, but got " .. tostring(tiles[i]) .. ".")
+    end
 
     self.Tiles = tiles
 end

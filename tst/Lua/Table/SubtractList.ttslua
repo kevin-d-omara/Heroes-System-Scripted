@@ -1,0 +1,67 @@
+#include !/TabletopSimulator/TTSTest/TestClass
+#include !/TabletopSimulator/TTSTest/Assert
+#include !/Lua/Table/SubtractList
+
+TestClass('SubtractList unit tests')
+
+function Test:BeforeClass()
+    listEmpty = {}
+    discardEmpty = {}
+end
+
+function Test:EmptyList()
+    local list = {}
+    local discard = {}
+    local filtered = SubtractList(list, discard)
+
+    local expected = 0
+    local actual = #filtered
+
+    local err = AssertEquals(actual, expected); assert(not err, err)
+end
+
+function Test:EmptyDiscard()
+    local list = {'A'}
+    local discard = {}
+    local filtered = SubtractList(list, discard)
+
+    local expected = 1
+    local actual = #filtered
+
+    local err = AssertEquals(actual, expected); assert(not err, err)
+end
+
+function Test:DuplicatesInList_DuplicatesInDiscard()
+    local list = {'A', 'A'}
+    local discard = {'A', 'A'}
+    local filtered = SubtractList(list, discard)
+
+    local expected = 0
+    local actual = #filtered
+
+    local err = AssertEquals(actual, expected); assert(not err, err)
+end
+
+function Test:DuplicatesInList_SingleInDiscard()
+    local list = {'A', 'A'}
+    local discard = {'A'}
+    local filtered = SubtractList(list, discard)
+
+    local expected = 1
+    local actual = #filtered
+
+    local err = AssertEquals(actual, expected); assert(not err, err)
+end
+
+function Test:SameOrderAfterFiltering()
+    local list = {'A', 'A', 'B', 'C'}
+    local discard = {'A', 'B'}
+    local filtered = SubtractList(list, discard)
+
+    local expectedTable = {'A', 'C'}
+    for i,v in ipairs(filtered) do
+        local expected = expectedTable[i]
+        local actual = filtered[i]
+        local err = AssertEquals(actual, expected); assert(not err, err)
+    end
+end

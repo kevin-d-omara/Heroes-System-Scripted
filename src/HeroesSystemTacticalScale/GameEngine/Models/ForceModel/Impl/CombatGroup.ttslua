@@ -1,5 +1,7 @@
 #include !/../lib/30log/class
 #include !/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile
+#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
+#include !/Lua/Table/SubtractList
 
 --[[
 ## Class
@@ -52,6 +54,10 @@ function CombatGroup:init(data)
         data = {data}
     end
 
+    assert(data.disclude == nil or type(data.disclude) == 'table', "Argument [1] 'data.disclude': table expected but got " .. tostring(type(data.disclude)) .. ".")
+    assert(data.include == nil or type(data.include) == 'table', "Argument [1] 'data.include': table expected but got " .. tostring(type(data.include)) .. ".")
+    assert(data.modify == nil or type(data.modify) == 'table', "Argument [1] 'data.modify': table expected but got " .. tostring(type(data.modify)) .. ".")
+
     -- Format input data.
     data.tile = data[1] or data.tile
     data.disclude   = data.disclude or {}
@@ -71,4 +77,44 @@ function CombatGroup:init(data)
     for i,v in ipairs(data.modify) do
         self.Modify[i] = Tile(v)
     end
+end
+
+--[[
+## Summary
+Transform this CombatGroup into an arrary<Tile> by applying self.Disclude, self.Include, and self.Modify.
+
+## Pseudocode
+Check the database to see what the Includes are for this Tile (ex: Rifle_Platoon_22nd comes with {'Officer', 'Fire_Team', 'Support_Team', '_30cal'}).
+Then, remove elements from this list by filtering out elements in self.Disclude.
+Then, transform each element into a Tile class or replace it with the corresponding element in self.Modify.
+Then, add extra elements usign self.Include.
+--]]
+function CombatGroup:GetTransformedIncludes()
+    local tiles = {}
+
+    local data = Database.GetData(self.Tile.Path)   -- Returns a GameElements/RecruitmentTile or GameElements/Option.
+    local includes = data.Includes or {}
+    local filteredIncludes = SubtractList(includes, self.Disclude)
+
+    local used = {}
+    for i,_ in ipairs(self.Modify) do
+        used[i] = false
+    end
+    for i,path in ipairs(filteredIncludes) do
+        for j,tile in ipairs(self.Modify) do
+            if path == tile.Path and not used[j] then
+                tiles[i] = tile
+                break
+            end
+        end
+        if tiles[i] == nil then
+            tiles[i] = Tile(path)
+        end
+    end
+
+    for _,tile in ipairs(self.Include) do
+        tiles[#tiles + 1] = tile
+    end
+
+    return tiles
 end

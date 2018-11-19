@@ -1,5 +1,7 @@
 #include !/../lib/30log/class
+
 #include CombatGroup
+#include ../IForceModel
 #include !/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile
 
 --[[

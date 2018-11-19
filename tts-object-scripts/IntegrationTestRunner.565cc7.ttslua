@@ -2,5 +2,6 @@
 #include !/TabletopSimulator/TTSTest/TestRunnerButton
 
 --[[ #include TestSuites and TestClasses here. ]]--
--- #include !/../tst/TabletopSimulator/TestSuite
+#include !/../tst/Lua/TestSuite
+#include !/../tst/TabletopSimulator/TestSuite
 #include !/../tst/HeroesSystemTacticalScale/TestSuite

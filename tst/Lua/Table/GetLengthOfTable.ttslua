@@ -1,0 +1,48 @@
+#include !/TabletopSimulator/TTSTest/TestClass
+#include !/TabletopSimulator/TTSTest/Assert
+#include !/Lua/Table/GetLengthOfTable
+
+TestClass('GetLengthOfTable unit tests')
+
+function Test:EmptyList()
+    local t = {}
+    local expected = 0
+    local actual = GetLengthOfTable(t)
+
+    local err = AssertEquals(actual, expected); assert(not err, err)
+end
+
+function Test:NonConsecutiveList_FirstElementNil()
+    local t = {
+        [2] = 'b',
+        [3] = 'c',
+    }
+    local expected = 2
+    local actual = GetLengthOfTable(t)
+
+    local err = AssertEquals(actual, expected); assert(not err, err)
+end
+
+function Test:NonConsecutiveList_MiddleElementNil()
+    local t = {
+        [1] = 'a',
+        [3] = 'c',
+    }
+    local expected = 2
+    local actual = GetLengthOfTable(t)
+
+    local err = AssertEquals(actual, expected); assert(not err, err)
+end
+
+function Test:NonConsecutiveList_MultipleElementsNil()
+    local t = {
+        [1] = 'a',
+        [3] = 'c',
+        [4] = 'd',
+        [6] = 'f',
+    }
+    local expected = 4
+    local actual = GetLengthOfTable(t)
+
+    local err = AssertEquals(actual, expected); assert(not err, err)
+end

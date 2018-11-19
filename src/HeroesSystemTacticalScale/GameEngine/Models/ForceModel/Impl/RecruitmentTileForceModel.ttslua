@@ -1,6 +1,9 @@
 #include !/../lib/30log/class
+
 #include CombatGroup
+#include ../IForceModel
 #include !/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile
+#include !/Lua/Table/GetLengthOfTable
 
 --[[
 ## Class
@@ -70,4 +73,37 @@ function RecruitmentTileForceModel:init(data)
             self.Extra[i][j] = Tile(element)
         end
     end
+end
+
+--[[
+## Summary
+Transform this RecruitmentTileForceModel into a ForceModelDto.
+--]]
+function TransformIntoForceModelDto()
+    local tiles = {}
+
+    -- Add a row to the 2d-array, but only it is non-empty.
+    local function AppendRow(array)
+        if #array > 0 then
+            tiles[#tiles + 1] = array
+        end
+    end
+
+    tiles[1] = {self.Tile}                      -- The RecruitmentTile itself.
+    AppendRow(self:GetTransformedIncludes())    -- The RecruitmentTile.Include (if non-empty).
+
+    -- This complexity is required to preserve the order the tiles are displayed because Options may be in non-consecutive order.
+    local len = GetLengthOfTable(self.Options)
+    for i = 1, len do
+        local option = self.Options[i]
+        if option ~= nil then
+            AppendRow(option:GetTransformedIncludes())
+        end
+    end
+
+    for i,v in ipairs(self.Extra) do
+        AppendRow(v)
+    end
+
+    return ForceModelDto(tiles)
 end

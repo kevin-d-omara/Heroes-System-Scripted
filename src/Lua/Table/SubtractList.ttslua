@@ -1,0 +1,56 @@
+--[[
+## Summary
+Return a copy of `list`, but with the elements of `discard` subtracted from it.
+
+Each element in `discard` is subtracted once from `list`.
+
+## Parameters
+<array> list
+<array> discard
+<table> options:
+    <bool> errorWhenMissing = true   -- If true, throws an error when a record in `discard` is not contained in `list`.
+
+## Throws
+Throws an error if any element in `discard` is missing from `list`. Can be suppressed by setting `options.errorWhenMissing` to false.
+
+## Example
+local list = {'A', 'A', 'B', 'C'}
+local discard = {'A', 'B'}
+SubtractList(list, discard)    -- returns {'A', 'C'}
+
+## Notes
+This method is poorly optimized (read: uses brute force). This is acceptable given the use case is filtering lists of <= 4 elements.
+--]]
+function SubtractList(list, discard, options)
+    assert(type(list)    == 'table', "Argument [1] 'list': table expected, but got " .. tostring(type(list)) .. ".")
+    assert(type(discard) == 'table', "Argument [2] 'discard': table expected, but got " .. tostring(type(discard)) .. ".")
+    options = options or {}
+    if type(options.errorWhenMissing) ~= 'boolean' then options.errorWhenMissing = true end
+
+    local keep = {}
+    for i,_ in ipairs(list) do
+        keep[i] = true
+    end
+
+    for i,v in ipairs(discard) do
+        for j,w in ipairs(list) do
+            if v == w and keep[j] == true then
+                keep[j] = false
+                break
+            end
+
+            if j == #list and options.errorWhenMissing then
+                error("Expected to find '" .. tostring(v) .. "' in the list, but it was not found.")
+            end
+        end
+    end
+
+    local filtered = {}
+    for i,v in ipairs(list) do
+        if keep[i] == true then
+            filtered[#filtered + 1] = v
+        end
+    end
+
+    return filtered
+end
