@@ -1,9 +1,12 @@
 #include !/../lib/30log/class
 
 #include CombatGroup
+#include MakeFullyQualified
 #include ../IForceModel
 #include !/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile
-#include !/Lua/Table/GetLengthOfTable
+#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
+#include !/Lua/Table/GetLengthOfNonConsecutiveTable
+#include !/Lua/String/SplitString
 
 --[[
 ## Class
@@ -69,6 +72,7 @@ function RecruitmentTileForceModel:init(data)
     self.Extra = {}
     for i,row in ipairs(data.extra) do
         self.Extra[i] = {}
+        for k,v in ipairs(row) do print(v) end
         for j,element in ipairs(row) do
             self.Extra[i][j] = Tile(element)
         end
@@ -79,31 +83,43 @@ end
 ## Summary
 Transform this RecruitmentTileForceModel into a ForceModelDto.
 --]]
-function TransformIntoForceModelDto()
+function RecruitmentTileForceModel:TransformIntoForceModelDto()
     local tiles = {}
 
-    -- Add a row to the 2d-array, but only it is non-empty.
+    -- Add a row to the 2d-array, but only if its non-empty.
     local function AppendRow(array)
         if #array > 0 then
             tiles[#tiles + 1] = array
         end
     end
 
-    tiles[1] = {self.Tile}                      -- The RecruitmentTile itself.
-    AppendRow(self:GetTransformedIncludes())    -- The RecruitmentTile.Include (if non-empty).
+    -- The recruitment tile itself and it's includes.
+    tiles[1] = {self.Tile}
+    AppendRow(self:GetTransformedIncludes())
 
+    -- The includes for each option.
     -- This complexity is required to preserve the order the tiles are displayed because Options may be in non-consecutive order.
-    local len = GetLengthOfTable(self.Options)
+    local len = GetLengthOfNonConsecutiveTable(self.Options)
     for i = 1, len do
         local option = self.Options[i]
         if option ~= nil then
+            option.Tile.Path = MakeFullyQualified(option.Tile.Path, self.Tile.Path)
             AppendRow(option:GetTransformedIncludes())
         end
     end
 
+    -- The extras.
     for i,v in ipairs(self.Extra) do
-        AppendRow(v)
+        AppendRow(v, self.Tile.Path)
     end
 
-    return ForceModelDto(tiles)
+    local options = {}
+    for k,v in pairs(self.Options) do
+        options[k] = v.Tile
+    end
+    local recruitmentTile = Database.GetData(self.Tile.Path)
+    local optionSlots = recruitmentTile.OptionSlots
+
+    local dto = ForceModelDto(tiles, options, optionSlots)
+    return dto
 end

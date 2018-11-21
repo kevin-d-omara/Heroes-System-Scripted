@@ -1,13 +1,13 @@
 #include !/TabletopSimulator/TTSTest/TestClass
 #include !/TabletopSimulator/TTSTest/Assert
-#include !/Lua/Table/GetLengthOfTable
+#include !/Lua/Table/GetLengthOfNonConsecutiveTable
 
-TestClass('GetLengthOfTable unit tests')
+TestClass('GetLengthOfNonConsecutiveTable unit tests')
 
 function Test:EmptyList()
     local t = {}
     local expected = 0
-    local actual = GetLengthOfTable(t)
+    local actual = GetLengthOfNonConsecutiveTable(t)
 
     local err = AssertEquals(actual, expected); assert(not err, err)
 end
@@ -17,8 +17,8 @@ function Test:NonConsecutiveList_FirstElementNil()
         [2] = 'b',
         [3] = 'c',
     }
-    local expected = 2
-    local actual = GetLengthOfTable(t)
+    local expected = 3
+    local actual = GetLengthOfNonConsecutiveTable(t)
 
     local err = AssertEquals(actual, expected); assert(not err, err)
 end
@@ -28,8 +28,8 @@ function Test:NonConsecutiveList_MiddleElementNil()
         [1] = 'a',
         [3] = 'c',
     }
-    local expected = 2
-    local actual = GetLengthOfTable(t)
+    local expected = 3
+    local actual = GetLengthOfNonConsecutiveTable(t)
 
     local err = AssertEquals(actual, expected); assert(not err, err)
 end
@@ -41,8 +41,8 @@ function Test:NonConsecutiveList_MultipleElementsNil()
         [4] = 'd',
         [6] = 'f',
     }
-    local expected = 4
-    local actual = GetLengthOfTable(t)
+    local expected = 6
+    local actual = GetLengthOfNonConsecutiveTable(t)
 
     local err = AssertEquals(actual, expected); assert(not err, err)
 end

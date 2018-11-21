@@ -1,13 +1,18 @@
 #include !/TabletopSimulator/TTSTest/TestClass
 #include !/TabletopSimulator/TTSTest/Assert
+#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
 #include !/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/Impl/RecruitmentTileForceModel
 
 TestClass('RecruitmentTileForceModel unit tests')
 
+function Test:BeforeClass()
+    Database.Initialize()
+end
+
 function Test:Constructor_ComplexExample()
     local config =
     {
-        'Rifle_Platoon_22nd',
+        'HoN.Core_Box.US.Rifle_Platoon_22nd.Recruitment_Tile',
         options = {
             'Bazooka_Squad_Option',
             'Rifle_Grenades_Option',
@@ -25,11 +30,11 @@ end
 function Test:Constructor_NonConsecutiveOptions()
     local config =
     {
-        'Rifle_Platoon_22nd',
+        'HoN.Core_Box.US.Rifle_Platoon_22nd.Recruitment_Tile',
         options = {
             [1] = 'Bazooka_Squad_Option',
             [2] = 'Rifle_Grenades_Option',
-            [4] = {'Mechanized', disclude = {'Halftrack', 'Halftrack'}}   -- They are already deployed to the battlefield.
+            [4] = {'Mechanized', disclude = {'Halftrack_1', 'Halftrack_2'}}   -- They are already deployed to the battlefield.
         },
     }
     local expected = config.options[4].disclude[1]
@@ -37,4 +42,37 @@ function Test:Constructor_NonConsecutiveOptions()
     local actual = instance.Options[4].Disclude[1]
 
     local err = AssertEquals(expected, actual); assert(not err, err)
+end
+
+function Test:TransformIntoForceModelDto_ComplexExample()
+    local config =
+    {
+        'HoN.Core_Box.US.Rifle_Platoon_22nd.Recruitment_Tile',
+        options = {
+            [1] = 'Bazooka_Squad_Option',
+            [2] = {'HoN.Core_Box.US.Gears.Rifle_Grenade_Option'},
+            [4] = {'Mechanized_Option',
+                disclude = {'Halftrack_1'},
+                modify = {
+                    {'Halftrack_2', flip = true}
+                }
+            },
+        },
+        modify = {
+            {'Recon_Team', flip = true}
+        },
+        extra = {
+            'HoN.Core_Box.Tokens.Item_Files',
+        },
+    }
+    local instance = RecruitmentTileForceModel(config)
+    local dto = instance:TransformIntoForceModelDto()
+
+    local prefix = 'HoN.Core_Box.US.Rifle_Platoon_22nd.'
+    local err = AssertEquals(prefix..'Bazooka_Squad_Option', dto.Options[1].Path); assert(not err, err)
+    local err = AssertEquals('HoN.Core_Box.US.Gears.Rifle_Grenade_Option', dto.Options[2].Path); assert(not err, err)   -- Fully qualified path is not clobbered.
+    local err = AssertEquals(true,dto.Tiles[5][1].Flip); assert(not err, err)   -- Halftrack_2 is flipped and Halftrack_1 is discluded.
+    local err = AssertEquals(6,#dto.Tiles); assert(not err, err)    -- There are 6 rows of tiles.
+    local err = AssertEquals(1,#dto.Tiles[6]); assert(not err, err) -- There is one element at the end from the extras.
+    local err = AssertEquals('HoN.Core_Box.Tokens.Item_Files',dto.Tiles[6][1].Path); assert(not err, err)
 end

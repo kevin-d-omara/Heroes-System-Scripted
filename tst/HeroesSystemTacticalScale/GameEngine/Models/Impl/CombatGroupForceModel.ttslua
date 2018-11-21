@@ -77,3 +77,24 @@ function Test:Constructor_Extra_NestedArray()
 
     local err = AssertEquals(expected, actual); assert(not err, err)
 end
+
+function Test:TransformIntoForceModelDto_ComplexExample()
+    local config = {
+        {
+            'HoN.Core_Box.US.Rifle_Platoon_22nd.Bazooka_Squad_Option',
+            include = {'HoN.Core_Box.Tokens.Item_Files'}
+        },
+        {
+            tile = 'HoN.Core_Box.US.Rifle_Platoon_22nd.Mechanized_Option',
+            disclude = {'Halftrack_1'},
+            modify = {
+                {'Halftrack_2', flip = true}
+            }
+        },
+    }
+    local instance = CombatGroupForceModel(config)
+    local dto = instance:TransformIntoForceModelDto()
+
+    local err = AssertEquals(3, #dto.Tiles); assert(not err, err) -- There are three rows: the header and then the two includes (one for each option).
+    local err = AssertEquals(true, dto.Tiles[3][1].Flip); assert(not err, err)  -- Halftrack_2 is flipped and Halftrack_1 is discluded.
+end

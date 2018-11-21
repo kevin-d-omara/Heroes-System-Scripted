@@ -1,0 +1,10 @@
+function MakeFullyQualified(key, fullPath)
+    local hasPeriod = string.find(key, '%.')
+    if hasPeriod then
+        return key
+    else
+        -- Replace the last key in full path with the new key.
+        -- Example: 'HoN.Core.Platoon.Recruitmenet' w/ 'Bazooka' ->'HoN.Core.Platoon.Bazooka'
+        return string.gsub(fullPath, '[^%.]+$', key)
+    end
+end

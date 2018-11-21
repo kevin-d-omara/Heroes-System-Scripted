@@ -75,3 +75,38 @@ function CombatGroupForceModel:init(data)
         end
     end
 end
+
+--[[
+## Summary
+Transform this CombatGroupForceModel into a ForceModelDto.
+--]]
+function CombatGroupForceModel:TransformIntoForceModelDto()
+    local tiles = {}
+
+    -- Add a row to the 2d-array, but only if its non-empty.
+    local function AppendRow(array)
+        if #array > 0 then
+            tiles[#tiles + 1] = array
+        end
+    end
+
+    -- The combat group tiles themselves.
+    local header = {}
+    for i,v in ipairs(self.CombatGroups) do
+        header[i] = v.Tile
+    end
+    AppendRow(header)
+
+    -- The includes for each combat group.
+    for _,group in ipairs(self.CombatGroups) do
+        local includes = group:GetTransformedIncludes()
+        AppendRow(includes)
+    end
+
+    -- The extras.
+    for i,v in ipairs(self.Extra) do
+        AppendRow(v)
+    end
+
+    return ForceModelDto(tiles)
+end

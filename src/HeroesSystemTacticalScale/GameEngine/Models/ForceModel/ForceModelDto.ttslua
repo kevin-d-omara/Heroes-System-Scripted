@@ -5,7 +5,9 @@
 public class ForceModelDto
 {
     -- Public Fields
-    array<array<Tile>> Tiles
+    array<array<Tile>> Tiles            -- All of the individual tiles that make up this Force (ex: Recruitment Tile + its Includes + the Options etc.)
+    array<Tile> Options         = {}    -- The Options that get placed on top of the RecruitmentTile.
+    array<Vector2> OptionSlots  = {}    -- The offsets from the center of the RecruitmentTile to where the Options should be placed.
 
     -- Constructors
     public ForceModelDto(data)
@@ -20,24 +22,48 @@ A "data transfer object" of the IForceModel that is used by the View to physical
 Is simply a 2d array of Tiles, with each path fully specified (ex: 'HoN.Core_Box.Rifle_Platoon_22nd.Recon_Team').
 
 ## Example
-RecruitmentTile: Rifle_Platoon_22nd
-    w/ Options: Ambush_Squad_Option, Grenades_Option
+Model = {
+    tile = 'HoN.Core_Box.Rifle_Platoon_22nd.Recruitment_Tile',
+    options = {'Ambush_Squad_Option', 'HoN.Core_Box.Gears.Grenade_Option'}
+}
 
-Tiles = {
-    {Rifle_Platoon_22nd_Recruitment_Tile},
-    {Officer, Recon_Team, Fire_Team, Support_Team},
-    {Recon_Team, Recon_Team, Bazooka_Team},
-    {Grenade, Grenade, Grenade},
+Dto = {
+    Tiles = {
+        {'HoN.Core_Box.Rifle_Platoon_22nd.RecruitmentTile'},
+        {'HoN.Core_Box.Rifle_Platoon_22nd.Officer', 'HoN.Core_Box.Rifle_Platoon_22nd.Recon_Team', 'HoN.Core_Box.Rifle_Platoon_22nd.Fire_Team', 'HoN.Core_Box.Rifle_Platoon_22nd.Support_Team'},
+        {'HoN.Core_Box.Rifle_Platoon_22nd.Recon_Team', 'HoN.Core_Box.Rifle_Platoon_22nd.Recon_Team', 'HoN.Core_Box.Rifle_Platoon_22nd.Bazooka_Team'},
+        {'HoN.Core_Box.Gears.Grenade', 'HoN.Core_Box.Gears.Grenade', 'HoN.Core_Box.Gears.Grenade'},
+    },
+    Options = {
+        'HoN.Core_Box.Rifle_Platoon_22nd.Ambush_Squad_Option',
+        'HoN.Core_Box.Gears.Grenade_Option'
+    },
+    OptionSlots = {
+        { 3.24, 0, 0.17},
+        { 1.51, 0, 0.17},
+        {-1.51, 0, 0.17},
+        {-3.24, 0, 0.17},
+    }
 }
 --]]
 
 local ForceModelDto = class('ForceModelDto')
 
-function ForceModelDto:init(tiles)
-    assert(type(tiles) == 'table', "Argument [1] 'tiles': table expected, but got " .. tostring(tiles) .. ".")
+--[[
+## Constructor
+    array<array<Tile>> tiles
+    array<Tile> options = {}
+    array<Vector2> optionSlots = {}
+--]]
+function ForceModelDto:init(tiles, options, optionSlots)
+    assert(type(tiles) == 'table', "Argument [1] 'tiles': table expected, but got " .. type(tiles) .. ".")
     for i,v in ipairs(tiles) do
-        assert(type(tiles[i]) == 'table', "Argument [1][" .. tostring(i) .. "] 'tiles[" .. tostring(i) .. "]': table expected, but got " .. tostring(tiles[i]) .. ".")
+        assert(type(tiles[i]) == 'table', "Argument [1][" .. tostring(i) .. "] 'tiles[" .. tostring(i) .. "]': table expected, but got " .. type(tiles[i]) .. ".")
     end
+    assert(type(options) == 'table' or type(options) == 'nil', "Argument [2] 'options': table expected, but got " .. type(options) .. ".")
+    assert(type(optionSlots) == 'table' or type(optionSlots) == 'nil', "Argument [3] 'optionSlots': table expected, but got " .. type(optionSlots) .. ".")
 
     self.Tiles = tiles
+    self.Options = options or {}
+    self.OptionSlots = optionSlots or {}
 end

@@ -1,0 +1,23 @@
+--[[
+## Summary
+Return the largest index from the non-consecutive array. Returns 0 if the array is empty.
+
+## Example
+GetLengthOfNonConsecutiveTable({    -- returns 6
+    [1] = 'a',
+    [2] = 'b',
+    [6] = 'f',
+})
+--]]
+function GetLengthOfNonConsecutiveTable(tbl)
+    assert(type(tbl) == 'table', "Argument [1] 'tbl', table expected but got " .. type(tbl) .. ".")
+
+    local max = 0
+    for k,_ in pairs(tbl) do
+        if k > max then
+            max = k
+        end
+    end
+
+    return max
+end

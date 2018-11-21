@@ -61,9 +61,10 @@ function Test:GetTransformedIncludes_Option_WithIncludes()
     local instance = CombatGroup(config)
     local includes = instance:GetTransformedIncludes()
 
+    local prefix = 'HoN.Core_Box.US.Rifle_Platoon_22nd.'
     local expectedList = {'Fire_Team', 'Support_Team', 'Bazooka'}
     for i,v in ipairs(expectedList) do
-        local expected = v
+        local expected = prefix..v
         local actual = includes[i].Path
         local err = AssertEquals(expected, actual); assert(not err, err)
     end
@@ -86,10 +87,11 @@ function Test:GetTransformedIncludes_ComplexOption()
         print(v.Path)
     end
 
+    local prefix = 'HoN.Core_Box.US.Rifle_Platoon_22nd.'
     local err = AssertEquals(3, #includes); assert(not err, err)
-    local err = AssertEquals('_30cal', includes[2].Path); assert(not err, err)
-    local err = AssertEquals('Fire_Team', includes[1].Path); assert(not err, err)
+    local err = AssertEquals(prefix..'_30cal', includes[2].Path); assert(not err, err)
+    local err = AssertEquals(prefix..'Fire_Team', includes[1].Path); assert(not err, err)
     local err = AssertEquals(true, includes[1].Flip); assert(not err, err)
-    local err = AssertEquals('Fire_Team', includes[3].Path); assert(not err, err)
+    local err = AssertEquals(prefix..'Fire_Team', includes[3].Path); assert(not err, err)
     local err = AssertEquals(90, includes[3].Rotation); assert(not err, err)
 end

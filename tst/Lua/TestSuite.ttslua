@@ -1,5 +1,5 @@
 --[[ All of the tests for the Lua package. ]]--
 
 --[[ #include tests here. ]]
-#include Table/GetLengthOfTable
+#include Table/GetLengthOfNonConsecutiveTable
 #include Table/SubtractList

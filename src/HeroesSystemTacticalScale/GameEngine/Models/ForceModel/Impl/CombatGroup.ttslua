@@ -1,4 +1,5 @@
 #include !/../lib/30log/class
+#include MakeFullyQualified
 #include !/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile
 #include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
 #include !/Lua/Table/SubtractList
@@ -53,16 +54,22 @@ function CombatGroup:init(data)
     if type(data) == 'string' then
         data = {data}
     end
-
-    assert(data.disclude == nil or type(data.disclude) == 'table', "Argument [1] 'data.disclude': table expected but got " .. tostring(type(data.disclude)) .. ".")
-    assert(data.include == nil or type(data.include) == 'table', "Argument [1] 'data.include': table expected but got " .. tostring(type(data.include)) .. ".")
-    assert(data.modify == nil or type(data.modify) == 'table', "Argument [1] 'data.modify': table expected but got " .. tostring(type(data.modify)) .. ".")
-
-    -- Format input data.
     data.tile = data[1] or data.tile
     data.disclude   = data.disclude or {}
     data.include    = data.include or {}
     data.modify     = data.modify or {}
+
+    assert(data.disclude == nil or type(data.disclude) == 'table', "Argument [1] 'data.disclude': table expected but got " .. tostring(type(data.disclude)) .. ".")
+    assert(data.include == nil or type(data.include) == 'table', "Argument [1] 'data.include': table expected but got " .. tostring(type(data.include)) .. ".")
+    assert(data.modify == nil or type(data.modify) == 'table', "Argument [1] 'data.modify': table expected but got " .. tostring(type(data.modify)) .. ".")
+    if not (data.include.flip == nil and data.include.lock == nil and data.include.rotation == nil) then
+        local path = data.include[1] or data.include.path
+        error("Argument [1] 'data.include': array of 'Tile' expected but got just a single 'Tile' with path '" .. path .. "'. It needs to be wrapped in a table '{ }'.")
+    end
+    if not (data.modify.flip == nil and data.modify.lock == nil and data.modify.rotation == nil) then
+        local path = data.modify[1] or data.modify.path
+        error("Argument [1] 'data.modify': array of 'Tile' expected but got just a single 'Tile' with path '" .. path .. "'. It needs to be wrapped in a table '{ }'.")
+    end
 
     self.Tile = Tile(data.tile)
     self.Disclude = {}
@@ -114,6 +121,10 @@ function CombatGroup:GetTransformedIncludes()
 
     for _,tile in ipairs(self.Include) do
         tiles[#tiles + 1] = tile
+    end
+
+    for _,tile in ipairs(tiles) do
+        tile.Path = MakeFullyQualified(tile.Path, self.Tile.Path)
     end
 
     return tiles
