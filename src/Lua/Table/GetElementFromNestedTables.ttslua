@@ -13,6 +13,7 @@ Return an element nested inside a set of tables by the absolute path to the elem
 Error if the first element is either nil or local.
 --]]
 function GetElementFromNestedTables(stringPath, delimiter)
+    assert(type(stringPath) == 'string', "Argument [1] 'stringPath': string expected but got " .. type(stringPath) .. ".")
     local delimiter = delimiter or '.'
     local pathArray = SplitString(stringPath, delimiter)
 
@@ -25,6 +26,7 @@ function GetElementFromNestedTables(stringPath, delimiter)
     -- Get the final element from the nested tables.
     for i = 2, #pathArray do
         root = root[pathArray[i]]
+        assert(root ~= nil, "Error while getting nested table. Key '" .. tostring(pathArray[i]) .. "' not found in '" .. stringPath .. "'")
     end
 
     return root
