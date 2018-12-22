@@ -8,7 +8,7 @@ public class ScenarioModel
     -- Public Fields
     BattlefieldModel Battlefield
     TurnCounterModel TurnCounter
-    table<ArmyModel> Armies
+    dictionary<PlayerModel> Players
     TeamsModel Teams
 
     -- Constructors
@@ -30,16 +30,19 @@ setmetatable(ScenarioModel, { __call = function(self, ...) return self:new(...) 
 <table> data: A table with the following key-value pairs:
     <table> Battlefield: See constructor for BattlefieldModel.
     <table> TurnCounter: See constructor for TurnCounterModel.
-    <array<table>> Armies: See constructor for ArmyModel.
+    <table<table>> Players: See constructor for PlayerModel.
     <table> Teams: See constructor for TeamsModel.
 --]]
 function ScenarioModel:new(data)
-    if type(data) ~= 'table' then error("Argument [1] data: table expected, but got " .. tostring(type(data)) .. ".") end
+    if type(data) ~= 'table' then error("Argument [1] data: table expected, but got " .. type(data) .. ".") end
     if type(data.Battlefield) ~= 'table' then
-        error("Argument [1] parameters.Battlefield: table expected, but got " .. tostring(type(data.Battlefield)) .. ".")
+        error("Argument [1] parameters.Battlefield: table expected, but got " .. type(data.Battlefield) .. ".")
     end
     if type(data.TurnCounter) ~= 'table' then
-        error("Argument [1] parameters.TurnCounter: table expected, but got " .. tostring(type(data.TurnCounter)) .. ".")
+        error("Argument [2] parameters.TurnCounter: table expected, but got " .. type(data.TurnCounter) .. ".")
+    end
+    if type(data.Players) ~= 'table' then
+        error("Argument [3] parameters.Players: table expected, but got " .. type(data.Players) .. ".")
     end
 
     local obj = {}
@@ -49,6 +52,10 @@ function ScenarioModel:new(data)
 
     obj.Battlefield = BattlefieldModel(data.Battlefield)
     obj.TurnCounter = TurnCounterModel(data.TurnCounter)
+    obj.Players = {}
+    for k,v in pairs(data.Players) do
+        obj.Players[k] = PlayerModel(v)
+    end
 
     return obj
 end

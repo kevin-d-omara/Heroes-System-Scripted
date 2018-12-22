@@ -27,5 +27,8 @@
                 [7] = "HoN.Core_Box.Tokens.Event_End",
             }
         },
+        Players = {
+
+        },
     },
 }

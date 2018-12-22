@@ -26,8 +26,18 @@ Transforms the data into an IForceModel instance.
 See constructors for the IForceModel concrete classes this factory supports:
     `CombatGroupForceModel`
     `RecruitmentTileForceModel`
+
+## Return
+An object of type IForceModel, from the following list:
+    RecruitmentTileForceModel
+    CombatGroupForceModel
+
+## Throws
+Error if input is nil.
 --]]
 function ForceModelFactory.Create(data)
+    assert(data and (type(data) == 'string' or type(data) == 'table'), "Argument [1] 'data': string or table expected, but got " .. type(data) .. ".")
+
     if
         data.tile        ~= nil
         or data.options  ~= nil
