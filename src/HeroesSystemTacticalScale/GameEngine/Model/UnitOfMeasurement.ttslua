@@ -6,3 +6,22 @@ UnitOfMeasurement = {
     TerrainThickness = 0.2,         -- The "Thickness" value of the Custom Tile/Token for terrain related objects.
     DefaultThickness = 0.16,        -- The default "Thickness" value of the Custom Tile/Token for all HeroesSystemTacticalScale objects.
 }
+
+--[[
+The following is the scale and thickness of all the various types of components in Heroes System TTS Mod.
+For example, a character/officer sized unit tile should be scaled to 0.77 along the x and y axis in order to be the correct scale and size in the game.
+
+Scale
+    Unit - 1
+    Officer, Large Option, Small Option - 0.77
+    Marker - 0.46
+    Vehicles, Recruitment Tile, etc. - scale by height vs 458 pixels
+    7x7 Terrain - 7.83  --> needs to be changed, now that the tiles have been cropped
+    1x1 Terrain - 1.36
+    2x1 Terrain - 1.36
+
+Thickness
+    Units, Markers - 0.16
+    Terrain Tile, Terrain Elements - 0.20
+
+--]]
