@@ -108,9 +108,16 @@ function Database.AddProduct(gameObject, info)
             Database.Data[info.Game][info.Name] = objectTree
         end
 
-        local scenarios = CallIfExists(gameObject, 'GetScenarios')
-        if scenarios ~= nil then
-            Database.Data[info.Game][info.Name].Scenarios = scenarios
+        local numScenarios = CallIfExists(gameObject, 'GetNumberOfScenarios')
+        if numScenarios ~= nil then
+            -- Collect the configuration for each scenario.
+            -- This is temporary while refactoring.
+            local configs = {}
+            for i = 1, numScenarios do
+                configs[i] = gameObject.call('GetScenarioConfig', {index = i})
+            end
+
+            Database.Data[info.Game][info.Name].Scenarios = configs
         end
     end
 end

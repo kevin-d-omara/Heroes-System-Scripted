@@ -19,7 +19,7 @@ public class Tile
 Data container that defines the path to an Object and how to place it in the world (ex: whether to flip it over, how much to rotate it, etc).
 --]]
 
-local Tile = class('Tile')
+Tile = class('Tile')
 
 --[[
 ## Signatures

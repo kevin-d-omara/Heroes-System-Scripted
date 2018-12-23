@@ -19,7 +19,7 @@ public class RandomSet
 A collection of elements that may only be accessed in a random order.
 --]]
 
-local RandomSet = {}
+RandomSet = {}
 
 -- Can create a new RandomSet instance by calling either RandomSet:new() or just RandomSet().
 setmetatable(RandomSet, { __call = function(self, ...) return self:new(...) end })

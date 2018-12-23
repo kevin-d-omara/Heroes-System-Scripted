@@ -19,7 +19,7 @@ public class Option : TTSObject
 A Heroes System option tile. For example: 'Rifle Grenade' from the Core Box, which includes 3x the 'Rifle Grenade' marker.
 --]]
 
-local Option = TTSObject()
+Option = TTSObject()
 
 --[[
 ## Summary

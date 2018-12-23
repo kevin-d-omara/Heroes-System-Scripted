@@ -19,7 +19,7 @@ A simple 2d matrix, which is indexed by (row, column) and is 1-based, just like 
 The elements are stored in column-major order (i.e. elements in the same row are quick to iterate over).
 --]]
 
-local Matrix = {}
+Matrix = {}
 
 -- Can create a new Matrix instance by calling either Matrix:new() or just Matrix().
 setmetatable(Matrix, { __call = function(self, ...) return self:new(...) end })

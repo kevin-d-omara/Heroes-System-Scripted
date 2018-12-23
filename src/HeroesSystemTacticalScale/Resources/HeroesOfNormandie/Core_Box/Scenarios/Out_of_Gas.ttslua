@@ -1,49 +1,53 @@
-{
-    Name = "Out_Of_Gas",
-    Model = {
-        Battlefield = {
-            Width = 3,
-            Height = 2,
-            TerrainBoards = {
-                {"HoN.Core_Box.Terrain.C6_A"},
-                {"HoN.Core_Box.Terrain.C4_B"},
-                {"HoN.Core_Box.Terrain.C5_A"},
-                {"HoN.Core_Box.Terrain.C1_B", {rotation = 90}},
-                {"HoN.Core_Box.Terrain.C2_B", {rotation = 90}},
-                {"HoN.Core_Box.Terrain.C3_A"},
-            },
-            TerrainTiles = {
-                -- path                                          , tile,   index,   index-type,   options{}
-                {"HoN.Core_Box.Terrain.Thicket"                  , "C5_A", {2,1},   "space"     },                      -- Showcase random selection.
-                {"HoN.Core_Box.Terrain.Thicket"                  , "C5_A", {6,2},   "space"     },
-                {"HoN.Core_Box.Terrain.Thicket"                  , "C4_B", {7,3},   "space"     },
-                {"HoN.Core_Box.Terrain.House_2x1"                , "C4_B", {1,3.5}, "space"     , {rotation =  90}},    -- Showcase half-spacing placement and rotation.
-                {"HoN.Core_Box.Terrain.House_1x1"                , "C5_A", {2,5},   "interspace", {rotation = 180}},
-            },
-            Objects = {
-                {"HoN.Core_Box.Tokens.Item_Gas"                  , "C5_A", {2,5},   "interspace"},
-                {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C6_A", {2,1},   "interspace"},
-                {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C5_A", {2,0},   "interspace"},
-                {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C5_A", {5,3},   "interspace"},
-                {"HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_1", "C6_A", {4.5,0}, "interspace"},
-                {"HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_2", "C6_A", {5.5,0}, "interspace"},
-            },
-        },
-        TurnCounter = {
-            path = "HoN.Core_Box.Tokens.Turn_Counter",
-            initiativeMarkers = {
-                [1] = "HoN.Core_Box.Tokens.Initiative_GE",
-                [2] = "HoN.Core_Box.Tokens.Initiative_US",
-            },
-            eventMarkers = {
-                [2] = "HoN.Core_Box.Tokens.Event_US",
-                [4] = "HoN.Core_Box.Tokens.Event_Generic",
-                [6] = "HoN.Core_Box.Tokens.Event_US",
-                [8] = "HoN.Core_Box.Tokens.Event_End",
-            }
-        },
-        Players = {
+Out_Of_Gas = {}
 
+function Out_Of_Gas.GetScenarioConfig()
+    return {
+        Name = "Out_Of_Gas",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C6_A"},
+                    {"HoN.Core_Box.Terrain.C4_B"},
+                    {"HoN.Core_Box.Terrain.C5_A"},
+                    {"HoN.Core_Box.Terrain.C1_B", {rotation = 90}},
+                    {"HoN.Core_Box.Terrain.C2_B", {rotation = 90}},
+                    {"HoN.Core_Box.Terrain.C3_A"},
+                },
+                TerrainTiles = {
+                    -- path                                          , tile,   index,   index-type,   options{}
+                    {"HoN.Core_Box.Terrain.Thicket"                  , "C5_A", {2,1},   "space"     },                      -- Showcase random selection.
+                    {"HoN.Core_Box.Terrain.Thicket"                  , "C5_A", {6,2},   "space"     },
+                    {"HoN.Core_Box.Terrain.Thicket"                  , "C4_B", {7,3},   "space"     },
+                    {"HoN.Core_Box.Terrain.House_2x1"                , "C4_B", {1,3.5}, "space"     , {rotation =  90}},    -- Showcase half-spacing placement and rotation.
+                    {"HoN.Core_Box.Terrain.House_1x1"                , "C5_A", {2,5},   "interspace", {rotation = 180}},
+                },
+                Objects = {
+                    {"HoN.Core_Box.Tokens.Item_Gas"                  , "C5_A", {2,5},   "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C6_A", {2,1},   "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C5_A", {2,0},   "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic"              , "C5_A", {5,3},   "interspace"},
+                    {"HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_1", "C6_A", {4.5,0}, "interspace"},
+                    {"HoN.Core_Box.US.Rifle_Platoon_22nd.Halftrack_2", "C6_A", {5.5,0}, "interspace"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_GE",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_US",
+                },
+                eventMarkers = {
+                    [2] = "HoN.Core_Box.Tokens.Event_US",
+                    [4] = "HoN.Core_Box.Tokens.Event_Generic",
+                    [6] = "HoN.Core_Box.Tokens.Event_US",
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                }
+            },
+            Players = {
+
+            },
         },
-    },
-}
+    }
+end

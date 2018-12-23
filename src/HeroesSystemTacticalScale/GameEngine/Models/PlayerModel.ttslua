@@ -18,7 +18,7 @@ public class PlayerModel
 Data container that defines the physical resources for a Player: an Army, a set of Order Tokens, and an Action Deck.
 --]]
 
-local PlayerModel = class('PlayerModel')
+PlayerModel = class('PlayerModel')
 
 --[[
 PlayerModel(table data)

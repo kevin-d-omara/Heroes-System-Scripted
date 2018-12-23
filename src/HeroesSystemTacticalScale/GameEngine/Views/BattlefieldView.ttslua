@@ -36,7 +36,7 @@ class BattlefieldView
 Physical representation of the Battlefield. Offers methods for placing tiles on the Battlefield.
 --]]
 
-local BattlefieldView = {}
+BattlefieldView = {}
 
 -- Can create a new BattlefieldView instance by calling either BattlefieldView:new() or just BattlefieldView().
 setmetatable(BattlefieldView, { __call = function(self, ...) return self:new(...) end })

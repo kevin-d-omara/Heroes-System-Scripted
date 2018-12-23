@@ -21,7 +21,7 @@ public class ScenarioController
 Controller class for a single scenario. Offers public API methods to interact with the scenario.
 --]]
 
-local ScenarioController = {
+ScenarioController = {
     BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD = 3,
 }
 

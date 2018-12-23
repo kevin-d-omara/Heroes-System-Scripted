@@ -20,7 +20,7 @@ public class ScenarioModel
 Container for all physical components of a Scenario.
 --]]
 
-local ScenarioModel = {}
+ScenarioModel = {}
 
 -- Can create a new ScenarioModel instance by calling either ScenarioModel:new() or just ScenarioModel().
 setmetatable(ScenarioModel, { __call = function(self, ...) return self:new(...) end })

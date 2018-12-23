@@ -20,7 +20,7 @@ public class TurnCounterModel
 Container for all physical components of a Turn Counter.
 --]]
 
-local TurnCounterModel = {}
+TurnCounterModel = {}
 
 -- Can create a new TurnCounterModel instance by calling either TurnCounterModel:new() or just TurnCounterModel().
 setmetatable(TurnCounterModel, { __call = function(self, ...) return self:new(...) end })

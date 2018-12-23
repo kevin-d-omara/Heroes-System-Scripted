@@ -7,4 +7,4 @@ end
 
 #include objects
 #include aliases
-#include Scenarios/_all
+#include Scenarios/Campaign

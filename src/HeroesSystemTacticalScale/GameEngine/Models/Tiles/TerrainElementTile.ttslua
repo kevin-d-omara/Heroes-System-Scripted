@@ -25,7 +25,7 @@ Extension of Tile that defines how to place an Object onto the Battlefield (i.e.
 For example, could be a "Fire_Team", "Position_1x1", "Item_Dynamite", etc.
 --]]
 
-local TerrainElementTile = Tile:extend("TerrainElementTile")
+TerrainElementTile = Tile:extend("TerrainElementTile")
 
 --[[
 ## Parameters

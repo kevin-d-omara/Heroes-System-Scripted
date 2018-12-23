@@ -16,7 +16,7 @@ A factory class for creating IForceModel instances.
 Is used to transform scenario configuration data into IForceModel instances.
 --]]
 
-local ForceModelFactory = class('ForceModelFactory')
+ForceModelFactory = class('ForceModelFactory')
 
 --[[
 ## Summary

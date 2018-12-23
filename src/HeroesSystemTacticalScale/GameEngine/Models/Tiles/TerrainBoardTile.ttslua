@@ -27,7 +27,7 @@ Extension of Tile that defines how to place an Object onto the Battlefield as a 
 For example could be "C6_A", "SH1_B", etc.
 --]]
 
-local TerrainBoardTile = Tile:extend("TerrainBoardTile")
+TerrainBoardTile = Tile:extend("TerrainBoardTile")
 
 --[[
 ## Parameters

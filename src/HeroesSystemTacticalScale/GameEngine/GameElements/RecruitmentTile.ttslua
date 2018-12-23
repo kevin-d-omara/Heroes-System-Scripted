@@ -22,7 +22,7 @@ public class RecruitmentTile : TTSObject
 A Heroes System recruitment tile. For example, 'Rifle Platoon 4th Inf. Div. 8th Inf. Reg' from the Core Box.
 --]]
 
-local RecruitmentTile = TTSObject()
+RecruitmentTile = TTSObject()
 
 --[[
 ## Summary

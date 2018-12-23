@@ -1,60 +1,64 @@
-{
-    Name = "Tempest_Of_Fire",
-    Model = {
-        Battlefield = {
-            Width = 3,
-            Height = 2,
-            TerrainBoards = {
-                {"HoN.Core_Box.Terrain.C4_B"},
-                {"HoN.Core_Box.Terrain.C1_A"},
-                {"HoN.Core_Box.Terrain.C3_A", {rotation = -90}},
-                {"HoN.Core_Box.Terrain.C2_B", {rotation = 180}},
-                {"HoN.Core_Box.Terrain.C6_B", {rotation = -90}},
-                {"HoN.Core_Box.Terrain.C5_B", {rotation = -90}},
+Tempest_Of_Fire = {}
+
+function Tempest_Of_Fire.GetScenarioConfig()
+    return {
+        Name = "Tempest_Of_Fire",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C4_B"},
+                    {"HoN.Core_Box.Terrain.C1_A"},
+                    {"HoN.Core_Box.Terrain.C3_A", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C2_B", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.C6_B", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C5_B", {rotation = -90}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.House_1x1", "C1_A", {2,4},   "interspace", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.House_2x2", "C1_A", {6,2},   "space"     , {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.House_2x1", "C6_B", {4,5.5}, "space"     , {rotation = -90}},
+
+                    {"HoN.Core_Box.Terrain.Position", "C4_B", {7,5}, "space"},
+                    {"HoN.Core_Box.Terrain.Position", "C1_A", {1,1}, "space"},
+                    {"HoN.Core_Box.Terrain.Position", "C5_B", {1,6}, "space"},
+                    {"HoN.Core_Box.Terrain.Position_1x2", "C1_A", {7,5.5}, "space", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.Thicket" , "C1_A", {5,5}, "space"},
+                },
+                Objects = {
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_B", {4,5}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_B", {5,0}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A", {3,3}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B", {3,3}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C5_B", {3,4}, "interspace"},
+
+                    {"HoN.Core_Box.Tokens.Primary_Objective_US"  , "C1_A", {3,1}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective_GE", "C1_A", {6,2}, "space"},
+
+                    {"HoN.Core_Box.GE.ExtraUnits.Puma"                , "C4_B", {4.5,3}, "space"     , {rotation = -90, flip = true}},
+                    {"HoN.Core_Box.GE.ExtraUnits.Panzer_IV"           , "C3_A", {2,5},   "interspace", {rotation =  45, flip = true}},
+                    {"HoN.Core_Box.GE.Panzergrenadiere902.Halftrack_1", "C2_B", {4,4},   "interspace", {rotation = -45, flip = true}},
+
+                    {"HoN.Core_Box.Tokens.Item_Micro"  , "C4_B", {4,2}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Item_Radio"  , "C3_A", {3,6}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Item_Antenna", "C2_B", {4,5}, "interspace"},
+                },
             },
-            TerrainTiles = {
-                {"HoN.Core_Box.Terrain.House_1x1", "C1_A", {2,4},   "interspace", {rotation = -90}},
-                {"HoN.Core_Box.Terrain.House_2x2", "C1_A", {6,2},   "space"     , {rotation = -90}},
-                {"HoN.Core_Box.Terrain.House_2x1", "C6_B", {4,5.5}, "space"     , {rotation = -90}},
-
-                {"HoN.Core_Box.Terrain.Position", "C4_B", {7,5}, "space"},
-                {"HoN.Core_Box.Terrain.Position", "C1_A", {1,1}, "space"},
-                {"HoN.Core_Box.Terrain.Position", "C5_B", {1,6}, "space"},
-                {"HoN.Core_Box.Terrain.Position_1x2", "C1_A", {7,5.5}, "space", {rotation = -90}},
-                {"HoN.Core_Box.Terrain.Thicket" , "C1_A", {5,5}, "space"},
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                eventMarkers = {
+                    [4] = "HoN.Core_Box.Tokens.Event_US",
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                }
             },
-            Objects = {
-                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_B", {4,5}, "interspace"},
-                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_B", {5,0}, "interspace"},
-                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A", {3,3}, "interspace"},
-                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B", {3,3}, "interspace"},
-                {"HoN.Core_Box.Tokens.Bonus_Tactic", "C5_B", {3,4}, "interspace"},
+            Players = {
 
-                {"HoN.Core_Box.Tokens.Primary_Objective_US"  , "C1_A", {3,1}, "interspace"},
-                {"HoN.Core_Box.Tokens.Secondary_Objective_GE", "C1_A", {6,2}, "space"},
-
-                {"HoN.Core_Box.GE.ExtraUnits.Puma"                , "C4_B", {4.5,3}, "space"     , {rotation = -90, flip = true}},
-                {"HoN.Core_Box.GE.ExtraUnits.Panzer_IV"           , "C3_A", {2,5},   "interspace", {rotation =  45, flip = true}},
-                {"HoN.Core_Box.GE.Panzergrenadiere902.Halftrack_1", "C2_B", {4,4},   "interspace", {rotation = -45, flip = true}},
-
-                {"HoN.Core_Box.Tokens.Item_Micro"  , "C4_B", {4,2}, "interspace"},
-                {"HoN.Core_Box.Tokens.Item_Radio"  , "C3_A", {3,6}, "interspace"},
-                {"HoN.Core_Box.Tokens.Item_Antenna", "C2_B", {4,5}, "interspace"},
             },
         },
-        TurnCounter = {
-            path = "HoN.Core_Box.Tokens.Turn_Counter",
-            initiativeMarkers = {
-                [1] = "HoN.Core_Box.Tokens.Initiative_US",
-                [2] = "HoN.Core_Box.Tokens.Initiative_GE",
-            },
-            eventMarkers = {
-                [4] = "HoN.Core_Box.Tokens.Event_US",
-                [8] = "HoN.Core_Box.Tokens.Event_End",
-            }
-        },
-        Players = {
-
-        },
-    },
-}
+    }
+end

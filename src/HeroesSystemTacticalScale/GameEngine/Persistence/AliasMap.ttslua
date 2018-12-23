@@ -22,7 +22,7 @@ A dictionary structure that maps keys to other keys.
 Keys can be mapped either 1:1 or 1:many. In a 1:many mapping, the keys are returned in a random order.
 --]]
 
-local AliasMap = {}
+AliasMap = {}
 
 -- Can create a new AliasMap instance by calling either AliasMap:new() or just AliasMap().
 setmetatable(AliasMap, { __call = function(self, ...) return self:new(...) end })

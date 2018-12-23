@@ -44,7 +44,7 @@ local gears = CombatGroupForceModel({
 })
 --]]
 
-local CombatGroupForceModel = class('CombatGroupForceModel'):with(IForceModel)
+CombatGroupForceModel = class('CombatGroupForceModel'):with(IForceModel)
 
 --[[
 ## Constructor

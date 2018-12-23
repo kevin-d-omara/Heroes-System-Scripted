@@ -19,7 +19,7 @@ public class ClassMapper
 A helper for mapping pure Lua tables to domain specific classes.
 --]]
 
-local ClassMapper = {class = "ClassMapper"}
+ClassMapper = {class = "ClassMapper"}
 
 -- Can create a new ClassMapper instance by calling either ClassMapper:new() or just ClassMapper().
 setmetatable(ClassMapper, { __call = function(self, ...) return self:new(...) end })

@@ -47,7 +47,7 @@ Dto = {
 }
 --]]
 
-local ForceModelDto = class('ForceModelDto')
+ForceModelDto = class('ForceModelDto')
 
 --[[
 ## Constructor

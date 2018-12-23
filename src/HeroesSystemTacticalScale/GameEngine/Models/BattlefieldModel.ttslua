@@ -46,7 +46,7 @@ Element Coordinates:
 Internally, all Terrain Coordinates are measured by "spaces".
 --]]
 
-local BattlefieldModel = {}
+BattlefieldModel = {}
 
 -- Can create a new BattlefieldModel instance by calling either BattlefieldModel:new() or just BattlefieldModel().
 setmetatable(BattlefieldModel, { __call = function(self, ...) return self:new(...) end })

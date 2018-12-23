@@ -27,7 +27,7 @@ public class TTSObject
 A data class that holds the GUID of a Tabletop Simulator Object and a reference to the container it is inside.
 --]]
 
-local TTSObject = {_class = 'TTSObject'}
+TTSObject = {_class = 'TTSObject'}
 
 -- Make it so that TTSObject() is shorthand for TTSObject:new().
 -- This should only be added to the base class, not child classes.

@@ -24,11 +24,11 @@ public class TestClass
 A collection of tests for a single class or functionality.
 --]]
 
-local TestClass = {}    -- The class itself.
-local Test = {}         -- Singleton to hold test cases.
-local Ignore = {}       -- Singleton to hold temporarily ignored tests.
+TestClass = {}  -- The class itself.
+Test = {}       -- Singleton to hold test cases.
+Ignore = {}     -- Singleton to hold temporarily ignored tests.
 
-local _AllTests = {}
+_AllTests = {}
 
 -- Can instantiate TestClass by calling TestClass().
 setmetatable(TestClass, { __call = function(self, ...) return self:new(...) end })

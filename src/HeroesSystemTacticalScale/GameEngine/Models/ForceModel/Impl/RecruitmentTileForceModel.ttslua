@@ -43,7 +43,7 @@ RecruitmentTileForceModel({
 })
 --]]
 
-local RecruitmentTileForceModel = CombatGroup:extend('RecruitmentTileForceModel'):with(IForceModel)
+RecruitmentTileForceModel = CombatGroup:extend('RecruitmentTileForceModel'):with(IForceModel)
 
 --[[
 ## Constructor

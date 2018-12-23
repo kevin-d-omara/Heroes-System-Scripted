@@ -22,7 +22,7 @@ public class TurnCounterCoordinates : TTSObject
 Collection of magic numbers that describe where markers should be placed on this TurnCounter Object.
 --]]
 
-local TurnCounterCoordinates = TTSObject()
+TurnCounterCoordinates = TTSObject()
 
 --[[
 ## Parameters

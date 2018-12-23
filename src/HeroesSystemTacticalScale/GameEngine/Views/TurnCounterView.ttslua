@@ -25,7 +25,7 @@ public class TurnCounterView
 Physical representation of the TurnCounter. Offers methods for placing event and initiative markers and setting the weather.
 --]]
 
-local TurnCounterView = {}
+TurnCounterView = {}
 
 -- Can create a new TurnCounterView instance by calling either TurnCounterView:new() or just TurnCounterView().
 setmetatable(TurnCounterView, { __call = function(self, ...) return self:new(...) end })

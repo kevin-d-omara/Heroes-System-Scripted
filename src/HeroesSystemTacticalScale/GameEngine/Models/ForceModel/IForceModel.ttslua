@@ -19,7 +19,7 @@ A Recruitment Tile (Rifle Platoon 22nd, etc.) with a few Options (Grenades, Mort
 A group of US Paratroopers: The "Pathfinder Squad" Option + "Engineers Squad" Option.
 --]]
 
-local IForceModel = {}
+IForceModel = {}
 
 --[[
 ## Summary

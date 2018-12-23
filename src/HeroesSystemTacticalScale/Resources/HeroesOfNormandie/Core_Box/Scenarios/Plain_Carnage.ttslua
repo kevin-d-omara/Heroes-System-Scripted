@@ -1,34 +1,38 @@
-{
-    Name = "Plain_Carnage",
-    Model = {
-        Battlefield = {
-            Width = 2,
-            Height = 1,
-            TerrainBoards = {
-                {"HoN.Core_Box.Terrain.C4_B"},
-                {"HoN.Core_Box.Terrain.C3_A", {rotation = -90}},
-            },
-            TerrainTiles = {
-                {"HoN.Core_Box.Terrain.Position_1x2", "C4_B", {6,3.5}, "space", {rotation = -90}},
-            },
-            Objects = {
-                {"HoN.Core_Box.Tokens.Bonus_Tactic"       , "C3_A", {0,6}, "interspace"},
-                {"HoN.Core_Box.Tokens.Secondary_Objective", "C3_A", {0,1}, "interspace"},
-            },
-        },
-        TurnCounter = {
-            path = "HoN.Core_Box.Tokens.Turn_Counter",
-            initiativeMarkers = {
-                [1] = "HoN.Core_Box.Tokens.Initiative_US",
-                [2] = "HoN.Core_Box.Tokens.Initiative_GE",
-            },
-            useRandomInitiativeOrder = true,
-            eventMarkers = {
-                [6] = "HoN.Core_Box.Tokens.Event_End",
-            }
-        },
-        Players = {
+Plain_Carnage = {}
 
+function Plain_Carnage.GetScenarioConfig()
+    return {
+        Name = "Plain_Carnage",
+        Model = {
+            Battlefield = {
+                Width = 2,
+                Height = 1,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C4_B"},
+                    {"HoN.Core_Box.Terrain.C3_A", {rotation = -90}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Position_1x2", "C4_B", {6,3.5}, "space", {rotation = -90}},
+                },
+                Objects = {
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic"       , "C3_A", {0,6}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "C3_A", {0,1}, "interspace"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = true,
+                eventMarkers = {
+                    [6] = "HoN.Core_Box.Tokens.Event_End",
+                }
+            },
+            Players = {
+
+            },
         },
-    },
-}
+    }
+end

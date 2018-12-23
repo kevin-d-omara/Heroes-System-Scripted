@@ -24,7 +24,7 @@ Wrapper for Tile that defines how to modify the extra Tiles that come included w
 For example could be "Pathfinders_Signallers_Option" with an extra "Item_Transmitter" or "Halftracks_x2" discluding one of the Halftracks.
 --]]
 
-local CombatGroup = class("CombatGroup")
+CombatGroup = class("CombatGroup")
 
 --[[
 ## Constructors

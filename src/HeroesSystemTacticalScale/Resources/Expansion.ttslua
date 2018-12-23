@@ -19,7 +19,7 @@ A single expansion for a Heroes System: Tactical Scale game.
 For example, the Heroes of Normandie Core Box, or the Shadows over Normandie Cthulhu Mythos 1.
 --]]
 
-local Expansion = {}
+Expansion = {}
 
 -- Can create a new Expansion instance by calling either Expansion:new() or just Expansion().
 setmetatable(Expansion, { __call = function(self, ...) return self:new(...) end })

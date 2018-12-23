@@ -18,7 +18,7 @@ class MyClass
 A useful description goes here. Lorem ipsum.
 --]]
 
-local MyClass = class('MyClass')
+MyClass = class('MyClass')
 
 --[[
 Return a new MyClass containing a piece of data.
