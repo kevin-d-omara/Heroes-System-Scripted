@@ -1,3 +1,4 @@
+#include <!/../lib/30log/class>
 --[[
 ## Class
 public class ClassMapper
@@ -7,7 +8,6 @@ public class ClassMapper
     public string MappingKey    -- The key where domain specific classes store their identity
 
     -- Constructors
-    public ClassMapper:new(classes, parameters)
     public ClassMapper(classes, parameters)
 
     -- Methods
@@ -19,10 +19,7 @@ public class ClassMapper
 A helper for mapping pure Lua tables to domain specific classes.
 --]]
 
-ClassMapper = {class = "ClassMapper"}
-
--- Can create a new ClassMapper instance by calling either ClassMapper:new() or just ClassMapper().
-setmetatable(ClassMapper, { __call = function(self, ...) return self:new(...) end })
+ClassMapper =  class('ClassMapper')
 
 --[[
 ## Summary
@@ -34,18 +31,13 @@ Instantiate a new ClassMapper which can map a specific set of classes.
     <string> mappingKey: The key where domain specific classes store their identity.
         [Optional, defaults to 'class'.]
 --]]
-function ClassMapper:new(classes, parameters)
-    local obj = {}
-    setmetatable(obj, self)
-    self.__index = self
-    self.__call = function(self, ...) return self:new(...) end
-
+function ClassMapper:init(classes, parameters)
     local parameters = parameters or {}
 
-    obj.Classes = classes or {}
-    obj.MappingKey = parameters.mappingKey or 'class'
+    self.Classes = classes or {}
+    self.MappingKey = parameters.mappingKey or 'class'
 
-    return obj
+    return self
 end
 
 --[[

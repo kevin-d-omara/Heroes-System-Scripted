@@ -1,3 +1,4 @@
+#include <!/../lib/30log/class>
 #include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
 #include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Placement>
 #include <!/TabletopSimulator/Vector2>
@@ -25,25 +26,17 @@ public class TurnCounterView
 Physical representation of the TurnCounter. Offers methods for placing event and initiative markers and setting the weather.
 --]]
 
-TurnCounterView = {}
-
--- Can create a new TurnCounterView instance by calling either TurnCounterView:new() or just TurnCounterView().
-setmetatable(TurnCounterView, { __call = function(self, ...) return self:new(...) end })
+TurnCounterView = class('TurnCounterView')
 
 --[[
 ## Parameters
 <TurnCounterModel> model: All data needed to physically manifest the TurnCounterView.
 --]]
-function TurnCounterView:new(model)
-    local obj = {}
-    setmetatable(obj, self)
-    self.__index = self
-    self.__call = function(self, ...) return self:new(...) end
+function TurnCounterView:init(model)
+    self.Model = model
+    self.Coordinates = Database.GetData(model.Path)
 
-    obj.Model = model
-    obj.Coordinates = Database.GetData(model.Path)
-
-    return obj
+    return self
 end
 
 --[[

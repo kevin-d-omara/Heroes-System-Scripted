@@ -1,3 +1,4 @@
+#include <!/../lib/30log/class>
 #include <BattlefieldModel>
 #include <TurnCounterModel>
 
@@ -12,7 +13,6 @@ public class ScenarioModel
     TeamsModel Teams
 
     -- Constructors
-    public ScenarioModel:new(data)
     public ScenarioModel(data)
 }
 
@@ -20,10 +20,7 @@ public class ScenarioModel
 Container for all physical components of a Scenario.
 --]]
 
-ScenarioModel = {}
-
--- Can create a new ScenarioModel instance by calling either ScenarioModel:new() or just ScenarioModel().
-setmetatable(ScenarioModel, { __call = function(self, ...) return self:new(...) end })
+ScenarioModel = class('ScenarioModel')
 
 --[[
 ## Parameters
@@ -33,7 +30,7 @@ setmetatable(ScenarioModel, { __call = function(self, ...) return self:new(...) 
     <table<table>> Players: See constructor for PlayerModel.
     <table> Teams: See constructor for TeamsModel.
 --]]
-function ScenarioModel:new(data)
+function ScenarioModel:init(data)
     if type(data) ~= 'table' then error("Argument [1] data: table expected, but got " .. type(data) .. ".") end
     if type(data.Battlefield) ~= 'table' then
         error("Argument [1] parameters.Battlefield: table expected, but got " .. type(data.Battlefield) .. ".")
@@ -45,17 +42,12 @@ function ScenarioModel:new(data)
         error("Argument [3] parameters.Players: table expected, but got " .. type(data.Players) .. ".")
     end
 
-    local obj = {}
-    setmetatable(obj, self)
-    self.__index = self
-    self.__call = function(self, ...) return self:new(...) end
-
-    obj.Battlefield = BattlefieldModel(data.Battlefield)
-    obj.TurnCounter = TurnCounterModel(data.TurnCounter)
-    obj.Players = {}
+    self.Battlefield = BattlefieldModel(data.Battlefield)
+    self.TurnCounter = TurnCounterModel(data.TurnCounter)
+    self.Players = {}
     for k,v in pairs(data.Players) do
-        obj.Players[k] = PlayerModel(v)
+        self.Players[k] = PlayerModel(v)
     end
 
-    return obj
+    return self
 end

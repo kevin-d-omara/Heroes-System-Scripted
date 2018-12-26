@@ -1,3 +1,4 @@
+#include <!/../lib/30log/class>
 #include <Tiles/TerrainBoardTile>
 #include <Tiles/TerrainElementTile>
 #include <!/TabletopSimulator/Vector2>
@@ -14,7 +15,6 @@ class BattlefieldModel
     array<TerrainElementTile> Objects
 
     -- Constructors
-    BattlefieldModel:new(parameters)
     BattlefieldModel(parameters)
 
     -- Methods
@@ -46,10 +46,7 @@ Element Coordinates:
 Internally, all Terrain Coordinates are measured by "spaces".
 --]]
 
-BattlefieldModel = {}
-
--- Can create a new BattlefieldModel instance by calling either BattlefieldModel:new() or just BattlefieldModel().
-setmetatable(BattlefieldModel, { __call = function(self, ...) return self:new(...) end })
+BattlefieldModel = class('BattlefieldModel')
 
 --[[
 ## Notes
@@ -83,7 +80,7 @@ BattlefieldModel(data)
         bounds: The width and height (in spaces) of this board after it has been rotated (i.e. a 2x3 board that is rotated 90 degrees would have bounds of 3x2).
     Furthermore, Height and Width measure the number of spaces, not boards (there are 7x7 spaces per standard large terrain board).
 --]]
-function BattlefieldModel:new(parameters)
+function BattlefieldModel:init(parameters)
     -- Validate input.
     if type(parameters) ~= 'table'                  then return error("Argument [1] parameters: table expected, but got " .. tostring(type(parameters)) .. ".") end
     if type(parameters.Width) ~= 'number'           then return error("Argument [1] parameters.Width: integer number expected, but got " .. tostring(type(parameters.Width)) .. ".") end
@@ -91,38 +88,33 @@ function BattlefieldModel:new(parameters)
     if type(parameters.TerrainBoards) ~= 'table'    then return error("Argument [1] parameters.TerrainBoards: table expected, but got " .. tostring(type(parameters.TerrainBoards)) .. ".") end
     if #parameters.TerrainBoards < 1                then return error("Argument [1] parameters.TerrainBoards: array expected, but 0 elements found.") end
 
-    local obj = {}
-    setmetatable(obj, self)
-    self.__index = self
-    self.__call = function(self, ...) return self:new(...) end
-
     -- Default values.
     parameters = BattlefieldModel._TryUseSignatureOne(parameters)
     parameters.TerrainTiles = parameters.TerrainTiles or {}
     parameters.Objects = parameters.Objects or {}
 
-    obj.Width           = parameters.Width
-    obj.Height          = parameters.Height
-    obj.TerrainBoards = {}
+    self.Width  = parameters.Width
+    self.Height = parameters.Height
+    self.TerrainBoards  = {}
     for i,v in ipairs(parameters.TerrainBoards) do
-        obj.TerrainBoards[i] = TerrainBoardTile(v[1], v[2].index, v[2])
-        obj.TerrainBoards[i].Lock = true
+        self.TerrainBoards[i] = TerrainBoardTile(v[1], v[2].index, v[2])
+        self.TerrainBoards[i].Lock = true
     end
-    obj.TerrainTiles = {}
+    self.TerrainTiles = {}
     for i,v in ipairs(parameters.TerrainTiles) do
-        obj.TerrainTiles[i] = TerrainElementTile(v)
-        obj.TerrainTiles[i].Lock = true
+        self.TerrainTiles[i] = TerrainElementTile(v)
+        self.TerrainTiles[i].Lock = true
     end
-    obj.Objects = {}
+    self.Objects = {}
     for i,v in ipairs(parameters.Objects) do
-        obj.Objects[i] = TerrainElementTile(v)
+        self.Objects[i] = TerrainElementTile(v)
     end
-    obj._AliasToTerrainBoardMap = {}
-    for i,v in ipairs(obj.TerrainBoards) do
-        obj._AliasToTerrainBoardMap[v.Alias] = v
+    self._AliasToTerrainBoardMap = {}
+    for i,v in ipairs(self.TerrainBoards) do
+        self._AliasToTerrainBoardMap[v.Alias] = v
     end
 
-    return obj
+    return self
 end
 
 function BattlefieldModel:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index)

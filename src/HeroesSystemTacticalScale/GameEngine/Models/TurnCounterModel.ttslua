@@ -1,3 +1,4 @@
+#include <!/../lib/30log/class>
 #include <Tiles/Tile>
 #include <!/Lua/Collections/RandomSet>
 
@@ -12,7 +13,6 @@ public class TurnCounterModel
     array<Tile> EventMarkers
 
     -- Constructors
-    public TurnCounterModel:new(data)
     public TurnCounterModel(data)
 }
 
@@ -20,10 +20,7 @@ public class TurnCounterModel
 Container for all physical components of a Turn Counter.
 --]]
 
-TurnCounterModel = {}
-
--- Can create a new TurnCounterModel instance by calling either TurnCounterModel:new() or just TurnCounterModel().
-setmetatable(TurnCounterModel, { __call = function(self, ...) return self:new(...) end })
+TurnCounterModel = class('TurnCounterModel')
 
 --[[
 ## Notes
@@ -42,32 +39,27 @@ Use Tile to specify how the object should be placed (rotated and/or flipped over
     <bool> useRandomInitiativeOrder: True if the order of the initiative makers should be shuffled.
         [Optional, defaults to false.]
 --]]
-function TurnCounterModel:new(data)
-    local obj = {}
-    setmetatable(obj, self)
-    self.__index = self
-    self.__call = function(self, ...) return self:new(...) end
-
-    obj.Path = data.path
+function TurnCounterModel:init(data)
+    self.Path = data.path
 
     -- Transform to Tile class.
     if data.weatherTile ~= nil then
-        obj.WeatherTile = Tile(data.weatherTile)
+        self.WeatherTile = Tile(data.weatherTile)
     end
 
     -- Transform to Tile class.
-    obj.InitiativeMarkers = {}
+    self.InitiativeMarkers = {}
     if data.initiativeMarkers ~= nil then
         for k,v in pairs(data.initiativeMarkers) do
-            obj.InitiativeMarkers[k] = Tile(v)
+            self.InitiativeMarkers[k] = Tile(v)
         end
     end
 
     -- Transform to Tile class.
-    obj.EventMarkers = {}
+    self.EventMarkers = {}
     if data.eventMarkers ~= nil then
         for k,v in pairs(data.eventMarkers) do
-            obj.EventMarkers[k] = Tile(v)
+            self.EventMarkers[k] = Tile(v)
         end
     end
 
@@ -84,11 +76,11 @@ function TurnCounterModel:new(data)
         local initMarkers = {}
         for k,v in pairs(data.initiativeMarkers) do
             local index = randomSet:GetElement()
-            initMarkers[k] = obj.InitiativeMarkers[index]
+            initMarkers[k] = self.InitiativeMarkers[index]
         end
 
-        obj.InitiativeMarkers = initMarkers
+        self.InitiativeMarkers = initMarkers
     end
 
-    return obj
+    return self
 end
