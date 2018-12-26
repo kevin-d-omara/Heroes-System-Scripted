@@ -79,11 +79,11 @@ This enables these tiles to be referenced directly from the bag this recruitment
 
 ## Example
 Before:
-    HoN.Core_Box.US.RiflePlatoon8th.RecruitmentTile.Bazooka
-    HoN.Core_Box.US.RiflePlatoon8th.RecruitmentTile.Ambush_Squad_Option
+    HoN.Core_Box.US.Rifle_Platoon_8th.RecruitmentTile.Bazooka
+    HoN.Core_Box.US.Rifle_Platoon_8th.RecruitmentTile.Ambush_Squad_Option
 After
-    HoN.Core_Box.US.RiflePlatoon8th.Bazooka
-    HoN.Core_Box.US.RiflePlatoon8th.Ambush_Squad_Option
+    HoN.Core_Box.US.Rifle_Platoon_8th.Bazooka
+    HoN.Core_Box.US.Rifle_Platoon_8th.Ambush_Squad_Option
 
 --]]
 function RecruitmentTile:FoldUp()

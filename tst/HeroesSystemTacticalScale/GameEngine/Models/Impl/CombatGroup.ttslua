@@ -49,7 +49,7 @@ function Test:GetTransformedIncludes_Tile_NoIncludes_WithInclude()
 end
 
 function Test:GetTransformedIncludes_Option_NoIncludes()
-    local config = 'HoN.Core_Box.US.FieldCommand.Bluff_Option'
+    local config = 'HoN.Core_Box.US.Field_Command.Bluff_Option'
     local instance = CombatGroup(config)
     local includes = instance:GetTransformedIncludes()
 

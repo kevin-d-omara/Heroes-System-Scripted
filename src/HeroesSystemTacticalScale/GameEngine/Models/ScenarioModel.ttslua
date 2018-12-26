@@ -1,6 +1,7 @@
 #include <!/../lib/30log/class>
 #include <BattlefieldModel>
 #include <TurnCounterModel>
+#include <PlayerModel>
 
 --[[
 ## Class

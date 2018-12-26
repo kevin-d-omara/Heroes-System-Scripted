@@ -18,11 +18,11 @@ function Test:GetParentGuids()
     local expectedGuids = {
         '5e407f',   -- Core_Box (bag)
         '26put9',   -- US (bag)
-        'xludol',   -- RiflePlatoon8th (bag)
+        'xludol',   -- Rifle_Platoon_8th (bag)
         'hic75d',   -- Officer (tile)
     }
 
-    local tile = Database.GetData("HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Officer")
+    local tile = Database.GetData("HoN.Core_Box.US.Rifle_Platoon_8th.Recruitment_Tile.Officer")
     local actualGuids = tile:GetParentGuids()
 
     if #actualGuids ~= #expectedGuids then
@@ -37,29 +37,29 @@ function Test:GetParentGuids()
 end
 
 function Test:FoldUpGuids()
-    local bag = Database.GetData("HoN.Core_Box.US.RiflePlatoon8th")
+    local bag = Database.GetData("HoN.Core_Box.US.Rifle_Platoon_8th")
 
     if bag.Bazooka == nil then
-        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Bazooka was nil.')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.Rifle_Platoon_8th.Bazooka was nil.')
     end
     if bag.Recruitment_Tile.Bazooka == nil then
-        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Bazooka was nil.')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.Rifle_Platoon_8th.Recruitment_Tile.Bazooka was nil.')
     end
     if bag.Recruitment_Tile.Guids.Bazooka == nil then
-        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Guids.Bazooka was nil')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.Rifle_Platoon_8th.Recruitment_Tile.Guids.Bazooka was nil')
     end
 end
 
 function Test:FoldUpOptions()
-    local bag = Database.GetData("HoN.Core_Box.US.RiflePlatoon8th")
+    local bag = Database.GetData("HoN.Core_Box.US.Rifle_Platoon_8th")
 
     if bag.Rifle_Squad_Option == nil then
-        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Rifle_Squad_Option was nil.')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.Rifle_Platoon_8th.Rifle_Squad_Option was nil.')
     end
     if bag.Recruitment_Tile.Rifle_Squad_Option == nil then
-        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Rifle_Squad_Option was nil.')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.Rifle_Platoon_8th.Recruitment_Tile.Rifle_Squad_Option was nil.')
     end
     if bag.Recruitment_Tile.Options.Rifle_Squad_Option == nil then
-        error('FAILED: TestFoldUp: HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Options.Rifle_Squad_Option was nil')
+        error('FAILED: TestFoldUp: HoN.Core_Box.US.Rifle_Platoon_8th.Recruitment_Tile.Options.Rifle_Squad_Option was nil')
     end
 end

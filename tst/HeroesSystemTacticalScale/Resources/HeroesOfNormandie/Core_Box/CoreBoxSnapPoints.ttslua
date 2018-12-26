@@ -20,17 +20,17 @@ end
 
 
 function Ignore:LayAllRecruitmentTiles()
-    Place("HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile",      {position = {0,0,10}, rotation = {0,180,0}, smooth = false})
+    Place("HoN.Core_Box.US.Rifle_Platoon_8th.Recruitment_Tile",      {position = {0,0,10}, rotation = {0,180,0}, smooth = false})
     Place("HoN.Core_Box.US.Rifle_Platoon_22nd.Recruitment_Tile",     {position = {0,0,7}, rotation = {0,180,0}, smooth = false})
-    Place("HoN.Core_Box.US.FieldCommand.Recruitment_Tile",         {position = {0,0,4}, rotation = {0,180,0}, smooth = false})
-    Place("HoN.Core_Box.GE.Panzergrenadiere901.Recruitment_Tile",  {position = {0,0,1}, rotation = {0,180,0}, smooth = false})
-    Place("HoN.Core_Box.GE.Panzergrenadiere902.Recruitment_Tile",  {position = {0,0,-2}, rotation = {0,180,0}, smooth = false})
+    Place("HoN.Core_Box.US.Field_Command.Recruitment_Tile",         {position = {0,0,4}, rotation = {0,180,0}, smooth = false})
+    Place("HoN.Core_Box.GE.Panzergrenadiere_901.Recruitment_Tile",  {position = {0,0,1}, rotation = {0,180,0}, smooth = false})
+    Place("HoN.Core_Box.GE.Panzergrenadiere_902.Recruitment_Tile",  {position = {0,0,-2}, rotation = {0,180,0}, smooth = false})
     Place("HoN.Core_Box.GE.Feldkommando.Recruitment_Tile",         {position = {0,0,-5}, rotation = {0,180,0}, smooth = false})
 
-    Place("HoN.Core_Box.US.ExtraUnits.Sherman_M4_Option",          {position = {8,0,0}, rotation = {0,180,0}, smooth = false})
-    Place("HoN.Core_Box.US.ExtraUnits.Mortar_Option",              {position = {10,0,0}, rotation = {0,180,0}, smooth = false})
-    Place("HoN.Core_Box.GE.ExtraUnits.Panzer_IV_Option",           {position = {12,0,0}, rotation = {0,180,0}, smooth = false})
-    Place("HoN.Core_Box.GE.ExtraUnits.Zundapp_Option",             {position = {14,0,0}, rotation = {0,180,0}, smooth = false})
+    Place("HoN.Core_Box.US.Extra_Units.Sherman_M4_Option",          {position = {8,0,0}, rotation = {0,180,0}, smooth = false})
+    Place("HoN.Core_Box.US.Extra_Units.Mortar_Option",              {position = {10,0,0}, rotation = {0,180,0}, smooth = false})
+    Place("HoN.Core_Box.GE.Extra_Units.Panzer_IV_Option",           {position = {12,0,0}, rotation = {0,180,0}, smooth = false})
+    Place("HoN.Core_Box.GE.Extra_Units.Zundapp_Option",             {position = {14,0,0}, rotation = {0,180,0}, smooth = false})
 end
 
 function Test:LaySingleTile()
@@ -38,7 +38,7 @@ function Test:LaySingleTile()
     local slot1 = Database.GetData("HoN.Core_Box.GE.Feldkommando.Recruitment_Tile.OptionSlots")[1]; slot1[2] = 10
     local slot2 = Database.GetData("HoN.Core_Box.GE.Feldkommando.Recruitment_Tile.OptionSlots")[2]; slot2[2] = 10
     local slot3 = Database.GetData("HoN.Core_Box.GE.Feldkommando.Recruitment_Tile.OptionSlots")[3]; slot3[2] = 10
-    Place("HoN.Core_Box.GE.ExtraUnits.Zundapp_Option",             {position = slot1, rotation = {0,0,0}, smooth = false})
-    Place("HoN.Core_Box.GE.ExtraUnits.Zundapp_Option",             {position = slot2, rotation = {0,0,0}, smooth = false})
-    Place("HoN.Core_Box.GE.ExtraUnits.Panzer_IV_Option",           {position = slot3, rotation = {0,0,0}, smooth = false})
+    Place("HoN.Core_Box.GE.Extra_Units.Zundapp_Option",             {position = slot1, rotation = {0,0,0}, smooth = false})
+    Place("HoN.Core_Box.GE.Extra_Units.Zundapp_Option",             {position = slot2, rotation = {0,0,0}, smooth = false})
+    Place("HoN.Core_Box.GE.Extra_Units.Panzer_IV_Option",           {position = slot3, rotation = {0,0,0}, smooth = false})
 end

@@ -104,7 +104,7 @@ function GetObjects()
         },
         US = {
             guid = '26put9',
-            RiflePlatoon8th = {
+            Rifle_Platoon_8th = {
                 guid = 'xludol',
                 Recruitment_Tile = {
                     class = 'RecruitmentTile',
@@ -160,7 +160,7 @@ function GetObjects()
                     },
                 },
             },
-            ExtraUnits = {
+            Extra_Units = {
                 guid =  '6r8c4h',
                 Sherman_M4          = '0zciye',
                 Sherman_M4_Option   = {class = 'Option', guid = 'ehe2ve', Includes = {'Sherman_M4'}},
@@ -173,7 +173,7 @@ function GetObjects()
                 Mortar              = 'r7q8nh',
                 Mortar_Option       = {class = 'Option', guid = '4p8024', Includes = {'Mortar'}},
             },
-            FieldCommand = {
+            Field_Command = {
                 guid =  '9ttw9w',
                 Recruitment_Tile = {
                     class = 'RecruitmentTile',
@@ -306,7 +306,7 @@ function GetObjects()
         },
         GE = {
             guid = 'hnwm9s',
-            Panzergrenadiere901 = {
+            Panzergrenadiere_901 = {
                 guid = 'wzyimb',
                 Recruitment_Tile = {
                     class = 'RecruitmentTile',
@@ -332,7 +332,7 @@ function GetObjects()
                     },
                 },
             },
-            Panzergrenadiere902 = {
+            Panzergrenadiere_902 = {
                 guid = 'zpbtxo',
                 Recruitment_Tile = {
                     class = 'RecruitmentTile',
@@ -361,7 +361,7 @@ function GetObjects()
                 },
 
             },
-            ExtraUnits = {
+            Extra_Units = {
                 guid = 'v25wxf',
                 Panzer_IV           = 'ld4ews',
                 Panzer_IV_Option    = {class = 'Option', guid = 'olqlpc', Includes = {'Panzer_IV'}},

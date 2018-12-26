@@ -23,8 +23,8 @@ function Test:AdHoc()
 end
 
 function Test:RiflePlatoonBasic()
-    Place("HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Officer", parameters)
-    Place("HoN.Core_Box.US.RiflePlatoon8th.Recruitment_Tile.Bazooka", parameters)
+    Place("HoN.Core_Box.US.Rifle_Platoon_8th.Recruitment_Tile.Officer", parameters)
+    Place("HoN.Core_Box.US.Rifle_Platoon_8th.Recruitment_Tile.Bazooka", parameters)
 end
 
 function Test:Terrain()
@@ -34,7 +34,7 @@ function Test:Terrain()
 end
 
 function Test:Options()
-    Place("HoN.Core_Box.US.ExtraUnits.Mortar_Option", parameters)
+    Place("HoN.Core_Box.US.Extra_Units.Mortar_Option", parameters)
 end
 
 function Test:US_Heroes()
