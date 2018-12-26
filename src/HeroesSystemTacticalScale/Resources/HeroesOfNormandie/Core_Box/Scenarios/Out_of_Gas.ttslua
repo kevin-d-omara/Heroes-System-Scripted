@@ -46,7 +46,16 @@ function Out_Of_Gas.GetScenarioConfig()
                 }
             },
             Players = {
+                US = {
+                    {
 
+                    },
+                },
+                GE = {
+                    {
+
+                    },
+                },
             },
         },
     }

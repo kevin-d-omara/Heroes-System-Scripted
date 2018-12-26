@@ -36,7 +36,16 @@ function Slaughterhouse_5.GetScenarioConfig()
                 }
             },
             Players = {
+                US = {
+                    {
 
+                    },
+                },
+                GE = {
+                    {
+
+                    },
+                },
             },
         },
     }

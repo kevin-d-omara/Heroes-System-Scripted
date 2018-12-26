@@ -31,7 +31,25 @@ function Plain_Carnage.GetScenarioConfig()
                 }
             },
             Players = {
-
+                US = {
+                    {
+                        tile = "HoN.Core_Box.US.Rifle_Platoon_22nd",
+                        options = {
+                            [1] = "Bazooka_Squad_Option",
+                            [4] = "HoN.Core_Box.US.Extra_Units.M5_Stuart_Option",
+                        },
+                    },
+                },
+                GE = {
+                    {
+                        tile = "HoN.Core_Box.GE.Panzergrenadiere_902",
+                        options = {
+                            [1] = "Panzerschreck_Group_Option",
+                            [3] = "HoN.Core_Box.GE.Gears.Grenade_Option",
+                            [4] = "HoN.Core_Box.GE.Extra_Units.Panzer_Luchs",
+                        },
+                    },
+                },
             },
         },
     }

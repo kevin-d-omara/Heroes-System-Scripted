@@ -57,7 +57,16 @@ function Tempest_Of_Fire.GetScenarioConfig()
                 }
             },
             Players = {
+                US = {
+                    {
 
+                    },
+                },
+                GE = {
+                    {
+
+                    },
+                },
             },
         },
     }

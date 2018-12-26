@@ -40,7 +40,16 @@ function The_Best_Defense_Is_A_Good_Offense.GetScenarioConfig()
                 }
             },
             Players = {
+                US = {
+                    {
 
+                    },
+                },
+                GE = {
+                    {
+
+                    },
+                },
             },
         },
     }

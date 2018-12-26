@@ -33,7 +33,54 @@ function The_Road_To_Death.GetScenarioConfig()
                 }
             },
             Players = {
-
+                US = {
+                    {
+                        tile = "HoN.Core_Box.US.Rifle_Platoon_8th",
+                        options = {
+                            [1] = "_30_30cal_Squad_Option",
+                            [2] = "HoN.Core_Box.US.Extra_Units.Willys_50cal_Option",
+                            [3] = "HoN.Core_Box.US.Gears.Ammo",
+                            [4] = "HoN.Core_Box.US.Extra_Units.M5_Stuart_Option",
+                        },
+                    },
+                    {
+                        tile = "HoN.Core_Box.US.Field_Command",
+                        options = {
+                            [1] = "Planning_Option",
+                            [2] = "HoN.Core_Box.US.Gears.Hedgerow_Cutter_Option",
+                            [3] = "HoN.Core_Box.Us.Extra_Units.Sherman_M4_Option",
+                        },
+                    },
+                    {
+                        "HoN.Core_Box.US.Heroes.Recruitment_Tile_Oddball"
+                    },
+                },
+                GE = {
+                    {
+                        tile = "HoN.Core_Box.GE.Panzergrenadiere_901",
+                        options = {
+                            [1] = "Panzerschreck_Group_Option",
+                            [2] = "HoN.Core_Box.GE.Gears.Grenade_Option",
+                            [3] = "HoN.Core_Box.GE.Extra_Units.Pak40_Option",
+                            [4] = "Assault_Group_Option",
+                        },
+                    },
+                    {
+                        tile = "HoN.Core_Box.GE.Feldkommando",
+                        options = {
+                            [1] = "Planning_Option",
+                            [2] = "Concealed_Option",
+                        },
+                    },
+                    {
+                        "HoN.Core_Box.GE.Heroes.Recruitment_Tile_Helmut"
+                    },
+                    {
+                        {"HoN.Core_Box.Terrain.Position"},
+                        {"HoN.Core_Box.Terrain.Position"},
+                        {"HoN.Core_Box.Terrain.Position"},
+                    },
+                },
             },
         },
     }

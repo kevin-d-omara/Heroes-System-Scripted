@@ -31,7 +31,28 @@ function Saving_Private_Rex.GetScenarioConfig()
                 }
             },
             Players = {
-
+                US = {
+                    Army = {
+                        {
+                            tile = "HoN.Core_Box.US.Rifle_Platoon_8th",
+                            options = {
+                                [1] = "Rifle_Squad_Option",
+                                [2] = "HoN.Core_Box.US.Gears.Ammo_Option",
+                                [3] = "HoN.Core_Box.US.Extra_Units.Willys_50cal_Option",
+                            },
+                        }
+                    },
+                },
+                GE = {
+                    Army = {
+                        {
+                            tile = "HoN.Core_Box.GE.Panzergrenadiere_901",
+                            options = {
+                                [2] = "HoN.Core_Box.GE.Extra_Units.Zundapp_Option",
+                            },
+                        }
+                    },
+                }
             },
         },
     }

@@ -33,7 +33,20 @@ function Godsend.GetScenarioConfig()
                 }
             },
             Players = {
-
+                US = {
+                    Army = {
+                        {
+                            "HoN.Core_Box.US.Rifle_Platoon_8th"
+                        }
+                    },
+                },
+                GE = {
+                    Army = {
+                        {
+                            "HoN.Core_Box.GE.Panzergrenadiere_902"
+                        }
+                    },
+                }
             },
         },
     }

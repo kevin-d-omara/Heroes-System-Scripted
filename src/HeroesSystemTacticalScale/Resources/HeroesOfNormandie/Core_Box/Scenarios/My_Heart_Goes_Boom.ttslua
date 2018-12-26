@@ -39,7 +39,34 @@ function My_Heart_Goes_Boom.GetScenarioConfig()
                 }
             },
             Players = {
-
+                US = {
+                    {
+                        "HoN.Core_Box.US.Heroes.Recruitment_Tile_Clint"
+                    },
+                    {
+                        tile = "HoN.Core_Box.US.Rifle_Platoon_8th",
+                        options = {
+                            [1] = "Bazooka_Squad_Option",
+                            [2] = "HoN.Core_Box.US.Extra_Units.M8_Greyhound_Option",
+                            [3] = "HoN.Core_Box.US.Extra_Units.Willys_50cal_Option",
+                            [4] = "HoN.Core_Box.US.Extra_Units.M5_Stuart_Option",
+                        },
+                    },
+                },
+                GE = {
+                    {
+                        "HoN.Core_Box.GE.Heroes.Recruitment_Tile_Ludwig"
+                    },
+                    {
+                        tile = "HoN.Core_Box.GE.Panzergrenadiere_902",
+                        options = {
+                            [1] = "Panzergrenadiere_Option",
+                            [2] = "HoN.Core_Box.GE.Gears.Panzerfaust_Option",
+                            [3] = "HoN.Core_Box.GE.Gears.Grenade_Option",
+                            [4] = "HoN.Core_Box.GE.Extra_Units.Panzer_Luchs_Option",
+                        },
+                    },
+                },
             },
         },
     }
