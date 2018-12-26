@@ -1,5 +1,5 @@
 -- Provided for convenience to the user.
-#include !/TabletopSimulator/TTSTest/Assert
+#include <!/TabletopSimulator/TTSTest/Assert>
 
 --[[
 ## Class

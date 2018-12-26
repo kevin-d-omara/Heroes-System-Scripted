@@ -1,8 +1,8 @@
-#include !/HeroesSystemTacticalScale/GameEngine/Model/UnitOfMeasurement
-#include !/TabletopSimulator/Vector2
-#include !/TabletopSimulator/Vector3
+#include <!/HeroesSystemTacticalScale/GameEngine/Model/UnitOfMeasurement>
+#include <!/TabletopSimulator/Vector2>
+#include <!/TabletopSimulator/Vector3>
 
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Placement
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Placement>
 
 --[[
 ## Class

@@ -1,7 +1,7 @@
-#include !/TabletopSimulator/TTSTest/TestClass
-#include !/TabletopSimulator/TTSTest/Assert
-#include !/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/Impl/CombatGroup
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
+#include <!/TabletopSimulator/TTSTest/TestClass>
+#include <!/TabletopSimulator/TTSTest/Assert>
+#include <!/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/Impl/CombatGroup>
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
 
 TestClass('CombatGroup unit tests')
 

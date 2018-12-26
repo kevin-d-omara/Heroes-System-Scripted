@@ -5,6 +5,6 @@ function GetProductInfo()
     }
 end
 
-#include objects
-#include aliases
-#include Scenarios/Campaign
+#include <objects>
+#include <aliases>
+#include <Scenarios/Campaign>

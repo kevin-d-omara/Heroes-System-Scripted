@@ -1,7 +1,7 @@
 --[[ All of the tests for the TabletopSimulator package. ]]--
 
 --[[ #include tests here. ]]
-#include Vector2
-#include Vector3
+#include <Vector2>
+#include <Vector3>
 
 --[[ #include adhoc here. ]]

@@ -1,6 +1,6 @@
-#include !/TabletopSimulator/TTSTest/TestClass
-#include !/TabletopSimulator/TTSTest/Assert
-#include !/TabletopSimulator/Vector2
+#include <!/TabletopSimulator/TTSTest/TestClass>
+#include <!/TabletopSimulator/TTSTest/Assert>
+#include <!/TabletopSimulator/Vector2>
 
 TestClass('Vector2 unit tests')
 

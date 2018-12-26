@@ -1,6 +1,6 @@
-#include !/TabletopSimulator/TTSTest/TestClass
-#include !/TabletopSimulator/TTSTest/Assert
-#include !/Lua/Table/SubtractList
+#include <!/TabletopSimulator/TTSTest/TestClass>
+#include <!/TabletopSimulator/TTSTest/Assert>
+#include <!/Lua/Table/SubtractList>
 
 TestClass('SubtractList unit tests')
 

@@ -1,12 +1,12 @@
-#include !/../lib/30log/class
+#include <!/../lib/30log/class>
 
-#include CombatGroup
-#include MakeFullyQualified
-#include ../IForceModel
-#include !/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
-#include !/Lua/Table/GetLengthOfNonConsecutiveTable
-#include !/Lua/String/SplitString
+#include <CombatGroup>
+#include <MakeFullyQualified>
+#include <../IForceModel>
+#include <!/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile>
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
+#include <!/Lua/Table/GetLengthOfNonConsecutiveTable>
+#include <!/Lua/String/SplitString>
 
 --[[
 ## Class

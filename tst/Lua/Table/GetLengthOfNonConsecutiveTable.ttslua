@@ -1,6 +1,6 @@
-#include !/TabletopSimulator/TTSTest/TestClass
-#include !/TabletopSimulator/TTSTest/Assert
-#include !/Lua/Table/GetLengthOfNonConsecutiveTable
+#include <!/TabletopSimulator/TTSTest/TestClass>
+#include <!/TabletopSimulator/TTSTest/Assert>
+#include <!/Lua/Table/GetLengthOfNonConsecutiveTable>
 
 TestClass('GetLengthOfNonConsecutiveTable unit tests')
 

@@ -1,8 +1,8 @@
-#include !/../lib/30log/class
-#include MakeFullyQualified
-#include !/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
-#include !/Lua/Table/SubtractList
+#include <!/../lib/30log/class>
+#include <MakeFullyQualified>
+#include <!/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile>
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
+#include <!/Lua/Table/SubtractList>
 
 --[[
 ## Class

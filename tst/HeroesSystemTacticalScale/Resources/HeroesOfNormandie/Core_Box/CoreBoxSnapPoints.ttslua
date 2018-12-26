@@ -1,6 +1,6 @@
 --[[ Help set snap points and offests for the recruitment tiles. ]]--
-#include !/TabletopSimulator/TTSTest/TestClass
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
+#include <!/TabletopSimulator/TTSTest/TestClass>
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
 
 -- Integration Tests -----------------------------------------------------------
 TestClass('CoreBox Help Set Snap Points and Offsets')

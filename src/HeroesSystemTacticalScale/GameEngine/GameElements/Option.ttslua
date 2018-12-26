@@ -1,4 +1,4 @@
-#include !/TabletopSimulator/NestedObjects/TTSObject
+#include <!/TabletopSimulator/NestedObjects/TTSObject>
 
 --[[
 ## Class

@@ -1,9 +1,9 @@
-#include ClassMapper
+#include <ClassMapper>
 
 -- Domain specific classes. These need to be imported so we can reference their constructors below.
-#include !/HeroesSystemTacticalScale/GameEngine/GameElements/Option
-#include !/HeroesSystemTacticalScale/GameEngine/GameElements/RecruitmentTile
-#include !/HeroesSystemTacticalScale/GameEngine/GameElements/TurnCounterCoordinates
+#include <!/HeroesSystemTacticalScale/GameEngine/GameElements/Option>
+#include <!/HeroesSystemTacticalScale/GameEngine/GameElements/RecruitmentTile>
+#include <!/HeroesSystemTacticalScale/GameEngine/GameElements/TurnCounterCoordinates>
 
 -- A ClassMapper instance for the HeroesSystemTacticalScale domain model.
 HeroesMapper = ClassMapper({

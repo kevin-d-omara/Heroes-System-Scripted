@@ -1,5 +1,5 @@
-#include !/TabletopSimulator/NestedObjects/TTSObject
-#include !/TabletopSimulator/Vector2
+#include <!/TabletopSimulator/NestedObjects/TTSObject>
+#include <!/TabletopSimulator/Vector2>
 
 --[[
 ## Class

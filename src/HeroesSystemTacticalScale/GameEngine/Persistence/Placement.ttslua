@@ -1,6 +1,6 @@
-#include Database
-#include !/TabletopSimulator/Vector3
-#include !/Lua/Table/GetElementFromNestedTables
+#include <Database>
+#include <!/TabletopSimulator/Vector3>
+#include <!/Lua/Table/GetElementFromNestedTables>
 
 --[[
 ## Summary

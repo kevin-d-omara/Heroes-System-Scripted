@@ -1,6 +1,6 @@
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Placement
-#include !/TabletopSimulator/Vector2
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Placement>
+#include <!/TabletopSimulator/Vector2>
 
 --[[
 ## Class

@@ -1,6 +1,6 @@
 --[[ Test that the Core Box expansion is built properly. ]]--
-#include !/TabletopSimulator/TTSTest/TestClass
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
+#include <!/TabletopSimulator/TTSTest/TestClass>
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
 
 TestClass('Core_Box Integration Tests')
 

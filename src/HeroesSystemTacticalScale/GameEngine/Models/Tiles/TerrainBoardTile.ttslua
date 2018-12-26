@@ -1,7 +1,7 @@
-#include !/../lib/30log/class
-#include Tile
-#include !/TabletopSimulator/Vector2
-#include !/Lua/String/SplitString
+#include <!/../lib/30log/class>
+#include <Tile>
+#include <!/TabletopSimulator/Vector2>
+#include <!/Lua/String/SplitString>
 
 --[[
 ## Class

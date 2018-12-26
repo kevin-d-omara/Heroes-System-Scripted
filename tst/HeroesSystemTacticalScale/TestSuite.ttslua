@@ -1,18 +1,18 @@
 --[[ All of the tests for the HeroesSystem package. ]]--
 
 --[[ #include Unit Tests here. ]]
-#include Resources/HeroesOfNormandie/Core_Box/CoreBoxUnitTest
-#include GameEngine/Models/Impl/CombatGroup
-#include GameEngine/Models/Impl/CombatGroupForceModel
-#include GameEngine/Models/Impl/RecruitmentTileForceModel
-#include GameEngine/Models/ForceModelFactory
+#include <Resources/HeroesOfNormandie/Core_Box/CoreBoxUnitTest>
+#include <GameEngine/Models/Impl/CombatGroup>
+#include <GameEngine/Models/Impl/CombatGroupForceModel>
+#include <GameEngine/Models/Impl/RecruitmentTileForceModel>
+#include <GameEngine/Models/ForceModelFactory>
 
 --[[ #include Integration Tests here. ]]
--- #include Resources/HeroesOfNormandie/Core_Box/CoreBoxIntegrationTest
--- #include Resources/HeroesOfNormandie/Core_Box/LayoutSimpleScenario
-#include GameEngine/Controllers/TestScenarioController
--- #include GameEngine/Views/TestTurnCounterView
+-- #include <Resources/HeroesOfNormandie/Core_Box/CoreBoxIntegrationTest>
+-- #include <Resources/HeroesOfNormandie/Core_Box/LayoutSimpleScenario>
+#include <GameEngine/Controllers/TestScenarioController>
+-- #include <GameEngine/Views/TestTurnCounterView>
 
 --[[ #include tools/adhoc here. ]]
--- #include Resources/HeroesOfNormandie/TestAdhoc
--- #include Resources/HeroesOfNormandie/Core_Box/CoreBoxSnapPoints
+-- #include <Resources/HeroesOfNormandie/TestAdhoc>
+-- #include <Resources/HeroesOfNormandie/Core_Box/CoreBoxSnapPoints>

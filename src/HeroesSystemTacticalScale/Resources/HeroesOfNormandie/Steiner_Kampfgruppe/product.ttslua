@@ -5,4 +5,4 @@ function GetProductInfo()
     }
 end
 
-#include objects
+#include <objects>

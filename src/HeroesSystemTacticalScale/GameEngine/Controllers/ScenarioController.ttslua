@@ -1,6 +1,6 @@
-#include !/HeroesSystemTacticalScale/GameEngine/Models/ScenarioModel
-#include !/HeroesSystemTacticalScale/GameEngine/Views/BattlefieldView
-#include !/HeroesSystemTacticalScale/GameEngine/Views/TurnCounterView
+#include <!/HeroesSystemTacticalScale/GameEngine/Models/ScenarioModel>
+#include <!/HeroesSystemTacticalScale/GameEngine/Views/BattlefieldView>
+#include <!/HeroesSystemTacticalScale/GameEngine/Views/TurnCounterView>
 
 --[[
 ## Class

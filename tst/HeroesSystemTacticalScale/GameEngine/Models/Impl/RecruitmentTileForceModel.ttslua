@@ -1,7 +1,7 @@
-#include !/TabletopSimulator/TTSTest/TestClass
-#include !/TabletopSimulator/TTSTest/Assert
-#include !/HeroesSystemTacticalScale/GameEngine/Persistence/Database
-#include !/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/Impl/RecruitmentTileForceModel
+#include <!/TabletopSimulator/TTSTest/TestClass>
+#include <!/TabletopSimulator/TTSTest/Assert>
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
+#include <!/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/Impl/RecruitmentTileForceModel>
 
 TestClass('RecruitmentTileForceModel unit tests')
 

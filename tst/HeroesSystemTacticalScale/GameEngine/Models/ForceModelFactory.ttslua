@@ -1,6 +1,6 @@
-#include !/TabletopSimulator/TTSTest/TestClass
-#include !/TabletopSimulator/TTSTest/Assert
-#include !/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/ForceModelFactory
+#include <!/TabletopSimulator/TTSTest/TestClass>
+#include <!/TabletopSimulator/TTSTest/Assert>
+#include <!/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/ForceModelFactory>
 
 TestClass('ForceModelFactory unit tests')
 

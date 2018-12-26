@@ -1,7 +1,7 @@
-#include !/../lib/30log/class
-#include IForceModel
-#include Impl/CombatGroupForceModel
-#include Impl/RecruitmentTileForceModel
+#include <!/../lib/30log/class>
+#include <IForceModel>
+#include <Impl/CombatGroupForceModel>
+#include <Impl/RecruitmentTileForceModel>
 
 --[[
 ## Class

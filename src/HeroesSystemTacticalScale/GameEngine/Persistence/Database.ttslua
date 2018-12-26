@@ -1,8 +1,8 @@
-#include AliasMap
-#include !/Lua/Table/DeepCopy
-#include !/Lua/Table/GetElementFromNestedTables
-#include !/TabletopSimulator/Object/CallIfExists
-#include !/HeroesSystemTacticalScale/GameEngine/Model/HeroesClassMapper
+#include <AliasMap>
+#include <!/Lua/Table/DeepCopy>
+#include <!/Lua/Table/GetElementFromNestedTables>
+#include <!/TabletopSimulator/Object/CallIfExists>
+#include <!/HeroesSystemTacticalScale/GameEngine/Model/HeroesClassMapper>
 
 --[[
 ## Class
@@ -158,7 +158,7 @@ Warning: this is not resilient to typos.
 local foo = {bar = {baz = 'buz'}}
 Database.GetPreffixAndPostfix("foo.bar.baz.b.*")  -- "foo.bar.baz", "buz", (table: foo.bar.baz)
 --]]
-#include !/Lua/String/SplitString
+#include <!/Lua/String/SplitString>
 function Database.GetPreffixAndPostfix(str)
     local keys = SplitString(str, ".")
     local tbl = Database._GetDataWithoutAlias(keys[1])

@@ -1,5 +1,5 @@
-#include !/TabletopSimulator/NestedObjects/TTSObject
-#include !/Lua/Table/FoldIn
+#include <!/TabletopSimulator/NestedObjects/TTSObject>
+#include <!/Lua/Table/FoldIn>
 
 --[[
 ## Class
