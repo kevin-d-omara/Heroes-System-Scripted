@@ -3,40 +3,81 @@
 #include <Util/TaskScheduler>
 #include <Util/DeepCopy>
 
--- Store everything in tables to de-clutter the user's namespace.
-_Delver = {  -- Shorter name for this library.
-    Local   = {},   -- Holds methods that run on the local Object.
-    Global  = {},   -- Holds methods that run on Global.
+-- De-clutter the user's namespace by storing local methods in a table. Note: these methods can't just be declared `local`, otherwise `Util/Invoke` doesn't work.
+__Delver = {
+    Server = {},    -- Holds methods that run on the Global script, which can be thought of as a server.
+    Client = {},    -- Holds methods that run on the calling Object's script, which can be thought of as a client.
 }
 
---[[ Local ]]-------------------------------------------------------------------
+--[[ Client ]]-------------------------------------------------------------------
 --[[
 ## Summary
-Take an object from inside a set of nested bags and place it in the world.
+Take an Object which is nested inside of containers (bag/deck/chip stack) and place it somewhere in the world.
 
-Tabletop Simulator provides the 'takeObject()' method to pull an object out of a container (such as a bag or deck). However, there is no easy way to pull an object out of a bag that is inside of another bag. This method accomplishes that.
+Tabletop Simulator provides the method [Object.takeObject()](https://api.tabletopsimulator.com/object/#takeobject) to grab an Object from inside a container (bag/deck/chip stack) and place it somewhere in the game world.
+However, there isn't an easy way to grab an Object that is nested inside of more than one container (ex: Chess Box (bag) > White Pieces (bag) > Knight Piece).
+
+## Details
+This method behaves near identical to https://api.tabletopsimulator.com/object/#takeobject, except for the following:
+* Two new parameters are offered:
+    <bool> lock = false
+        If true/false, the Object will be locked/unlocked after being pulled from the final container.
+        Locking/unlocking is the same as right-clicking on an Object and selecting "Toggles" > "Lock".
+    <bool> copy = true
+        If true, the original Object will be left in the container and a copy is returned instead.
+        The copy will have a different GUID from the one used to get it.
+        The original Object which is left in the container will keep the same GUID.
+* The parameter 'flip' may be combined with 'rotation'.
+* Two parameters are not used:
+    <string> guid
+    <int> index
 
 ## Parameters
-<table> guidArray: An array of GUIDs beginning with the first container and ending with the object to take.
-    The first GUID is for a container that can be returned with the global function (https://api.tabletopsimulator.com/base/#getobjectfromguid).
-    Each subsequent GUID is for an object that would be returned from calling (https://api.tabletopsimulator.com/object/#takeobject) on the object returned from the previous GUID in the list.
-<table> parameters: The same parameters as https://api.tabletopsimulator.com/object/#takeobject, plus:
-    <bool> copy: If a copy of the object is left in the container. The copy will have the same GUID as was used to get it, but the returned object will have a new GUID.
-        [Optional, defaults to true.]
-    <bool> lock: If the object is locked in place.
+<table> guidArray
+    An array of GUIDs beginning with the first container and ending with the Object to take.
+    The first GUID is for a container that can be returned with the Global function (https://api.tabletopsimulator.com/base/#getobjectfromguid).
+    Each subsequent GUID is for an Object that would be returned from calling (https://api.tabletopsimulator.com/object/#takeobject) on the Object returned from the previous GUID in the list.
+<table> parameters
+    The following key-value pairs (see ##Details for more info):
+    <Vector3> position
+        The position (in world coordinates) to place the Object at.
+        [Optional, defaults to the container's position +2 on the y-axis.]
+    <Vector3> rotation
+        The rotation (in world coordinates) to set the Object to.
+        [Optional, defaults to the container's rotation.]
+    <bool> flip
+        True if the Object should be rotated 180 degrees along the y-axis.
+        May be combined with `rotation` (unlike in `Object.takeObject`).
         [Optional, defaults to false.]
+    <bool> top
+        True if the Object should be taken from the top of the container (false if from the bottom).
+        [Optional, defaults to true.]
+    <bool> smooth
+        True if the taken Object should move smoothly (via `Object.setPositionSmooth`) or instantly (via `Object.setPosition`).
+        [Optional, defaults to true.]
+    <bool> copy
+        True if the original Object should be left in the container and a copy be returned instead.
+        The copy will have a different GUID than was used to get it and the original will keep the same GUID.
+        [Optional, defaults to true.]
+    <bool> lock
+        True/false if the Object should be locked/unlocked after being taken. Locking/unlocking is the same as right-clicking on an Object and selecting "Toggles" > "Lock".
+        [Optional, defaults to false.]
+    <function> callback_function
+        A function to execute once the taken Object fully exists.
+        The function has the signature `void function(obj)`, where `obj` is a reference to the taken Object (see https://api.tabletopsimulator.com/object/).
+        [Optional, defaults to not being used.]
 --]]
 function GetNestedObjectFromGuids(guidArray, parameters)
-    local isValid, errorString = _Delver.Local.IsArrayOfStrings(guidArray)
+    local isValid, errorString = __Delver.Client.IsArrayOfStrings(guidArray)
     if not isValid then
         error(errorString)
     end
 
     if type(guidArray) ~= 'table' then error("Argument [1] guidArray: table expected but got " .. tostring(type(guidArray)) .. ".") end -- This also checks for nil.
     if #guidArray < 1 then error("Argument [1] guidArray: array of strings expected, but got an empty table.") end
-    if not _Delver.Local.IsArrayOfStrings(guidArray) then error("Argument [1] guidArray: array of strings expected but got array of " .. tostring(type(guidArray[1])) .. ".") end
+    if not __Delver.Client.IsArrayOfStrings(guidArray) then error("Argument [1] guidArray: array of strings expected but got array of " .. tostring(type(guidArray[1])) .. ".") end
 
-    -- Save the user's callback for when Global is finished taking the object.
+    -- Save the user's callback for when the Server is finished taking the Object.
     local function OnSuccess(args)
         if parameters.callback_function ~= nil then
             local takenObj = getObjectFromGUID(args.takenObjGuid)
@@ -45,16 +86,16 @@ function GetNestedObjectFromGuids(guidArray, parameters)
     end
     local requestId = Callbacks.AddRequest(OnSuccess)
 
-    -- Prepare the parameters to be serialized and sent to Global.
+    -- Prepare the parameters to be serialized and sent to the Server.
     local globalParams = DeepCopy(parameters)   -- Copy all the parameters.
     globalParams._guidArray = guidArray         -- Add the guid array.
     globalParams.callback_function = nil        -- Remove the callback because functions cannot be serialized.
-    globalParams._callerGuid = self.getGUID()   -- Add our GUID so Global can call us back.
-    globalParams._requestId = requestId         -- Record which request this is so we can use the correct callback when Global calls us back.
-    Invoke(Global, '_Delver.Global.GetNestedObjectFromGuids', globalParams)
+    globalParams._callerGuid = self.getGUID()   -- Add our GUID so the Server can call us back.
+    globalParams._requestId = requestId         -- Record which request this is so we can use the correct callback when the Server calls us back.
+    Invoke(Global, '__Delver.Server.GetNestedObjectFromGuids', globalParams)
 end
 
-function _Delver.Local.IsArrayOfStrings(guidArray)
+function __Delver.Client.IsArrayOfStrings(guidArray)
     if type(guidArray) ~= 'table' then
         return false, "Argument [1] guidArray: table expected but got " .. tostring(type(guidArray)) .. "."
     end
@@ -72,14 +113,14 @@ function _Delver.Local.IsArrayOfStrings(guidArray)
     return true
 end
 
---[[ Global ]]------------------------------------------------------------------
-function _Delver.Global.GetNestedObjectFromGuids(parameters)
+--[[ Server ]]------------------------------------------------------------------
+function __Delver.Server.GetNestedObjectFromGuids(parameters)
     -- Set default values for parameters.
     local parameters = parameters or {}
     if parameters.copy   == nil then parameters.copy   = true end
     if parameters.smooth == nil then parameters.smooth = true end
     if parameters.lock   == nil then parameters.lock   = false end
-    -- The other default values (position & rotation) happen once the object is materialized.
+    -- The other default values (position & rotation) happen once the Object is materialized.
 
     -- Unpack the extra parameters.
     local guidArray = parameters._guidArray
@@ -92,13 +133,13 @@ function _Delver.Global.GetNestedObjectFromGuids(parameters)
         Invoke(parameters._callerGuid, 'Callbacks.OnSuccess', args)
     end
 
-    -- Callback function that places the object somewhere.
+    -- Callback function that places the Object somewhere.
     local function PlaceTheObject(takenObject)
         parameters.position = parameters.position or takenObject.getPosition()  -- Defaults to the container's position + 2 on the y axis.
         parameters.rotation = parameters.rotation or takenObject.getRotation()  -- Defaults to the container's rotation.
 
         if (parameters.flip == true) then
-            -- Flip the object using rotation because "takenObject.flip()" glitches when combined with setRotationSmooth().
+            -- Flip the Object using rotation because "takenObject.flip()" glitches when combined with setRotationSmooth().
             local rotationZ = parameters.rotation.z or parameters.rotation[3]
             parameters.rotation.z = rotationZ + 180
         end
@@ -110,15 +151,15 @@ function _Delver.Global.GetNestedObjectFromGuids(parameters)
             takenObject.setRotation(parameters.rotation)
         end
 
-        -- Wait 2 frames so the object is fully materialized.
-        -- In the current frame the object has the same guid as its clone and sometimes has a {0,0,0} bounding box.
+        -- Wait 2 frames so the Object is fully materialized.
+        -- In the current frame the Object has the same guid as its clone and sometimes has a {0,0,0} bounding box.
         Wait.frames(function() takenObject.setLock(parameters.lock); NotifyCallerOfSuccess(takenObject) end, 2)
     end
 
     local rootContainer = getObjectFromGUID(guidArray[1])
     local nextIndex = 2
 
-    TaskScheduler.AddTask(|| _Delver.Global.TakeObjectFromNestedBags(rootContainer, guidArray, nextIndex, PlaceTheObject))
+    TaskScheduler.AddTask(|| __Delver.Server.TakeObjectFromNestedBags(rootContainer, guidArray, nextIndex, PlaceTheObject))
 end
 
 --[[
@@ -133,17 +174,17 @@ Samples:
 Do not call this directly. Use `GetNestedObjectFromGUIDs(guidArray, parameters)` instead.
 
 ## Parameters
-currentObject: The most recent object to be instantiated from the chain of nested containers.
-guidArray: The array of GUIDs leading to the final object to take.
-nextIndex: The index into `guidArray` of the next object to take in the chain.
+currentObject: The most recent Object to be instantiated from the chain of nested containers.
+guidArray: The array of GUIDs leading to the final Object to take.
+nextIndex: The index into `guidArray` of the next Object to take in the chain.
 parentObject: The container that `currentObject` was inside of.
-endingCallback: A function to call after the final object has been taken.
+endingCallback: A function to call after the final Object has been taken.
 --]]
-function _Delver.Global.TakeObjectFromNestedBags(currentObject, guidArray, nextIndex, endingCallback, parentObject)
+function __Delver.Server.TakeObjectFromNestedBags(currentObject, guidArray, nextIndex, endingCallback, parentObject)
     local function PutMeBack(finalTakenObject)
         if parentObject ~= nil then
             currentObject.setLock(false)
-            _Delver.Global.ReturnObjectToContainer(currentObject, parentObject)
+            __Delver.Server.ReturnObjectToContainer(currentObject, parentObject)
         end
         if endingCallback ~= nil then
             endingCallback(finalTakenObject)
@@ -151,11 +192,11 @@ function _Delver.Global.TakeObjectFromNestedBags(currentObject, guidArray, nextI
     end
 
     if nextIndex > #guidArray then
-        -- This is the object we have been looking for.
+        -- This is the Object we have been looking for.
         -- Clone it and return the clone to the parent container.
         clone = currentObject.clone()
         clone.setLock(false)
-        _Delver.Global.ReturnObjectToContainer(clone, parentObject)
+        __Delver.Server.ReturnObjectToContainer(clone, parentObject)
         if endingCallback ~= nil then
             endingCallback(currentObject)
         end
@@ -167,17 +208,17 @@ function _Delver.Global.TakeObjectFromNestedBags(currentObject, guidArray, nextI
             , position = HiddenPosition
             , smooth = false
             , callback_function = function(takenObject)
-                _Delver.Global.TakeObjectFromNestedBags(takenObject, guidArray, nextIndex + 1, PutMeBack, currentObject)
+                __Delver.Server.TakeObjectFromNestedBags(takenObject, guidArray, nextIndex + 1, PutMeBack, currentObject)
             end
         })
 
-        -- Stop the taken object from moving while we continue to dig deeper.
+        -- Stop the taken Object from moving while we continue to dig deeper.
         childObject.setLock(true)
     end
 end
 
--- Place the object into the container, as close to instantly as posible.
-function _Delver.Global.ReturnObjectToContainer(object, container)
+-- Place the Object into the container, as close to instantly as posible.
+function __Delver.Server.ReturnObjectToContainer(object, container)
     object.setPosition(container.getPosition())
     container.putObject(object)
 end
