@@ -1,0 +1,134 @@
+--[[
+Contains a few static helper methods for moving Objects around the game world:
+    Movement.MoveObject(object, parameters)
+    Movement.MoveObjectAboveOthers(object, parameters)
+    Movement.GetMinimumPlacementHeight(worldPosition, object)
+--]]
+Movement = {}
+
+--[[
+## Overview
+Translate and rotate an Object according to the parameters.
+
+## Parameters
+<Vector3> position: The position (in world coordinates) to place the Object at.
+    [Optional, defaults to not changing the Object's position.]
+<Vector3> rotation: The rotation (in world coordinates) to rotate the Object to.
+    [Optional, defaults to not changing the Object's rotation.]
+<bool> flip: True if the Object should be rotated 180 degrees along the y-axis. May be combined with 'rotation'.
+    [Optional, defaults to false.]
+<bool> smooth: True if the Object should move smoothly (via `Object.setPositionSmooth`) or instantly (via `Object.setPosition`).
+    [Optional, defaults to true.]
+--]]
+function Movement.MoveObject(object, parameters)
+    parameters = parameters or {}
+    parameters.position = parameters.position or object.getPosition()
+    parameters.rotation = parameters.rotation or object.getRotation()
+    if parameters.flip   == nil then parameters.flip   = false end
+    if parameters.smooth == nil then parameters.smooth = true end
+
+    if (parameters.flip == true) then
+        -- Flip the Object using rotation because 'object.flip()' glitches when combined with 'setRotationSmooth()'.
+        local rotationZ = parameters.rotation.z or parameters.rotation[3]
+        parameters.rotation.z = rotationZ + 180
+    end
+    if (parameters.smooth == true) then
+        object.setPositionSmooth(parameters.position, false, false)
+        object.setRotationSmooth(parameters.rotation, false, false)
+    else
+        object.setPosition(parameters.position)
+        object.setRotation(parameters.rotation)
+    end
+end
+
+--[[
+## Overview
+Place an object on top of any other Objects at that location.
+The edges of this Object will be touching, but not overlapping, the other Objects.
+
+## WARNING
+This only works for Objects that are restricted to rotating along the y-axis and/or flipped 180 degrees along the z-axis.
+I.e. `Object.getRotation() == {x=0, y=float, z=0|180}`.
+The y-axis is used when you rotate the Object in game by pressing 'Q' or 'E' with your cursor over the Object.
+The z-axis is used when you flip over the Object in the game by pressing 'F' with your cursor over the Object.
+
+## Parameters
+Same as 'Movement.MoveObject()'
+--]]
+function Movement.MoveObjectAboveOthers(object, parameters)
+    parameters = parameters or {}
+    parameters.position = parameters.position or object.getPosition()
+
+    -- Rotate and flip the Object so that the function 'GetMinimumPlacementHeight' uses Object's final rotation.
+    Movement.MoveObject(object, {
+        rotation    = parameters.rotation,
+        flip        = parameters.flip,
+        smooth      = false,
+    })
+
+    local placementHeight = Movement.GetMinimumPlacementHeight(parameters.position, object)
+    local newPosition = {
+        x = parameters.position.x or parameters.position[1],
+        y = placementHeight,
+        z = parameters.position.z or parameters.position[3],
+    }
+
+    Movement.MoveObject(object, {
+        position = newPosition,
+        smooth = parameters.smooth,
+    })
+end
+
+--[[
+## Summary
+Return the height (y-axis) that the Object should be placed so that it is touching, but not overlapping, all other Objects below it at the specified location.
+
+The return value should be used as the y-component of the position passed into `object.setPosition` or `object.setPositionSmooth` (see: https://api.tabletopsimulator.com/object/#setpositionsmooth).
+
+## WARNING
+This only works for Objects that are restricted to rotating along the y-axis and/or flipped 180 degrees along the z-axis.
+I.e. `Object.getRotation() == {x=0, y=float, z=0|180}`.
+The y-axis is used when you rotate the Object in game by pressing 'Q' or 'E' with your cursor over the Object.
+The z-axis is used when you flip over the Object in the game by pressing 'F' with your cursor over the Object.
+
+## Parameters
+<Vector3> worldPosition: The (x,y,z) point in the Game World where the Object will be placed. The y component is ignored.
+<Object> object: The Object that will be placed. Used to get the Object's bounds (https://api.tabletopsimulator.com/object/#getbounds).
+--]]
+function Movement.GetMinimumPlacementHeight(worldPosition, object)
+    local MAX_CAST_HEIGHT = 1000    -- The Maximum height (y-axis) from which a Physics box cast will still return hits.
+
+    local bounds = object.getBounds()
+    local castSize = {
+        x = bounds.size.x * 0.99,   -- Scale down slightly to avoid clipping with closely placed neighbors.
+        y = bounds.size.y * 0.99,
+        z = bounds.size.z * 0.99,
+    }
+    local castOrigin = {
+        x = worldPosition.x or worldPosition[1],
+        y = MAX_CAST_HEIGHT,
+        z = worldPosition.z or worldPosition[3],
+    }
+    local hits = Physics.cast({
+        origin       = castOrigin,
+        direction    = {0,-1,0},    -- Vector3.Down
+        type         = 3,           -- Box shaped cast.
+        size         = castSize,
+    })
+
+    -- Get the maximum y-value from among the hit Objects.
+    -- Despite the documentation, entries are not in the order of being hit, so hits[1] is not the heighest Object.
+    -- See: https://api.tabletopsimulator.com/physics/#cast
+    local maxHeight = 0
+    for i,hit in ipairs(hits) do
+        local height = hit.point.y
+        if height > maxHeight then
+            maxHeight = height
+        end
+    end
+
+    -- In Tabletop Simulator, the position of an Object is at the *bottom* of the physical Object, not the center.
+    -- For example, the position of a humanoid Object will always be it's feet, even if it's flipped over so it is balancing on its head!
+    -- The y component of object.setPosition(vector) must correspond to where the bottom of the Object should be placed.
+    return (maxHeight + bounds.size.y/2) + bounds.offset.y
+end

@@ -2,6 +2,7 @@
 #include <Util/Callbacks>
 #include <Util/TaskScheduler>
 #include <Util/DeepCopy>
+#include <Util/Movement>
 
 -- De-clutter the user's namespace by storing local methods in a table. Note: these methods can't just be declared `local`, otherwise `Util/Invoke` doesn't work.
 __Delver = {
@@ -19,7 +20,7 @@ However, there isn't an easy way to grab an Object that is nested inside of more
 
 ## Details
 This method behaves near identical to https://api.tabletopsimulator.com/object/#takeobject, except for the following:
-* Two new parameters are offered:
+* Three new parameters are offered:
     <bool> lock = false
         If true/false, the Object will be locked/unlocked after being pulled from the final container.
         Locking/unlocking is the same as right-clicking on an Object and selecting "Toggles" > "Lock".
@@ -27,6 +28,10 @@ This method behaves near identical to https://api.tabletopsimulator.com/object/#
         If true, the original Object will be left in the container and a copy is returned instead.
         The copy will have a different GUID from the one used to get it.
         The original Object which is left in the container will keep the same GUID.
+    <bool> above = false
+        If true, the Object is placed on top of any other Objects at that location.
+        Its edges will be touching, but not overlapping, the other Objects beneath it.
+        The y-value of 'parameters.position' is ignored by the new value.
 * The parameter 'flip' may be combined with 'rotation'.
 * Two parameters are not used:
     <string> guid
@@ -60,7 +65,11 @@ This method behaves near identical to https://api.tabletopsimulator.com/object/#
         The copy will have a different GUID than was used to get it and the original will keep the same GUID.
         [Optional, defaults to true.]
     <bool> lock
-        True/false if the Object should be locked/unlocked after being taken. Locking/unlocking is the same as right-clicking on an Object and selecting "Toggles" > "Lock".
+        True/false if the Object should be locked/unlocked after being taken.
+        Locking/unlocking is the same as right-clicking on an Object and selecting "Toggles" > "Lock".
+        [Optional, defaults to false.]
+    <bool> above
+        True if the Object should be placed on top of any other Objects at the position specified. Note: the y-value is ignored.
         [Optional, defaults to false.]
     <function> callback_function
         A function to execute once the taken Object fully exists.
@@ -115,15 +124,13 @@ end
 
 --[[ Server ]]------------------------------------------------------------------
 function __Delver.Server.GetNestedObjectFromGuids(parameters)
-    -- Set default values for parameters.
+    -- Set default values.
     local parameters = parameters or {}
     if parameters.copy   == nil then parameters.copy   = true end
     if parameters.smooth == nil then parameters.smooth = true end
     if parameters.lock   == nil then parameters.lock   = false end
-    -- The other default values (position & rotation) happen once the Object is materialized.
-
-    -- Unpack the extra parameters.
-    local guidArray = parameters._guidArray
+    if parameters.above  == nil then parameters.above  = false end
+    -- The default values for position and rotation are set in 'MoveObjectThenNotifyCaller', once the Object is materialized.
 
     local function NotifyCallerOfSuccess(takenObject)
         local args = {
@@ -133,33 +140,21 @@ function __Delver.Server.GetNestedObjectFromGuids(parameters)
         Invoke(parameters._callerGuid, 'Callbacks.OnSuccess', args)
     end
 
-    -- Callback function that places the Object somewhere.
-    local function PlaceTheObject(takenObject)
-        parameters.position = parameters.position or takenObject.getPosition()  -- Defaults to the container's position + 2 on the y axis.
-        parameters.rotation = parameters.rotation or takenObject.getRotation()  -- Defaults to the container's rotation.
-
-        if (parameters.flip == true) then
-            -- Flip the Object using rotation because "takenObject.flip()" glitches when combined with setRotationSmooth().
-            local rotationZ = parameters.rotation.z or parameters.rotation[3]
-            parameters.rotation.z = rotationZ + 180
-        end
-        if (parameters.smooth == true) then
-            takenObject.setPositionSmooth(parameters.position, false, false)
-            takenObject.setRotationSmooth(parameters.rotation, false, false)
-        else
-            takenObject.setPosition(parameters.position)
-            takenObject.setRotation(parameters.rotation)
-        end
-
-        -- Wait 2 frames so the Object is fully materialized.
-        -- In the current frame the Object has the same guid as its clone and sometimes has a {0,0,0} bounding box.
-        Wait.frames(function() takenObject.setLock(parameters.lock); NotifyCallerOfSuccess(takenObject) end, 2)
+    local function MoveObjectThenNotifyCaller(takenObject)
+        local MoveFunction = parameters.above and Movement.MoveObjectAboveOthers or Movement.MoveObject
+        takenObject.setLock(parameters.lock)
+        MoveFunction(takenObject, parameters)
+        NotifyCallerOfSuccess(takenObject)
     end
 
+    local guidArray = parameters._guidArray
     local rootContainer = getObjectFromGUID(guidArray[1])
     local nextIndex = 2
 
-    TaskScheduler.AddTask(|| __Delver.Server.TakeObjectFromNestedBags(rootContainer, guidArray, nextIndex, PlaceTheObject))
+    -- After the Object has been taken from the container, wait 2 frames so it is fully materialized.
+    -- In the current frame the Object has the same GUID as its clone and sometimes has a {0,0,0} bounding box.
+    local callbackAfterTaken = |takenObject| Wait.frames(|| MoveObjectThenNotifyCaller(takenObject), 2)
+    TaskScheduler.AddTask(|| __Delver.Server.TakeObjectFromNestedBags(rootContainer, guidArray, nextIndex, callbackAfterTaken))
 end
 
 --[[
