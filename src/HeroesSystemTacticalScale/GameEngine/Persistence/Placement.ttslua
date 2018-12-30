@@ -1,43 +1,41 @@
 #include <Database>
 #include <!/TabletopSimulator/Vector3>
-#include <!/Lua/Table/GetElementFromNestedTables>
+#include <!/TabletopSimulator/NestedObjects/GetNestedObjectFromGuids>
 
 --[[
 ## Summary
-Helper methods for placing objects onto the table from within the nested bags.
+Methods for placing Tiles onto the table.
 --]]
 Placement = {}
 
 --[[
-## Summary
-Take an Object which is nested inside of containers (bag/deck/chip stack) and place it somewhere in the world.
-
-## Details
-Works the same as 'TabletopSimulator/NestedObjects/GetNestedObjectFromGuids', except for:
-    The behavior of 'rotation' is different than in 'takeObject()'. Here, the rotation is only about the y-axis.
-    The default value of 'smooth' is different than in 'takeObject()'. Here, the default value is false.
---]]
-function Placement.PlaceObject(path, parameters)
-    -- Override default values of 'GetNestedObjectFromGuids()'.
-    parameters = parameters or {}
-    parameters.rotation = parameters.rotation or 0                  -- Default is no rotation.
-    parameters.rotation = Vector3.up * parameters.rotation          -- Rotation is only about the y-axis.
-    if parameters.smooth == nil then parameters.smooth = false end  -- Default is instantaneous.
-
-    local ttsObject = Database.GetData(path)
-    GetNestedObjectFromGuids(ttsObject:GetParentGuids(), parameters)
-end
-
---[[
-## Summary
-The same as 'PlaceObject()', except the Object is placed on top of any Objects at that location.
-Its edges will be touching, but not overlapping, the other Objects beneath it.
+## Overview
+Take a Tile which is nested inside of some bags and place it onto the table.
+The Tile is placed on top of any other Objects at that position.
 
 See: 'TabletopSimulator/NestedObjects/GetNestedObjectFromGuids'
+
+## Parameters
+<Tile> tile
+    The Tile to place. See: 'HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile'
+<Vector3> position
+    The position in the world to place the tile at. The y-component is ignored.
+<function> callback
+    A method to execute once the Tile has been placed on the table.
+    [Optional, defaults to nil.]
 --]]
-function Placement.PlaceObjectAbove(path, parameters)
-    -- Override default values of 'GetNestedObjectFromGuids()'.
-    parameters = parameters or {}
-    parameters.above = true
-    Placement.PlaceObject(path, parameters)
+function Placement.PlaceTileOntoTable(tile, position, callback)
+    local ttsObject = Database.GetData(tile.Path)
+    local guidArray = ttsObject:GetParentGuids()
+    GetNestedObjectFromGuids(guidArray, {
+        position    = position,
+        rotation    = Vector3.up * tile.Rotation,
+        flip        = tile.Flip,
+        lock        = tile.Lock,
+        smooth      = false,
+        above       = true,
+        copy        = true,
+        top         = true,
+        callback_function   = callback,
+    })
 end

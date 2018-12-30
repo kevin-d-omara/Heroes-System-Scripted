@@ -7,7 +7,7 @@
 public class TurnCounterModel
 {
     -- Public Fields
-    string Path
+    Tile TurnCounterTile
     Tile WeatherTile
     array<Tile> InitiativeMarkers
     array<Tile> EventMarkers
@@ -40,7 +40,10 @@ Use Tile to specify how the object should be placed (rotated and/or flipped over
         [Optional, defaults to false.]
 --]]
 function TurnCounterModel:init(data)
-    self.Path = data.path
+    self.TurnCounterTile = Tile({
+        path = data.path,
+        lock = true,
+    })
 
     -- Transform to Tile class.
     if data.weatherTile ~= nil then

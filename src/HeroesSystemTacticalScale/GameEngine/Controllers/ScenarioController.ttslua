@@ -37,9 +37,7 @@ end
 
 function ScenarioController:PhysicallySetupScenario()
     self.View.Battlefield = BattlefieldView(self.Model.Battlefield)
-    self.View.Battlefield:Materialize({
-        callback = || self:_PlaceTurnCounter()
-    })
+    self.View.Battlefield:Materialize(|| self:_PlaceTurnCounter())
 end
 
 function ScenarioController:_PlaceTurnCounter()
@@ -50,8 +48,5 @@ function ScenarioController:_PlaceTurnCounter()
     local x = (size.x / 2) + buffer
     local position = Vector3.right * x
 
-    self.View.TurnCounter:Materialize({
-        position = position,
-        callback = || print('placed')
-    })
+    self.View.TurnCounter:Materialize(position, || print('placed'))
 end

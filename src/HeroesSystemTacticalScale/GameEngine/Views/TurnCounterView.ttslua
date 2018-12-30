@@ -34,27 +34,21 @@ TurnCounterView = class('TurnCounterView')
 --]]
 function TurnCounterView:init(model)
     self.Model = model
-    self.Coordinates = Database.GetData(model.Path)
+    self.Coordinates = Database.GetData(model.TurnCounterTile.Path)
 
     return self
 end
 
 --[[
 ## Parameters
-<table> parameters:
-    <Vector2> position: The position on the table to place the TurnCounter.
-    <func> callback: A function to invoke when the TurnCounter is finshed being physically materialized.
-        [Optional, defaults to nil.]
+<Vector2> position: The position on the table to place the TurnCounter.
+<func> callback: A function to invoke when the TurnCounter is finshed being physically materialized.
+    [Optional, defaults to nil.]
 --]]
-function TurnCounterView:Materialize(parameters)
-    parameters = parameters or {}
-    parameters.position = parameters.position or Vector2.zero
+function TurnCounterView:Materialize(position, callback)
+    position = position or Vector2.zero
 
-    Placement.PlaceObjectAbove(self.Model.Path, {
-        position = parameters.position,
-        lock = true,
-        callback_function = |obj| self:_PlaceMarkers(obj, parameters.callback)
-    })
+    Placement.PlaceTileOntoTable(self.Model.TurnCounterTile, position, |obj| self:_PlaceMarkers(obj, callback))
 end
 
 -- Physically place all of the tiles onto the table.
@@ -99,10 +93,5 @@ function TurnCounterView:_PlaceMarker(tile, localCoord)
         y = 0,
         z = localCoord.y,
     })
-    Placement.PlaceObjectAbove(tile.Path, {
-        position = worldCoord,
-        rotation = tile.Rotation,
-        flip = tile.Flip,
-        lock = tile.Lock,
-    })
+    Placement.PlaceTileOntoTable(tile, worldCoord)
 end

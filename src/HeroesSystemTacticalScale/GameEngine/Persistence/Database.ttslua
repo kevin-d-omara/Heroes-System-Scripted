@@ -30,11 +30,15 @@ Return the data stored in the database by the path (i.e. "HoN.Core_Box.Terrain.C
 The path may be a registered alias (i.e. "HoN.Core_Box.Scenario.Bonus_Tactic").
 --]]
 function Database.GetData(path)
+    assert(type(path) == 'string', "Argument [1] 'path': string expected, but got " .. type(path) .. ".")
+
     local rawPath = Database.AliasMap:GetKey(path)
     return Database._GetDataWithoutAlias(rawPath)
 end
 
 function Database._GetDataWithoutAlias(path)
+    assert(type(path) == 'string', "Argument [1] 'path': string expected, but got " .. type(path) .. ".")
+
     local data = GetElementFromNestedTables("Database.Data." .. path)
     if data == nil then
         error("Data not found for path: '" .. tostring(path) .. "'. Check to make sure your spelling is correct and that all of the dependencies for this data exist.")
