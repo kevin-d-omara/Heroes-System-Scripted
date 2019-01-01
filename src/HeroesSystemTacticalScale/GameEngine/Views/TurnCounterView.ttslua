@@ -1,5 +1,4 @@
 #include <!/../lib/30log/class>
-#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
 #include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Placement>
 #include <!/TabletopSimulator/Vector2>
 
@@ -30,11 +29,12 @@ TurnCounterView = class('TurnCounterView')
 
 --[[
 ## Parameters
-<TurnCounterModel> model: All data needed to physically manifest the TurnCounterView.
+<TurnCounterModel> model: The config data for this turn tracker.
+<TurnCounterCooordinates> coordinates: The offsets for this turn counter's initiative track and event market track.
 --]]
-function TurnCounterView:init(model)
+function TurnCounterView:init(model, coordinates)
     self.Model = model
-    self.Coordinates = Database.GetData(model.TurnCounterTile.Path)
+    self.Coordinates = coordinates
 
     return self
 end

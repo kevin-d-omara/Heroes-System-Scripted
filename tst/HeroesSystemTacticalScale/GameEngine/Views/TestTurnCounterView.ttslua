@@ -17,7 +17,8 @@ function LayoutTurnCounterForScenario(index)
     local scenarioModel = scenario.Model
 
     local model = TurnCounterModel(scenarioModel.TurnCounter)
-    local view = TurnCounterView(model)
+    local coordinates = Database.GetData(model.TurnCounterTile.Path)
+    local view = TurnCounterView(model, coordinates)
     view:Materialize({0,0})
 end
 

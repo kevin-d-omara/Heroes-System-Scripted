@@ -2,6 +2,7 @@
 #include <!/HeroesSystemTacticalScale/GameEngine/Models/ScenarioModel>
 #include <!/HeroesSystemTacticalScale/GameEngine/Views/BattlefieldView>
 #include <!/HeroesSystemTacticalScale/GameEngine/Views/TurnCounterView>
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
 #include <!/TabletopSimulator/Vector2>
 
 
@@ -43,7 +44,9 @@ function ScenarioController:PhysicallySetupScenario()
 end
 
 function ScenarioController:_PlaceTurnCounter()
-    self.View.TurnCounter = TurnCounterView(self.Model.TurnCounter)
+    local model = self.Model.TurnCounter
+    local coordinates = Database.GetData(model.TurnCounterTile.Path)
+    self.View.TurnCounter = TurnCounterView(model, coordinates)
 
     local size = self.View.Battlefield:GetSize()
     local buffer = self.BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD
