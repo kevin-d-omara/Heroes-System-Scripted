@@ -1,5 +1,6 @@
 #include <!/../lib/30log/class>
 #include <!/HeroesSystemTacticalScale/GameEngine/Models/ScenarioModel>
+#include <!/HeroesSystemTacticalScale/GameEngine/Views/ScenarioView>
 #include <!/HeroesSystemTacticalScale/GameEngine/Views/BattlefieldView>
 #include <!/HeroesSystemTacticalScale/GameEngine/Views/TurnCounterView>
 #include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
@@ -12,46 +13,50 @@ public class ScenarioController
 {
     -- Fields
     private ScenarioModel Model
+    private ScenarioView View
 
     -- Constructors
-    public ScenarioController(data)
+    public ScenarioController(model)
 
     -- Methods
     void PhysicallySetupScenario()
 }
 
 ## Summary
-Controller class for a single scenario. Offers public API methods to interact with the scenario.
+Controller class for a single instance of a scenario.
+
+Is responsible for creating and controlling the scenario view.
+Is responsible for calling the data access layer to get data needed for the view.
 --]]
 
 ScenarioController = class('ScenarioController')
-ScenarioController.BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD = 3
 
 --[[
 ## Parameters
-<table> model: See constructor for ScenarioModel.
+<table> model: The scenario's config file. See 'HeroesSystemTacticalScale/GameEngine/Models/ScenarioModel:init()'.
 --]]
 function ScenarioController:init(model)
     self.Model = ScenarioModel(model)
-    self.View = {}
-
-    return self
+    self.View = self:_CreateScenarioView(self.Model)
 end
 
 function ScenarioController:PhysicallySetupScenario()
-    self.View.Battlefield = BattlefieldView(self.Model.Battlefield)
-    self.View.Battlefield:Materialize(|| self:_PlaceTurnCounter())
+    self.View:Materialize()
 end
 
-function ScenarioController:_PlaceTurnCounter()
-    local model = self.Model.TurnCounter
-    local coordinates = Database.GetData(model.TurnCounterTile.Path)
-    self.View.TurnCounter = TurnCounterView(model, coordinates)
+function ScenarioController:_CreateScenarioView(scenarioModel)
+    return ScenarioView(
+        self:_CreateBattlefieldView(scenarioModel.Battlefield),
+        self:_CreateTurnCounterView(scenarioModel.TurnCounter)
+    )
+end
 
-    local size = self.View.Battlefield:GetSize()
-    local buffer = self.BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD
-    local x = (size.x / 2) + buffer
-    local position = Vector2.right * x
+function ScenarioController:_CreateBattlefieldView(battlefieldModel)
+    return BattlefieldView(battlefieldModel)
+end
 
-    self.View.TurnCounter:Materialize(position, || print('placed'))
+function ScenarioController:_CreateTurnCounterView(turnCounterModel)
+    local coord = Database.GetData(turnCounterModel.TurnCounterTile.Path)
+
+    return TurnCounterView(turnCounterModel, coord)
 end

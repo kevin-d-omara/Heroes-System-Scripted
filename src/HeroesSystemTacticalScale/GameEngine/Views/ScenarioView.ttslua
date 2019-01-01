@@ -1,0 +1,51 @@
+#include <!/../lib/30log/class>
+
+#include <!/HeroesSystemTacticalScale/GameEngine/Views/BattlefieldView>
+#include <!/HeroesSystemTacticalScale/GameEngine/Views/TurnCounterView>
+
+#include <!/TabletopSimulator/Vector2>
+
+--[[
+## Class
+public class ScenarioView
+{
+    -- Fields
+    private BattlefieldView Battlefield
+    private TurnCounterView TurnCounter
+
+    -- Constructors
+    ScenarioController(battlefieldView, turnCounterView)
+
+    -- Methods
+    public void Materialize()
+}
+
+## Summary
+Physical representation of an entire Scenario.
+--]]
+
+ScenarioView = class('ScenarioView')
+ScenarioView.BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD = 3
+
+--[[
+## Parameters
+<BattlefieldView> battlefieldView
+<TurnCounterView> turnCounterView
+--]]
+function ScenarioView:init(battlefieldView, turnCounterView)
+    self.Battlefield = battlefieldView
+    self.TurnCounter = turnCounterView
+end
+
+function ScenarioView:Materialize()
+    self.Battlefield:Materialize(|| self:_PlaceTurnCounter())
+end
+
+function ScenarioView:_PlaceTurnCounter()
+    local size = self.Battlefield:GetSize()
+    local buffer = self.BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD
+    local x = (size.x / 2) + buffer
+    local position = Vector2.right * x
+
+    self.TurnCounter:Materialize(position, || print('placed'))
+end
