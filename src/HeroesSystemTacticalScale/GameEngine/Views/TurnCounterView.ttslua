@@ -46,8 +46,7 @@ end
     [Optional, defaults to nil.]
 --]]
 function TurnCounterView:Materialize(position, callback)
-    position = position or Vector2.zero
-
+    position = Vector3(position)
     Placement.PlaceTileOntoTable(self.Model.TurnCounterTile, position, |obj| self:_PlaceMarkers(obj, callback))
 end
 

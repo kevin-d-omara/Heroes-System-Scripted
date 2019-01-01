@@ -2,6 +2,8 @@
 #include <!/HeroesSystemTacticalScale/GameEngine/Models/ScenarioModel>
 #include <!/HeroesSystemTacticalScale/GameEngine/Views/BattlefieldView>
 #include <!/HeroesSystemTacticalScale/GameEngine/Views/TurnCounterView>
+#include <!/TabletopSimulator/Vector2>
+
 
 --[[
 ## Class
@@ -46,7 +48,7 @@ function ScenarioController:_PlaceTurnCounter()
     local size = self.View.Battlefield:GetSize()
     local buffer = self.BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD
     local x = (size.x / 2) + buffer
-    local position = Vector3.right * x
+    local position = Vector2.right * x
 
     self.View.TurnCounter:Materialize(position, || print('placed'))
 end
