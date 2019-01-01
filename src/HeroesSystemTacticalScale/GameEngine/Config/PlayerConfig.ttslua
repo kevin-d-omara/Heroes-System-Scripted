@@ -1,0 +1,38 @@
+#include <!/../lib/30log/class>
+#include <ForceConfig/ForceConfigFactory>
+
+--[[
+## Class
+public class PlayerConfig
+{
+    -- Public Fields
+    array<IForceConfig> Army
+    OrderTokenConfig OrderTokens
+    ActionCardsConfig ActionCards
+
+    -- Constructors
+    public PlayerConfig(table data)
+}
+
+## Summary
+Data container that defines the physical resources for a Player: an Army, a set of Order Tokens, and an Action Deck.
+--]]
+
+PlayerConfig = class('PlayerConfig')
+
+--[[
+PlayerConfig(table data)
+    data:
+        array<IForceConfig> Army        = nil
+        OrderTokenConfig OrderTokens     = nil
+        ActionCardsConfig ActionCards    = nil
+--]]
+function PlayerConfig:init(data)
+    self.Army = data.Army or {}
+    for i,v in ipairs(self.Army) do
+        self.Army[i] = ForceConfigFactory.Create(v)
+    end
+
+    -- TODO: OrderTokens
+    -- TODO: ActionCards
+end

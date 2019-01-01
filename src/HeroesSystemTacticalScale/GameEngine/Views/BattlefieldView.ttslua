@@ -10,7 +10,7 @@
 class BattlefieldView
 {
     -- Fields
-    BattlefieldModel Model
+    BattlefieldConfig Config
 
     -- Constructors
     BattlefieldView(parameters)
@@ -40,10 +40,10 @@ BattlefieldView = class('BattlefieldView')
 
 --[[
 ## Parameters
-<BattlefieldModel> model: All data needed to physically manifest the BattlefieldView.
+<BattlefieldConfig> config: All data needed to physically manifest the BattlefieldView.
 --]]
-function BattlefieldView:init(model)
-    self.Model = model
+function BattlefieldView:init(config)
+    self.Config = config
 
     return self
 end
@@ -59,17 +59,17 @@ Pieces are centered around the center of the table.
 --]]
 function BattlefieldView:Materialize(callback)
     -- Lay Terrain Boards.
-    for k,board in pairs(self.Model.TerrainBoards) do
+    for k,board in pairs(self.Config.TerrainBoards) do
         self:PlaceOnBattlefieldSpace(board, board.Index)
     end
 
     -- Lay Terrain Tiles.
-    for k,tile in pairs(self.Model.TerrainTiles) do
+    for k,tile in pairs(self.Config.TerrainTiles) do
         self:PlaceOnTerrain(tile)
     end
 
     -- Lay Objects
-    for k,tile in pairs(self.Model.Objects) do
+    for k,tile in pairs(self.Config.Objects) do
         self:PlaceOnTerrain(tile)
     end
 
@@ -82,8 +82,8 @@ Return the size of the battlefield measured in Unity units.
 --]]
 function BattlefieldView:GetSize()
     return Vector2({
-        x = self.Model.Width * UnitOfMeasurement.Cell,
-        y = self.Model.Height * UnitOfMeasurement.Cell,
+        x = self.Config.Width * UnitOfMeasurement.Cell,
+        y = self.Config.Height * UnitOfMeasurement.Cell,
     })
 end
 
@@ -130,7 +130,7 @@ The World Coordinate's y component (height) is always 0.
 function BattlefieldView:GetWorldPositionForBattlefieldSpace(cell)
     local cell = Vector3(cell)
     local originBattlefieldWorld = Vector3.zero
-    local originBattlefieldCell  = Vector3((self.Model.Width + 1)/2, (self.Model.Height + 1)/2, 0)
+    local originBattlefieldCell  = Vector3((self.Config.Width + 1)/2, (self.Config.Height + 1)/2, 0)
 
     local worldPositionCell =
         (originBattlefieldCell - cell) * UnitOfMeasurement.Cell + originBattlefieldWorld
@@ -148,9 +148,9 @@ function BattlefieldView:GetWorldPositionForBattlefieldInterspace(index)
 end
 
 function BattlefieldView:GetWorldPositionForTerrainSpace(terrainAlias, index)
-    return self:GetWorldPositionForBattlefieldSpace(self.Model:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index))
+    return self:GetWorldPositionForBattlefieldSpace(self.Config:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index))
 end
 
 function BattlefieldView:GetWorldPositionForTerrainInterspace(terrainAlias, index)
-    return self:GetWorldPositionForBattlefieldInterspace(self.Model:ConvertTerrainInterspaceToBattlefieldInterspace(terrainAlias, index))
+    return self:GetWorldPositionForBattlefieldInterspace(self.Config:ConvertTerrainInterspaceToBattlefieldInterspace(terrainAlias, index))
 end

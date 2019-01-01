@@ -17,7 +17,7 @@ See: 'TabletopSimulator/NestedObjects/GetNestedObjectFromGuids'
 
 ## Parameters
 <Tile> tile
-    The Tile to place. See: 'HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile'
+    The Tile to place. See: 'HeroesSystemTacticalScale/GameEngine/Config/Tiles/Tile'
 <Vector3> position
     The position in the world to place the tile at. The y-component is ignored.
 <function> callback

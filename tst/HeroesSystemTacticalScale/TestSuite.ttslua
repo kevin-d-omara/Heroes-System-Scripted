@@ -2,10 +2,10 @@
 
 --[[ #include Unit Tests here. ]]
 #include <Resources/HeroesOfNormandie/Core_Box/CoreBoxUnitTest>
-#include <GameEngine/Models/Impl/CombatGroup>
-#include <GameEngine/Models/Impl/CombatGroupForceModel>
-#include <GameEngine/Models/Impl/RecruitmentTileForceModel>
-#include <GameEngine/Models/ForceModelFactory>
+#include <GameEngine/Config/Impl/CombatGroup>
+#include <GameEngine/Config/Impl/CombatGroupForceConfig>
+#include <GameEngine/Config/Impl/RecruitmentTileForceConfig>
+#include <GameEngine/Config/ForceConfigFactory>
 
 --[[ #include Integration Tests here. ]]
 -- #include <Resources/HeroesOfNormandie/Core_Box/CoreBoxIntegrationTest>

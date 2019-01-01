@@ -1,8 +1,8 @@
 #include <!/TabletopSimulator/TTSTest/TestClass>
 #include <!/TabletopSimulator/TTSTest/Assert>
-#include <!/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/Impl/CombatGroupForceModel>
+#include <!/HeroesSystemTacticalScale/GameEngine/Config/ForceConfig/Impl/CombatGroupForceConfig>
 
-TestClass('CombatGroupForceModel unit tests')
+TestClass('CombatGroupForceConfig unit tests')
 
 function Test:Constructor_SimpleArray()
     local config = {
@@ -11,7 +11,7 @@ function Test:Constructor_SimpleArray()
         {'Signallers_Option', include = {'Item_Eureka_Ground_Radar'}},
     }
     local expected = config[3].include[1]
-    local instance = CombatGroupForceModel(config)
+    local instance = CombatGroupForceConfig(config)
     local actual = instance.CombatGroups[3].Include[1].Path
 
     local err = AssertEquals(3, #instance.CombatGroups); assert(not err, err)
@@ -27,7 +27,7 @@ function Test:Constructor_Extra_SingleArray_FirstElementString()
         },
     }
     local expected = config.extra[1]    -- TODO: Change database to DeepCopy result so I don't have to worry about modifying data there.
-    local instance = CombatGroupForceModel(config)
+    local instance = CombatGroupForceConfig(config)
     local actual = instance.Extra[1][1].Path
 
     local err = AssertEquals(expected, actual); assert(not err, err)
@@ -42,7 +42,7 @@ function Test:Constructor_Extra_SingleArray_FirstElementTile_ImplicitPath()
         },
     }
     local expected = config.extra[1][1]
-    local instance = CombatGroupForceModel(config)
+    local instance = CombatGroupForceConfig(config)
     local actual = instance.Extra[1][1].Path
 
     local err = AssertEquals(expected, actual); assert(not err, err)
@@ -57,7 +57,7 @@ function Test:Constructor_Extra_SingleArray_FirstElementTile_ExplicitPath()
         },
     }
     local expected = config.extra[1].path
-    local instance = CombatGroupForceModel(config)
+    local instance = CombatGroupForceConfig(config)
     local actual = instance.Extra[1][1].Path
 
     local err = AssertEquals(expected, actual); assert(not err, err)
@@ -72,13 +72,13 @@ function Test:Constructor_Extra_NestedArray()
         },
     }
     local expected = config.extra[1][1]
-    local instance = CombatGroupForceModel(config)
+    local instance = CombatGroupForceConfig(config)
     local actual = instance.Extra[1][1].Path
 
     local err = AssertEquals(expected, actual); assert(not err, err)
 end
 
-function Test:TransformIntoForceModelDto_ComplexExample()
+function Test:TransformIntoForceConfigDto_ComplexExample()
     local config = {
         {
             'HoN.Core_Box.US.Rifle_Platoon_22nd.Bazooka_Squad_Option',
@@ -92,8 +92,8 @@ function Test:TransformIntoForceModelDto_ComplexExample()
             }
         },
     }
-    local instance = CombatGroupForceModel(config)
-    local dto = instance:TransformIntoForceModelDto()
+    local instance = CombatGroupForceConfig(config)
+    local dto = instance:TransformIntoForceConfigDto()
 
     local err = AssertEquals(3, #dto.Tiles); assert(not err, err) -- There are three rows: the header and then the two includes (one for each option).
     local err = AssertEquals(true, dto.Tiles[3][1].Flip); assert(not err, err)  -- Halftrack_2 is flipped and Halftrack_1 is discluded.

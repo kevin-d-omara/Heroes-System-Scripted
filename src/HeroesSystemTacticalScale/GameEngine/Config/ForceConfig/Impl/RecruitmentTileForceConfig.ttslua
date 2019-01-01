@@ -2,37 +2,37 @@
 
 #include <CombatGroup>
 #include <MakeFullyQualified>
-#include <../IForceModel>
-#include <!/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile>
+#include <../IForceConfig>
+#include <!/HeroesSystemTacticalScale/GameEngine/Config/Tiles/Tile>
 #include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
 #include <!/Lua/Table/GetLengthOfNonConsecutiveTable>
 #include <!/Lua/String/SplitString>
 
 --[[
 ## Class
-class RecruitmentTileForceModel : CombatGroup, IForceModel
+class RecruitmentTileForceConfig : CombatGroup, IForceConfig
 {
     -- Public Fields
-    Tile Tile                           -- The RecruitmentTile that this ForceModel is based on.
+    Tile Tile                           -- The RecruitmentTile that this ForceConfig is based on.
     array<CombatGroup> Options  = nil   -- The Options that are slotted into the RecruitmentTile.
     array<string> Disclude      = nil   -- Tiles to disclude from the "Includes" of this Tile (ex: disclude 'Officer' from 'Rifle_Platoon_8th').
     array<Tile> Include         = nil   -- Tiles to add to the "Includes" of this Tile (ex: 'Recon_Team' or 'HoN.Core_Box.Terrain.Position_1x1').
     array<Tile> Modify          = nil   -- Parameters to alter how the "Includes" of this Tile are placed (ex: flipped, rotated, etc.)
-    array<array<Tile>> Extra    = nil   -- Extra Tiles to add to this ForceModel beyond the RecruitmentTile.Includes and the Options.
+    array<array<Tile>> Extra    = nil   -- Extra Tiles to add to this ForceConfig beyond the RecruitmentTile.Includes and the Options.
 
     -- Public Constructors
-    RecruitmentTileForceModel(table data)
+    RecruitmentTileForceConfig(table data)
 
     -- Public Methods
-    ForceModelDto TransformIntoForceModelDto()  -- Returns a copy of this ForceModel as a ForceModelDto.
+    ForceConfigDto TransformIntoForceConfigDto()  -- Returns a copy of this ForceConfig as a ForceConfigDto.
 }
 
 ## Summary
-A concrete implementation of a ForceModel that is composed of a single Recruitment Tile with its Options and anything extra.
+A concrete implementation of a ForceConfig that is composed of a single Recruitment Tile with its Options and anything extra.
 
 ## Example
 -- From Scenario "Out of Gas", Heroes of Normandie, Core Box Scenarios, pg 9
-RecruitmentTileForceModel({
+RecruitmentTileForceConfig({
     'Rifle_Platoon_22nd',
     options = {
         'Bazooka_Squad_Option',
@@ -43,11 +43,11 @@ RecruitmentTileForceModel({
 })
 --]]
 
-RecruitmentTileForceModel = CombatGroup:extend('RecruitmentTileForceModel'):with(IForceModel)
+RecruitmentTileForceConfig = CombatGroup:extend('RecruitmentTileForceConfig'):with(IForceConfig)
 
 --[[
 ## Constructor
-RecruitmentTileForceModel(table data)
+RecruitmentTileForceConfig(table data)
     data:
         <Tile> 1|tile       -- The key can be either [1] or ['tile'].
         array<CombatGroup> options  = nil   -- This array is special, you may include non-consecutive elements (i.e. [1], [2], [4]).
@@ -56,8 +56,8 @@ RecruitmentTileForceModel(table data)
         array<Tile> modify          = nil
         array<array<Tile>>|array<Tile> extra = nil
 --]]
-function RecruitmentTileForceModel:init(data)
-    RecruitmentTileForceModel.super.init(self, data)
+function RecruitmentTileForceConfig:init(data)
+    RecruitmentTileForceConfig.super.init(self, data)
 
     data.options    = data.options or {}
     if data.extra ~= nil and (type(data.extra[1]) == 'string' or #data.extra[1] <= 1) then
@@ -81,9 +81,9 @@ end
 
 --[[
 ## Summary
-Transform this RecruitmentTileForceModel into a ForceModelDto.
+Transform this RecruitmentTileForceConfig into a ForceConfigDto.
 --]]
-function RecruitmentTileForceModel:TransformIntoForceModelDto()
+function RecruitmentTileForceConfig:TransformIntoForceConfigDto()
     local tiles = {}
 
     -- Add a row to the 2d-array, but only if its non-empty.
@@ -120,6 +120,5 @@ function RecruitmentTileForceModel:TransformIntoForceModelDto()
     local recruitmentTile = Database.GetData(self.Tile.Path)
     local optionSlots = recruitmentTile.OptionSlots
 
-    local dto = ForceModelDto(tiles, options, optionSlots)
-    return dto
+    return ForceConfigDto(tiles, options, optionSlots)
 end

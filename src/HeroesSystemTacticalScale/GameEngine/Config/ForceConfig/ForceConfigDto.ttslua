@@ -2,7 +2,7 @@
 
 --[[
 ## Class
-public class ForceModelDto
+public class ForceConfigDto
 {
     -- Public Fields
     array<array<Tile>> Tiles            -- All of the individual tiles that make up this Force (ex: Recruitment Tile + its Includes + the Options etc.)
@@ -10,19 +10,19 @@ public class ForceModelDto
     array<Vector2> OptionSlots  = {}    -- The offsets from the center of the RecruitmentTile to where the Options should be placed.
 
     -- Constructors
-    public ForceModelDto(data)
+    public ForceConfigDto(data)
 
     -- Methods
 
 }
 
 ## Summary
-A "data transfer object" of the IForceModel that is used by the View to physically place tiles in the Game World.
+A "data transfer object" of the IForceConfig that is used by the View to physically place tiles in the Game World.
 
 Is simply a 2d array of Tiles, with each path fully specified (ex: 'HoN.Core_Box.Rifle_Platoon_22nd.Recon_Team').
 
 ## Example
-Model = {
+Config = {
     tile = 'HoN.Core_Box.Rifle_Platoon_22nd.Recruitment_Tile',
     options = {'Ambush_Squad_Option', 'HoN.Core_Box.Gears.Grenade_Option'}
 }
@@ -47,7 +47,7 @@ Dto = {
 }
 --]]
 
-ForceModelDto = class('ForceModelDto')
+ForceConfigDto = class('ForceConfigDto')
 
 --[[
 ## Constructor
@@ -55,7 +55,7 @@ ForceModelDto = class('ForceModelDto')
     array<Tile> options = {}
     array<Vector2> optionSlots = {}
 --]]
-function ForceModelDto:init(tiles, options, optionSlots)
+function ForceConfigDto:init(tiles, options, optionSlots)
     assert(type(tiles) == 'table', "Argument [1] 'tiles': table expected, but got " .. type(tiles) .. ".")
     for i,v in ipairs(tiles) do
         assert(type(tiles[i]) == 'table', "Argument [1][" .. tostring(i) .. "] 'tiles[" .. tostring(i) .. "]': table expected, but got " .. type(tiles[i]) .. ".")

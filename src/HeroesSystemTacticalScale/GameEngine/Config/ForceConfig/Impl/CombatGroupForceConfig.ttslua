@@ -1,31 +1,31 @@
 #include <!/../lib/30log/class>
 
 #include <CombatGroup>
-#include <../IForceModel>
-#include <!/HeroesSystemTacticalScale/GameEngine/Models/Tiles/Tile>
+#include <../IForceConfig>
+#include <!/HeroesSystemTacticalScale/GameEngine/Config/Tiles/Tile>
 
 --[[
 ## Class
-class CombatGroupForceModel : IForceModel
+class CombatGroupForceConfig : IForceConfig
 {
     -- Public Fields
-    array<CombatGroup> CombatGroups     -- The CombatGroups that make up this ForceModel.
-    array<array<Tile>> Extra = nil      -- Extra Tiles to add to this ForceModel beyond the CombatGroups.
+    array<CombatGroup> CombatGroups     -- The CombatGroups that make up this ForceConfig.
+    array<array<Tile>> Extra = nil      -- Extra Tiles to add to this ForceConfig beyond the CombatGroups.
 
     -- Public Constructors
-    CombatGroupForceModel(array<CombatGroup> data)
-    CombatGroupForceModel(table data)
+    CombatGroupForceConfig(array<CombatGroup> data)
+    CombatGroupForceConfig(table data)
 
     -- Public Methods
-    ForceModelDto TransformIntoForceModelDto()  -- Returns a copy of this ForceModel as a ForceModelDto.
+    ForceConfigDto TransformIntoForceConfigDto()  -- Returns a copy of this ForceConfig as a ForceConfigDto.
 }
 
 ## Summary
-A concrete implementation of a ForceModel that is composed of smaller Combat Groups instead of a large Recruitment Tile.
+A concrete implementation of a ForceConfig that is composed of smaller Combat Groups instead of a large Recruitment Tile.
 
 ## Example
 -- From Scenario "Pathfinders", Heroes of Normandie, Sainte-Mere Eglise Campaign Book, pg 6.
-local units = CombatGroupForceModel({
+local units = CombatGroupForceConfig({
     tiles = {
         'Pathfinders_Squad_Option',
         'Engineers_Squad_Option',
@@ -37,24 +37,24 @@ local units = CombatGroupForceModel({
         'Item_Halifane_Light',
     },
 })
-local gears = CombatGroupForceModel({
+local gears = CombatGroupForceConfig({
     'Camo_Option',
     'Grenades_Option',
     'Hawkins_Mines_Option',
 })
 --]]
 
-CombatGroupForceModel = class('CombatGroupForceModel'):with(IForceModel)
+CombatGroupForceConfig = class('CombatGroupForceConfig'):with(IForceConfig)
 
 --[[
 ## Constructor
-CombatGroupForceModel(array<CombatGroup> data)
-CombatGroupForceModel(table data)
+CombatGroupForceConfig(array<CombatGroup> data)
+CombatGroupForceConfig(table data)
     data:
         array<CombatGroup> tiles
         array<array<Tile>>|array<Tile> extra = nil
 --]]
-function CombatGroupForceModel:init(data)
+function CombatGroupForceConfig:init(data)
     if data.tiles == nil then
         data.tiles = data
     end
@@ -78,9 +78,9 @@ end
 
 --[[
 ## Summary
-Transform this CombatGroupForceModel into a ForceModelDto.
+Transform this CombatGroupForceConfig into a ForceConfigDto.
 --]]
-function CombatGroupForceModel:TransformIntoForceModelDto()
+function CombatGroupForceConfig:TransformIntoForceConfigDto()
     local tiles = {}
 
     -- Add a row to the 2d-array, but only if its non-empty.
@@ -108,5 +108,5 @@ function CombatGroupForceModel:TransformIntoForceModelDto()
         AppendRow(v)
     end
 
-    return ForceModelDto(tiles)
+    return ForceConfigDto(tiles)
 end

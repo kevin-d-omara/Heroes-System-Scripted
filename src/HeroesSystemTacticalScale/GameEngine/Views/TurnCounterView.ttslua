@@ -7,12 +7,12 @@
 public class TurnCounterView
 {
     -- Public Fields
-    TurnCounterModel Model
+    TurnCounterConfig Config
     TurnCounterCooordinates Coordinates
     Object Object
 
     -- Constructors
-    public TurnCounterView(model)
+    public TurnCounterView(config)
 
     -- Methods
     void Materialize(parameters)
@@ -29,11 +29,11 @@ TurnCounterView = class('TurnCounterView')
 
 --[[
 ## Parameters
-<TurnCounterModel> model: The config data for this turn tracker.
+<TurnCounterConfig> config: The config data for this turn tracker.
 <TurnCounterCooordinates> coordinates: The offsets for this turn counter's initiative track and event market track.
 --]]
-function TurnCounterView:init(model, coordinates)
-    self.Model = model
+function TurnCounterView:init(config, coordinates)
+    self.Config = config
     self.Coordinates = coordinates
 
     return self
@@ -47,7 +47,7 @@ end
 --]]
 function TurnCounterView:Materialize(position, callback)
     position = Vector3(position)
-    Placement.PlaceTileOntoTable(self.Model.TurnCounterTile, position, |obj| self:_PlaceMarkers(obj, callback))
+    Placement.PlaceTileOntoTable(self.Config.TurnCounterTile, position, |obj| self:_PlaceMarkers(obj, callback))
 end
 
 -- Physically place all of the tiles onto the table.
@@ -56,14 +56,14 @@ function TurnCounterView:_PlaceMarkers(object, callback)
     self.Object = object
 
     -- Both of the following use pairs instead of ipairs because the indices may not be consecutive. In this case, ipairs() stops too early.
-    for k,v in pairs(self.Model.InitiativeMarkers) do
+    for k,v in pairs(self.Config.InitiativeMarkers) do
         self:PlaceInitiativeMarker(v, k)
     end
-    for k,v in pairs(self.Model.EventMarkers) do
+    for k,v in pairs(self.Config.EventMarkers) do
         self:PlaceEventMarker(v, k)
     end
-    if self.Model.WeatherTile ~= nil then
-        self:PlaceWeatherMarker(self.Model.WeatherTile)
+    if self.Config.WeatherTile ~= nil then
+        self:PlaceWeatherMarker(self.Config.WeatherTile)
     end
 
     if callback ~= nil then callback() end

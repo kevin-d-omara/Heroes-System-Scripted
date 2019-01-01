@@ -1,0 +1,53 @@
+#include <!/../lib/30log/class>
+#include <IForceConfig>
+#include <Impl/CombatGroupForceConfig>
+#include <Impl/RecruitmentTileForceConfig>
+
+--[[
+## Class
+static class ForceConfigFactory
+{
+    -- Public Static Methods
+    IForceConfig Create(table data)
+}
+
+## Summary
+A factory class for creating IForceConfig instances.
+Is used to transform scenario configuration data into IForceConfig instances.
+--]]
+
+ForceConfigFactory = class('ForceConfigFactory')
+
+--[[
+## Summary
+Transforms the data into an IForceConfig instance.
+
+## Parameters
+See constructors for the IForceConfig concrete classes this factory supports:
+    `CombatGroupForceConfig`
+    `RecruitmentTileForceConfig`
+
+## Return
+An object of type IForceConfig, from the following list:
+    RecruitmentTileForceConfig
+    CombatGroupForceConfig
+
+## Throws
+Error if input is nil.
+--]]
+function ForceConfigFactory.Create(data)
+    assert(data and (type(data) == 'string' or type(data) == 'table'), "Argument [1] 'data': string or table expected, but got " .. type(data) .. ".")
+
+    if
+        data.tile        ~= nil
+        or data.options  ~= nil
+        or data.disclude ~= nil
+        or data.include  ~= nil
+        or data.modify   ~= nil
+        or (data.extra   ~= nil and data.tiles == nil)  -- CombatGroupForceConfig only has 'extra' when it also has 'tiles'.
+    then
+        return RecruitmentTileForceConfig(data)
+    else
+        return CombatGroupForceConfig(data)
+    end
+end

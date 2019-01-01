@@ -1,37 +1,37 @@
 #include <!/../lib/30log/class>
-#include <BattlefieldModel>
-#include <TurnCounterModel>
-#include <PlayerModel>
+#include <BattlefieldConfig>
+#include <TurnCounterConfig>
+#include <PlayerConfig>
 
 --[[
 ## Class
-public class ScenarioModel
+public class ScenarioConfig
 {
     -- Public Fields
-    BattlefieldModel Battlefield
-    TurnCounterModel TurnCounter
-    dictionary<PlayerModel> Players
-    TeamsModel Teams
+    BattlefieldConfig Battlefield
+    TurnCounterConfig TurnCounter
+    dictionary<PlayerConfig> Players
+    TeamsConfig Teams
 
     -- Constructors
-    public ScenarioModel(data)
+    public ScenarioConfig(data)
 }
 
 ## Summary
 Container for all physical components of a Scenario.
 --]]
 
-ScenarioModel = class('ScenarioModel')
+ScenarioConfig = class('ScenarioConfig')
 
 --[[
 ## Parameters
 <table> data: A table with the following key-value pairs:
-    <table> Battlefield: See constructor for BattlefieldModel.
-    <table> TurnCounter: See constructor for TurnCounterModel.
-    <table<table>> Players: See constructor for PlayerModel.
-    <table> Teams: See constructor for TeamsModel.
+    <table> Battlefield: See constructor for BattlefieldConfig.
+    <table> TurnCounter: See constructor for TurnCounterConfig.
+    <table<table>> Players: See constructor for PlayerConfig.
+    <table> Teams: See constructor for TeamsConfig.
 --]]
-function ScenarioModel:init(data)
+function ScenarioConfig:init(data)
     if type(data) ~= 'table' then error("Argument [1] data: table expected, but got " .. type(data) .. ".") end
     if type(data.Battlefield) ~= 'table' then
         error("Argument [1] parameters.Battlefield: table expected, but got " .. type(data.Battlefield) .. ".")
@@ -43,11 +43,11 @@ function ScenarioModel:init(data)
         error("Argument [3] parameters.Players: table expected, but got " .. type(data.Players) .. ".")
     end
 
-    self.Battlefield = BattlefieldModel(data.Battlefield)
-    self.TurnCounter = TurnCounterModel(data.TurnCounter)
+    self.Battlefield = BattlefieldConfig(data.Battlefield)
+    self.TurnCounter = TurnCounterConfig(data.TurnCounter)
     self.Players = {}
     for k,v in pairs(data.Players) do
-        self.Players[k] = PlayerModel(v)
+        self.Players[k] = PlayerConfig(v)
     end
 
     return self

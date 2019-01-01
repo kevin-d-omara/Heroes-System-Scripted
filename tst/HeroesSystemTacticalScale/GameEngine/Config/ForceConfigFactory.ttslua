@@ -1,8 +1,8 @@
 #include <!/TabletopSimulator/TTSTest/TestClass>
 #include <!/TabletopSimulator/TTSTest/Assert>
-#include <!/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/ForceModelFactory>
+#include <!/HeroesSystemTacticalScale/GameEngine/Config/ForceConfig/ForceConfigFactory>
 
-TestClass('ForceModelFactory unit tests')
+TestClass('ForceConfigFactory unit tests')
 
 function Test:Constructor_ComplexExample()
     local config =
@@ -16,11 +16,11 @@ function Test:Constructor_ComplexExample()
         },
     }
     local expected = config.options[4].disclude[1]
-    local instance = ForceModelFactory.Create(config)
+    local instance = ForceConfigFactory.Create(config)
     local actual = instance.Options[4].Disclude[1]
 
     local err = AssertEquals(expected, actual); assert(not err, err)
-    local err = AssertTrue(instance:instanceOf(RecruitmentTileForceModel)); assert(not err, err)
+    local err = AssertTrue(instance:instanceOf(RecruitmentTileForceConfig)); assert(not err, err)
 end
 
 function Test:Constructor_NonConsecutiveOptions()
@@ -34,11 +34,11 @@ function Test:Constructor_NonConsecutiveOptions()
         },
     }
     local expected = config.options[4].disclude[1]
-    local instance = ForceModelFactory.Create(config)
+    local instance = ForceConfigFactory.Create(config)
     local actual = instance.Options[4].Disclude[1]
 
     local err = AssertEquals(expected, actual); assert(not err, err)
-    local err = AssertTrue(instance:instanceOf(RecruitmentTileForceModel)); assert(not err, err)
+    local err = AssertTrue(instance:instanceOf(RecruitmentTileForceConfig)); assert(not err, err)
 end
 
 function Test:Constructor_SimpleArray()
@@ -48,7 +48,7 @@ function Test:Constructor_SimpleArray()
         {'Signallers_Option', include = {'Item_Eureka_Ground_Radar'}},
     }
     local expected = config[3].include[1]
-    local instance = CombatGroupForceModel(config)
+    local instance = CombatGroupForceConfig(config)
     local actual = instance.CombatGroups[3].Include[1].Path
 
     local err = AssertEquals(3, #instance.CombatGroups); assert(not err, err)
@@ -64,7 +64,7 @@ function Test:Constructor_Extra_SingleArray_FirstElementString()
         },
     }
     local expected = config.extra[1]    -- TODO: Change database to DeepCopy result so I don't have to worry about modifying data there.
-    local instance = ForceModelFactory.Create(config)
+    local instance = ForceConfigFactory.Create(config)
     local actual = instance.Extra[1][1].Path
 
     local err = AssertEquals(expected, actual); assert(not err, err)
@@ -79,7 +79,7 @@ function Test:Constructor_Extra_SingleArray_FirstElementTile_ImplicitPath()
         },
     }
     local expected = config.extra[1][1]
-    local instance = ForceModelFactory.Create(config)
+    local instance = ForceConfigFactory.Create(config)
     local actual = instance.Extra[1][1].Path
 
     local err = AssertEquals(expected, actual); assert(not err, err)
@@ -94,7 +94,7 @@ function Test:Constructor_Extra_SingleArray_FirstElementTile_ExplicitPath()
         },
     }
     local expected = config.extra[1].path
-    local instance = ForceModelFactory.Create(config)
+    local instance = ForceConfigFactory.Create(config)
     local actual = instance.Extra[1][1].Path
 
     local err = AssertEquals(expected, actual); assert(not err, err)
@@ -109,7 +109,7 @@ function Test:Constructor_Extra_NestedArray()
         },
     }
     local expected = config.extra[1][1]
-    local instance = ForceModelFactory.Create(config)
+    local instance = ForceConfigFactory.Create(config)
     local actual = instance.Extra[1][1].Path
 
     local err = AssertEquals(expected, actual); assert(not err, err)

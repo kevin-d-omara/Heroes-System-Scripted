@@ -1,30 +1,30 @@
-#include <ForceModelDto>
+#include <ForceConfigDto>
 
 --[[
 ## Interface
-interface IForceModel
+interface IForceConfig
 {
     -- Methods
-    ForceModelDto TransformIntoForceModelDto()  -- Returns a copy of the IForceModel as a ForceModelDto.
+    ForceConfigDto TransformIntoForceConfigDto()  -- Returns a copy of the IForceConfig as a ForceConfigDto.
 }
 
 ## Summary
-A ForceModel is the building block of an Army.
+A Force is the building block of an Army.
 Usually it is a RecruitmentTile but may also be a collection of smaller units (ex: Options, individual units & markers, etc).
 
-ForceModels must implement this interface in order to be used by the View.
+ForceConfigs must implement this interface in order to be used by the View.
 
 ## Examples:
 A Recruitment Tile (Rifle Platoon 22nd, etc.) with a few Options (Grenades, Mortar, etc.) and a scenario objective (Dynamite, Signal Flares, etc.).
 A group of US Paratroopers: The "Pathfinder Squad" Option + "Engineers Squad" Option.
 --]]
 
-IForceModel = {}
+IForceConfig = {}
 
 --[[
 ## Summary
-Returns the ForceModel as a ForceModelDto object.
+Returns the ForceConfig as a ForceConfigDto object.
 --]]
-function IForceModel:TransformIntoForceModelDto()
+function IForceConfig:TransformIntoForceConfigDto()
     error('Not yet implemented.')
 end

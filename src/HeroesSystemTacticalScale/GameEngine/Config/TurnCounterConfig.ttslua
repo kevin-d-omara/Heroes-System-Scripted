@@ -4,7 +4,7 @@
 
 --[[
 ## Class
-public class TurnCounterModel
+public class TurnCounterConfig
 {
     -- Public Fields
     Tile TurnCounterTile
@@ -13,14 +13,14 @@ public class TurnCounterModel
     array<Tile> EventMarkers
 
     -- Constructors
-    public TurnCounterModel(data)
+    public TurnCounterConfig(data)
 }
 
 ## Summary
 Container for all physical components of a Turn Counter.
 --]]
 
-TurnCounterModel = class('TurnCounterModel')
+TurnCounterConfig = class('TurnCounterConfig')
 
 --[[
 ## Notes
@@ -39,7 +39,7 @@ Use Tile to specify how the object should be placed (rotated and/or flipped over
     <bool> useRandomInitiativeOrder: True if the order of the initiative makers should be shuffled.
         [Optional, defaults to false.]
 --]]
-function TurnCounterModel:init(data)
+function TurnCounterConfig:init(data)
     self.TurnCounterTile = Tile({
         path = data.path,
         lock = true,

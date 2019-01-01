@@ -1,9 +1,9 @@
 #include <!/TabletopSimulator/TTSTest/TestClass>
 #include <!/TabletopSimulator/TTSTest/Assert>
 #include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
-#include <!/HeroesSystemTacticalScale/GameEngine/Models/ForceModel/Impl/RecruitmentTileForceModel>
+#include <!/HeroesSystemTacticalScale/GameEngine/Config/ForceConfig/Impl/RecruitmentTileForceConfig>
 
-TestClass('RecruitmentTileForceModel unit tests')
+TestClass('RecruitmentTileForceConfig unit tests')
 
 function Test:BeforeClass()
     Database.Initialize()
@@ -21,7 +21,7 @@ function Test:Constructor_ComplexExample()
         },
     }
     local expected = config.options[4].disclude[1]
-    local instance = RecruitmentTileForceModel(config)
+    local instance = RecruitmentTileForceConfig(config)
     local actual = instance.Options[4].Disclude[1]
 
     local err = AssertEquals(expected, actual); assert(not err, err)
@@ -38,13 +38,13 @@ function Test:Constructor_NonConsecutiveOptions()
         },
     }
     local expected = config.options[4].disclude[1]
-    local instance = RecruitmentTileForceModel(config)
+    local instance = RecruitmentTileForceConfig(config)
     local actual = instance.Options[4].Disclude[1]
 
     local err = AssertEquals(expected, actual); assert(not err, err)
 end
 
-function Test:TransformIntoForceModelDto_ComplexExample()
+function Test:TransformIntoForceConfigDto_ComplexExample()
     local config =
     {
         'HoN.Core_Box.US.Rifle_Platoon_22nd.Recruitment_Tile',
@@ -65,8 +65,8 @@ function Test:TransformIntoForceModelDto_ComplexExample()
             'HoN.Core_Box.Tokens.Item_Files',
         },
     }
-    local instance = RecruitmentTileForceModel(config)
-    local dto = instance:TransformIntoForceModelDto()
+    local instance = RecruitmentTileForceConfig(config)
+    local dto = instance:TransformIntoForceConfigDto()
 
     local prefix = 'HoN.Core_Box.US.Rifle_Platoon_22nd.'
     local err = AssertEquals(prefix..'Bazooka_Squad_Option', dto.Options[1].Path); assert(not err, err)

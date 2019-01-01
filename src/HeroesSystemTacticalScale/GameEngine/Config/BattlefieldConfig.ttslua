@@ -5,7 +5,7 @@
 
 --[[
 ## Class
-class BattlefieldModel
+class BattlefieldConfig
 {
     -- Fields
     int Width
@@ -15,7 +15,7 @@ class BattlefieldModel
     array<TerrainElementTile> Objects
 
     -- Constructors
-    BattlefieldModel(parameters)
+    BattlefieldConfig(parameters)
 
     -- Methods
     Vector2 ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index)
@@ -46,16 +46,16 @@ Element Coordinates:
 Internally, all Terrain Coordinates are measured by "spaces".
 --]]
 
-BattlefieldModel = class('BattlefieldModel')
+BattlefieldConfig = class('BattlefieldConfig')
 
 --[[
 ## Notes
-There are two different constructors for the BattlefieldModel model:
-    1. The most commonly used. Assumes all TerrainBoards are the large 7x7 tiles. The 'index' and 'bounds' key of each TerrainBoardTile should not be specified.
-    2. Only used for special scenarios where the TerrainBoards may be of any size or shape (ex: caves from Shadow Hunters SoN expansion) or when there is a secondary battlefield (ex: sewers from HoS or underground area from Radar Station & Factory).
+There are two different constructors for the BattlefieldConfig:
+    1) The most commonly used. Assumes all TerrainBoards are the large 7x7 tiles. The 'index' and 'bounds' key of each TerrainBoardTile should not be specified.
+    2) Only used for special scenarios where the TerrainBoards may be of any size or shape (ex: caves from Shadow Hunters SoN expansion) or when there is a secondary battlefield (ex: sewers from HoS or underground area from Radar Station & Factory).
 
 ## Signatures
-BattlefieldModel(data)
+BattlefieldConfig(data)
     data:
         <int> Height: The number of large (7x7) boards tall the battlefield is.
         <int> Width: The number of large (7x7) boards wide the battlefield is.
@@ -74,13 +74,13 @@ BattlefieldModel(data)
         <table> Objects                 -- Array of <TerrainElementTile> objects which are placed on top of the Terrain Tiles and Terrain Boards (ex: units, objectives, etc.).
             [Optional, defaults to having no Objects.]
 
-BattlefieldModel(data)
+BattlefieldConfig(data)
     Same as above, except TerrainBoards[2] (options) has two additional keys:
         index: The (x,y) Terrain Coordinates (in spaces) of the center of this board.
         bounds: The width and height (in spaces) of this board after it has been rotated (i.e. a 2x3 board that is rotated 90 degrees would have bounds of 3x2).
     Furthermore, Height and Width measure the number of spaces, not boards (there are 7x7 spaces per standard large terrain board).
 --]]
-function BattlefieldModel:init(parameters)
+function BattlefieldConfig:init(parameters)
     -- Validate input.
     if type(parameters) ~= 'table'                  then return error("Argument [1] parameters: table expected, but got " .. tostring(type(parameters)) .. ".") end
     if type(parameters.Width) ~= 'number'           then return error("Argument [1] parameters.Width: integer number expected, but got " .. tostring(type(parameters.Width)) .. ".") end
@@ -89,7 +89,7 @@ function BattlefieldModel:init(parameters)
     if #parameters.TerrainBoards < 1                then return error("Argument [1] parameters.TerrainBoards: array expected, but 0 elements found.") end
 
     -- Default values.
-    parameters = BattlefieldModel._TryUseSignatureOne(parameters)
+    parameters = BattlefieldConfig._TryUseSignatureOne(parameters)
     parameters.TerrainTiles = parameters.TerrainTiles or {}
     parameters.Objects = parameters.Objects or {}
 
@@ -117,7 +117,7 @@ function BattlefieldModel:init(parameters)
     return self
 end
 
-function BattlefieldModel:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index)
+function BattlefieldConfig:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, index)
     local board = self:_GetTerrainBoardForAlias(terrainAlias)
     local bounds = board.Bounds
 
@@ -128,11 +128,11 @@ function BattlefieldModel:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, in
     return indexBattlefield
 end
 
-function BattlefieldModel:ConvertTerrainInterspaceToBattlefieldInterspace(terrainAlias, index)
+function BattlefieldConfig:ConvertTerrainInterspaceToBattlefieldInterspace(terrainAlias, index)
     return self:ConvertTerrainSpaceToBattlefieldSpace(terrainAlias, Vector2(index) + {0.5, 0.5})
 end
 
-function BattlefieldModel:_GetTerrainBoardForAlias(terrainAlias)
+function BattlefieldConfig:_GetTerrainBoardForAlias(terrainAlias)
     local board = self._AliasToTerrainBoardMap[terrainAlias]
     if board == nil then
         error("Terrain alias not found: '" .. tostring(terrainAlias) .. "'. Check your spelling and make sure this Terrain Board is actually being used.")
@@ -150,7 +150,7 @@ end
 ## Summary
 Check if the first constructor signature is being used, and if so apply it.
 --]]
-function BattlefieldModel._TryUseSignatureOne(parameters)
+function BattlefieldConfig._TryUseSignatureOne(parameters)
     -- If any terrain board is missing the key named 'index' from its options, then the first constructor signature is used.
     local isSignatureOne = false
     for i,v in ipairs(parameters.TerrainBoards) do
@@ -169,7 +169,7 @@ function BattlefieldModel._TryUseSignatureOne(parameters)
             error("There are too " .. adjective .. " Terrain Boards for the specified Width and Height: " .. tostring(parameters.Width) .. " by " .. tostring(parameters.Height) .. ".")
         end
 
-        BattlefieldModel._Signature1_AddIndexToTerrainBoards(parameters.TerrainBoards, parameters.Width, parameters.Height)
+        BattlefieldConfig._Signature1_AddIndexToTerrainBoards(parameters.TerrainBoards, parameters.Width, parameters.Height)
 
         -- Convert width/height from 'number of terrain boards' (which are 7x7 spaces each) to 'number of spaces'.
         parameters.Width  = parameters.Width  * 7
@@ -204,7 +204,7 @@ becomes
     {"HoN.Core_Box.Terrain.D", {index = {11, 4}               }},   -- Board (2,1) has the index (11 ,4) for its center space.
 }
 --]]
-function BattlefieldModel._Signature1_AddIndexToTerrainBoards(terrainBoards, width, height)
+function BattlefieldConfig._Signature1_AddIndexToTerrainBoards(terrainBoards, width, height)
     local i = 0
     for y = height, 1, -1 do    -- Height is measured in terrain boards.
         for x = 1, width do     -- Width  is measured in terrain boards.

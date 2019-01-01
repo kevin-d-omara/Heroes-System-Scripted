@@ -1,5 +1,5 @@
 #include <!/../lib/30log/class>
-#include <!/HeroesSystemTacticalScale/GameEngine/Models/ScenarioModel>
+#include <!/HeroesSystemTacticalScale/GameEngine/Config/ScenarioConfig>
 #include <!/HeroesSystemTacticalScale/GameEngine/Views/ScenarioView>
 #include <!/HeroesSystemTacticalScale/GameEngine/Views/BattlefieldView>
 #include <!/HeroesSystemTacticalScale/GameEngine/Views/TurnCounterView>
@@ -12,11 +12,11 @@
 public class ScenarioController
 {
     -- Fields
-    private ScenarioModel Model
+    private ScenarioConfig Config
     private ScenarioView View
 
     -- Constructors
-    public ScenarioController(model)
+    public ScenarioController(config)
 
     -- Methods
     void PhysicallySetupScenario()
@@ -33,30 +33,30 @@ ScenarioController = class('ScenarioController')
 
 --[[
 ## Parameters
-<table> model: The scenario's config file. See 'HeroesSystemTacticalScale/GameEngine/Models/ScenarioModel:init()'.
+<table> config: The scenario's config file. See 'HeroesSystemTacticalScale/GameEngine/Config/ScenarioConfig:init()'.
 --]]
-function ScenarioController:init(model)
-    self.Model = ScenarioModel(model)
-    self.View = self:_CreateScenarioView(self.Model)
+function ScenarioController:init(config)
+    self.Config = ScenarioConfig(config)
+    self.View = self:_CreateScenarioView(self.Config)
 end
 
 function ScenarioController:PhysicallySetupScenario()
     self.View:Materialize()
 end
 
-function ScenarioController:_CreateScenarioView(scenarioModel)
+function ScenarioController:_CreateScenarioView(scenarioConfig)
     return ScenarioView(
-        self:_CreateBattlefieldView(scenarioModel.Battlefield),
-        self:_CreateTurnCounterView(scenarioModel.TurnCounter)
+        self:_CreateBattlefieldView(scenarioConfig.Battlefield),
+        self:_CreateTurnCounterView(scenarioConfig.TurnCounter)
     )
 end
 
-function ScenarioController:_CreateBattlefieldView(battlefieldModel)
-    return BattlefieldView(battlefieldModel)
+function ScenarioController:_CreateBattlefieldView(battlefieldConfig)
+    return BattlefieldView(battlefieldConfig)
 end
 
-function ScenarioController:_CreateTurnCounterView(turnCounterModel)
-    local coord = Database.GetData(turnCounterModel.TurnCounterTile.Path)
+function ScenarioController:_CreateTurnCounterView(turnCounterConfig)
+    local coord = Database.GetData(turnCounterConfig.TurnCounterTile.Path)
 
-    return TurnCounterView(turnCounterModel, coord)
+    return TurnCounterView(turnCounterConfig, coord)
 end
