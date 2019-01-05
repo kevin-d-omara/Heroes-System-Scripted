@@ -1,0 +1,17 @@
+--[[
+## Interface
+interface IRecruitmentOptionDao
+{
+    -- Methods
+    RecruitmentOption GetRecruitmentOption(path)
+}
+--]]
+IRecruitmentOptionDao = {}
+
+--[[
+## Summary
+Returns the RecruitmentOption specified by the path (ex: 'HoN.Core_Box.Recruitment_Tile.Rifle_Platoon_8th.Bazooka_Squad_Option').
+--]]
+function IRecruitmentOptionDao:GetRecruitmentOption(path)
+    error('Not yet implemented.')
+end

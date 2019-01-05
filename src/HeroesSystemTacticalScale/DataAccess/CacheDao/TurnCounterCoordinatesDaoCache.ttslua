@@ -1,0 +1,15 @@
+#include <!/../lib/30log/class>
+#include <!/HeroesSystemTacticalScale/DataAccess/Dao/ITurnCounterCoordinatesDao>
+#include <!/HeroesSystemTacticalScale/DataAccess/Types/TurnCounterCoordinates>
+#include <!/TabletopSimulator/GlobalCall>
+
+--[[
+Implementation of ITurnCounterCoordinatesDao based on the 'HeroesSystemTacticalScale/Cache' datastore.
+--]]
+TurnCounterCoordinatesDaoCache = class('TurnCounterCoordinatesDaoCache'):with(ITurnCounterCoordinatesDao)
+
+-- function TurnCounterCoordinatesDaoCache:GetCoordinates(path)
+--     local guid = GlobalCall('Cache.GetGuid', path)
+--     local data = GlobalCall('Cache.GetValue', guid, 'TurnCounterCoordinates')   -- Move 'TurnCounterCoordinates' string constant into Util class.
+--     return TurnCounterCoordinates(data)
+-- end

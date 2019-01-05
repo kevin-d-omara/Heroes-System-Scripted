@@ -1,0 +1,37 @@
+--[[
+## Class
+public class RecruitmentOption
+{
+    -- Public Fields
+    array<string> Includes = {}     -- Tiles that come for free with this recruitment tile. Ex: 'Officer', 'Fire_Team', etc.
+
+    -- Constructor
+    public RecruitmentOption(data)
+}
+
+## Summary
+A Heroes System Recruitment Option tile. For example: 'Rifle Grenade' from the Core Box, which includes 3 copioes of the 'Rifle Grenade' marker.
+--]]
+
+RecruitmentOption = {}
+setmetatable(RecruitmentOption, { __call = function(self, ...) return self:init(...) end })
+
+--[[
+## Parameters
+<table> data
+    <array<string>> Includes = {}
+
+## Example
+local RifleGrenadeOption = RecruitmentOption({Includes = {'Rifle_Grenade', 'Rifle_Grenade', 'Rifle_Grenade'}})
+local BazookaSquadOption = RecruitmentOption({Includes = {'Fire_Team', 'Support_Team', 'Bazooka'}})
+local ImprovisationOption = RecruitmentOption({})   -- No included tiles.
+--]]
+function RecruitmentOption:init(data)
+    assert(type(data) == 'table', "Argument [1] data: table expected, but got " .. type(data) .. ".")
+
+    local obj = {
+        Includes = data.Includes or {}
+    }
+
+    return obj
+end

@@ -1,0 +1,17 @@
+--[[
+## Interface
+interface IRecruitmentTileDao
+{
+    -- Methods
+    RecruitmentTile GetRecruitmentTile(path)
+}
+--]]
+IRecruitmentTileDao = {}
+
+--[[
+## Summary
+Returns the RecruitmentTile specified by the path (ex: 'HoN.Core_Box.Recruitment_Tile.Rifle_Platoon_8th.Recruitment_Tile').
+--]]
+function IRecruitmentTileDao:GetRecruitmentTile(path)
+    error('Not yet implemented.')
+end

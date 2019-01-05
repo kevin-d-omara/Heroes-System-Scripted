@@ -1,0 +1,63 @@
+#include <RecruitmentOption>
+#include <!/TabletopSimulator/Vector2>
+
+--[[
+## Class
+public class RecruitmentTile
+{
+    -- Public Fields
+    array<string> Includes              = {}    -- Tiles that come for free with this recruitment tile. Ex: 'Officer', 'Fire_Team', etc.
+    table<RecruitmentOption> Options    = {}    -- Recruitment options which are unique to this recruitment tile. Ex: 'Ambush Squad', etc.
+    array<Vector2> OptionSlots          = {}    -- Vector2 offsets from the center of this tile to where the corresponding recruitment option should be placed.
+
+    -- Constructor
+    public RecruitmentTile(data)
+}
+
+## Summary
+A Heroes System Recruitment Tile. For example, 'Rifle Platoon 4th Inf. Div. 8th Inf. Reg' from the Core Box.
+--]]
+
+RecruitmentTile = {}
+setmetatable(RecruitmentTile, { __call = function(self, ...) return self:init(...) end })
+
+--[[
+## Parameters
+<table> data
+    <array<string>> Includes                = {}
+    <table<RecruitmentOption>> Options      = {}
+    <array<Vector2>> OptionSlotCoordinates  = {}
+
+## Example
+local RiflePlatoonXYZ = RecruitmentTile({
+    Includes = {'Officer', 'Recon_Team', 'Fire_Team', 'Bazooka'},
+    Options = {
+        Ambush_Squad_Option = {Includes = {'Recon_Team', 'Recon_Team', 'Bazooka'}},
+        Rifle_Squad_Option  = {Includes = {'Recon_Team', 'Fire_Team', 'Support_Team'}},
+        Mechanized_Option   = {Includes = {'Halftrack_1', 'Halftrack_2'}},
+    },
+    OptionSlotCoordinates = {
+        { 3.26, 0.17},
+        { 1.52, 0.17},
+        {-1.52, 0.17},
+        {-3.26, 0.17},
+    },
+})
+--]]
+function RecruitmentTile:init(data)
+    assert(type(data) == 'table', "Argument [1] data: table expected, but got " .. type(data) .. ".")
+
+    local obj = {}
+
+    obj.Includes = data.Includes or {}
+    obj.Options = {}
+    for k,v in pairs(data.Options or {}) do
+        obj.Options[k] = RecruitmentOption(v)
+    end
+    obj.OptionSlots = {}
+    for i,v in ipairs(data.OptionSlots or {}) do
+        obj.OptionSlots[i] = Vector2(v)
+    end
+
+    return obj
+end
