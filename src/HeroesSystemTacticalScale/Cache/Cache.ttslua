@@ -8,6 +8,9 @@
 #include <!/TabletopSimulator/NestedObjects/TTSObject>
 
 #include <!/HeroesSystemTacticalScale/DataAccess/Types/ProductInfo>
+#include <!/HeroesSystemTacticalScale/DataAccess/Types/RecruitmentTile>
+#include <!/HeroesSystemTacticalScale/DataAccess/Types/RecruitmentOption>
+#include <!/HeroesSystemTacticalScale/DataAccess/Types/TurnCounterCoordinates>
 
 --[[
 ## Class
@@ -17,6 +20,7 @@ public static class Cache
     void Initialize()
     string GetGuid(path)
     array<string> GetGuidArray(path)
+    table GetValue(tableName, key)
 }
 
 ## Summary
@@ -98,6 +102,24 @@ end
 
 --[[
 ## Summary
+Return a value from the specified table using a key.
+
+## Throws
+Error if the table doesn't exist.
+Error if the key doesn't exist in the table.
+
+## Example
+Cache.GetValue('RecruitmentTiles', 'yma6kt')    -- Returns the RecruitmentTile 'HoN.Core_Box.US.Rifle_Platoon_8th.Recruitment_Tile'.
+--]]
+function Cache.GetValue(key, tableName)
+    assert(Cache.Tables[tableName], "Error: Table '" .. tostring(tableName) .. "' doesn't exist in Cache.Tables")
+    assert(Cache.Tables[tableName][key], "Error: Key '" .. tostring(key) .. "' doesn't exist in table Cache.Tables['" .. tostring(tableName) .. "']")
+
+    return Cache.Tables[tableName][key]
+end
+
+--[[
+## Summary
 Find and collect data from Scripts attached to Game Objects.
 
 Collects data from Scripts which implement one or both of the following methods:
@@ -130,6 +152,9 @@ end
 
 function Cache._AddProduct(gameObject, info)
     Cache._TryCacheGuidTree(gameObject, info)
+    Cache._TryCacheScriptData(gameObject, 'GetRecruitmentOptions', Cache.Tables.RecruitmentOptions, RecruitmentOption)
+    Cache._TryCacheScriptData(gameObject, 'GetTurnCounterCoordinates', Cache.Tables.TurnCounterCoordinates, TurnCounterCoordinates)
+    Cache._TryCacheRecruitmentTiles(gameObject)
 end
 
 function Cache._TryCacheGuidTree(gameObject, info)
@@ -140,6 +165,42 @@ function Cache._TryCacheGuidTree(gameObject, info)
 
         Cache._TryAddEmptyKey(info.Game, Cache.GuidTrees)
         Cache.GuidTrees[info.Game][info.Name] = guidTree
+    end
+end
+
+--[[
+## Summary
+Attempt to get data by calling a method on the Game Object.
+Then plug the data into the provided class constructor.
+Then cache the data in the specified table.
+
+## Parameters
+<Object> gameObject: Game Object to try and call the method on.
+<string> functionName: Name of the method to call on the Game Object.
+<table> cacheTable: The table in Cache.Tables to load the data into.
+<Class> class: The class to plug the retrieved data into.
+--]]
+function Cache._TryCacheScriptData(gameObject, functionName, cacheTable, class)
+    local data = CallIfExists(gameObject, functionName)
+    if data then
+        for k,v in pairs(data) do
+            local obj = class(v)
+            cacheTable[k] = obj
+        end
+    end
+end
+
+function Cache._TryCacheRecruitmentTiles(gameObject)
+    local tiles = CallIfExists(gameObject, 'GetRecruitmentTiles')
+    if tiles then
+        for k,tile in pairs(tiles) do
+            for name,guid in pairs(tile.Options or {}) do
+                -- Map guid => RecruitmentOption.
+                tile.Options[name] = Cache.GetValue(guid, 'RecruitmentOptions')
+            end
+            local obj = RecruitmentTile(tile)
+            Cache.Tables.RecruitmentTiles[k] = obj
+        end
     end
 end
 

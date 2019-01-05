@@ -7,5 +7,6 @@ end
 
 #include <objects>
 #include <guids>
+#include <tables>
 #include <aliases>
 #include <Scenarios/Campaign>

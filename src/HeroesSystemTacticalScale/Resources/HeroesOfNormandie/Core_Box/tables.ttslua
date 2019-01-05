@@ -1,0 +1,39 @@
+function GetRecruitmentTiles()
+    return {
+        -- HoN.Core_Box.US.Rifle_Platoon_8th
+        ['yma6kt'] = {
+            Includes = {'Officer', 'Recon_Team', 'Fire_Team', 'Support_Team'},
+            Options = {
+                _30cal_Squad_Option     = 'u5hpl5',
+                Bazooka_Squad_Option    = 'de1bis',
+                Rifle_Squad_Option      = 'sgzhof',
+            },
+            OptionSlots = {
+                { 3.26, 0, 0.17},
+                { 1.52, 0, 0.17},
+                {-1.52, 0, 0.17},
+                {-3.26, 0, 0.17},
+            },
+        }
+    }
+end
+
+
+function GetRecruitmentOptions()
+    return {
+        -- HoN.Core_Box.US.Rifle_Platoon_8th
+        ['u5hpl5'] = {Includes = {'Fire_Team', 'Support_Team', '_30cal'}},
+        ['de1bis'] = {Includes = {'Fire_Team', 'Support_Team', 'Bazooka'}},
+        ['sgzhof'] = {Includes = {'Recon_Team', 'Fire_Team', 'Support_Team'}},
+    }
+end
+
+function GetTurnCounterCoordinates()
+    return {
+        ['0f8c7e'] = {
+            InitiativeMarkerOrigin = {-0.61, -4.1},
+            EventMarkerOrigin      = { 0.61, -4.1},
+            MarkerSpacingVertical  = 1.19,
+        }
+    }
+end

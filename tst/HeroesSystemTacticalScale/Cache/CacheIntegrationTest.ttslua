@@ -44,3 +44,42 @@ function Test:GetGuidByAlias()
         assert(hasMatch, 'Test Failed: guid not found: ' .. tostring(actual[i]))
     end
 end
+
+function Test:GetValue_From_RecruitmentTiles()
+    -- HoN.Core_Box.US.Rifle_Platoon_8th.Recruitment_Tile
+    local guid = 'yma6kt'
+
+    local expected = {'Officer', 'Recon_Team', 'Fire_Team', 'Support_Team'}
+    local tile = GlobalCall('Cache.GetValue', guid, 'RecruitmentTiles')
+    local actual = tile.Includes
+
+    local err = AssertEquals(#expected, #actual); assert(not err, err)
+    for i,v in ipairs(actual) do
+        local err = AssertEquals(expected[i], actual[i]); assert(not err, err)
+    end
+end
+
+function Test:GetValue_From_RecruitmentOptions()
+    -- HoN.Core_Box.US.Rifle_Platoon_8th._30cal_Squad_Option
+    local guid = 'u5hpl5'
+
+    local expected = {'Fire_Team', 'Support_Team', '_30cal'}
+    local tile = GlobalCall('Cache.GetValue', guid, 'RecruitmentOptions')
+    local actual = tile.Includes
+
+    local err = AssertEquals(#expected, #actual); assert(not err, err)
+    for i,v in ipairs(actual) do
+        local err = AssertEquals(expected[i], actual[i]); assert(not err, err)
+    end
+end
+
+function Test:GetValue_From_TurnCounterCoordinates()
+    -- HoN.Core_Box.Tokens.Turn_Counter
+    local guid = '0f8c7e'
+
+    local expected = 1.19
+    local tile = GlobalCall('Cache.GetValue', guid, 'TurnCounterCoordinates')
+    local actual = tile.MarkerSpacingVertical
+
+    local err = AssertEquals(expected, actual); assert(not err, err)
+end
