@@ -1,3 +1,9 @@
 -- [[ Functions that are required to be included in Global. ]]------------------
-#include <TabletopSimulator/NestedObjects/GetNestedObjectFromGuids>
+#include <!/HeroesSystemTacticalScale/Cache/Cache>
+#include <!/TabletopSimulator/GlobalCall>
+
 --------------------------------------------------------------------------------
+
+function onLoad()
+    Cache.Initialize()
+end

@@ -10,6 +10,7 @@
 --[[ #include Integration Tests here. ]]
 -- #include <Resources/HeroesOfNormandie/Core_Box/CoreBoxIntegrationTest>
 -- #include <Resources/HeroesOfNormandie/Core_Box/LayoutSimpleScenario>
+#include <Cache/CacheIntegrationTest>
 #include <GameEngine/Controllers/TestScenarioController>
 -- #include <GameEngine/Views/TestTurnCounterView>
 

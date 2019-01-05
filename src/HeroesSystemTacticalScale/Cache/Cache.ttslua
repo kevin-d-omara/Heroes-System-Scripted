@@ -1,0 +1,200 @@
+#include <!/../lib/30log/class>
+
+#include <AliasMap>
+#include <!/Lua/Table/DeepCopy>
+#include <!/Lua/String/SplitString>
+#include <!/Lua/Table/GetElementFromNestedTables>
+#include <!/TabletopSimulator/Object/CallIfExists>
+#include <!/TabletopSimulator/NestedObjects/TTSObject>
+
+#include <!/HeroesSystemTacticalScale/DataAccess/Types/ProductInfo>
+
+--[[
+## Class
+public static class Cache
+{
+    -- Public Static Methods
+    void Initialize()
+    string GetGuid(path)
+    array<string> GetGuidArray(path)
+}
+
+## Summary
+Container for data obtained from Scripts on Objects in the Game World.
+
+Holds the following "tables":
+    * GuidTrees
+    * RecruitmentTiles
+    * RecruitmentOptions
+    * TurnCounterCoordinates
+    * Scenarios/Campaigns (?)
+
+## WARNING
+Must be included in the Global script, ex: `#include <HeroesSystemTacticalScale/Cache/Cache>`
+Must have Cache.Initialize() called before use, preferably in Global.onLoad()
+--]]
+
+Cache = class('Cache')
+
+Cache.GuidTrees = {}
+Cache.GuidAliasMap = AliasMap()
+Cache.Tables = {
+    RecruitmentTiles          = {},
+    RecruitmentOptions        = {},
+    TurnCounterCoordinates    = {},
+}
+
+--[[
+## Summary
+Return the GUID of an Object pointed to by the end of the path. The path may be an alias.
+
+## Throws
+Error if the path does not correspond to a key-value pair in the Cache.GuidTrees table.
+
+## Example
+Cache.GetGuid('HoN.Core_Box.Terrain.C2_B')          -- 's3c59t'
+Cache.GetGuid('HoN.Core_Box.Scenario.Bonus_Tactic') -- '5xr9v2', 'sl6ga0', 'ry23mt', 'ike4xf', or 'ujf56i'
+--]]
+function Cache.GetGuid(path)
+    local ttsObject = Cache._GetTTSObject(path)
+    return ttsObject.guid
+end
+
+--[[
+## Summary
+Return an array of GUIDs starting from the first Object in the path and ending with the last Object in the path. The path may be an alias.
+
+## Throws
+Error if the path does not correspond to a key-value pair in the Cache.GuidTrees table.
+
+## Example
+Cache.GetGuid('HoN.Core_Box.Terrain.C2_B')          -- { '5e407f', 'u6q28t', 's3c59t' }
+Cache.GetGuid('HoN.Core_Box.Scenario.Bonus_Tactic') -- { '5e407f', 'trlmgl', ('5xr9v2', 'sl6ga0', 'ry23mt', 'ike4xf', or 'ujf56i') }
+--]]
+function Cache.GetGuidArray(path)
+    local ttsObject = Cache._GetTTSObject(path)
+    return ttsObject:GetParentGuids()
+end
+
+function Cache._GetTTSObject(path)
+    assert(type(path) == 'string', "Argument [1] 'path': string expected, but got " .. type(path) .. ".")
+
+    local rawPath = Cache.GuidAliasMap:GetKey(path)
+    return Cache._GetTTSObjectWithoutUsingAlias(rawPath)
+end
+
+--[[
+## Throws
+Error if the path does not correspond to a key-value pair in the Cache.GuidTrees table.
+--]]
+function Cache._GetTTSObjectWithoutUsingAlias(path)
+    assert(type(path) == 'string', "Argument [1] 'path': string expected, but got " .. type(path) .. ".")
+
+    local ttsObject = GetElementFromNestedTables("Cache.GuidTrees." .. path)
+    assert(ttsObject, "TTSObject not found for path: '" .. tostring(path) .. "'. Check to make sure your spelling is correct and that all of the dependencies for this data exist.")
+
+    return ttsObject
+end
+
+--[[
+## Summary
+Find and collect data from Scripts attached to Game Objects.
+
+Collects data from Scripts which implement one or both of the following methods:
+    GetProductInfo()
+    GetAliases()
+
+Furthermore, Scripts with GetProductInfo defined will also have one ore more of the following methods:
+    GetGuidTree()
+    GetRecruitmentTiles()
+    GetRecruitmentOptions()
+    GetTurnCounterCoordinates()
+--]]
+function Cache.Initialize()
+    local objects = getAllObjects()
+
+    for i,object in ipairs(objects) do
+        local result = CallIfExists(object, 'GetProductInfo')
+        if result then
+            local productInfo = ProductInfo(result)
+            Cache._AddProduct(object, productInfo)
+        end
+    end
+
+    -- Add the aliases after adding all products in case an alias references another product.
+    for i,object in ipairs(objects) do
+        local aliases = CallIfExists(object, 'GetAliases')
+        Cache._AddGuidAliases(aliases)
+    end
+end
+
+function Cache._AddProduct(gameObject, info)
+    Cache._TryCacheGuidTree(gameObject, info)
+end
+
+function Cache._TryCacheGuidTree(gameObject, info)
+    local guids = CallIfExists(gameObject, 'GetGuidTree')
+    if guids then
+        local copiedGuids = DeepCopy(guids)
+        local guidTree = TTSObject.GenerateObjectTree(copiedGuids)
+
+        Cache._TryAddEmptyKey(info.Game, Cache.GuidTrees)
+        Cache.GuidTrees[info.Game][info.Name] = guidTree
+    end
+end
+
+function Cache._TryAddEmptyKey(key, tbl)
+    if not tbl[key] then
+        tbl[key] = {}
+    end
+end
+
+function Cache._AddGuidAliases(aliases)
+    if aliases ~= nil then
+        local randomMaps = aliases.RandomMaps
+        for i,map in ipairs(randomMaps) do
+            local alias     = map[1]
+            local keys      = map[2]
+            local options   = map[3]
+
+            if type(keys) == "table" then
+                Cache.GuidAliasMap:AddRandomMap(alias, keys, options)
+            else
+                local prefix, pattern, tbl = Cache._GetPreffixAndPostfix(keys)
+                Cache.GuidAliasMap:AddRandomMapByPattern(alias, prefix .. ".", pattern, tbl, options)
+            end
+        end
+    end
+end
+
+--[[
+## Parameters
+Split a table path into a prefix and postfix based on where the table doesn't have the next key.
+
+It works by splitting the string on '.' and then traversing the table until a key is nil.
+Then it returns the string up to that point as the preffix, and the remaining string as the pattern.
+
+Warning: this is not resilient to typos.
+
+## Return
+<string> prefix: The table path leading up to the missing key.
+<string> postfix: The table path from the missing key to the end.
+<table> tbl: The table that was missing the next key.
+
+## Example
+local foo = {bar = {baz = 'buz'}}
+Cache._GetPreffixAndPostfix("foo.bar.baz.b.*")  -- "foo.bar.baz", "buz", (table: foo.bar.baz)
+--]]
+function Cache._GetPreffixAndPostfix(str)
+    local keys = SplitString(str, ".")
+    local tbl = Cache._GetTTSObjectWithoutUsingAlias(keys[1])
+    for i = 2, #keys do
+        local nextTbl = tbl[keys[i]]
+        if nextTbl == nil then
+            local prefix  = table.concat(keys, ".", 1, i - 1)
+            local postfix = table.concat(keys, ".", i, #keys)
+            return prefix, postfix, tbl
+        end
+        tbl = nextTbl
+    end
+end

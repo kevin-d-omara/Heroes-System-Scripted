@@ -1,5 +1,5 @@
-#include <Database>
 #include <!/TabletopSimulator/Vector3>
+#include <!/TabletopSimulator/GlobalCall>
 #include <!/TabletopSimulator/NestedObjects/GetNestedObjectFromGuids>
 
 --[[
@@ -25,8 +25,7 @@ See: 'TabletopSimulator/NestedObjects/GetNestedObjectFromGuids'
     [Optional, defaults to nil.]
 --]]
 function Placement.PlaceTileOntoTable(tile, position, callback)
-    local ttsObject = Database.GetData(tile.Path)
-    local guidArray = ttsObject:GetParentGuids()
+    local guidArray = GlobalCall('Cache.GetGuidArray', tile.Path)
     GetNestedObjectFromGuids(guidArray, {
         position    = position,
         rotation    = Vector3.up * tile.Rotation,

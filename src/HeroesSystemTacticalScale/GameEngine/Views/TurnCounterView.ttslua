@@ -1,5 +1,5 @@
 #include <!/../lib/30log/class>
-#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Placement>
+#include <!/HeroesSystemTacticalScale/GameEngine/Placement>
 #include <!/TabletopSimulator/Vector2>
 
 --[[

@@ -1,0 +1,46 @@
+#include <!/TabletopSimulator/TTSTest/TestClass>
+#include <!/TabletopSimulator/GlobalCall>
+
+TestClass('Integration tests for the Cache class.')
+
+function Test:GetGuid()
+    local path = 'HoN.Core_Box.Terrain.House_1x1'
+
+    local expected = 'k9rozb'
+    local actual = GlobalCall('Cache.GetGuid', path)
+
+    local err = AssertEquals(expected, actual); assert(not err, err)
+end
+
+function Test:GetGuidArray()
+    local path = 'HoN.Core_Box.Terrain.House_1x1'
+
+    local expected = {'5e407f', 'u6q28t', 'k9rozb'}
+    local actual = GlobalCall('Cache.GetGuidArray', path)
+
+    local err = AssertEquals(#expected, #actual); assert(not err, err)
+    for i,_ in ipairs(expected) do
+        local err = AssertEquals(expected[i], actual[i]); assert(not err, err)
+    end
+end
+
+function Test:GetGuidByAlias()
+    local path = 'HoN.Core_Box.Terrain.Position'
+
+    local expected = {'t3veqf', 'epuht9', 'up7rdn', 'xgo9xl'}
+    local actual = {}
+    for i = 1, #expected do
+        -- This alias has sample without replacement enabled,
+        -- so we can expect that all four guids will be returned for each set of 4 calls.
+        actual[i] = GlobalCall('Cache.GetGuid', path)
+    end
+
+    for i,_ in ipairs(actual) do
+        local hasMatch = false
+        for j,_ in ipairs(expected) do
+            hasMatch = (actual[i] == expected[j])
+            if hasMatch then break end
+        end
+        assert(hasMatch, 'Test Failed: guid not found: ' .. tostring(actual[i]))
+    end
+end

@@ -6,5 +6,6 @@ function GetProductInfo()
 end
 
 #include <objects>
+#include <guids>
 #include <aliases>
 #include <Scenarios/Campaign>

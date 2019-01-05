@@ -1,0 +1,24 @@
+#include <!/../lib/30log/class>
+
+--[[
+## Class
+public class ProductInfo
+{
+    -- Public Fields
+    public string Game      -- The Game System this product belongs to (i.e. 'HoN', 'SoN', etc.).
+    public string Name      -- The name of this product (i.e. 'Core_Box', 'St_Mere_Eglise', etc.).
+
+    -- Constructor
+    ProductInfo(data)
+}
+--]]
+ProductInfo = class('ProductInfo')
+
+function ProductInfo:init(data)
+    assert(type(data) == 'table', "Argument [1] data: table expected, but got " .. type(data) .. ".")
+    assert(type(data.Game) == 'string', "Argument [1] data.Game: string expected, but got " .. type(data.Game) .. ".")
+    assert(type(data.Name) == 'string', "Argument [1] data.Name: string expected, but got " .. type(data.Name) .. ".")
+
+    self.Game = data.Game
+    self.Name = data.Name
+end
