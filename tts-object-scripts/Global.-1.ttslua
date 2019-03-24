@@ -8,12 +8,48 @@
 #include <!/HeroesSystemTacticalScale/GameEngine/Controllers/ScenarioController>
 
 
+local customUiAssets = {
+    -- Scenarios
+    {name = "scenario-image-hon-core-01", url = "https://drive.google.com/uc?export=download&id=13lDBITZANSKUJ53ZkhQx2WPTgwBNQd8O"},
+    {name = "scenario-image-hon-core-02", url = "https://drive.google.com/uc?export=download&id=16oBo3bGbe4lF4J8ZwJ4CRAXDvB7ELrIt"},
+    {name = "scenario-image-hon-core-03", url = "https://drive.google.com/uc?export=download&id=1CFpcKAhx7WWpwE9_sXAlI6FRPp_UTqpz"},
+    {name = "scenario-image-hon-core-04", url = "https://drive.google.com/uc?export=download&id=1EvAsmqDKVwFqV3AzXzup5YmNoyzDEz3W"},
+    {name = "scenario-image-hon-core-05", url = "https://drive.google.com/uc?export=download&id=1tfVLfsPhYqPPu4jBxtWTFRyBik457PlZ"},
+    {name = "scenario-image-hon-core-06", url = "https://drive.google.com/uc?export=download&id=10jF0UMi_cB9V4EAw8s-169MUoAoQ7IF-"},
+    {name = "scenario-image-hon-core-07", url = "https://drive.google.com/uc?export=download&id=1FalOVWFiAFKqfJEbz6edS-I12Ynm-Stb"},
+    {name = "scenario-image-hon-core-08", url = "https://drive.google.com/uc?export=download&id=1vd61Xx33XJleasDTdyEYbudTtQ7d5p5e"},
+    {name = "scenario-image-hon-core-09", url = "https://drive.google.com/uc?export=download&id=16QdcKOvUx8zfNKDAauqa4ijkLlZa7hhx"},
+    {name = "scenario-image-hon-core-10", url = "https://drive.google.com/uc?export=download&id=1IwlLdsTTB3qhMZYikt9v3ITVegxxD8aY"},
+}
+
+
 function onLoad()
     -- We have to use both databases since this mod was launched in the middle of a database migration.
     Database.Initialize()   -- For scenario reference.
     Cache.Initialize()      -- For all else.
 
-    LayoutScenario("HoN.Core_Box", 1)
+    UI.setCustomAssets(customUiAssets)
+
+    -- LayoutScenario("HoN.Core_Box", 1)
+
+    function popup()
+        numberOfPlayers = 1
+        UI.setAttribute("ScenarioSelection", "active", "true")
+        UI.show("ScenarioSelection")
+        UI.setAttribute("ScenarioSelection", "showAnimationDelay", "0")
+    end
+
+    -- TODO: should this be >1 frame, or even no frames? Test with mod caching off and on, high and low power plan.
+    Wait.frames(popup, 1)
+end
+
+
+function OnClickScenario(_, _, id)
+    idParts = SplitString(id, '|')
+    campaignKey = idParts[1]
+    scenarioIndex = tonumber(idParts[2])
+
+    LayoutScenario(campaignKey, scenarioIndex)
 end
 
 

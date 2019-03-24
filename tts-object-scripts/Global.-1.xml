@@ -1,1 +1,77 @@
-<!-- Xml UI. See documentation: https://api.tabletopsimulator.com/ui/introUI/ -->
+<!-- Adapted from Tank Chess: https://steamcommunity.com/sharedfiles/filedetails/?id=1235274321 -->
+<Defaults>
+    <Panel class="BasePanel"
+        color="#8F8478"
+        outline="#635351"
+        outlineSize="2 -2"
+    />
+    <Button class="ScenarioButton"
+        padding="0 0 307 0"
+        textColor="#FFFFFF"
+        colors="#AD9F91|#C9B9A9|#756C63|rgba(0.78,0.78,0.78,0.5)"
+        onClick="OnClickScenario"
+    />
+    <Image class="ScenarioImage"
+        width="216"
+        height="306"
+        rectAlignment="UpperCenter"
+        offsetXY="0 -3"
+    />
+</Defaults>
+
+<!-- Scenario selection menu -->
+<Panel id="ScenarioSelection"
+        class="BasePanel"
+        width="968"
+        height="600"
+        rectAlignment="UpperCenter"
+        offsetXY="0 -250"
+        allowDragging="true"
+        active="false"
+        showAnimationDelay="1.5"
+        showAnimation="Grow"
+        hideAnimation="Shrink"
+        returnToOriginalPositionWhenReleased="false">
+    <Text text="Choose a Scenario" alignment="UpperLeft" fontSize="18" offsetXY="5 0" fontStyle="Bold" color="#FFFFFF"/>
+    <VerticalScrollView
+        rectAlignment="LowerCenter"
+        offsetXY="0 -00"
+        scrollSensitivity="40"
+        padding="0 0 50 0"
+        scrollbarColors="#AD9F91|#C9B9A9|#756C63|rgba(0.78,0.78,0.78,0.5)"
+        width="968"
+        height="580"
+        color="#DDDDDD">
+        <GridLayout padding="0 0 8 3" spacing="8 8"  height="1600" cellsize="222 352" childAlignment="UpperCenter">
+                <Button id='HoN.Core_Box|1' class="ScenarioButton" text="Godsend">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-01"></Image></Button>
+                <Button id='HoN.Core_Box|2' class="ScenarioButton" text="Saving Private Rex!">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-02"></Image></Button>
+                <Button id='HoN.Core_Box|3' class="ScenarioButton" text="Plain Carnage">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-03"></Image></Button>
+                <Button id='HoN.Core_Box|4' class="ScenarioButton" text="Slaughterhouse (5)">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-04"></Image></Button>
+                <Button id='HoN.Core_Box|5' class="ScenarioButton" text="My Heart Goes Boom!">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-05"></Image></Button>
+                <Button id='HoN.Core_Box|6' class="ScenarioButton" text="The Road to Death">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-06"></Image></Button>
+                <Button id='HoN.Core_Box|7' class="ScenarioButton" text="Out of Gas">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-07"></Image></Button>
+                <Button id='HoN.Core_Box|8' class="ScenarioButton" text="War, It's a Mess!">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-08"></Image></Button>
+                <Button id='HoN.Core_Box|9' class="ScenarioButton" text="The Best Defense is a Good Offense!">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-09"></Image></Button>
+                <Button id='HoN.Core_Box|10' class="ScenarioButton" text="Tempest of Fire">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-10"></Image></Button>
+        </GridLayout>
+    </VerticalScrollView>
+    <Button id="CloseScenarioSelection"
+            width="20"
+            height="20"
+            rectAlignment="UpperRight"
+            color="#990000"
+            textColor="#FFFFFF"
+            text="X"
+            onClick="switchCleanupToClose">
+    </Button>
+</Panel>
