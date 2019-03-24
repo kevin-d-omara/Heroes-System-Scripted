@@ -1,9 +1,34 @@
 -- [[ Functions that are required to be included in Global. ]]------------------
-#include <!/HeroesSystemTacticalScale/Cache/Cache>
 #include <!/TabletopSimulator/GlobalCall>
-
+#include <!/TabletopSimulator/NestedObjects/GetNestedObjectFromGuids>
+#include <!/HeroesSystemTacticalScale/GameEngine/Persistence/Database>
+#include <!/HeroesSystemTacticalScale/Cache/Cache>
 --------------------------------------------------------------------------------
 
+#include <!/HeroesSystemTacticalScale/GameEngine/Controllers/ScenarioController>
+
+
 function onLoad()
-    Cache.Initialize()
+    -- We have to use both databases since this mod was launched in the middle of a database migration.
+    Database.Initialize()   -- For scenario reference.
+    Cache.Initialize()      -- For all else.
+
+    LayoutScenario("HoN.Core_Box", 1)
+end
+
+
+--[[
+Physically set up the specified scenario on the table.
+
+## Parameters
+campaignKey <string>: Key of the product which contains the scenarios (ex: "HoN.Core_Box").
+scenarioIndex <int>: Index of the scenario to set up.
+--]]
+function LayoutScenario(campaignKey, scenarioIndex)
+    local scenarios = Database.GetData(campaignKey .. ".Scenarios")
+    local scenario = scenarios[scenarioIndex]
+    local model = scenario.Model
+
+    local controller = ScenarioController(model)
+    controller:PhysicallySetupScenario()
 end
