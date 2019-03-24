@@ -19,8 +19,8 @@
     />
 </Defaults>
 
-<!-- Scenario selection menu -->
-<Panel id="ScenarioSelection"
+<!-- Scenario Selection menu -->
+<Panel id="ScenarioSelectionPanel"
         class="BasePanel"
         width="968"
         height="600"
@@ -36,13 +36,13 @@
     <VerticalScrollView
         rectAlignment="LowerCenter"
         offsetXY="0 -00"
-        scrollSensitivity="40"
+        scrollSensitivity="60"
         padding="0 0 50 0"
         scrollbarColors="#AD9F91|#C9B9A9|#756C63|rgba(0.78,0.78,0.78,0.5)"
         width="968"
         height="580"
         color="#DDDDDD">
-        <GridLayout padding="0 0 8 3" spacing="8 8"  height="1600" cellsize="222 352" childAlignment="UpperCenter">
+        <GridLayout padding="0 0 8 3" spacing="8 8"  height="1100" cellsize="222 352" childAlignment="UpperCenter">
                 <Button id='HoN.Core_Box|1' class="ScenarioButton" text="Godsend">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-01"></Image></Button>
                 <Button id='HoN.Core_Box|2' class="ScenarioButton" text="Saving Private Rex!">
@@ -65,13 +65,34 @@
                     <Image class="ScenarioImage" image="scenario-image-hon-core-10"></Image></Button>
         </GridLayout>
     </VerticalScrollView>
-    <Button id="CloseScenarioSelection"
+    <Button id="HideScenariosButton"
             width="20"
             height="20"
             rectAlignment="UpperRight"
             color="#990000"
             textColor="#FFFFFF"
             text="X"
-            onClick="switchCleanupToClose">
+            onClick="OnHideScenarios">
+    </Button>
+</Panel>
+
+
+<!-- Show Scenarios button -->
+<Panel id="ShowScenariosPanel" class="BasePanel"
+        rectAlignment="UpperLeft"
+        active="false"
+        offsetXY="240 -2"
+        raycastTarget="true"
+        width="100"
+        height="50"
+        allowDragging="true"
+        padding="5 5 5 5"
+        showAnimation="Grow"
+        hideAnimation="Shrink"
+        showAnimationDelay="0.5"
+        returnToOriginalPositionWhenReleased="false">
+    <Button id="ShowScenariosButton"
+            text="Show Scenarios"
+            onClick="OnShowScenarios">
     </Button>
 </Panel>

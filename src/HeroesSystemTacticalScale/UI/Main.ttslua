@@ -1,0 +1,39 @@
+--[[
+This file MUST be included on Global.
+--]]
+#include <CustomUIAssets>
+
+function InitializeUI()
+    UI.setCustomAssets(GetCustomUIAssets())
+
+    local function popup()
+        numberOfPlayers = 1
+        UI.setAttribute("ScenarioSelectionPanel", "active", "true")
+        UI.show("ScenarioSelectionPanel")
+        UI.setAttribute("ScenarioSelectionPanel", "showAnimationDelay", "0")
+    end
+
+    Wait.frames(popup, 1)
+end
+
+
+function OnClickScenario(_, _, id)
+    idParts = SplitString(id, '|')
+    campaignKey = idParts[1]
+    scenarioIndex = tonumber(idParts[2])
+
+    OnHideScenarios()
+    LayoutScenario(campaignKey, scenarioIndex)
+end
+
+
+function OnHideScenarios()
+    UI.hide("ScenarioSelectionPanel")
+    UI.show("ShowScenariosPanel")
+end
+
+
+function OnShowScenarios()
+    UI.show("ScenarioSelectionPanel")
+    UI.hide("ShowScenariosPanel")
+end
