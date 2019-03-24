@@ -1,0 +1,18 @@
+--[[
+Helper methods for Tabletop Simulator's UI system:
+https://api.tabletopsimulator.com/ui/
+https://api.tabletopsimulator.com/ui/introUI/
+--]]
+
+
+--[[
+Wrapper over `UI.hide()` which ensures dragged elemets maintain their current position.
+
+`UI.hide()` is bugged: it causes the element to revert back to it's original (XML-coded) position,
+despite being dragged somewhere else by the user.
+--]]
+function UI_hide(elementId)
+    UI.setAttribute(elementId, "active", "false")
+    UI.setAttribute(elementId, "active", "true")
+    UI.hide(elementId)
+end
