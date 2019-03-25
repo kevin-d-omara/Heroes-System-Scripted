@@ -1,0 +1,48 @@
+(See Steam Text Formatting: https://steamcommunity.com/comment/Recommendation/formattinghelp)
+
+# Workshop Title:
+Heroes of Normandie (scripted)
+
+# Workshop ID:
+1693445718
+
+# Workshop Thumbnail URL:
+https://drive.google.com/uc?export=download&id=1P14Hk58VK4Bp678HHTHviaDe6F3MJSa5
+
+# Game Types:
+Scripting
+Board Games
+
+## Number of Players
+2
+
+# Workshop Description:
+Heroes of Normandie Core Box w/ scripted scenario setup. With 1-click, automatically set-up the scenario's battlefield and turn tracker. Automatic setup of armies and action decks is coming soon.
+
+Mod Version 1.0
+
+[b]Rules & Scenarios:[/b]
+[*] Core Rulebook PDF [url=https://www.devil-pig-games.com/en/download/436/]download (v1.2b).[/url]
+[*] Core Scenarios PDF [url=https://www.devil-pig-games.com/en/download/1225/]download (v1.1b).[/url]
+[/list]
+
+[b]Contains:[/b]
+[*] [url=https://www.devil-pig-games.com/en/product/english-heroes-of-normandie-core-box/]Heroes of Normandie Core Box[/url]
+[/list]
+
+[b]Coming Soon:[/b]
+[*] [url=https://www.devil-pig-games.com/en/product/normandie-elite-squad/]Normandie Elite Squad[/url] (Miller's Rangers, Steiner Kampfgruppe, and FFI Colonel Bastien)
+[*] [url=https://www.devil-pig-games.com/en/product/nouvelles-unites-usge/]Extra Units US & GE[/url]
+[*] [url=https://www.devil-pig-games.com/en/product/us-rifle-platoon/]US Rifle Platoon 12th Division[/url]
+[*] [url=https://www.devil-pig-games.com/en/product/punchboards-derrata-gazette-n0-eng/]Gazette 0 (FFI)[/url]
+[*] Terrain boards from to-be-added expansions (D-Day, etc.)
+[*] Scripted setup of Armies and Action Decks.
+[/list]
+
+[b]Credits:[/b]
+[*] Thanks [url=https://steamcommunity.com/profiles/76561198053659499]Kyle W.[/url] for inspiring me with the [url=https://steamcommunity.com/sharedfiles/filedetails/?id=909237743&searchtext=doomheroes+of+normandie]HoN PnP Demo[/url] and providing positive encouragement along the way.
+[*] UI Menu adapted from [url=https://steamcommunity.com/sharedfiles/filedetails/?id=1235274321]Tank Chess[/url].
+[/list]
+
+[b]All Rights belong to Devil Pig Games:[/b]
+https://www.devil-pig-games.com
