@@ -28,7 +28,7 @@
         offsetXY="0 -250"
         allowDragging="true"
         active="false"
-        showAnimationDelay="1.5"
+        showAnimationDelay="0"
         showAnimation="Grow"
         hideAnimation="Shrink"
         returnToOriginalPositionWhenReleased="false">

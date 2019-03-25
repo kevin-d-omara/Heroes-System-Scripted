@@ -7,14 +7,11 @@ This file MUST be included on Global.
 function InitializeUI()
     UI.setCustomAssets(GetCustomUIAssets())
 
-    local function popup()
-        numberOfPlayers = 1
-        UI.setAttribute("ScenarioSelectionPanel", "active", "true")
+    local function _showScenarios()
         UI.show("ScenarioSelectionPanel")
-        UI.setAttribute("ScenarioSelectionPanel", "showAnimationDelay", "0")
     end
 
-    Wait.frames(popup, 1)
+    Wait.frames(_showScenarios, 1)
 end
 
 
