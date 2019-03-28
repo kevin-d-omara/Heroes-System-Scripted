@@ -19,11 +19,11 @@ Board Games
 # Workshop Description:
 Heroes of Normandie Core Box w/ scripted scenario setup. With 1-click, automatically set-up the scenario's battlefield and turn tracker. Automatic setup of armies and action decks is coming soon.
 
-Mod Version 1.0
+Mod Version 1.0.2
 
 [b]Rules & Scenarios:[/b]
-[*] Core Rulebook PDF [url=https://www.devil-pig-games.com/en/download/436/]download (v1.2b).[/url]
-[*] Core Scenarios PDF [url=https://www.devil-pig-games.com/en/download/1225/]download (v1.1b).[/url]
+[*] Core Rulebook PDF [url=https://drive.google.com/file/d/1ld8pUsDrHiI-lGUjkoNVfy0BxGJMHE4i/view?usp=sharing]download (v1.2b).[/url]
+[*] Core Scenarios PDF [url=https://drive.google.com/file/d/1Kh6pDvRmZsSHuqW1tkLGz1wQZBijPIz3/view?usp=sharing]download (v1.1b).[/url]
 [/list]
 
 [b]Contains:[/b]
@@ -37,6 +37,10 @@ Mod Version 1.0
 [*] [url=https://www.devil-pig-games.com/en/product/punchboards-derrata-gazette-n0-eng/]Gazette 0 (FFI)[/url]
 [*] Terrain boards from to-be-added expansions (D-Day, etc.)
 [*] Scripted setup of Armies and Action Decks.
+[/list]
+
+[b]Code:[/b]
+[*] The scripting code is [url=https://github.com/kevin-d-omara/Heroes-System-Scripted]available on GitHub.[/url]
 [/list]
 
 [b]Credits:[/b]
