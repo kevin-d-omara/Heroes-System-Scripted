@@ -25,7 +25,7 @@ Physical representation of an entire Scenario.
 --]]
 
 ScenarioView = class('ScenarioView')
-ScenarioView.BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD = 3
+ScenarioView.BUFFER_BETWEEN_TURN_COUNTER_AND_BATTLEFIELD = 2.33
 
 --[[
 ## Parameters

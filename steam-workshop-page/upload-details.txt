@@ -19,7 +19,7 @@ Board Games
 # Workshop Description:
 Heroes of Normandie Core Box w/ scripted scenario setup. With 1-click, automatically set-up the scenario's battlefield and turn tracker. Automatic setup of armies and action decks is coming soon.
 
-Mod Version 1.1
+Mod Version 1.3.1
 
 [b]Rules & Scenarios:[/b]
 [*] Core Rulebook PDF [url=https://drive.google.com/file/d/1ld8pUsDrHiI-lGUjkoNVfy0BxGJMHE4i/view?usp=sharing]download (v1.2b).[/url]
@@ -30,13 +30,12 @@ Mod Version 1.1
 [*] [url=https://www.devil-pig-games.com/en/product/english-heroes-of-normandie-core-box/]Heroes of Normandie Core Box[/url]
 [*] [url=https://www.devil-pig-games.com/en/product/nouvelles-unites-usge/]Extra Units US & GE[/url]
 [*] [url=https://www.devil-pig-games.com/en/product/battleground-set/]Battleground Set 1[/url]
-[*] [url=https://www.devil-pig-games.com/en/product/steiner-kampfgruppe/]Steiner Kampfgruppe[/url]
-[*] [url=https://www.devil-pig-games.com/en/product/us-rifle-platoon/]US Rifle Platoon 12th Division[/url]
+[*] [url=https://www.devil-pig-games.com/en/product/normandie-elite-squad/]Normandie Elite Squad[/url] (Miller's Rangers, Steiner Kampfgruppe, and FFI Colonel Bastien)
 [*] [url=https://www.devil-pig-games.com/en/product/punchboards-derrata-gazette-n0-eng/]Gazette 0 (FFI)[/url]
+[*] [url=https://www.devil-pig-games.com/en/product/us-rifle-platoon/]US Rifle Platoon 12th Division[/url]
 [/list]
 
 [b]Coming Soon:[/b]
-[*] [url=https://www.devil-pig-games.com/en/product/normandie-elite-squad/]Normandie Elite Squad[/url] (Miller's Rangers, Steiner Kampfgruppe, and FFI Colonel Bastien)
 [*] Terrain boards from to-be-added expansions (D-Day, etc.)
 [*] Scripted setup of Armies and Action Decks.
 [/list]
