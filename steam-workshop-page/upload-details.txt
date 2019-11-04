@@ -19,15 +19,19 @@ Board Games
 # Workshop Description:
 Heroes of Normandie Core Box w/ scripted scenario setup. With 1-click, automatically set-up the scenario's battlefield and turn tracker. Automatic setup of armies and action decks is coming soon.
 
-Mod Version 1.4
-
 [b]Rules & Scenarios:[/b]
-[*] Core Rulebook PDF [url=https://drive.google.com/file/d/1ld8pUsDrHiI-lGUjkoNVfy0BxGJMHE4i/view?usp=sharing]download (v1.2b).[/url]
-[*] Core Scenarios PDF [url=https://drive.google.com/file/d/1Kh6pDvRmZsSHuqW1tkLGz1wQZBijPIz3/view?usp=sharing]download (v1.1b).[/url]
+[*] Core Rulebook PDF [url=https://drive.google.com/file/d/1ld8pUsDrHiI-lGUjkoNVfy0BxGJMHE4i/view?usp=sharing]download (v1.2b)[/url]
+[*] Core Scenarios PDF [url=https://drive.google.com/file/d/1Kh6pDvRmZsSHuqW1tkLGz1wQZBijPIz3/view?usp=sharing]download (v1.1b)[/url]
+[*] UK Army Rules [url=https://drive.google.com/open?id=1OCEe1M0ihQ5eH_QUlSQHUIQ-W_HjdeQH]download (v1.2)[/url]
+[*] Flamethrower Rules [url=https://drive.google.com/open?id=16f9V-c37bEY5KHSNOTqKoAJfVbi_ilNy]download[/url]
 [/list]
 
 [b]Contains:[/b]
 [*] [url=https://www.devil-pig-games.com/en/product/english-heroes-of-normandie-core-box/]Heroes of Normandie Core Box[/url]
+[*] [url=https://www.devil-pig-games.com/en/product/commonwealth-army-box/]UK Army Box[/url]
+[*] [url=https://www.devil-pig-games.com/en/dlm_download/les-commandos-de-lord-lovat-version-1/]Lord Lovat's Commandos (V1)[/url]
+[*] [url=https://www.devil-pig-games.com/en/product/british-weapon-platoon-alt/]British Weapons Platoon (alt)[/url]
+[*] [url=https://www.devil-pig-games.com/en/product/canadian-infplatoon-alt/]Canadian Infantry Platoon (alt)[/url]
 [*] [url=https://www.devil-pig-games.com/en/product/nouvelles-unites-usge/]Extra Units US & GE[/url]
 [*] [url=https://www.devil-pig-games.com/en/product/battleground-set/]Battleground Set 1[/url]
 [*] [url=https://www.devil-pig-games.com/en/product/normandie-elite-squad/]Normandie Elite Squad[/url] (Miller's Rangers, Steiner Kampfgruppe, and FFI Colonel Bastien)
@@ -36,6 +40,9 @@ Mod Version 1.4
 [/list]
 
 [b]Coming Soon:[/b]
+[*] [url=https://www.devil-pig-games.com/en/product/us-army-box-us/]US Army Box[/url]
+[*] [url=https://www.devil-pig-games.com/en/product/german-army-box/]German Army Box[/url]
+[*] [url=https://www.devil-pig-games.com/en/product/scenario-pack-carentan-3/]Carentan[/url]
 [*] Terrain boards from to-be-added expansions (D-Day, etc.)
 [*] Scripted setup of Armies and Action Decks.
 [/list]
