@@ -20,10 +20,10 @@ Board Games
 Heroes of Normandie Core Box w/ scripted scenario setup. With 1-click, automatically set-up the scenario's battlefield and turn tracker. Automatic setup of armies and action decks is coming soon.
 
 [b]Rules & Scenarios:[/b]
-[*] Core Rulebook PDF [url=https://drive.google.com/file/d/1ld8pUsDrHiI-lGUjkoNVfy0BxGJMHE4i/view?usp=sharing]download (v1.2b)[/url]
-[*] Core Scenarios PDF [url=https://drive.google.com/file/d/1Kh6pDvRmZsSHuqW1tkLGz1wQZBijPIz3/view?usp=sharing]download (v1.1b)[/url]
-[*] UK Army Rules [url=https://drive.google.com/open?id=1OCEe1M0ihQ5eH_QUlSQHUIQ-W_HjdeQH]download (v1.2)[/url]
-[*] Flamethrower Rules [url=https://drive.google.com/open?id=16f9V-c37bEY5KHSNOTqKoAJfVbi_ilNy]download[/url]
+[*] [url=https://drive.google.com/file/d/1ld8pUsDrHiI-lGUjkoNVfy0BxGJMHE4i/view?usp=sharing]Core Rulebook PDF (v1.2b)[/url]
+[*] [url=https://drive.google.com/file/d/1Kh6pDvRmZsSHuqW1tkLGz1wQZBijPIz3/view?usp=sharing]Core Scenarios PDF (v1.1b)[/url]
+[*] [url=https://drive.google.com/open?id=1OCEe1M0ihQ5eH_QUlSQHUIQ-W_HjdeQH]UK Army Rules (v1.2)[/url]
+[*] [url=https://drive.google.com/open?id=16f9V-c37bEY5KHSNOTqKoAJfVbi_ilNy]Flamethrower Rules[/url]
 [/list]
 
 [b]Contains:[/b]
