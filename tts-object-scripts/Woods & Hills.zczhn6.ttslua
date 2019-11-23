@@ -1,0 +1,4 @@
+GUIDs = {
+    ["lower-resolution-smaller-filesize-for-tts"] = 'zjlzgq',
+    ["full-resolution"] = '5jjld5',
+}

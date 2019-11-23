@@ -10,6 +10,8 @@
 
 
 function onLoad()
+    DisableInteractivity()
+
     -- We have to use both databases since this mod was launched in the middle of a database migration.
     Database.Initialize()   -- For scenario reference.
     Cache.Initialize()      -- For all else.
@@ -32,4 +34,15 @@ function LayoutScenario(campaignKey, scenarioIndex)
 
     local controller = ScenarioController(model)
     controller:PhysicallySetupScenario()
+end
+
+
+function DisableInteractivity()
+    local guidsToDisable = {
+        'ba65e4',   -- Terrain Table
+        '4e969f',   -- Armies Table
+    }
+    for _,guid in ipairs(guidsToDisable) do
+        getObjectFromGUID(guid).interactable = false
+    end
 end
