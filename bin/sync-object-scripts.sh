@@ -14,7 +14,7 @@
 # Please update the sections below where the phrase "DEVELOPER" is posted.
 
 # DEVELOPER: Put in the username for the operating system you are developing on.
-USERNAME_WINDOWS="Kevin O'Mara"
+USERNAME_WINDOWS="Kevin O'Mara.000"
 USERNAME_MAC=""
 USERNAME_LINUX=""
 
