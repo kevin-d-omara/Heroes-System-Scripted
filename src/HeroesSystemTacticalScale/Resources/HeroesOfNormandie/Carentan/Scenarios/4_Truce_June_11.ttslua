@@ -1,0 +1,65 @@
+Truce_June_11 = {}
+
+function Truce_June_11.GetScenarioConfig()
+    return {
+        Name = "Truce, June 11",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C3_A",        {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.C1_A",        {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C2_A",        {rotation = 180}},
+                    {"HoN.carentan.terrain_board.ca4_b", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C4_A",        {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C6_B",        {rotation =  90}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.House_1x1", "C1_A", {6,2},   "interspace", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.House_2x2", "C1_A", {3,3},   "space"     , {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.House_2x1", "C4_A", {3,6.5}, "space"     , {rotation =  90}},
+
+                    {"HoN.Core_Box.Terrain.Pond",    "C4_A", {6.5,7}, "space"},
+
+                    {"HoN.Core_Box.Terrain.Thicket", "C1_A", {2,7}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C1_A", {1,1}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C1_A", {7,6}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C2_A", {6,5}, "space"},
+                },
+                Objects = {
+                    {"HoN.Core_Box.Tokens.Primary_Objective_GE", "C1_A",  {3,3},   "space"},
+                    {"HoN.Core_Box.Tokens.Primary_Objective_US", "C4_A",  {3,6.5}, "space"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B", {2,6}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C2_A", {6,2}, "interspace"},
+
+                    -- HACK: should be X=0, but occasionally it will appear under the board.
+                    -- By slightly offsetting it it seems to consistently appear on top of the board.
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_A", {0.001,4}, "interspace"},
+
+                    {"HoN.carentan.campaign.reminder_scenario_4", "C6_B", {2,4}, "interspace"},
+
+                    -- HACK: This should be done through a different interface.
+                    {"HoN.carentan.campaign.m_101_howitzer",     "C3_A", {-2.4,-0.3}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Primary_Objective_US", "C3_A", {-2.4,-0.3}, "interspace"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                }
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

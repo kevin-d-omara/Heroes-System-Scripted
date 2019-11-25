@@ -1,0 +1,189 @@
+function GetGuidTree()
+    return {
+        guid = '8a8tkc',
+        ["campaign"] = {
+            guid = 'ead385',
+
+            -- Campaign rule reminders
+            ["reminder_scenario_2"] = 'b21679',
+            ["reminder_scenario_3"] = 'a59946',
+            ["reminder_scenario_4"] = '75af4c',
+            ["reminder_scenario_6_zone_b_deployment"] = '4f2c8e',
+            ["reminder_scenario_6_zone_b_bonus_tactic"] = 'e1a35b',
+            ["reminder_scenario_6_zone_c_deployment"] = '89e05a',
+            ["reminder_scenario_6_zone_c_bonus_tactic"] = '3e5dd7',
+            ["reminder_generic"] = '9be879',
+
+            -- Artillery cards
+            ["88_mm_flak_18"]  = 'c80965',
+            ["nebelwerfer"]    = '207889',
+            ["m_101_howitzer"] = 'ae0565',
+
+            ["ruins_bag"] = 'vcov5c',
+
+            ["us_decks"] = {
+                guid = 'ff86c1',
+                ["scenario_1"] = '2e794a',
+                ["scenario_2"] = '376c07',
+                ["scenario_3"] = 'dab16d',
+                ["scenario_4"] = '64c589',
+                ["scenario_5"] = 'ee9181',
+                ["scenario_6"] = '6dc0ad',
+            },
+            ["ge_decks"] = {
+                guid = '55f65a',
+                ["scenario_1"] = 'c9a0da',
+                ["scenario_2"] = '5ca199',
+                ["scenario_3"] = 'dd3156',
+                ["scenario_4"] = 'f5076a',
+                ["scenario_5"] = 'ca5934',
+                ["scenario_6"] = '4292d3',
+            }
+        },
+        ['terrain_board'] = {
+            guid = 'mc3qpr',
+            ["ca1_a"] = 'o0akkw',
+            ["ca1_b"] = '3k1sun',
+            ["ca2_a"] = '6dpwu4',
+            ["ca2_b"] = '9kjju7',
+            ["ca3_a"] = 'n7f1a2',
+            ["ca3_b"] = 'x4ecm7',
+            ["ca4_a"] = 'u7vdh5',
+            ["ca4_b"] = 'r3sptm',
+            ["ca5_a"] = 'bjd8c8',
+            ["ca5_b"] = '7efc7m',
+            ["ca6_a"] = 'rcj940',
+            ["ca6_b"] = '5y3bjg',
+        },
+        ['terrain_overlay'] = {
+            guid = 'vcov5c',
+            -- The objects labelled "Token" are stateful objects, with state 2 == ruined side.
+            ["belgian_gate"]        = 'id3133',
+            ["destroyed_bridge"]    = 'x8bvwd',
+            -- Board 1
+            ["ca1_lavoir"]          = '4sasff',
+            ["ca1_maison_02"]       = 'py2b1s',
+            ["ca1_maison_01"]       = '0x4e2h', -- Token
+            ["ca1_maison_01_ruin"]  = 'ktdt5n',
+            ["ca1_epicerie"]        = '5wen4y', -- Token
+            ["ca1_epicerie_ruin"]   = 'ufcugj',
+            -- Board 2
+            ["ca2_maison_01"]       = 'xub2qw',
+            ["ca2_maison_02"]       = 'w3g5ro',
+            ["ca2_maison_04"]       = '27c49k', -- Token
+            ["ca2_maison_04_ruin"]  = 'q8n7g2',
+            ["ca2_maison_03"]       = 'j4l58p', -- Token
+            ["ca2_maison_03_ruin"]  = '1h9u6v',
+            -- Board 3
+            ["ca3_maison_01"]       = '5ci50w',
+            ["ca3_maison_03"]       = 'ep803c',
+            ["ca3_maison_02"]       = 'cjm8h8', -- Token
+            ["ca3_maison_02_ruin"]  = 'vukif7',
+            ["ca3_mairie"]          = '2v380f', -- Token
+            ["ca3_mairie_ruin"]     = 'rdxv5u',
+            -- Board 4
+            ["ca4_maison_01"]       = 'lqwhfa',
+            ["ca4_maison_02"]       = 'zqdf8l',
+            -- Board 5
+            ["ca5_remise_02"]       = '3k03t9',
+            ["ca5_remise_01"]       = 'f9dx9t', -- Token
+            ["ca5_remise_01_ruin"]  = '3s3qt7',
+        },
+        ['destruction_markers'] = {
+            guid = 'nvqjdh',
+            ["destruction_1"] = 'ktbxg3',
+            ["destruction_2"] = '2havaq',
+        },
+        ['fallschirmjager_ii_bat'] = {
+            guid = 'lr6109',
+            ["recruitment_tile"]        = 'q53zec',
+            ["stug_iv_option"]          = '00y7w3',
+            ["aufklarer_option"]        = '2ej04y',
+            ["officer"]                 = 'c9ij3g',
+            ["recon_group"]             = 'c85qy0',
+            ["fire_group"]              = 'o5hmvp',
+            ["assault_group"]           = 'rn9xow',
+            ["sturmfeuer"]              = 'qmx3yz',
+            ["stug_iv"]                 = 'z2shmm',
+        },
+        ['fallschirmjager_iii_bat'] = {
+            guid = 'qi2049',
+            ["recruitment_tile"]        = 'qca7a2',
+            ["heavy_weapons_option"]    = 'xzzlf2',
+            ["fallschirmjager_option"]  = 'ikoqu3',
+            ["officer"]                 = '7kr500',
+            ["recon_group"]             = 'kkxr40',
+            ["fire_group"]              = 'nwrhb0',
+            ["assault_group"]           = 'yl9qtv',
+            ["mg42_hmg"]                = 'u2mo7u',
+            ["panzerschreck"]           = 'tigcce',
+            ["8cm_granatwerfer"]        = 'v2jptq',
+            ["sturmfeuer"]              = 'd4m3sk',
+        },
+        ['grenadiere_regiment'] = {
+            guid = '7at5dg',
+            ["recruitment_tile"]            = '1vx9bf',
+            ["mg42_group_option"]           = 'vvkcvc',
+            ["panzerschreck_group_option"]  = 'hc6jnv',
+            ["officer"]                     = 'w36jo6',
+            ['fire_group']                  = 'vi9z19',
+            ["mg_42"]                       = 'xziwgv',
+            ["fire_group"]                  = 'vi9z19',
+            ["panzerschreck"]               = 'igvaf8',
+        },
+        ['feldkommando'] = {
+            guid = '83n7n4',
+            ["recruitment_tile"]    = 'al5ls0',
+            ["fortified_option"]    = '2uj6ib',
+            ["hydte"]               = 'zvpn30',
+            ["fortified"]           = 'suojdc',
+        },
+        ['options'] = {
+            guid = 'ziw4vm',
+            ["recruitment_tile_emil_preischkat"]        = '0fs0tv',
+            ["emil"]                                    = '9o3p94',
+
+            ["recruitment_tile_osttruppen_battalion"]   = 'bs647z',
+            ["osttruppen"]                              = 'iemnzc',
+
+            ["8cm_granatwerfer"]                    = 'gftd8b',
+            ["8cm_granatwerfer_option"]             = '4x23sz',
+            ["lg_42"]                               = 'f08za6',
+            ["10_5_cm_leichtgeschutz_42_option"]    = 'aw1awu',
+            ["camo"]                                = 'rdmab6',
+            ["camo_option"]                         = 'dpe1ec',
+            ["flak_38_quad"]                        = 'u45zv8',
+            ["flak_38_quad_option"]                 = 'n8l57l',
+            ["fortified"]                           = '86t0rr',
+            ["fortified_option"]                    = 'lgzy6u',
+            ["heroic"]                              = '6vue6p',
+            ["heroic_option"]                       = 'l80xbx',
+            ["kettenkrad"]                          = 'o51caq',
+            ["kettenkrad_option"]                   = '4r14l6',
+            ["lions_of_carentna_option"]            = 'tfvtqh',
+            ["mg42_hmg"]                            = '1sh3kw',
+            ["mg42_hmg_option"]                     = 'lhsvwo',
+            ["overwatch"]                           = '0oy8sj',
+            ["overwatch_option"]                    = 'ffyqbi',
+            ["pak_40"]                              = 'x06x9w',
+            ["pak_40_option"]                       = '7wteq1',
+            ["panzerschreck"]                       = 'nl70yc',
+            ["panzerschreck_option"]                = '2wr221',
+            ["puppchen"]                            = 'ljgbu9',
+            ["puppchen_option"]                     = 'gsk7s2',
+            ["scharfschutzen"]                      = '4b9bxf',
+            ["scharfschutzen_option"]               = 'ou24yg',
+            ["sd_kfz_10_5"]                         = 'wly2cs',
+            ["sd_kfz_10_5_option"]                  = 'lytbc6',
+            ["stug_h_42_g"]                         = '4k37k4',
+            ["stug_h_42_g_option"]                  = 'n6ale1',
+            ["stug_iv"]                             = 'avdb9t',
+            ["stug_iv_option"]                      = 'goklo9',
+        },
+        ['us_cole'] = {
+            guid = '84vihg',
+            ["recruitment_tile"]    = 'd36g6k',
+            ["cole"]                = 'rus19h',
+        },
+    }
+end

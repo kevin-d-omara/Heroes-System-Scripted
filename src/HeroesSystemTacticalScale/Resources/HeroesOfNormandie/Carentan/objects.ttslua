@@ -1,0 +1,88 @@
+function GetObjects()
+    return {
+        guid = '8a8tkc',
+        ["campaign"] = {
+            guid = 'ead385',
+
+            -- Campaign rule reminders
+            ["reminder_scenario_2"] = 'b21679',
+            ["reminder_scenario_3"] = 'a59946',
+            ["reminder_scenario_4"] = '75af4c',
+            ["reminder_scenario_6_zone_b_deployment"] = '4f2c8e',
+            ["reminder_scenario_6_zone_b_bonus_tactic"] = 'e1a35b',
+            ["reminder_scenario_6_zone_c_deployment"] = '89e05a',
+            ["reminder_scenario_6_zone_c_bonus_tactic"] = '3e5dd7',
+            ["reminder_generic"] = '9be879',
+
+            -- Artillery cards
+            ["88_mm_flak_18"]  = 'c80965',
+            ["nebelwerfer"]    = '207889',
+            ["m_101_howitzer"] = 'ae0565',
+
+            ["ruins_bag"] = 'vcov5c',
+
+            ["us_decks"] = {
+                guid = 'ff86c1',
+                ["scenario_1"] = '2e794a',
+                ["scenario_2"] = '376c07',
+                ["scenario_3"] = 'dab16d',
+                ["scenario_4"] = '64c589',
+                ["scenario_5"] = 'ee9181',
+                ["scenario_6"] = '6dc0ad',
+            },
+            ["ge_decks"] = {
+                guid = '55f65a',
+                ["scenario_1"] = 'c9a0da',
+                ["scenario_2"] = '5ca199',
+                ["scenario_3"] = 'dd3156',
+                ["scenario_4"] = 'f5076a',
+                ["scenario_5"] = 'ca5934',
+                ["scenario_6"] = '4292d3',
+            }
+        },
+        ['terrain_overlay'] = {
+            guid = 'vcov5c',
+            -- The objects labelled "Token" are stateful objects, with state 2 == ruined side.
+            ["belgian_gate"]        = 'id3133',
+            ["destroyed_bridge"]    = 'x8bvwd',
+            -- Board 1
+            ["ca1_lavoir"]          = '4sasff',
+            ["ca1_maison_02"]       = 'py2b1s',
+            ["ca1_maison_01"]       = '0x4e2h', -- Token
+            ["ca1_maison_01_ruin"]  = 'ktdt5n',
+            ["ca1_epicerie"]        = '5wen4y', -- Token
+            ["ca1_epicerie_ruin"]   = 'ufcugj',
+            -- Board 2
+            ["ca2_maison_01"]       = 'xub2qw',
+            ["ca2_maison_02"]       = 'w3g5ro',
+            ["ca2_maison_04"]       = '27c49k', -- Token
+            ["ca2_maison_04_ruin"]  = 'q8n7g2',
+            ["ca2_maison_03"]       = 'j4l58p', -- Token
+            ["ca2_maison_03_ruin"]  = '1h9u6v',
+            -- Board 3
+            ["ca3_maison_01"]       = '5ci50w',
+            ["ca3_maison_03"]       = 'ep803c',
+            ["ca3_maison_02"]       = 'cjm8h8', -- Token
+            ["ca3_maison_02_ruin"]  = 'vukif7',
+            ["ca3_mairie"]          = '2v380f', -- Token
+            ["ca3_mairie_ruin"]     = 'rdxv5u',
+            -- Board 4
+            ["ca4_maison_01"]       = 'lqwhfa',
+            ["ca4_maison_02"]       = 'zqdf8l',
+            -- Board 5
+            ["ca5_remise_02"]       = '3k03t9',
+            ["ca5_remise_01"]       = 'f9dx9t', -- Token
+            ["ca5_remise_01_ruin"]  = '3s3qt7',
+        },
+        ['destruction_markers'] = {
+            guid = 'nvqjdh',
+            ["destruction_1"] = 'ktbxg3',
+            ["destruction_2"] = '2havaq',
+        },
+
+        --[[
+        Not including the rest of the guids, because the scripted Scenario
+        setup only includes Terrain Boards & Terrain Overlays right now.
+        --]]
+    }
+end

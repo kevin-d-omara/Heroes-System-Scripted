@@ -1,0 +1,44 @@
+Belgian_Gate_June_10 = {}
+
+function Belgian_Gate_June_10.GetScenarioConfig()
+    return {
+        Name = "Belgian Gate, June 10",
+        Model = {
+            Battlefield = {
+                Width = 2,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.carentan.terrain_board.ca3_b", {rotation =   0}},
+                    {"HoN.carentan.terrain_board.ca1_b", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C3_A",        {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C1_B",        {rotation = 180}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Position",     "ca3_b", {4,6},   "space"},
+                    {"HoN.Core_Box.Terrain.Position_1x2", "ca1_b", {2.5,6}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket",      "ca3_b", {3,2},   "space"},
+                    {"HoN.Core_Box.Terrain.Thicket",      "ca3_b", {7,2},   "space"},
+                },
+                Objects = {
+                    {"HoN.carentan.terrain_overlay.belgian_gate", "ca1_b", {4,3.015},   "space", {rotation = 180}},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "ca3_b", {4,2}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "ca1_b", {1,1}, "interspace"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_GE",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_US",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [4] = "HoN.Core_Box.Tokens.Event_End",
+                }
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

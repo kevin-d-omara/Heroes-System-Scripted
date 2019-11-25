@@ -1,0 +1,46 @@
+-- TODO: move inside GetScenarios()
+#include <1_Belgian_Gate_June_10>
+#include <2_Purple_Heart_Lane_June_10>
+#include <3_Coles_Charge_June_11>
+#include <4_Truce_June_11>
+#include <5_Canal_De_Vire_Et_Taute_June_11>
+#include <6_Final_Assault_June_12>
+
+local Scenarios = {
+    Belgian_Gate_June_10,
+    Purple_Heart_Lane_June_10,
+    Coles_Charge_June_11,
+    Truce_June_11,
+    Canal_De_Vire_Et_Taute_June_11,
+    Final_Assault_June_12,
+}
+
+function GetCampaignInfo()
+    return {
+        System = 'HoN',
+        Package = 'carentan',
+        Campaign = 'Carentan_Campaign',
+        NumberOfScenarios = 6,
+        MinPlayers = 2,
+        MaxPlayers = 2,
+        MinTerrainBoards = 4,
+        MaxTerrainBoards = 12,
+        -- MinArmyPoints = ,
+        -- MaxArmyPoints = ,
+        -- MinOrders = ,
+        -- MaxOrders = ,
+        -- Narrative = ,
+    }
+end
+
+function GetNumberOfScenarios()
+    return 6
+end
+
+function GetScenarioInfo(index)
+    return Scenarios[index]
+end
+
+function GetScenarioConfig(args)
+    return Scenarios[args.index].GetScenarioConfig(args.campaignData, args.userInput)
+end

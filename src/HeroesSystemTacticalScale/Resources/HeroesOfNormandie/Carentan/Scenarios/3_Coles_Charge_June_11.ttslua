@@ -1,0 +1,55 @@
+Coles_Charge_June_11 = {}
+
+function Coles_Charge_June_11.GetScenarioConfig()
+    return {
+        Name = "Cole's Charge, June 11",
+        Model = {
+            Battlefield = {
+                Width = 2,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C3_A",        {rotation =  90}},
+                    {"HoN.carentan.terrain_board.ca2_b", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.C1_A",        {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C2_A",        {rotation = 180}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Thicket", "C3_A", {6,1}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C1_A", {2,7}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C1_A", {7,6}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C2_A", {6,5}, "space"},
+
+                    {"HoN.Core_Box.Terrain.House_2x2", "C1_A", {3,4}, "space"     , {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.House_1x1", "C1_A", {6,2}, "interspace", {rotation =  90}},
+                },
+                Objects = {
+                    {"HoN.Core_Box.Tokens.Primary_Objective_US", "C1_A", {3,4}, "space"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A",  {2,2}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "ca2_b", {3,2}, "interspace"},
+
+                    -- HACK: This should be done through a different interface.
+                    {"HoN.carentan.campaign.nebelwerfer",         "C3_A", {-2.4,-0.3}, "interspace"},
+                    {"HoN.carentan.campaign.reminder_scenario_3", "C3_A", {-2.4,-0.3}, "interspace"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [2] = "HoN.Core_Box.Tokens.Event_US",
+                    [4] = "HoN.Core_Box.Tokens.Event_GE",
+                    [6] = "HoN.Core_Box.Tokens.Event_GE",
+                    [7] = "HoN.Core_Box.Tokens.Event_End",
+                }
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

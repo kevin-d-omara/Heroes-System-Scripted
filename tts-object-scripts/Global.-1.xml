@@ -6,26 +6,28 @@
         outlineSize="2 -2"
     />
     <Button class="ScenarioButton"
-        padding="0 0 307 0"
+        padding="0 0 460 0"
         textColor="#FFFFFF"
+        fontSize="18"
         colors="#AD9F91|#C9B9A9|#756C63|rgba(0.78,0.78,0.78,0.5)"
         onClick="OnClickScenario"
     />
     <Image class="ScenarioImage"
-        width="216"
-        height="306"
+        width="324"
+        height="459"
         rectAlignment="UpperCenter"
         offsetXY="0 -3"
+        preserveAspect="true"
     />
 </Defaults>
 
 <!-- Scenario Selection menu -->
 <Panel id="ScenarioSelectionPanel"
         class="BasePanel"
-        width="968"
-        height="600"
-        rectAlignment="UpperCenter"
-        offsetXY="0 -250"
+        width="1392"
+        height="1070"
+        rectAlignment="MiddleCenter"
+        offsetXY="0 0"
         allowDragging="true"
         active="false"
         showAnimationDelay="0"
@@ -39,30 +41,52 @@
         scrollSensitivity="60"
         padding="0 0 50 0"
         scrollbarColors="#AD9F91|#C9B9A9|#756C63|rgba(0.78,0.78,0.78,0.5)"
-        width="968"
-        height="580"
+        width="1392"
+        height="1050"
         color="#DDDDDD">
-        <GridLayout padding="0 0 8 3" spacing="8 8"  height="1100" cellsize="222 352" childAlignment="UpperCenter">
-                <Button id='HoN.Core_Box|1' class="ScenarioButton" text="Godsend">
+        <GridLayout padding="0 0 8 3" spacing="8 8"  height="2580" cellsize="330 505" childAlignment="UpperCenter">
+                <!-- Core Box Scenarios -->
+                <Button id="HoN.Core_Box|Cover" class="ScenarioButton" text="Core Box" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#697231">
+                    <Image class="ScenarioImage" image="scenario-image-hon-core-cover"></Image></Button>
+                <Button id="HoN.Core_Box|1" class="ScenarioButton" text="Godsend">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-01"></Image></Button>
-                <Button id='HoN.Core_Box|2' class="ScenarioButton" text="Saving Private Rex!">
+                <Button id="HoN.Core_Box|2" class="ScenarioButton" text="Saving Private Rex!">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-02"></Image></Button>
-                <Button id='HoN.Core_Box|3' class="ScenarioButton" text="Plain Carnage">
+                <Button id="HoN.Core_Box|3" class="ScenarioButton" text="Plain Carnage">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-03"></Image></Button>
-                <Button id='HoN.Core_Box|4' class="ScenarioButton" text="Slaughterhouse (5)">
+                <Button id="HoN.Core_Box|4" class="ScenarioButton" text="Slaughterhouse (5)">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-04"></Image></Button>
-                <Button id='HoN.Core_Box|5' class="ScenarioButton" text="My Heart Goes Boom!">
+                <Button id="HoN.Core_Box|5" class="ScenarioButton" text="My Heart Goes Boom!">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-05"></Image></Button>
-                <Button id='HoN.Core_Box|6' class="ScenarioButton" text="The Road to Death">
+                <Button id="HoN.Core_Box|6" class="ScenarioButton" text="The Road to Death">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-06"></Image></Button>
-                <Button id='HoN.Core_Box|7' class="ScenarioButton" text="Out of Gas">
+                <Button id="HoN.Core_Box|7" class="ScenarioButton" text="Out of Gas">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-07"></Image></Button>
-                <Button id='HoN.Core_Box|8' class="ScenarioButton" text="War, It's a Mess!">
+                <Button id="HoN.Core_Box|8" class="ScenarioButton" text="War, It's a Mess!">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-08"></Image></Button>
-                <Button id='HoN.Core_Box|9' class="ScenarioButton" text="The Best Defense is a Good Offense!">
+                <Button id="HoN.Core_Box|9" class="ScenarioButton" text="The Best Defense is a Good Offense!">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-09"></Image></Button>
-                <Button id='HoN.Core_Box|10' class="ScenarioButton" text="Tempest of Fire">
+                <Button id="HoN.Core_Box|10" class="ScenarioButton" text="Tempest of Fire">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-10"></Image></Button>
+
+                <!-- Spacer(s) between Core & Carentan scenarios. -->
+                <Text/>
+
+                <!-- Carentan Scenarios -->
+                <Button id="HoN.carentan|Cover" class="ScenarioButton" text="Carentan" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#434A4E">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-cover"></Image></Button>
+                <Button id="HoN.carentan|1" class="ScenarioButton" text="Belgian Gate, June 10">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-01"></Image></Button>
+                <Button id="HoN.carentan|2" class="ScenarioButton" text="Purple Heart Lane, June 10">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-02"></Image></Button>
+                <Button id="HoN.carentan|3" class="ScenarioButton" text="Cole's Charge, June 11">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-03"></Image></Button>
+                <Button id="HoN.carentan|4" class="ScenarioButton" text="Truce, June 11">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-04"></Image></Button>
+                <Button id="HoN.carentan|5" class="ScenarioButton" text="Canal De Vire-Et-Taute, June 11">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-05"></Image></Button>
+                <Button id="HoN.carentan|6" class="ScenarioButton" text="Final Assault, June 12">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-06"></Image></Button>
         </GridLayout>
     </VerticalScrollView>
     <Button id="HideScenariosButton"
