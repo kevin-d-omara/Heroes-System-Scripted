@@ -14,3 +14,4 @@ The following are the tenets this mod follows:
 1. Rules reminders are nice, as long as they are non-intrusive and actually useful.
 1. Document everything well.
 1. Keep the mod moddable.
+1. When choosing between high fidelity and performance, always choose high fidelity. Assets are loaded once per session, but viewed many times and must be both legible and a pleasure to view.

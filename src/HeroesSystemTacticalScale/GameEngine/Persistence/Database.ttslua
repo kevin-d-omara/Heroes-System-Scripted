@@ -56,7 +56,7 @@ Searches the game world for all game objects that have product information provi
         GetObjects()    -- If the product has physical components (i.e. terrain tiles, recruitment tiles, etc.).
         GetScenarios()  -- If the product has scenarios.
 
-Aslo searches for game objects that have the following functions defined:
+Also searches for game objects that have the following functions defined:
     Optional:
         GetAliases()    -- If the product has any aliases. This may actually be used on its own, without GetProductInfo() being defined.
 
