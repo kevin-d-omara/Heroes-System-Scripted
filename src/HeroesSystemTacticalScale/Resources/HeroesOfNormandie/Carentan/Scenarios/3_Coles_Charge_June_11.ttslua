@@ -37,7 +37,7 @@ function Coles_Charge_June_11.GetScenarioConfig()
                 path = "HoN.Core_Box.Tokens.Turn_Counter",
                 initiativeMarkers = {
                     [1] = "HoN.Core_Box.Tokens.Initiative_US",
-                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                    [2] = "HoN.carentan.ge_airborne.initiative_marker",
                 },
                 useRandomInitiativeOrder = false,
                 eventMarkers = {

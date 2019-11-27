@@ -40,6 +40,14 @@ function GetObjects()
                 ["scenario_6"] = '4292d3',
             }
         },
+        ["ge_airborne"] = {
+            guid = 'i2qdim',
+            ["primary_objective"] = 'rtx6bl',
+            ["secondary_objective"] = 'z57lic',
+            ["initiative_marker"] = 'gv6j30',
+            ["order-tokens"] = '0d9595',
+            ["dice"] = '3a5ff6',
+        },
         ['terrain_overlay'] = {
             guid = 'vcov5c',
             -- The objects labelled "Token" are stateful objects, with state 2 == ruined side.

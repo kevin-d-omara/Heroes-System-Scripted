@@ -28,8 +28,8 @@ function Truce_June_11.GetScenarioConfig()
                     {"HoN.Core_Box.Terrain.Thicket", "C2_A", {6,5}, "space"},
                 },
                 Objects = {
-                    {"HoN.Core_Box.Tokens.Primary_Objective_GE", "C1_A",  {3,3},   "space"},
-                    {"HoN.Core_Box.Tokens.Primary_Objective_US", "C4_A",  {3,6.5}, "space"},
+                    {"HoN.carentan.ge_airborne.primary_objective", "C1_A",  {3,3},   "space"},
+                    {"HoN.Core_Box.Tokens.Primary_Objective_US",   "C4_A",  {3,6.5}, "space"},
 
                     {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B", {2,6}, "interspace"},
                     {"HoN.Core_Box.Tokens.Bonus_Tactic", "C2_A", {6,2}, "interspace"},
@@ -49,7 +49,7 @@ function Truce_June_11.GetScenarioConfig()
                 path = "HoN.Core_Box.Tokens.Turn_Counter",
                 initiativeMarkers = {
                     [1] = "HoN.Core_Box.Tokens.Initiative_US",
-                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                    [2] = "HoN.carentan.ge_airborne.initiative_marker",
                 },
                 useRandomInitiativeOrder = false,
                 eventMarkers = {

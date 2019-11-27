@@ -28,10 +28,10 @@ function Canal_De_Vire_Et_Taute_June_11.GetScenarioConfig()
                 },
                 Objects = {
                     {"HoN.Core_Box.Tokens.Primary_Objective_US", "ca1_a", {2,5.5}, "space"},
-                    {"HoN.Core_Box.Tokens.Primary_Objective_GE", "C4_A",  {4.5,2}, "space"},
-                    {"HoN.Core_Box.Tokens.Secondary_Objective",  "ca2_a", {6,6}, "space"},
-                    {"HoN.Core_Box.Tokens.Secondary_Objective",  "ca5_a", {2,6}, "space"},
-                    {"HoN.Core_Box.Tokens.Secondary_Objective",  "ca3_a", {6,6}, "space"},
+                    {"HoN.carentan.ge_airborne.primary_objective", "C4_A",  {4.5,2}, "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "ca2_a", {6,6}, "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "ca5_a", {2,6}, "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "ca3_a", {6,6}, "space"},
 
                     {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_A",  {4,4}, "interspace"},
                     {"HoN.Core_Box.Tokens.Bonus_Tactic", "ca5_a", {4,0}, "interspace"},
@@ -45,7 +45,7 @@ function Canal_De_Vire_Et_Taute_June_11.GetScenarioConfig()
                 path = "HoN.Core_Box.Tokens.Turn_Counter",
                 initiativeMarkers = {
                     [1] = "HoN.Core_Box.Tokens.Initiative_US",
-                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                    [2] = "HoN.carentan.ge_airborne.initiative_marker",
                 },
                 useRandomInitiativeOrder = false,
                 eventMarkers = {

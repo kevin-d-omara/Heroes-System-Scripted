@@ -58,7 +58,7 @@ function Final_Assault_June_12.GetScenarioConfig()
             TurnCounter = {
                 path = "HoN.Core_Box.Tokens.Turn_Counter",
                 initiativeMarkers = {
-                    [1] = "HoN.Core_Box.Tokens.Initiative_GE",
+                    [1] = "HoN.carentan.ge_airborne.initiative_marker",
                     [2] = "HoN.Core_Box.Tokens.Initiative_US",
                 },
                 useRandomInitiativeOrder = false,
