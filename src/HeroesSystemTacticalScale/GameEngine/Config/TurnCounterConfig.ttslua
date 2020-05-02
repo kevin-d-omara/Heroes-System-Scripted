@@ -11,6 +11,7 @@ public class TurnCounterConfig
     Tile WeatherTile
     array<Tile> InitiativeMarkers
     array<Tile> EventMarkers
+    array<table> ExtraObjects
 
     -- Constructors
     public TurnCounterConfig(data)
@@ -38,6 +39,13 @@ Use Tile to specify how the object should be placed (rotated and/or flipped over
         [Optional, defaults to nil (no event markers).]
     <bool> useRandomInitiativeOrder: True if the order of the initiative makers should be shuffled.
         [Optional, defaults to false.]
+    <array<table>> extraObjects: An optional array of extra objects to place near the TurnCounter, at an offset from the initiative marker.
+        [Optional, defaults to nil (no extra objects)]
+        -- TODO: Make a class for this table, like "TurnCounterExtraObject"
+        table:
+            <int> index: The index of the initiatve marker to start the offset from.
+            <string|Tile> tile: The tile to place.
+            <Vector2> offset: The offset from the index to place the piece at.
 --]]
 function TurnCounterConfig:init(data)
     self.TurnCounterTile = Tile({
@@ -63,6 +71,19 @@ function TurnCounterConfig:init(data)
     if data.eventMarkers ~= nil then
         for k,v in pairs(data.eventMarkers) do
             self.EventMarkers[k] = Tile(v)
+        end
+    end
+
+    -- Transform to Tile class.
+    self.ExtraObjects = {}
+    if data.extraObjects ~= nil then
+        for i,v in ipairs(data.extraObjects) do
+            -- TODO: Turn this into an actual class, like a "TurnCounterExtraObject".
+            self.ExtraObjects[i] = {
+                index = v.index,
+                tile = Tile(v.tile),
+                offset = v.offset
+            }
         end
     end
 

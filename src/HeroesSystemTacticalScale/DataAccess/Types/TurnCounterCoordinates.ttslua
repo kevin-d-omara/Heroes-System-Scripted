@@ -14,8 +14,8 @@ public class TurnCounterCoordinates
     public TurnCounterCoordinates(data)
 
     -- Public Methods
-    Vector2 GetOffsetForInitiativeMarker(index) -- Get the (x,y) offset between the center of this tile and the n'th initiatve marker space.
-    Vector2 GetOffsetForEventMarker(index)      -- Get the (x,y) offset between the center of this tile and the n'th event marker space.
+    Vector2 GetOffsetForInitiativeMarker(index) -- Get the (x,y) offset between the center of this tile and the n'th initiatve marker space + an optional offset.
+    Vector2 GetOffsetForEventMarker(index)      -- Get the (x,y) offset between the center of this tile and the n'th event marker space + an optional offset.
 }
 
 ## Summary
@@ -52,14 +52,20 @@ function TurnCounterCoordinates:init(data)
     return obj
 end
 
--- Get the (x,y) offset between the center of this tile and the n'th initiatve marker space.
-function TurnCounterCoordinates:GetOffsetForInitiativeMarker(index)
+-- Get the (x,y) offset between the center of this tile and the n'th initiatve marker space + an optional offset.
+function TurnCounterCoordinates:GetOffsetForInitiativeMarker(index, offset)
     if type(index) ~= 'number' then error("Argument [1] index: number expected, but got " .. tostring(type(index)) .. ".") end
-    return self.EventMarkerOrigin + Vector2.up * self.MarkerSpacingVertical * (index - 1)
+    local offset = offset or Vector2.zero
+    if type(offset) ~= 'table' then error("Argument [2] offset: table expected, but got " .. tostring(type(offset)) .. ".") end
+
+    return self.EventMarkerOrigin + Vector2(offset) + Vector2.up * self.MarkerSpacingVertical * (index - 1)
 end
 
--- Get the (x,y) offset between the center of this tile and the n'th event marker space.
-function TurnCounterCoordinates:GetOffsetForEventMarker(index)
+-- Get the (x,y) offset between the center of this tile and the n'th event marker space + an optional offset.
+function TurnCounterCoordinates:GetOffsetForEventMarker(index, offset)
     if type(index) ~= 'number' then error("Argument [1] index: number expected, but got " .. tostring(type(index)) .. ".") end
-    return self.InitiativeMarkerOrigin + Vector2.up * self.MarkerSpacingVertical * (index - 1)
+    local offset = offset or Vector2.zero
+    if type(offset) ~= 'table' then error("Argument [2] offset: table expected, but got " .. tostring(type(offset)) .. ".") end
+
+    return self.InitiativeMarkerOrigin + Vector2(offset) + Vector2.up * self.MarkerSpacingVertical * (index - 1)
 end

@@ -62,6 +62,11 @@ function TurnCounterView:_PlaceMarkers(object, callback)
     for k,v in pairs(self.Config.EventMarkers) do
         self:PlaceEventMarker(v, k)
     end
+    for _,v in pairs(self.Config.ExtraObjects) do
+        -- "v" is a "TurnCounterExtraObject" defined in "GameEngine.Config.TurnCounterConfig"
+        -- TODO: make actual class
+        self:PlaceExtraObject(v.tile, v.index, v.offset)
+    end
     if self.Config.WeatherTile ~= nil then
         self:PlaceWeatherMarker(self.Config.WeatherTile)
     end
@@ -76,6 +81,11 @@ end
 
 function TurnCounterView:PlaceEventMarker(tile, index)
     local localCoord = self.Coordinates:GetOffsetForEventMarker(index)
+    self:_PlaceMarker(tile, localCoord)
+end
+
+function TurnCounterView:PlaceExtraObject(tile, index, offset)
+    local localCoord = self.Coordinates:GetOffsetForInitiativeMarker(index, offset)
     self:_PlaceMarker(tile, localCoord)
 end
 
