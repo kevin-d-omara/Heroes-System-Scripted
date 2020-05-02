@@ -80,10 +80,8 @@ function TurnCounterView:PlaceEventMarker(tile, index)
 end
 
 function TurnCounterView:PlaceWeatherMarker(tile)
-    error("Not yet implemented.")
-    -- local localCoord = self.getBounds().size.z + self.WEATHER_MARKER_BUFFER
-    -- local worldCoord = self:getPosition() + localCoord
-    -- Place(tile, worldCoord)
+    local localCoord = self.Coordinates.WeatherTileOrigin
+    self:_PlaceMarker(tile, localCoord)
 end
 
 function TurnCounterView:_PlaceMarker(tile, localCoord)

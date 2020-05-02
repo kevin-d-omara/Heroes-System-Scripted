@@ -8,6 +8,7 @@ public class TurnCounterCoordinates : TTSObject
     -- Public Fields
     Vector2 InitiativeMarkerOrigin  -- The (x,y) offset from the center of this tile to the center of the first initiatve marker space.
     Vector2 EventMarkerOrigin       -- The (x,y) offset from the center of this tile to the center of the first event marker space.
+    Vector2 WeatherTileOrigin       -- The (x,y) offset from the center of this tile to the center of the weather tile.
     float MarkerSpacingVertical     -- The distance between successive marker spaces (for both initiatve markers and event markers).
 
     -- Constructors
@@ -29,6 +30,7 @@ TurnCounterCoordinates = TTSObject()
     <string> guid: The GUID of the Tabletop Simulator Object that this TurnCounter represents.
     <Vector2> InitiativeMarkerOrigin
     <Vector2> EventMarkerOrigin
+    <Vector2> WeatherTileOrigin
     float MarkerSpacingVertical
 --]]
 function TurnCounterCoordinates:new(parameters)
@@ -45,6 +47,9 @@ function TurnCounterCoordinates:new(parameters)
     if type(parameters.EventMarkerOrigin)  ~= 'table' then
         error("Argument [1] parameters.EventMarkerOrigin: table expected, but got " .. tostring(type(parameters.EventMarkerOrigin)) .. ".")
     end
+    if type(parameters.WeatherTileOrigin)  ~= 'table' then
+        error("Argument [1] parameters.WeatherTileOrigin: table expected, but got " .. tostring(type(parameters.WeatherTileOrigin)) .. ".")
+    end
     if type(parameters.MarkerSpacingVertical) ~= 'number' then
         error("Argument [1] parameters.MarkerSpacingVertical: number expected, but got " .. tostring(type(parameters.MarkerSpacingVertical)) .. ".")
     end
@@ -57,6 +62,7 @@ function TurnCounterCoordinates:new(parameters)
     obj.guid = parameters.guid
     obj.InitiativeMarkerOrigin  = Vector2(parameters.InitiativeMarkerOrigin)
     obj.EventMarkerOrigin       = Vector2(parameters.EventMarkerOrigin)
+    obj.WeatherTileOrigin       = Vector2(parameters.WeatherTileOrigin)
     obj.MarkerSpacingVertical   = parameters.MarkerSpacingVertical
 
     return obj

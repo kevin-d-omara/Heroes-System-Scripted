@@ -7,6 +7,7 @@ public class TurnCounterCoordinates
     -- Public Fields
     Vector2 InitiativeMarkerOrigin  -- The (x,y) offset from the center of this tile to the center of the first initiatve marker space.
     Vector2 EventMarkerOrigin       -- The (x,y) offset from the center of this tile to the center of the first event marker space.
+    Vector2 WeatherTileOrigin       -- The (x,y) offset from the center of this tile to the center of the weather tile.
     float MarkerSpacingVertical     -- The distance between successive marker spaces (for both initiatve markers and event markers).
 
     -- Constructor
@@ -28,17 +29,20 @@ setmetatable(TurnCounterCoordinates, { __call = function(self, ...) return self:
 ## Parameters
     <Vector2> InitiativeMarkerOrigin
     <Vector2> EventMarkerOrigin
+    <Vector2> WeatherTileOrigin
     float MarkerSpacingVertical
 --]]
 function TurnCounterCoordinates:init(data)
     assert(type(data) == 'table', "Argument [1] data: table expected, but got " .. type(data) .. ".")
     assert(type(data.InitiativeMarkerOrigin) == 'table', "Argument [1] data.InitiativeMarkerOrigin: table expected, but got " .. type(data.InitiativeMarkerOrigin) .. ".")
     assert(type(data.EventMarkerOrigin)      == 'table', "Argument [1] data.EventMarkerOrigin: table expected, but got " .. type(data.EventMarkerOrigin) .. ".")
+    assert(type(data.WeatherTileOrigin)      == 'table', "Argument [1] data.WeatherTileOrigin: table expected, but got " .. type(data.WeatherTileOrigin) .. ".")
     assert(type(data.MarkerSpacingVertical)  == 'number', "Argument [1] data.MarkerSpacingVertical: number expected, but got " .. type(data.MarkerSpacingVertical) .. ".")
 
     local obj = {
         InitiativeMarkerOrigin  = Vector2(data.InitiativeMarkerOrigin),
         EventMarkerOrigin       = Vector2(data.EventMarkerOrigin),
+        WeatherTileOrigin       = Vector2(data.WeatherTileOrigin),
         MarkerSpacingVertical   = data.MarkerSpacingVertical,
     }
 

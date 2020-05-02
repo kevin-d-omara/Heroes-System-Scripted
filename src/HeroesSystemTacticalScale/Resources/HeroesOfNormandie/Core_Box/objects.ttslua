@@ -44,8 +44,9 @@ function GetObjects()
             Turn_Counter        = {
                 class = 'TurnCounterCoordinates',
                 guid = '0f8c7e',
-                InitiativeMarkerOrigin = {-0.61, -4.1},
-                EventMarkerOrigin      = { 0.61, -4.1},
+                InitiativeMarkerOrigin = {-0.61, -4.10},
+                EventMarkerOrigin      = { 0.61, -4.10},
+                WeatherTileOrigin      = { 0.00, -6.93},
                 MarkerSpacingVertical  = 1.19,
             },
             Initiative_US       = 'urn3m6',

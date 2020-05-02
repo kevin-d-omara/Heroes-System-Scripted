@@ -33,6 +33,7 @@ function GetTurnCounterCoordinates()
         ['0f8c7e'] = {
             InitiativeMarkerOrigin = {-0.61, -4.1},
             EventMarkerOrigin      = { 0.61, -4.1},
+            WeatherTileOrigin      = { 0.00, -6.93},
             MarkerSpacingVertical  = 1.19,
         }
     }
