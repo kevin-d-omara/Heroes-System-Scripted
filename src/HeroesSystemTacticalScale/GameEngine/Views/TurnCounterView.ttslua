@@ -68,7 +68,10 @@ function TurnCounterView:_PlaceMarkers(object, callback)
         self:PlaceExtraObject(v.tile, v.index, v.offset)
     end
     if self.Config.WeatherTile ~= nil then
-        self:PlaceWeatherMarker(self.Config.WeatherTile)
+        self:_PlaceMarker(self.Config.WeatherTile, self.Coordinates.WeatherTileOrigin)
+    end
+    if self.Config.RuinsBag ~= nil then
+        self:_PlaceMarker(self.Config.RuinsBag, self.Coordinates.RuinsBagOrigin)
     end
 
     if callback ~= nil then callback() end
@@ -86,11 +89,6 @@ end
 
 function TurnCounterView:PlaceExtraObject(tile, index, offset)
     local localCoord = self.Coordinates:GetOffsetForInitiativeMarker(index, offset)
-    self:_PlaceMarker(tile, localCoord)
-end
-
-function TurnCounterView:PlaceWeatherMarker(tile)
-    local localCoord = self.Coordinates.WeatherTileOrigin
     self:_PlaceMarker(tile, localCoord)
 end
 

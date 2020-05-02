@@ -9,6 +9,7 @@ public class TurnCounterCoordinates : TTSObject
     Vector2 InitiativeMarkerOrigin  -- The (x,y) offset from the center of this tile to the center of the first initiatve marker space.
     Vector2 EventMarkerOrigin       -- The (x,y) offset from the center of this tile to the center of the first event marker space.
     Vector2 WeatherTileOrigin       -- The (x,y) offset from the center of this tile to the center of the weather tile.
+    Vector2 RuinsBagOrigin          -- The (x,y) offset from the center of this tile to the center of the ruins bag.
     float MarkerSpacingVertical     -- The distance between successive marker spaces (for both initiatve markers and event markers).
 
     -- Constructors
@@ -31,6 +32,7 @@ TurnCounterCoordinates = TTSObject()
     <Vector2> InitiativeMarkerOrigin
     <Vector2> EventMarkerOrigin
     <Vector2> WeatherTileOrigin
+    <Vector2> RuinsBagOrigin
     float MarkerSpacingVertical
 --]]
 function TurnCounterCoordinates:new(parameters)
@@ -50,6 +52,9 @@ function TurnCounterCoordinates:new(parameters)
     if type(parameters.WeatherTileOrigin)  ~= 'table' then
         error("Argument [1] parameters.WeatherTileOrigin: table expected, but got " .. tostring(type(parameters.WeatherTileOrigin)) .. ".")
     end
+    if type(parameters.RuinsBagOrigin)  ~= 'table' then
+        error("Argument [1] parameters.RuinsBagOrigin: table expected, but got " .. tostring(type(parameters.RuinsBagOrigin)) .. ".")
+    end
     if type(parameters.MarkerSpacingVertical) ~= 'number' then
         error("Argument [1] parameters.MarkerSpacingVertical: number expected, but got " .. tostring(type(parameters.MarkerSpacingVertical)) .. ".")
     end
@@ -63,6 +68,7 @@ function TurnCounterCoordinates:new(parameters)
     obj.InitiativeMarkerOrigin  = Vector2(parameters.InitiativeMarkerOrigin)
     obj.EventMarkerOrigin       = Vector2(parameters.EventMarkerOrigin)
     obj.WeatherTileOrigin       = Vector2(parameters.WeatherTileOrigin)
+    obj.RuinsBagOrigin          = Vector2(parameters.RuinsBagOrigin)
     obj.MarkerSpacingVertical   = parameters.MarkerSpacingVertical
 
     return obj

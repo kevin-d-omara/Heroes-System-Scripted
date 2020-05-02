@@ -47,6 +47,7 @@ function GetObjects()
                 InitiativeMarkerOrigin = {-0.61, -4.10},
                 EventMarkerOrigin      = { 0.61, -4.10},
                 WeatherTileOrigin      = { 0.00, -6.93},
+                RuinsBagOrigin         = { 0.00,  7.53},
                 MarkerSpacingVertical  = 1.19,
             },
             Initiative_US       = 'urn3m6',
