@@ -1,0 +1,80 @@
+La_Fiere_Part_One = {}
+
+function La_Fiere_Part_One.GetScenarioConfig()
+    return {
+        Name = "La Fière, Part One",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 3,
+                TerrainBoards = {
+                    {"HoN.sainte_mere_eglise.terrain_board.sm2_b", {rotation =   0}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm5_b", {rotation = 180}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm1_b", {rotation =   0}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm4_b", {rotation =  90}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm3_b", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.C1_B",                  {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C2_A",                  {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C4_B",                  {rotation = 180}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm6_a", {rotation = -90}},
+                },
+                TerrainTiles = {
+                    {"HoN.sainte_mere_eglise.terrain_overlays.la_fiere_grange",    "sm2_b", {3.5,2}, "space",    {rotation =  90}},
+                    {"HoN.sainte_mere_eglise.terrain_overlays.la_fiere",           "sm4_b", {5.5,1}, "space",    {rotation = 180}},
+                    -- Has small offset to align with grid:
+                    {"HoN.sainte_mere_eglise.terrain_overlays.la_fiere_maison_01", "sm4_b", {3.96,5.028}, "interspace", {rotation = -90}},
+
+                    {"HoN.Core_Box.Terrain.House_2x1", "sm4_b", {1.5, 2}, "space", {rotation = 0}},
+                    {"HoN.Core_Box.Terrain.House_1x1", "sm3_b", {5,2}, "interspace", {rotation = 0}},
+
+                    {"HoN.sainte_mere_eglise.terrain_overlays.sm3_maison_02", "sm3_b", {1.5,2}, "space", {rotation = 180}},
+                    {"HoN.sainte_mere_eglise.terrain_overlays.sm4_maison_01", "sm3_b", {2,5}, "interspace", {rotation = 90}},
+
+                    {"HoN.Core_Box.Terrain.Thicket", "C2_A", {2,6}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C2_A", {4,5}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C4_B", {2,5}, "space"},
+                },
+                Objects = {
+                    {"HoN.sainte_mere_eglise.us_airborne.primary_objective",   "sm4_b", {5,1},   "interspace"},
+                    {"HoN.sainte_mere_eglise.us_airborne.secondary_objective", "sm4_b", {1,1.5}, "interspace"},
+                    {"HoN.sainte_mere_eglise.us_airborne.secondary_objective", "sm4_b", {3.25,4.25},   "interspace"},
+                    {"HoN.sainte_mere_eglise.us_airborne.secondary_objective", "sm3_b", {2,5},   "interspace"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_B",  {0,4}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "sm6_a", {2,4}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "sm5_b", {4,3}, "interspace"},
+                    {"HoN.sainte_mere_eglise.campaign.reminder_scenario_5_reinforcements", "sm5_b", {4,3}, "interspace", {rotation = 180}},
+
+                    {"HoN.sainte_mere_eglise.campaign.reminder_scenario_5_deployment", "C2_A",  {4,1.5}, "space"},
+                    {"HoN.sainte_mere_eglise.campaign.reminder_scenario_5_deployment", "C4_B",  {4,1.5}, "space"},
+                    {"HoN.sainte_mere_eglise.campaign.reminder_scenario_5_deployment", "sm6_a", {4,1.5}, "space"},
+                },
+            },
+            TurnCounter = {
+                weatherTile = "HoN.sainte_mere_eglise.markers.weather_clear_night",
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.sainte_mere_eglise.us_airborne.initiative_marker",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [3] = "HoN.Core_Box.Tokens.Event_US",
+                    [5] = "HoN.sainte_mere_eglise.markers.event_sun",
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                ruinsBag = "HoN.sainte_mere_eglise.campaign.ruins_bag_la_fiere_scenarios",
+                extraObjects = {
+                    {
+                        index = 8,
+                        tile = {"HoN.sainte_mere_eglise.campaign.reminder_scenario_5_defensive_position", rotation = 0},
+                        offset = {2.2, 0.0}
+                    },
+                },
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

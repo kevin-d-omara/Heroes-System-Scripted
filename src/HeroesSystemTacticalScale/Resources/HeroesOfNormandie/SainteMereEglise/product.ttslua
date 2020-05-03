@@ -1,0 +1,10 @@
+function GetProductInfo()
+    return {
+        Game = "HoN",
+        Name = "sainte_mere_eglise",
+    }
+end
+
+#include <objects>
+#include <guids>
+#include <Scenarios/Campaign>

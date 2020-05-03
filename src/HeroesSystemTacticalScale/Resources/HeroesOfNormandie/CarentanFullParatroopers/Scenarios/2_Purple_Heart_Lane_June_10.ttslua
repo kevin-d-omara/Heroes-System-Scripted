@@ -1,0 +1,62 @@
+Purple_Heart_Lane_June_10 = {}
+
+function Purple_Heart_Lane_June_10.GetScenarioConfig()
+    return {
+        Name = "Purple Heart Lane, June 10",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C1_B",        {rotation = -90}},
+                    {"HoN.carentan.terrain_board.ca5_b", {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.C6_B",        {rotation = -90}},
+                    {"HoN.carentan.terrain_board.ca3_b", {rotation =   0}},
+                    {"HoN.carentan.terrain_board.ca1_b", {rotation = -90}},
+                    {"HoN.carentan.terrain_board.ca2_b", {rotation =   0}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Position_1x2", "C1_B",  {5.5,5}, "space"},
+                    {"HoN.Core_Box.Terrain.Position",     "C6_B",  {4,5},   "space"},
+                    {"HoN.Core_Box.Terrain.Thicket",      "C6_B",  {3,1},   "space"},
+                    {"HoN.Core_Box.Terrain.Thicket",      "C6_B",  {6,1},   "space", {rotation = 90}},
+                    {"HoN.Core_Box.Terrain.Thicket",      "ca2_b", {5,7},   "space", {rotation = 90}},
+                },
+                Objects = {
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C1_B",  {5,1}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "ca5_b", {5,1}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B",  {4,1}, "interspace"},
+
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "C1_B",  {2,4}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "ca5_b", {5,4}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "C6_B",  {5,4}, "interspace"},
+
+                    {"HoN.carentan.terrain_overlay.belgian_gate", "ca1_b", {4,3.015}, "space", {rotation = 180}},
+                    {"HoN.carentan.campaign.reminder_scenario_2", "ca1_b", {4,3.015}, "space"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.carentan.ge_airborne.initiative_marker",
+                    [2] = "HoN.sainte_mere_eglise.us_airborne.initiative_marker",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [4] = "HoN.Core_Box.Tokens.Event_GE",
+                    [6] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                extraObjects = {
+                    {
+                        index = 4,
+                        tile = {"HoN.carentan.campaign.88_mm_flak_18", rotation = 0},
+                        offset = {2.5, 0.0}
+                    },
+                },
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

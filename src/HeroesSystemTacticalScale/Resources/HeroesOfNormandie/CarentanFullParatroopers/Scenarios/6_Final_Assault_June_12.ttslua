@@ -1,0 +1,72 @@
+Final_Assault_June_12 = {}
+
+function Final_Assault_June_12.GetScenarioConfig()
+    return {
+        Name = "Final Assault, June 12",
+        Model = {
+            -- HACK: the entire Model is manually rotated 90 degress counter-clockwise to fit on the table.
+            Battlefield = {
+                Width = 4,
+                Height = 3,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C3_B",        {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C2_B",        {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.C6_B",        {rotation =   0}},
+                    {"HoN.carentan.terrain_board.ca6_a", {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.C5_A",        {rotation =   0}},
+                    {"HoN.carentan.terrain_board.ca3_a", {rotation =   0}},
+                    {"HoN.carentan.terrain_board.ca2_a", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C4_A",        {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C1_B",        {rotation =  90}},
+                    {"HoN.carentan.terrain_board.ca4_a", {rotation = -90}},
+                    {"HoN.carentan.terrain_board.ca1_a", {rotation =  90}},
+                    {"HoN.carentan.terrain_board.ca5_a", {rotation =  90}},
+
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Position_1x2", "ca3_a", {4.5,1}, "space"},
+                    {"HoN.Core_Box.Terrain.Position", "ca3_a", {5,5}, "space"},
+                    {"HoN.Core_Box.Terrain.Position", "ca2_a", {7,5}, "space"},
+
+                    {"HoN.Core_Box.Terrain.Thicket", "ca5_a",  {6,7}, "space"},
+
+                    {"HoN.Core_Box.Terrain.House_1x1", "C6_B", {5,1},   "interspace", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.House_2x2", "C2_B", {6,3},   "space"     , {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.House_2x1", "C5_A", {4.5,6}, "space"     , {rotation =   0}},
+                },
+                Objects = {
+                    {"HoN.sainte_mere_eglise.us_airborne.primary_objective", "ca2_a", {2,2},   "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective",  "ca2_a", {2,6.5}, "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective",  "ca3_a", {2,2},   "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective",  "ca4_a", {5,2.5}, "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective",  "ca1_a", {6,2},   "space"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C2_B", {1,1}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B", {1,1}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic",                              "C5_A", {6,2}, "interspace"},
+                    {"HoN.carentan.campaign.reminder_scenario_6_zone_b_bonus_tactic", "C5_A", {6,2}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic",                              "C4_A", {1,1}, "interspace"},
+                    {"HoN.carentan.campaign.reminder_scenario_6_zone_c_bonus_tactic", "C4_A", {1,1}, "interspace"},
+
+                    {"HoN.carentan.campaign.reminder_scenario_6_zone_b_deployment", "C5_A", {2,2}, "interspace"},
+                    {"HoN.carentan.campaign.reminder_scenario_6_zone_c_deployment", "C4_A", {6,4}, "space"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.carentan.ge_airborne.initiative_marker",
+                    [2] = "HoN.sainte_mere_eglise.us_airborne.initiative_marker",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                ruinsBag = "HoN.carentan.campaign.ruins_bag",
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

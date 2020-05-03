@@ -44,7 +44,25 @@
         width="1392"
         height="1050"
         color="#DDDDDD">
-        <GridLayout padding="0 0 8 3" spacing="8 8"  height="2580" cellsize="330 505" childAlignment="UpperCenter">
+        <GridLayout padding="0 0 8 3" spacing="8 8"  height="5145" cellsize="330 505" childAlignment="UpperCenter">
+                <!--
+                When adding new scenarios, need to do four things:
+
+                1) Increase the GridLayout height above by:
+                    513 * number_of_rows_of_new_scenarios
+                    Note: 513 = 505 + 8 = cellsize[y] + spacing[y] (from GridLayout above)
+
+                2) Add the scenario image preview URLs to:
+                    src/HeroesSystemTacticalScale/UI/CustomUIAssets.ttslua
+                    which are referenced by "image=" below.
+
+                3) Add the new ProductInfo to a bag in the game world. For example, see:
+                    tts-object-scripts/Carentan (scripting).___.ttslua for an example.
+
+                4) Add a '<Text/>' filler to make the new scenario count a multiple of four,
+                    otherwise the subsequent scenario covers won't start in the first column.
+                -->
+
                 <!-- Core Box Scenarios -->
                 <Button id="HoN.Core_Box|Cover" class="ScenarioButton" text="Core Box" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#697231">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-cover"></Image></Button>
@@ -69,8 +87,37 @@
                 <Button id="HoN.Core_Box|10" class="ScenarioButton" text="Tempest of Fire">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-10"></Image></Button>
 
-                <!-- Spacer(s) between Core & Carentan scenarios. -->
+                <!-- Empty Tile / Filler -->
                 <Text/>
+
+                <!-- Sainte Mere Eglise Scenarios -->
+                <Button id="HoN.sainte_mere_eglise|Cover" class="ScenarioButton" text="Sainte Mère Église" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#5C6C3F">
+                    <Image class="ScenarioImage" image="scenario-image-sainte-mere-eglise-cover"></Image></Button>
+                <Button id="HoN.sainte_mere_eglise|1" class="ScenarioButton" text="Pathfinders">
+                    <Image class="ScenarioImage" image="scenario-image-sainte-mere-eglise-01"></Image></Button>
+                <Button id="HoN.sainte_mere_eglise|2" class="ScenarioButton" text="Regroup!">
+                    <Image class="ScenarioImage" image="scenario-image-sainte-mere-eglise-02"></Image></Button>
+                <Button id="HoN.sainte_mere_eglise|3" class="ScenarioButton" text="Pigeon Shooting">
+                    <Image class="ScenarioImage" image="scenario-image-sainte-mere-eglise-03"></Image></Button>
+                <Button id="HoN.sainte_mere_eglise|4" class="ScenarioButton" text="When You've Gotta Go...">
+                    <Image class="ScenarioImage" image="scenario-image-sainte-mere-eglise-04"></Image></Button>
+                <Button id="HoN.sainte_mere_eglise|5" class="ScenarioButton" text="La Fière, Part One">
+                    <Image class="ScenarioImage" image="scenario-image-sainte-mere-eglise-05"></Image></Button>
+                <Button id="HoN.sainte_mere_eglise|6" class="ScenarioButton" text="La Fière, Part Two">
+                    <Image class="ScenarioImage" image="scenario-image-sainte-mere-eglise-06"></Image></Button>
+
+                <!-- Empty Tile / Filler -->
+                <Text/>
+
+                <!-- Gazette 3 Scenarios -->
+                <Button id="HoN.gazette_3|Cover" class="ScenarioButton" text="Gazette 3 - Easy Company" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#5C6C3F">
+                    <Image class="ScenarioImage" image="scenario-image-gazette-3-cover"></Image></Button>
+                <Button id="HoN.gazette_3|1" class="ScenarioButton" text="Rendezvous">
+                    <Image class="ScenarioImage" image="scenario-image-gazette-3-01"></Image></Button>
+                <Button id="HoN.gazette_3|2" class="ScenarioButton" text="Carentan, And After That?">
+                    <Image class="ScenarioImage" image="scenario-image-gazette-3-02"></Image></Button>
+                <Button id="HoN.gazette_3|3" class="ScenarioButton" text="Run Speirs, Run!">
+                    <Image class="ScenarioImage" image="scenario-image-gazette-3-03"></Image></Button>
 
                 <!-- Carentan Scenarios -->
                 <Button id="HoN.carentan|Cover" class="ScenarioButton" text="Carentan" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#434A4E">
@@ -86,6 +133,25 @@
                 <Button id="HoN.carentan|5" class="ScenarioButton" text="Canal De Vire-Et-Taute, June 11">
                     <Image class="ScenarioImage" image="scenario-image-carentan-05"></Image></Button>
                 <Button id="HoN.carentan|6" class="ScenarioButton" text="Final Assault, June 12">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-06"></Image></Button>
+
+                <!-- Empty Tile / Filler -->
+                <Text/>
+
+                <!-- Carentan Scenarios -->
+                <Button id="HoN.carentan_full_paratroopers|Cover" class="ScenarioButton" text="Carentan (Full Paratroopers)" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#434A4E">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-cover"></Image></Button>
+                <Button id="HoN.carentan_full_paratroopers|1" class="ScenarioButton" text="Belgian Gate, June 10">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-full-paratroopers-01"></Image></Button>
+                <Button id="HoN.carentan_full_paratroopers|2" class="ScenarioButton" text="Purple Heart Lane, June 10">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-full-paratroopers-02"></Image></Button>
+                <Button id="HoN.carentan_full_paratroopers|3" class="ScenarioButton" text="Cole's Charge, June 11">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-full-paratroopers-03"></Image></Button>
+                <Button id="HoN.carentan_full_paratroopers|4" class="ScenarioButton" text="Truce, June 11">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-full-paratroopers-04"></Image></Button>
+                <Button id="HoN.carentan_full_paratroopers|5" class="ScenarioButton" text="Canal De Vire-Et-Taute, June 11">
+                    <Image class="ScenarioImage" image="scenario-image-carentan-full-paratroopers-05"></Image></Button>
+                <Button id="HoN.carentan_full_paratroopers|6" class="ScenarioButton" text="Final Assault, June 12">
                     <Image class="ScenarioImage" image="scenario-image-carentan-06"></Image></Button>
         </GridLayout>
     </VerticalScrollView>

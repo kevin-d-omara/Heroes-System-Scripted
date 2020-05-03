@@ -1,0 +1,52 @@
+Rendezvous = {}
+
+function Rendezvous.GetScenarioConfig()
+    return {
+        Name = "Rendezvous",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C4_A", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C1_B", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C5_B", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C3_A", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C2_A", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C6_A", {rotation = 180}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Thicket", "C4_A", {2,2}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C5_B", {2,6}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C6_A", {3,2}, "space"},
+
+                    {"HoN.Core_Box.Terrain.House_1x1", "C5_B", {3,0},   "interspace", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.House_2x2", "C5_B", {6,2},   "space",      {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.House_2x1", "C6_A", {6,4.5}, "space",      {rotation = -90}},
+                },
+                Objects = {
+                    {"HoN.sainte_mere_eglise.us_airborne.primary_objective",   "C6_A", {6,6},   "interspace"},
+                    {"HoN.sainte_mere_eglise.us_airborne.secondary_objective", "C6_A", {6,4.5},   "space"},
+                    {"HoN.sainte_mere_eglise.us_airborne.secondary_objective", "C5_B", {6,2}, "space"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C1_B", {5,4}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C2_A", {6,2}, "interspace"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.sainte_mere_eglise.us_airborne.initiative_marker",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [6] = "HoN.Core_Box.Tokens.Event_End",
+                },
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

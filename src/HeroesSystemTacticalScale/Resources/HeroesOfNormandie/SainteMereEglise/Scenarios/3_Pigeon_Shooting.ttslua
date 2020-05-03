@@ -1,0 +1,62 @@
+Pigeon_Shooting = {}
+
+function Pigeon_Shooting.GetScenarioConfig()
+    return {
+        Name = "Pigeon Shooting",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.sainte_mere_eglise.terrain_board.sm1_a", {rotation =   0}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm3_a", {rotation = -90}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm6_b", {rotation = -90}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm2_a", {rotation =   0}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm4_a", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.C4_B",                  {rotation =  90}},
+                },
+                TerrainTiles = {
+                    {"HoN.sainte_mere_eglise.terrain_overlays.house_in_flames", "sm2_a", {2,2}, "space"},
+                    {"HoN.Core_Box.Terrain.House_2x2", "sm4_a", {6,2}, "space", {rotation =  90}},
+                    {"HoN.sainte_mere_eglise.terrain_overlays.la_fiere_grange", "sm6_b", {1.5,1}, "space", {rotation =  90}},
+
+                    -- HACK: Should be done through a different interface.
+                    {"HoN.sainte_mere_eglise.terrain_overlays.church_spire", "sm1_a", {-0.9,6.0}, "space"},
+                },
+                Objects = {
+                    {"HoN.Core_Box.GE.Panzergrenadiere_902.Halftrack_1", "sm1_a", {6,1.5}, "space"},
+                    {"HoN.Core_Box.GE.Panzergrenadiere_902.Halftrack_2", "sm1_a", {7,1.5}, "space"},
+                    {"HoN.Core_Box.Tokens.Suppression", "sm1_a", {6,1.5}, "space"},
+                    {"HoN.Core_Box.Tokens.Suppression", "sm1_a", {7,1.5}, "space"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "sm6_b", {4,0}, "interspace"},
+
+                    -- HACK: the .001 fixes a strange bug where the streetlamp is placed underneath the boards.
+                    {"HoN.sainte_mere_eglise.markers.streetlamp", "sm1_a", {4.001,1.001}, "interspace", {rotation =  90}},
+                    {"HoN.sainte_mere_eglise.markers.streetlamp", "sm1_a", {7,4}, "interspace", {rotation =  90}},
+                    {"HoN.sainte_mere_eglise.markers.streetlamp", "sm3_a", {3,0}, "interspace", {rotation =  90}},
+                    {"HoN.sainte_mere_eglise.markers.streetlamp", "sm3_a", {7,4}, "interspace", {rotation =  90}},
+                    {"HoN.sainte_mere_eglise.markers.streetlamp", "sm4_a", {0,4}, "interspace", {rotation =  90}},
+                    -- Note: This streetlamp is offset slightly to be on top of the house.
+                    {"HoN.sainte_mere_eglise.markers.streetlamp", "sm4_a", {4.13,2.87}, "interspace", {rotation =  90}},
+                },
+            },
+            TurnCounter = {
+                weatherTile = "HoN.sainte_mere_eglise.markers.weather_dark_night",
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.sainte_mere_eglise.us_airborne.initiative_marker",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [6] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                ruinsBag = "HoN.sainte_mere_eglise.campaign.ruins_bag"
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

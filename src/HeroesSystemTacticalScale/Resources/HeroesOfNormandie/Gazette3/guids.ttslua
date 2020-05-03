@@ -1,0 +1,40 @@
+function GetGuidTree()
+    return {
+        guid = 'jkwwmc',
+
+        ["haystacks_1"] = '51e904',
+        ["haystacks_2"] = 'bda4dc',
+        ["haystacks_3"] = '0922ae',
+        ["haystacks_4"] = 'a0747c',
+
+        ["recruitment_tile"] = '093d5c',
+        ["recruitment_tile_speirs"] = '8f4f57',
+        ["recruitment_tile_guarnere"] = '14njbt',
+        ["recruitment_tile_doc"] = 'xngc22',
+        ["speirs"] = 'iyce2g',
+        ["guarnere"] = 'upxok2',
+        ["eugene"] = 'diyxp0',
+        ["medic_token"] = 'sd51hv',
+
+        ["sgt_toye"] = '7bkwgl',
+        ["sgt_randeleman"] = 'cqqbq3',
+        ["sgt_lipton"] = '9tc4xi',
+
+        ["winters"] = '94srfu',
+        ["wynn"] = 'mt8ynx',
+        ["webster"] = 'gpxyko',
+        ["luz"] = 'rlo232',
+        ["malarkey"] = 'ogyxdj',
+        ["perconte"] = '6xt4yq',
+        ["mac_grath"] = 'o022pe',
+
+        ["2nd_platoon_option"] = '151652',
+        ["3rd_platoon_option"] = 'z4onq6',
+
+        ["band_of_brothers_option"] = 'oxjlk7',
+        ["currahee_option"] = 'pr4hpt',
+        ["currahee_double_time"] = '656252',
+        ["currahee_charge"] = '1c6de0',
+        ["currahee_guts"] = '96243a',
+    }
+end

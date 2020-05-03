@@ -1,0 +1,74 @@
+Pathfinders = {}
+
+function Pathfinders.GetScenarioConfig()
+    return {
+        Name = "Pathfinders",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C2_A",                  {rotation =   0}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm5_a", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C3_A",                  {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.C1_B",                  {rotation =  90}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm6_b", {rotation = -90}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm4_a", {rotation =   0}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Thicket", "sm6_b", {3,2}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "sm6_b", {5,1}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C3_A",  {1,2}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "sm4_a", {2,7}, "space"},
+                },
+                Objects = {
+                    {"HoN.sainte_mere_eglise.us_airborne.primary_objective",   "sm6_b",  {4,6}, "space"},
+                    {"HoN.sainte_mere_eglise.us_airborne.secondary_objective", "C1_B",   {5,2}, "space"},
+                    {"HoN.sainte_mere_eglise.us_airborne.secondary_objective", "sm5_a",  {4,2}, "space"},
+                    {"HoN.sainte_mere_eglise.us_airborne.secondary_objective", "C3_A",   {4,5}, "space"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "sm5_a", {3,0}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A",  {1,5}, "interspace"},
+                },
+            },
+            TurnCounter = {
+                weatherTile = "HoN.sainte_mere_eglise.markers.weather_dark_night",
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.sainte_mere_eglise.us_airborne.initiative_marker",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [6] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                ruinsBag = "HoN.sainte_mere_eglise.campaign.ruins_bag_scenario_1",
+                extraObjects = {
+                    {
+                        index = 1,
+                        tile = {"HoN.sainte_mere_eglise.markers.objective_halifane_light", rotation = 0},
+                        offset = {2.2, 0.0}
+                    },
+                    {
+                        index = 1,
+                        tile = {"HoN.sainte_mere_eglise.markers.objective_halifane_light", rotation = 0},
+                        offset = {3.6, 0.0}
+                    },
+                    {
+                        index = 1,
+                        tile = {"HoN.sainte_mere_eglise.markers.objective_halifane_light", rotation = 0},
+                        offset = {5.0, 0.0}
+                    },
+                    {
+                        index = 0,
+                        tile = {"HoN.sainte_mere_eglise.markers.objective_eureka_ground_radar", rotation = 0},
+                        offset = {3.6, 0.0}
+                    },
+                },
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

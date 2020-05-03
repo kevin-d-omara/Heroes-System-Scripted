@@ -20,8 +20,31 @@ local customUIAssets = {
     {name = "scenario-image-carentan-04", url = "https://drive.google.com/uc?export=download&id=1A8gUU2PF8qH1qMxoGZh7CQw69ctM6IdO"},
     {name = "scenario-image-carentan-05", url = "https://drive.google.com/uc?export=download&id=1xSAxsK1btWzw0E27paiRkPDq4Il4tP1q"},
     {name = "scenario-image-carentan-06", url = "https://drive.google.com/uc?export=download&id=1Ia7VoNRvKrg_5fgoLdLhxmX8EMBuoNt0"},
-}
 
+    -- Carentan Scenarios w/ Full Paratroopers
+    {name = "scenario-image-carentan-cover", url = "https://drive.google.com/uc?export=download&id=1KDsHDuaRspMneZjHWnDpbAC1lyiwS_NE"},
+    {name = "scenario-image-carentan-full-paratroopers-01", url = "https://drive.google.com/uc?export=download&id=1PTAcC8wUdQuL4ogABfSOE6iU8dplLErv"},
+    {name = "scenario-image-carentan-full-paratroopers-02", url = "https://drive.google.com/uc?export=download&id=1V58-8xzUZ0zkJPAi6M9RZWUkURj-v6sn"},
+    {name = "scenario-image-carentan-full-paratroopers-03", url = "https://drive.google.com/uc?export=download&id=15nxor1gvT53a6GSJy7PcGixlABpJ-LOJ"},
+    {name = "scenario-image-carentan-full-paratroopers-04", url = "https://drive.google.com/uc?export=download&id=1bh7fjUft6toArPGkI5-aELUc0ygwXwgn"},
+    {name = "scenario-image-carentan-full-paratroopers-05", url = "https://drive.google.com/uc?export=download&id=11I-oX5fR1xEIyHA-3erRUN8VTXFRssk2"},
+    {name = "scenario-image-carentan-full-paratroopers-06", url = "https://drive.google.com/uc?export=download&id=1bqd4L-r-eb-jJEbsAg1hxzgG34SyOuxQ"},
+
+    -- Sainte Mere Eglise Scenarios
+    {name = "scenario-image-sainte-mere-eglise-cover", url = "https://drive.google.com/uc?export=download&id=1tYhdKbcUJDKfb50zyhzZKGZ5hvHbwxTl"},
+    {name = "scenario-image-sainte-mere-eglise-01", url = "https://drive.google.com/uc?export=download&id=1HJ_U0-qxssoyZ4oKSpfKCFISRWlXnjnO"},
+    {name = "scenario-image-sainte-mere-eglise-02", url = "https://drive.google.com/uc?export=download&id=1S8toxSTSSTXB6oXoT6uDridj8ETN11yG"},
+    {name = "scenario-image-sainte-mere-eglise-03", url = "https://drive.google.com/uc?export=download&id=1LiKkMLYWMpgLkejrCVvtSw8eNmau8tfk"},
+    {name = "scenario-image-sainte-mere-eglise-04", url = "https://drive.google.com/uc?export=download&id=1fjF09irQeX26VEvwE9W1IhM2sCMIi1W4"},
+    {name = "scenario-image-sainte-mere-eglise-05", url = "https://drive.google.com/uc?export=download&id=1b1qEH3GMiYPiiF29cSXMiq8xTBzsjm1Z"},
+    {name = "scenario-image-sainte-mere-eglise-06", url = "https://drive.google.com/uc?export=download&id=1gYVC0nR4J3L-DrkJsxtUj8OyWBAZrkdw"},
+
+    -- Gazette 3 Scenarios
+    {name = "scenario-image-gazette-3-cover", url = "https://drive.google.com/uc?export=download&id=1nX4VAmmJ__bW24coZbdrmyDgzNyvfoyB"},
+    {name = "scenario-image-gazette-3-01", url = "https://drive.google.com/uc?export=download&id=1jX3xMPWWxP700-OkdKkiv2_G3iHfTvWE"},
+    {name = "scenario-image-gazette-3-02", url = "https://drive.google.com/uc?export=download&id=1JrSPord-PyHoF_n8N2ybVjQ5e2uCm4YO"},
+    {name = "scenario-image-gazette-3-03", url = "https://drive.google.com/uc?export=download&id=1NQn-2erk3kMZ-BMEKlK5spSCRO0XKrSL"},
+}
 
 function GetCustomUIAssets()
     return customUIAssets

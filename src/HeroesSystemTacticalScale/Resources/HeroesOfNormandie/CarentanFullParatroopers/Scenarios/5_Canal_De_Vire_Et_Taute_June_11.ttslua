@@ -1,0 +1,58 @@
+Canal_De_Vire_Et_Taute_June_11 = {}
+
+function Canal_De_Vire_Et_Taute_June_11.GetScenarioConfig()
+    return {
+        Name = "Canal De Vire-Et-Taute, June 11",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 3,
+                TerrainBoards = {
+                    {"HoN.carentan.terrain_board.ca2_a", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C4_A",        {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C2_A",        {rotation = 180}},
+                    {"HoN.carentan.terrain_board.ca1_a", {rotation =  90}},
+                    {"HoN.carentan.terrain_board.ca5_a", {rotation =  90}},
+                    {"HoN.carentan.terrain_board.ca6_b", {rotation =  90}},
+                    {"HoN.carentan.terrain_board.ca3_a", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.C3_A",        {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C6_A",        {rotation =   0}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Thicket", "C2_A",  {2,2}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "ca5_a", {6,7}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C3_A",  {2,6}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C3_A",  {7,7}, "space"},
+
+                    {"HoN.Core_Box.Terrain.House_2x1", "C4_A", {4.5,2}, "space", {rotation = 180}},
+                },
+                Objects = {
+                    {"HoN.sainte_mere_eglise.us_airborne.primary_objective", "ca1_a", {2,5.5}, "space"},
+                    {"HoN.carentan.ge_airborne.primary_objective", "C4_A",  {4.5,2}, "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "ca2_a", {6,6}, "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "ca5_a", {2,6}, "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "ca3_a", {6,6}, "space"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_A",  {4,4}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "ca5_a", {4,0}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A",  {4,1}, "interspace"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.sainte_mere_eglise.us_airborne.initiative_marker",
+                    [2] = "HoN.carentan.ge_airborne.initiative_marker",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                ruinsBag = "HoN.carentan.campaign.ruins_bag",
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

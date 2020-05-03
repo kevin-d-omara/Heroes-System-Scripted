@@ -1,0 +1,10 @@
+function GetProductInfo()
+    return {
+        Game = "HoN",
+        Name = "gazette_3",
+    }
+end
+
+#include <objects>
+#include <guids>
+#include <Scenarios/Campaign>

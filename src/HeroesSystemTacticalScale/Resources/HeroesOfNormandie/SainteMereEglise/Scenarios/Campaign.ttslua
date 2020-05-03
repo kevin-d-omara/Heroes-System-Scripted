@@ -1,0 +1,46 @@
+-- TODO: move inside GetScenarios()
+#include <1_Pathfinders>
+#include <2_Regroup>
+#include <3_Pigeon_Shooting>
+#include <4_When_Youve_Gotta_Go>
+#include <5_La_Fiere_Part_One>
+#include <6_La_Fiere_Part_Two>
+
+local Scenarios = {
+    Pathfinders,
+    Regroup,
+    Pigeon_Shooting,
+    When_Youve_Gotta_Go,
+    La_Fiere_Part_One,
+    La_Fiere_Part_Two,
+}
+
+function GetCampaignInfo()
+    return {
+        System = 'HoN',
+        Package = 'sainte_mere_eglise',
+        Campaign = 'Sainte_Mere_Eglise_Campaign',
+        NumberOfScenarios = 6,
+        MinPlayers = 2,
+        MaxPlayers = 2,
+        MinTerrainBoards = 4,
+        MaxTerrainBoards = 9,
+        -- MinArmyPoints = ,
+        -- MaxArmyPoints = ,
+        -- MinOrders = ,
+        -- MaxOrders = ,
+        -- Narrative = ,
+    }
+end
+
+function GetNumberOfScenarios()
+    return 6
+end
+
+function GetScenarioInfo(index)
+    return Scenarios[index]
+end
+
+function GetScenarioConfig(args)
+    return Scenarios[args.index].GetScenarioConfig(args.campaignData, args.userInput)
+end

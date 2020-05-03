@@ -1,0 +1,40 @@
+-- TODO: move inside GetScenarios()
+#include <1_Rendezvous>
+#include <2_Carentan_And_After_That>
+#include <3_Run_Speirs_Run>
+
+local Scenarios = {
+    Rendezvous,
+    Carentan_And_After_That,
+    Run_Speirs_Run,
+}
+
+function GetCampaignInfo()
+    return {
+        System = 'HoN',
+        Package = 'gazette_3',
+        Campaign = 'Gazette_3',
+        NumberOfScenarios = 3,
+        MinPlayers = 2,
+        MaxPlayers = 2,
+        MinTerrainBoards = 6,
+        MaxTerrainBoards = 9,
+        -- MinArmyPoints = ,
+        -- MaxArmyPoints = ,
+        -- MinOrders = ,
+        -- MaxOrders = ,
+        -- Narrative = ,
+    }
+end
+
+function GetNumberOfScenarios()
+    return 3
+end
+
+function GetScenarioInfo(index)
+    return Scenarios[index]
+end
+
+function GetScenarioConfig(args)
+    return Scenarios[args.index].GetScenarioConfig(args.campaignData, args.userInput)
+end
