@@ -4,7 +4,7 @@ function Final_Assault_June_12.GetScenarioConfig()
     return {
         Name = "Final Assault, June 12",
         Model = {
-            --[[ Note: the entire Model is manually rotated 90 degress counter-clockwise to fit on the table. ]]--
+            -- HACK: the entire Model is manually rotated 90 degress counter-clockwise to fit on the table.
             Battlefield = {
                 Width = 4,
                 Height = 3,
@@ -50,9 +50,6 @@ function Final_Assault_June_12.GetScenarioConfig()
 
                     {"HoN.carentan.campaign.reminder_scenario_6_zone_b_deployment", "C5_A", {2,2}, "interspace"},
                     {"HoN.carentan.campaign.reminder_scenario_6_zone_c_deployment", "C4_A", {6,4}, "space"},
-
-                    -- HACK: This should be done through a different interface.
-                    {"HoN.carentan.campaign.ruins_bag", "C5_A", {-2.4,4}, "space"},
                 },
             },
             TurnCounter = {
@@ -64,7 +61,8 @@ function Final_Assault_June_12.GetScenarioConfig()
                 useRandomInitiativeOrder = false,
                 eventMarkers = {
                     [8] = "HoN.Core_Box.Tokens.Event_End",
-                }
+                },
+                ruinsBag = "HoN.carentan.campaign.ruins_bag",
             },
             Players = {
                 -- Leaving empty for now since this part is not implemented.

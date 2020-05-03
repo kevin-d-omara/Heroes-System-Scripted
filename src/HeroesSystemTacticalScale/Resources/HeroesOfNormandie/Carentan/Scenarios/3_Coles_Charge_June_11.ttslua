@@ -27,10 +27,6 @@ function Coles_Charge_June_11.GetScenarioConfig()
 
                     {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A",  {2,2}, "interspace"},
                     {"HoN.Core_Box.Tokens.Bonus_Tactic", "ca2_b", {3,2}, "interspace"},
-
-                    -- HACK: This should be done through a different interface.
-                    {"HoN.carentan.campaign.nebelwerfer",         "C3_A", {-2.4,-0.3}, "interspace"},
-                    {"HoN.carentan.campaign.reminder_scenario_3", "C3_A", {-2.4,-0.3}, "interspace"},
                 },
             },
             TurnCounter = {
@@ -45,7 +41,19 @@ function Coles_Charge_June_11.GetScenarioConfig()
                     [4] = "HoN.Core_Box.Tokens.Event_GE",
                     [6] = "HoN.Core_Box.Tokens.Event_GE",
                     [7] = "HoN.Core_Box.Tokens.Event_End",
-                }
+                },
+                extraObjects = {
+                    {
+                        index = 5,
+                        tile = {"HoN.carentan.campaign.nebelwerfer", rotation = 0},
+                        offset = {2.5, 0.0}
+                    },
+                    {
+                        index = 5,
+                        tile = {"HoN.carentan.campaign.reminder_scenario_3", rotation = 0},
+                        offset = {2.5, 0.0}
+                    },
+                },
             },
             Players = {
                 -- Leaving empty for now since this part is not implemented.

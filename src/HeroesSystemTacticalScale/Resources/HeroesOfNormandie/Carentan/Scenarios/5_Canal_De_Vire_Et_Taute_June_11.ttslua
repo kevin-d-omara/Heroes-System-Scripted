@@ -36,9 +36,6 @@ function Canal_De_Vire_Et_Taute_June_11.GetScenarioConfig()
                     {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_A",  {4,4}, "interspace"},
                     {"HoN.Core_Box.Tokens.Bonus_Tactic", "ca5_a", {4,0}, "interspace"},
                     {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A",  {4,1}, "interspace"},
-
-                    -- HACK: This should be done through a different interface.
-                    {"HoN.carentan.campaign.ruins_bag", "ca1_a", {-2.4,4}, "space"},
                 },
             },
             TurnCounter = {
@@ -50,7 +47,8 @@ function Canal_De_Vire_Et_Taute_June_11.GetScenarioConfig()
                 useRandomInitiativeOrder = false,
                 eventMarkers = {
                     [8] = "HoN.Core_Box.Tokens.Event_End",
-                }
+                },
+                ruinsBag = "HoN.carentan.campaign.ruins_bag",
             },
             Players = {
                 -- Leaving empty for now since this part is not implemented.
