@@ -97,6 +97,10 @@ function Database.AddProduct(gameObject, info)
             Database.Data[info.Game][info.Name] = objectTree
         end
 
+        if Database.Data[info.Game][info.Name] == nil then
+            Database.Data[info.Game][info.Name] = {}
+        end
+
         local numScenarios = CallIfExists(gameObject, 'GetNumberOfScenarios')
         if numScenarios ~= nil then
             -- Collect the configuration for each scenario.
