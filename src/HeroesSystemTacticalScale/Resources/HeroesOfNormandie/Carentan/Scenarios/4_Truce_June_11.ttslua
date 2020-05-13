@@ -16,8 +16,8 @@ function Truce_June_11.GetScenarioConfig()
                     {"HoN.Core_Box.Terrain.C6_B",        {rotation =  90}},
                 },
                 TerrainTiles = {
-                    {"HoN.Core_Box.Terrain.House_1x1", "C1_A", {6,2},   "interspace", {rotation = -90}},
-                    {"HoN.Core_Box.Terrain.House_2x2", "C1_A", {3,3},   "space"     , {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.House_1x1", "C1_A", {6,2},   "interspace", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.House_2x2", "C1_A", {3,4},   "space"     , {rotation =  90}},
                     {"HoN.Core_Box.Terrain.House_2x1", "C4_A", {3,6.5}, "space"     , {rotation =  90}},
 
                     {"HoN.Core_Box.Terrain.Pond",    "C4_A", {6.5,7}, "space"},
@@ -28,7 +28,7 @@ function Truce_June_11.GetScenarioConfig()
                     {"HoN.Core_Box.Terrain.Thicket", "C2_A", {6,5}, "space"},
                 },
                 Objects = {
-                    {"HoN.carentan.ge_airborne.primary_objective", "C1_A",  {3,3},   "space"},
+                    {"HoN.carentan.ge_airborne.primary_objective", "C1_A",  {3,4},   "space"},
                     {"HoN.Core_Box.Tokens.Primary_Objective_US",   "C4_A",  {3,6.5}, "space"},
 
                     {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B", {2,6}, "interspace"},
