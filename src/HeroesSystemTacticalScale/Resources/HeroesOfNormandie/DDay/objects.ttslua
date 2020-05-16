@@ -1,0 +1,5 @@
+function GetObjects()
+    return {
+        -- TODO: copy from guids.ttslua
+    }
+end

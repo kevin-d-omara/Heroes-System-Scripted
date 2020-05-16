@@ -12,6 +12,12 @@ local customUIAssets = {
     {name = "scenario-image-hon-core-09", url = "https://drive.google.com/uc?export=download&id=1s25oJMIW8ypKq7jM5EJNDr2DJPiUVwj2"},
     {name = "scenario-image-hon-core-10", url = "https://drive.google.com/uc?export=download&id=1ZqIfxwVXqhCI9U_wZQfoBpRe5chq76KS"},
 
+    -- D-Day Scenarios
+    {name = "scenario-image-d-day-cover", url = "https://drive.google.com/uc?export=download&id=1Bbcr-h4_d2pdj84jmSkb1FMupbnzgsVM"},
+    {name = "scenario-image-d-day-01", url = "https://drive.google.com/uc?export=download&id=1bE9MUYL6WXnk7MEaicmniPo1q29IEUHi"},
+    {name = "scenario-image-d-day-02", url = "https://drive.google.com/uc?export=download&id=1tYZ5N7Hq7JjdyHxS1gk9TZDqc2mxYbwn"},
+    {name = "scenario-image-d-day-03", url = "https://drive.google.com/uc?export=download&id=1ZehpZ9FLPF6ESnnBqu9yiJQG6_2Fgzu-"},
+
     -- Carentan Scenarios
     {name = "scenario-image-carentan-cover", url = "https://drive.google.com/uc?export=download&id=1KDsHDuaRspMneZjHWnDpbAC1lyiwS_NE"},
     {name = "scenario-image-carentan-01", url = "https://drive.google.com/uc?export=download&id=1leE_rndbSX51Yr5cxqEHyF7JG71HW_Px"},

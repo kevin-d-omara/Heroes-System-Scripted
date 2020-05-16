@@ -1,0 +1,40 @@
+-- TODO: move inside GetScenarios()
+#include <1_Shut_Up>
+#include <2_Cut>
+#include <3_Bloodbath>
+
+local Scenarios = {
+    Shut_Up,
+    Cut,
+    Bloodbath,
+}
+
+function GetCampaignInfo()
+    return {
+        System = 'HoN',
+        Package = 'd_day',
+        Campaign = 'd_day',
+        NumberOfScenarios = 3,
+        MinPlayers = 2,
+        MaxPlayers = 2,
+        MinTerrainBoards = 2,
+        MaxTerrainBoards = 6,
+        -- MinArmyPoints = ,
+        -- MaxArmyPoints = ,
+        -- MinOrders = ,
+        -- MaxOrders = ,
+        -- Narrative = ,
+    }
+end
+
+function GetNumberOfScenarios()
+    return 3
+end
+
+function GetScenarioInfo(index)
+    return Scenarios[index]
+end
+
+function GetScenarioConfig(args)
+    return Scenarios[args.index].GetScenarioConfig(args.campaignData, args.userInput)
+end

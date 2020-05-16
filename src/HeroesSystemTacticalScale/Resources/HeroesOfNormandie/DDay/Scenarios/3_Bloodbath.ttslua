@@ -1,0 +1,109 @@
+Bloodbath = {}
+
+function Bloodbath.GetScenarioConfig()
+    return {
+        Name = "Bloodbath",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.d_day.terrain_board.dd_5a", {rotation =   0}},
+                    {"HoN.d_day.terrain_board.dd_4a", {rotation =   0}},
+                    {"HoN.d_day.terrain_board.dd_6a", {rotation =   0}},
+                    {"HoN.d_day.terrain_board.dd_2a", {rotation =   0}},
+                    {"HoN.d_day.terrain_board.dd_1a", {rotation =   0}},
+                    {"HoN.d_day.terrain_board.dd_3a", {rotation =   0}},
+                },
+                TerrainTiles = {
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_03", "dd_1a", {1,4.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_01", "dd_1a", {3,6.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_04", "dd_1a", {5,4.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_08", "dd_1a", {7,6.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_05", "dd_3a", {2,4.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_02", "dd_3a", {4,6.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_07", "dd_3a", {6,4.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_08", "dd_2a", {2,6.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_10", "dd_2a", {4,4.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_09", "dd_2a", {6,6.5}, "space"},
+
+                    {"HoN.d_day.terrain_overlay.bunker_2x1", "dd_5a", {2,4.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.position_1x1", "dd_4a", {0.9,6}, "space"},
+                    {"HoN.d_day.terrain_overlay.position_fortified_2x1", "dd_4a", {3.5,4}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "dd_4a", {7,5}, "space"},
+                    {"HoN.d_day.terrain_overlay.bunker_2x2_L", "dd_6a", {4,3}, "space"},
+                    {"HoN.Core_Box.Terrain.House_2x1", "dd_4a", {3,6.5}, "space", {rotation =  90}},
+                },
+                Objects = {
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_01", "dd_4a", {1,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_02", "dd_4a", {2,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_03", "dd_4a", {3,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_04", "dd_4a", {4,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_05", "dd_4a", {5,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_06", "dd_4a", {6,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_07", "dd_4a", {7,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_08", "dd_4a", {4,2.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_09", "dd_4a", {5,2.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_10", "dd_4a", {6,2.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_11", "dd_6a", {1,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_12", "dd_6a", {2,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_13", "dd_6a", {6,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_14", "dd_6a", {7,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_15", "dd_5a", {4,3.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_16", "dd_5a", {6,3.5}, "space"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "dd_5a", {1,1}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "dd_4a", {2,2}, "interspace"},
+                    -- HACK: Placed +0.01y to avoid it being placed underneath the terrain board.
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "dd_4a", {6,0.01}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "dd_3a", {3,5}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "dd_6a", {6,2}, "interspace"},
+
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "dd_5a", {2,4.5}, "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "dd_4a", {3,6.5}, "space"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "dd_6a", {4,3}, "space"},
+
+                    -- Added +0.113 y-axis so back of landing craft is flush with edge of terrain board.
+                    {"HoN.d_day.landing_craft.landing_craft_small_34", "dd_2a", {3,1.113}, "space"},
+                    {"HoN.d_day.landing_craft.landing_craft_large_12", "dd_2a", {7,1.613}, "space"},
+                    {"HoN.d_day.landing_craft.landing_craft_small_34", "dd_1a", {6,1.113}, "space"},
+                    {"HoN.d_day.landing_craft.landing_craft_large_12", "dd_3a", {5,1.613}, "space"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [2] = "HoN.Core_Box.Tokens.Event_GE",
+                    [4] = "HoN.Core_Box.Tokens.Event_Generic",
+                    [6] = "HoN.Core_Box.Tokens.Event_GE",
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                extraObjects = {
+                    {
+                        index = 2,
+                        tile = {"HoN.d_day.campaign.artillery_deck", rotation = 0, flip = true},
+                        offset = {2.2, 0.0}
+                    },
+                    {
+                        index = 1.3,
+                        tile = {"HoN.d_day.campaign.reminder_scenario_3_artillery", rotation = 0},
+                        offset = {2.2, 0.0}
+                    },
+                    {
+                        index = 2.7,
+                        tile = {"HoN.d_day.campaign.reminder_scenario_3_shuffle", rotation = 0},
+                        offset = {2.2, 0.0}
+                    },
+                },
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

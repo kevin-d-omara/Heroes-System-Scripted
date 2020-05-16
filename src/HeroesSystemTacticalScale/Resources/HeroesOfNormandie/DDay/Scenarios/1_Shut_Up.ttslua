@@ -1,0 +1,71 @@
+Shut_Up = {}
+
+function Shut_Up.GetScenarioConfig()
+    return {
+        Name = "Shut Up!",
+        Model = {
+            Battlefield = {
+                Width = 2,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.d_day.terrain_board.dd_6a", {rotation =   0}},
+                    {"HoN.d_day.terrain_board.dd_4b", {rotation =   0}},
+                    {"HoN.d_day.terrain_board.dd_1a", {rotation =   0}},
+                    {"HoN.d_day.terrain_board.dd_3b", {rotation =   0}},
+                },
+                TerrainTiles = {
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_03", "dd_1a", {2,3.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_01", "dd_1a", {3,6.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_04", "dd_1a", {4,4.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_08", "dd_1a", {6,5.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_05", "dd_1a", {7,3.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_02", "dd_3b", {2,6.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_07", "dd_3b", {3,4.5}, "space"},
+
+                    {"HoN.d_day.terrain_overlay.position_1x1", "dd_4b", {2,5}, "space"},
+                    {"HoN.d_day.terrain_overlay.bunker_2x1_rear", "dd_6a", {4.5,3}, "space", {rotation = -90}},
+                    {"HoN.d_day.terrain_overlay.bunker_2x2_rear", "dd_3b", {6,5}, "space"},
+                },
+                Objects = {
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_03", "dd_6a", {6,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_06", "dd_6a", {7,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_01", "dd_4b", {1,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_01", "dd_4b", {2,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_05", "dd_4b", {3,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_08", "dd_4b", {4,1.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_09", "dd_1a", {5,4.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_02", "dd_1a", {6,6.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_07", "dd_1a", {7,6.5}, "space"},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_04", "dd_3b", {2,4.5}, "space"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "dd_1a", {1,6}, "interspace"},
+                    -- HACK: Placed +0.01y to avoid it being placed underneath the terrain board.
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "dd_4b", {1,0.01}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective", "dd_3b", {6,5}, "space"},
+
+                    -- Added +0.113 y-axis so back of landing craft is flush with edge of terrain board.
+                    {"HoN.d_day.landing_craft.landing_craft_small_12", "dd_1a", {2,1.113}, "space"},
+                    {"HoN.d_day.landing_craft.landing_craft_large_34", "dd_1a", {6,1.613}, "space"},
+                    {"HoN.d_day.landing_craft.landing_craft_small_56", "dd_3b", {2,1.113}, "space"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [2] = "HoN.Core_Box.Tokens.Event_US",
+                    [3] = "HoN.Core_Box.Tokens.Event_US",
+                    [4] = "HoN.Core_Box.Tokens.Event_Generic",
+                    [6] = "HoN.Core_Box.Tokens.Event_End",
+                }
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end
