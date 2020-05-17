@@ -28,7 +28,7 @@ local customUIAssets = {
     {name = "scenario-image-carentan-06", url = "https://drive.google.com/uc?export=download&id=1Ia7VoNRvKrg_5fgoLdLhxmX8EMBuoNt0"},
 
     -- Carentan Scenarios w/ Full Paratroopers
-    {name = "scenario-image-carentan-cover", url = "https://drive.google.com/uc?export=download&id=1KDsHDuaRspMneZjHWnDpbAC1lyiwS_NE"},
+    -- (uses same cover as Carentan Scenarios)
     {name = "scenario-image-carentan-full-paratroopers-01", url = "https://drive.google.com/uc?export=download&id=1PTAcC8wUdQuL4ogABfSOE6iU8dplLErv"},
     {name = "scenario-image-carentan-full-paratroopers-02", url = "https://drive.google.com/uc?export=download&id=1V58-8xzUZ0zkJPAi6M9RZWUkURj-v6sn"},
     {name = "scenario-image-carentan-full-paratroopers-03", url = "https://drive.google.com/uc?export=download&id=15nxor1gvT53a6GSJy7PcGixlABpJ-LOJ"},
