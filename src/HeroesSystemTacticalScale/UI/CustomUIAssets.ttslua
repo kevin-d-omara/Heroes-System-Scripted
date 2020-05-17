@@ -18,24 +18,6 @@ local customUIAssets = {
     {name = "scenario-image-d-day-02", url = "https://drive.google.com/uc?export=download&id=1tYZ5N7Hq7JjdyHxS1gk9TZDqc2mxYbwn"},
     {name = "scenario-image-d-day-03", url = "https://drive.google.com/uc?export=download&id=1ZehpZ9FLPF6ESnnBqu9yiJQG6_2Fgzu-"},
 
-    -- Carentan Scenarios
-    {name = "scenario-image-carentan-cover", url = "https://drive.google.com/uc?export=download&id=1KDsHDuaRspMneZjHWnDpbAC1lyiwS_NE"},
-    {name = "scenario-image-carentan-01", url = "https://drive.google.com/uc?export=download&id=1leE_rndbSX51Yr5cxqEHyF7JG71HW_Px"},
-    {name = "scenario-image-carentan-02", url = "https://drive.google.com/uc?export=download&id=1VtjSpsP5OV5b3U_N3vgfdeYFSW85f2aX"},
-    {name = "scenario-image-carentan-03", url = "https://drive.google.com/uc?export=download&id=1wB1IP_tbNtbZBcYAiNoJFTkEej4x1BiJ"},
-    {name = "scenario-image-carentan-04", url = "https://drive.google.com/uc?export=download&id=1A8gUU2PF8qH1qMxoGZh7CQw69ctM6IdO"},
-    {name = "scenario-image-carentan-05", url = "https://drive.google.com/uc?export=download&id=1xSAxsK1btWzw0E27paiRkPDq4Il4tP1q"},
-    {name = "scenario-image-carentan-06", url = "https://drive.google.com/uc?export=download&id=1Ia7VoNRvKrg_5fgoLdLhxmX8EMBuoNt0"},
-
-    -- Carentan Scenarios w/ Full Paratroopers
-    -- (uses same cover as Carentan Scenarios)
-    {name = "scenario-image-carentan-full-paratroopers-01", url = "https://drive.google.com/uc?export=download&id=1PTAcC8wUdQuL4ogABfSOE6iU8dplLErv"},
-    {name = "scenario-image-carentan-full-paratroopers-02", url = "https://drive.google.com/uc?export=download&id=1V58-8xzUZ0zkJPAi6M9RZWUkURj-v6sn"},
-    {name = "scenario-image-carentan-full-paratroopers-03", url = "https://drive.google.com/uc?export=download&id=15nxor1gvT53a6GSJy7PcGixlABpJ-LOJ"},
-    {name = "scenario-image-carentan-full-paratroopers-04", url = "https://drive.google.com/uc?export=download&id=1bh7fjUft6toArPGkI5-aELUc0ygwXwgn"},
-    {name = "scenario-image-carentan-full-paratroopers-05", url = "https://drive.google.com/uc?export=download&id=11I-oX5fR1xEIyHA-3erRUN8VTXFRssk2"},
-    {name = "scenario-image-carentan-full-paratroopers-06", url = "https://drive.google.com/uc?export=download&id=1bqd4L-r-eb-jJEbsAg1hxzgG34SyOuxQ"},
-
     -- Sainte Mere Eglise Scenarios
     {name = "scenario-image-sainte-mere-eglise-cover", url = "https://drive.google.com/uc?export=download&id=1tYhdKbcUJDKfb50zyhzZKGZ5hvHbwxTl"},
     {name = "scenario-image-sainte-mere-eglise-01", url = "https://drive.google.com/uc?export=download&id=1HJ_U0-qxssoyZ4oKSpfKCFISRWlXnjnO"},
@@ -50,6 +32,23 @@ local customUIAssets = {
     {name = "scenario-image-gazette-3-01", url = "https://drive.google.com/uc?export=download&id=1jX3xMPWWxP700-OkdKkiv2_G3iHfTvWE"},
     {name = "scenario-image-gazette-3-02", url = "https://drive.google.com/uc?export=download&id=1JrSPord-PyHoF_n8N2ybVjQ5e2uCm4YO"},
     {name = "scenario-image-gazette-3-03", url = "https://drive.google.com/uc?export=download&id=1NQn-2erk3kMZ-BMEKlK5spSCRO0XKrSL"},
+
+    -- Carentan Scenarios
+    {name = "scenario-image-carentan-cover", url = "https://drive.google.com/uc?export=download&id=1KDsHDuaRspMneZjHWnDpbAC1lyiwS_NE"},
+    {name = "scenario-image-carentan-01", url = "https://drive.google.com/uc?export=download&id=1leE_rndbSX51Yr5cxqEHyF7JG71HW_Px"},
+    {name = "scenario-image-carentan-02", url = "https://drive.google.com/uc?export=download&id=1VtjSpsP5OV5b3U_N3vgfdeYFSW85f2aX"},
+    {name = "scenario-image-carentan-03", url = "https://drive.google.com/uc?export=download&id=1wB1IP_tbNtbZBcYAiNoJFTkEej4x1BiJ"},
+    {name = "scenario-image-carentan-04", url = "https://drive.google.com/uc?export=download&id=1A8gUU2PF8qH1qMxoGZh7CQw69ctM6IdO"},
+    {name = "scenario-image-carentan-05", url = "https://drive.google.com/uc?export=download&id=1xSAxsK1btWzw0E27paiRkPDq4Il4tP1q"},
+    {name = "scenario-image-carentan-06", url = "https://drive.google.com/uc?export=download&id=1Ia7VoNRvKrg_5fgoLdLhxmX8EMBuoNt0"},
+
+    -- Carentan w/ Full Paratroopers
+    {name = "scenario-image-carentan-full-paratroopers-01", url = "https://drive.google.com/uc?export=download&id=1PTAcC8wUdQuL4ogABfSOE6iU8dplLErv"},
+    {name = "scenario-image-carentan-full-paratroopers-02", url = "https://drive.google.com/uc?export=download&id=1V58-8xzUZ0zkJPAi6M9RZWUkURj-v6sn"},
+    {name = "scenario-image-carentan-full-paratroopers-03", url = "https://drive.google.com/uc?export=download&id=15nxor1gvT53a6GSJy7PcGixlABpJ-LOJ"},
+    {name = "scenario-image-carentan-full-paratroopers-04", url = "https://drive.google.com/uc?export=download&id=1bh7fjUft6toArPGkI5-aELUc0ygwXwgn"},
+    {name = "scenario-image-carentan-full-paratroopers-05", url = "https://drive.google.com/uc?export=download&id=11I-oX5fR1xEIyHA-3erRUN8VTXFRssk2"},
+    {name = "scenario-image-carentan-full-paratroopers-06", url = "https://drive.google.com/uc?export=download&id=1bqd4L-r-eb-jJEbsAg1hxzgG34SyOuxQ"},
 }
 
 function GetCustomUIAssets()
