@@ -44,7 +44,7 @@
         width="1392"
         height="1050"
         color="#DDDDDD">
-        <GridLayout padding="0 0 8 3" spacing="8 8"  height="5145" cellsize="330 505" childAlignment="UpperCenter">
+        <GridLayout padding="0 0 8 3" spacing="8 8"  height="5658" cellsize="330 505" childAlignment="UpperCenter">
                 <!--
                 When adding new scenarios, need to do four things:
 
@@ -89,6 +89,16 @@
 
                 <!-- Empty Tile / Filler -->
                 <Text/>
+
+                <!-- D-Day Scenarios -->
+                <Button id="HoN.d_day|Cover" class="ScenarioButton" text="D-Day" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#236466">
+                    <Image class="ScenarioImage" image="scenario-image-d-day-cover"></Image></Button>
+                <Button id="HoN.d_day|1" class="ScenarioButton" text="Shut Up!">
+                    <Image class="ScenarioImage" image="scenario-image-d-day-01"></Image></Button>
+                <Button id="HoN.d_day|2" class="ScenarioButton" text="Cut!">
+                    <Image class="ScenarioImage" image="scenario-image-d-day-02"></Image></Button>
+                <Button id="HoN.d_day|3" class="ScenarioButton" text="Bloodbath">
+                    <Image class="ScenarioImage" image="scenario-image-d-day-03"></Image></Button>
 
                 <!-- Sainte Mere Eglise Scenarios -->
                 <Button id="HoN.sainte_mere_eglise|Cover" class="ScenarioButton" text="Sainte Mère Église" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#5C6C3F">
