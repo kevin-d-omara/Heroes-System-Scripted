@@ -47,5 +47,5 @@ function ScenarioView:_PlaceTurnCounter()
     local x = (size.x / 2) + buffer
     local position = Vector2.right * x
 
-    self.TurnCounter:Materialize(position, || print('placed'))
+    self.TurnCounter:Materialize(position)
 end
