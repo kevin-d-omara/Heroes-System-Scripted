@@ -15,3 +15,9 @@ The following are the tenets this mod follows:
 1. Document everything well.
 1. Keep the mod moddable.
 1. When choosing between high fidelity and performance, always choose high fidelity. Assets are loaded once per session, but viewed many times and must be both legible and a pleasure to view.
+
+## Developer Setup
+1. Clone this repository.
+1. Install the [atom-tabletopsimulator-lua](https://github.com/Berserk-Games/atom-tabletopsimulator-lua/wiki) plugin for Atom ([instructions](https://api.tabletopsimulator.com/atom/))
+1. Open up the plugin settings, and change:
+    * `Base path for files you wish to bundle or #include` => point this to the root of the cloned repository.
