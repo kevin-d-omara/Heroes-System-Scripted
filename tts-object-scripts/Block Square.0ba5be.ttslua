@@ -1,0 +1,11 @@
+#include <!/HeroesSystemTacticalScale/UI/ForceSelectionTitle>
+
+config = {
+    memoryBagGuids = {
+        '7accbd',
+    },
+    text = {
+        text = "German Fallschirmjäger",
+        color = "#818E96",
+    },
+}

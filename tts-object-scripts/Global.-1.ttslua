@@ -41,6 +41,7 @@ function DisableInteractivity()
     local guidsToDisable = {
         'ba65e4',   -- Terrain Table
         '4e969f',   -- Armies Table
+        '4d592e',   -- All Forces Button Table
     }
     for _,guid in ipairs(guidsToDisable) do
         getObjectFromGUID(guid).interactable = false

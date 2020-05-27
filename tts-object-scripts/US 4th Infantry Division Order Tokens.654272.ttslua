@@ -1,0 +1,4 @@
+#include <!/TabletopSimulator/UtilityMemoryBagPlus>
+
+Config.MEMORY_GROUP.NAME = 'AMERICAN_ORDER_TOKENS'
+Config.MEMORY_GROUP.FRAME_DELAY_BEFORE_PLACING_OBJECTS = 20

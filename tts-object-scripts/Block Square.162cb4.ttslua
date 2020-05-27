@@ -1,0 +1,11 @@
+#include <!/HeroesSystemTacticalScale/UI/ForceSelectionTitle>
+
+config = {
+    memoryBagGuids = {
+        '9a7c74',
+    },
+    text = {
+        text = "Commonwealth",
+        color = "#EEC389",
+    },
+}

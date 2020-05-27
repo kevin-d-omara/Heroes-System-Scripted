@@ -1,0 +1,89 @@
+config = {
+    memoryBagGuids = {
+        ''
+    },
+    text = {
+        text = "",
+        color = "",
+    },
+}
+
+
+function onLoad()
+    createText()
+    createButtons()
+end
+
+function createText()
+    self.UI.setXmlTable({
+        {
+            tag="Text",
+            attributes={
+                text=config.text.text,
+                color=config.text.color,
+                alignment="MiddleCenter",
+                fontSize="280",
+                offsetXY="0 0",
+                fontStyle="Bold",
+            },
+        }
+    })
+end
+
+function createButtons()
+    local memoryBagObj = getObjectFromGUID(config.memoryBagGuid)
+
+    local color = {0,0,0}
+    local fontColor = {1,1,1}
+
+    local _multiplier = 3
+    local fontSize = 250 * _multiplier*2
+    local width = 800 * _multiplier
+    local height = 350 * _multiplier
+
+
+    local buttonGap = 1.0 * _multiplier
+    local buttonHeight = 0.0
+    local buttonDownOffset = -2.8
+    local buttonRotation = {0,180,0}
+
+
+    self.createButton({
+        label="Place",
+        click_function="buttonClick_place",
+        function_owner=self,
+        position={buttonGap,buttonHeight,buttonDownOffset},
+        rotation=buttonRotation,
+        height=height,
+        width=width,
+        font_size=fontSize,
+        color=color,
+        font_color=fontColor,
+    })
+    self.createButton({
+        label="Recall",
+        click_function="buttonClick_recall",
+        function_owner=self,
+        position={-buttonGap,buttonHeight,buttonDownOffset},
+        rotation=buttonRotation,
+        height=height,
+        width=width,
+        font_size=fontSize,
+        color=color,
+        font_color=fontColor,
+    })
+end
+
+function buttonClick_place()
+    for _,guid in ipairs(config.memoryBagGuids) do
+        local obj = getObjectFromGUID(guid)
+        obj.call("buttonClick_place")
+    end
+end
+
+function buttonClick_recall()
+    for _,guid in ipairs(config.memoryBagGuids) do
+        local obj = getObjectFromGUID(guid)
+        obj.call("buttonClick_recall")
+    end
+end

@@ -1,0 +1,3 @@
+#include <!/TabletopSimulator/UtilityMemoryBagPlus>
+
+Config.MEMORY_GROUP_NAME = nil

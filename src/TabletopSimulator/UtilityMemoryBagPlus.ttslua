@@ -47,12 +47,12 @@ Config.MEMORY_GROUP.FRAME_DELAY_BEFORE_PLACING_OBJECTS = 30
 
 -- If true, will broadcast a message to all players when the objects are placed or recalled.
 -- This is the default behavior of Utility Memory Bag.
-Config.BROADCAST_WHEN_OBJECTS_PLACED_OR_RECALLED = true
+Config.BROADCAST_WHEN_OBJECTS_PLACED_OR_RECALLED = false
 
 -- If true, the Setup and Move buttons will be visible.
 -- This is the default behavior of Utility Memory Bag.
 -- You should turn this off before publishing your mod, to keep things simple for your users.
-Config.ENABLE_SETUP_BUTTONS = true
+Config.ENABLE_SETUP_BUTTONS = false
 --------------------------------------------------------------------------------
 
 
