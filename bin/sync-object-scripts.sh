@@ -1,5 +1,7 @@
 #!/bin/sh
 #
+# This script must be run from the root directory of this project, i.e. "./bin/sync-object-scripts.sh"
+#
 ### Summary
 # Syncs the Tabletop Simulator object scripts that are live with the ones in the repository.
 # These are the scripts that get attached the game objects.
