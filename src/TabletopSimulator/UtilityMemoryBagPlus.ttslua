@@ -52,7 +52,7 @@ Config.BROADCAST_WHEN_OBJECTS_PLACED_OR_RECALLED = false
 -- If true, the Setup and Move buttons will be visible.
 -- This is the default behavior of Utility Memory Bag.
 -- You should turn this off before publishing your mod, to keep things simple for your users.
-Config.ENABLE_SETUP_BUTTONS = false
+Config.ENABLE_SETUP_BUTTONS = true
 --------------------------------------------------------------------------------
 
 
