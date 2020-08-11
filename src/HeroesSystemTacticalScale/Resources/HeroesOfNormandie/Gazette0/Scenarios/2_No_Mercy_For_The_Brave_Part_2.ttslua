@@ -1,0 +1,41 @@
+No_Mercy_For_The_Brave_Part_2 = {}
+
+function No_Mercy_For_The_Brave_Part_2.GetScenarioConfig()
+    return {
+        Name = "No Mercy For The Brave (part.1)",
+        Model = {
+            Battlefield = {
+                Width = 2,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C2_a", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C1_B", {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.C4_B", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C5_B", {rotation =   0}},
+                },
+                TerrainTiles = {
+
+                },
+                Objects = {
+
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_GE",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_US",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [2] = "HoN.Core_Box.Tokens.Event_US",
+                    [5] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                -- TODO: Any extras?
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

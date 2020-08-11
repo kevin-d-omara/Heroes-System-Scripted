@@ -1,0 +1,9 @@
+-- HACK: We should be able to pass args into the GetScenarioConfig rather than duplicate the whole campaign.
+function GetProductInfo()
+    return {
+        Game = "HoN",
+        Name = "gazette_2",
+    }
+end
+
+#include <Scenarios/Campaign>

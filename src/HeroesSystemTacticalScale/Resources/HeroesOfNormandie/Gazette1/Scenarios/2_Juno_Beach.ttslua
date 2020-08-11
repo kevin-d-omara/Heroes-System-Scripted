@@ -1,0 +1,51 @@
+June_Beach = {}
+
+function June_Beach.GetScenarioConfig()
+    return {
+        Name = "Juno Beach",
+        Model = {
+            Battlefield = {
+                Width = 4,
+                Height = 3,
+                TerrainBoards = {
+                    {"HoN.d_day.terrain_board.dd_2a", {rotation =  90}},
+                    {"HoN.d_day.terrain_board.dd_1a", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C4_B", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.C3_A", {rotation = -90}},
+                    {"HoN.d_day.terrain_board.dd_3a", {rotation =  90}},
+                    {"HoN.d_day.terrain_board.dd_5a", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C5_B", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.C1_B", {rotation = -90}},
+                    {"HoN.d_day.terrain_board.dd_6a", {rotation =  90}},
+                    {"HoN.d_day.terrain_board.dd_4a", {rotation =  90}}, -- Errata: https://www.devil-pig-games.com/en/forum/?action=viewtopic&t=2838.0#postid-28060
+                    {"HoN.Core_Box.Terrain.C2_B", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C6_A", {rotation = -90}},
+                },
+                TerrainTiles = {
+
+                },
+                Objects = {
+
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [2] = "HoN.Core_Box.Tokens.Event_US",
+                    [3] = "HoN.Core_Box.Tokens.Event_Generic",
+                    [5] = "HoN.Core_Box.Tokens.Event_US",
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                -- TODO: Add Airstrike cards & other
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

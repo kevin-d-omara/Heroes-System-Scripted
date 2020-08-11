@@ -1,0 +1,71 @@
+No_Mercy_For_The_Brave_Part_1 = {}
+
+function No_Mercy_For_The_Brave_Part_1.GetScenarioConfig()
+    return {
+        Name = "No Mercy For The Brave (part.1)",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.d_day.terrain_board.dd_2a", {rotation =  90}},
+                    {"HoN.d_day.terrain_board.dd_5a", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C4_B",     {rotation = 180}},
+                    {"HoN.d_day.terrain_board.dd_3b", {rotation =  90}},
+                    {"HoN.d_day.terrain_board.dd_4b", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C5_B",     {rotation =  90}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.House_2x1", "dd_4b", {6,1.5}, "space", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.House_1x1", "C5_B", {2,6}, "interspace", {rotation = 180}},
+
+                    {"HoN.Core_Box.Terrain.Thicket", "dd_5a", {7,3}, "space"},
+                    {"HoN.Core_Box.Terrain.Pond", "dd_4b", {7,5.5}, "space", {rotation = -90}},
+
+                    {"HoN.d_day.terrain_overlay.position_fortified_1x1", "dd_3b", {4,3}, "space"},
+                    {"HoN.d_day.terrain_overlay.position_1x1", "dd_4b", {1,3}, "space"},
+
+
+
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_01", "dd_2a", {5.5,1}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_02", "dd_2a", {5.5,3}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_03", "dd_2a", {5.5,5}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_04", "dd_2a", {5.5,7}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_05", "dd_3b", {5.5,6}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_06", "dd_4b", {6.5,4}, "space", {rotation =  90}},
+                },
+                Objects = {
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_07", "dd_2a", {6.5,7}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_06", "dd_2a", {6.5,6}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_05", "dd_2a", {6.5,5}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_04", "dd_2a", {6.5,4}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_03", "dd_2a", {6.5,3}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_02", "dd_2a", {6.5,2}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_01", "dd_2a", {6.5,1}, "space", {rotation =  90}},
+
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_08", "dd_3b", {6.5,7}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_08", "dd_3b", {6.5,6}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.barbed_wire_beach_10", "dd_3b", {6.5,5}, "space", {rotation =  90}},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [2] = "HoN.Core_Box.Tokens.Event_US",
+                    [3] = "HoN.Core_Box.Tokens.Event_Generic",
+                    [5] = "HoN.Core_Box.Tokens.Event_US",
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                -- TODO: Add Airstrike cards & other
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

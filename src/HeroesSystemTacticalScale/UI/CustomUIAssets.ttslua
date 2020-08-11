@@ -27,12 +27,6 @@ local customUIAssets = {
     {name = "scenario-image-sainte-mere-eglise-05", url = "https://drive.google.com/uc?export=download&id=1b1qEH3GMiYPiiF29cSXMiq8xTBzsjm1Z"},
     {name = "scenario-image-sainte-mere-eglise-06", url = "https://drive.google.com/uc?export=download&id=1gYVC0nR4J3L-DrkJsxtUj8OyWBAZrkdw"},
 
-    -- Gazette 3 Scenarios
-    {name = "scenario-image-gazette-3-cover", url = "https://drive.google.com/uc?export=download&id=1nX4VAmmJ__bW24coZbdrmyDgzNyvfoyB"},
-    {name = "scenario-image-gazette-3-01", url = "https://drive.google.com/uc?export=download&id=1jX3xMPWWxP700-OkdKkiv2_G3iHfTvWE"},
-    {name = "scenario-image-gazette-3-02", url = "https://drive.google.com/uc?export=download&id=1JrSPord-PyHoF_n8N2ybVjQ5e2uCm4YO"},
-    {name = "scenario-image-gazette-3-03", url = "https://drive.google.com/uc?export=download&id=1NQn-2erk3kMZ-BMEKlK5spSCRO0XKrSL"},
-
     -- Carentan Scenarios
     {name = "scenario-image-carentan-cover", url = "https://drive.google.com/uc?export=download&id=1KDsHDuaRspMneZjHWnDpbAC1lyiwS_NE"},
     {name = "scenario-image-carentan-01", url = "https://drive.google.com/uc?export=download&id=1leE_rndbSX51Yr5cxqEHyF7JG71HW_Px"},
@@ -49,6 +43,27 @@ local customUIAssets = {
     {name = "scenario-image-carentan-full-paratroopers-04", url = "https://drive.google.com/uc?export=download&id=1bh7fjUft6toArPGkI5-aELUc0ygwXwgn"},
     {name = "scenario-image-carentan-full-paratroopers-05", url = "https://drive.google.com/uc?export=download&id=11I-oX5fR1xEIyHA-3erRUN8VTXFRssk2"},
     {name = "scenario-image-carentan-full-paratroopers-06", url = "https://drive.google.com/uc?export=download&id=1bqd4L-r-eb-jJEbsAg1hxzgG34SyOuxQ"},
+
+    -- Gazette 0 Scenarios
+    {name = "scenario-image-gazette-0-cover", url = "https://drive.google.com/uc?export=download&id=1RaQ1qbCGI7ca6q0iDQKmBNsd2UlFfjyT"},
+    {name = "scenario-image-gazette-0-01", url = "https://drive.google.com/uc?export=download&id=16TO7RhwSkJktmRmRs7qv5Xkw4uYO7dhG"},
+    {name = "scenario-image-gazette-0-02", url = "https://drive.google.com/uc?export=download&id=1TUNczcXHNdJYND5xJbZFMetYibnpQfGZ"},
+
+    -- Gazette 1 Scenarios
+    {name = "scenario-image-gazette-1-cover", url = "https://drive.google.com/uc?export=download&id=1vmkpN2NfPGXgsA8H_HH__Gx9EdqeYA0K"},
+    {name = "scenario-image-gazette-1-01", url = "https://drive.google.com/uc?export=download&id=1DquPGo8ItuiljeiESvpEOLTwOTtR_VXz"},
+    {name = "scenario-image-gazette-1-02", url = "https://drive.google.com/uc?export=download&id=1FEbJ4mxrEqjhVTV8ST8c1Uu6eMwApJlb"},
+
+    -- Gazette 2 Scenarios
+    {name = "scenario-image-gazette-2-cover", url = "https://drive.google.com/uc?export=download&id=1L4-A2CegDVQrPUyG-b-ssQJHOIrojCgp"},
+    {name = "scenario-image-gazette-2-01", url = "https://drive.google.com/uc?export=download&id=1WAqsOArCCyilL8MQqoyTFIMYD4Q33XP2"},
+    {name = "scenario-image-gazette-2-02", url = "https://drive.google.com/uc?export=download&id=1zYLP39Gf1KblA42xg7n4VVJFGgvsXrqA"},
+
+    -- Gazette 3 Scenarios
+    {name = "scenario-image-gazette-3-cover", url = "https://drive.google.com/uc?export=download&id=1nX4VAmmJ__bW24coZbdrmyDgzNyvfoyB"},
+    {name = "scenario-image-gazette-3-01", url = "https://drive.google.com/uc?export=download&id=1jX3xMPWWxP700-OkdKkiv2_G3iHfTvWE"},
+    {name = "scenario-image-gazette-3-02", url = "https://drive.google.com/uc?export=download&id=1JrSPord-PyHoF_n8N2ybVjQ5e2uCm4YO"},
+    {name = "scenario-image-gazette-3-03", url = "https://drive.google.com/uc?export=download&id=1NQn-2erk3kMZ-BMEKlK5spSCRO0XKrSL"},
 }
 
 function GetCustomUIAssets()

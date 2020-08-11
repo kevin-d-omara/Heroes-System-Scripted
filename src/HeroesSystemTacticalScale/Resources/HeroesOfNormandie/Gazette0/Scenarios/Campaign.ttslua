@@ -1,0 +1,20 @@
+-- TODO: move inside GetScenarios()
+#include <1_No_Mercy_For_The_Brave_Part_1>
+#include <2_No_Mercy_For_The_Brave_Part_2>
+
+local Scenarios = {
+    Rendezvous,
+    Carentan_And_After_That,
+}
+
+function GetNumberOfScenarios()
+    return 2
+end
+
+function GetScenarioInfo(index)
+    return Scenarios[index]
+end
+
+function GetScenarioConfig(args)
+    return Scenarios[args.index].GetScenarioConfig(args.campaignData, args.userInput)
+end

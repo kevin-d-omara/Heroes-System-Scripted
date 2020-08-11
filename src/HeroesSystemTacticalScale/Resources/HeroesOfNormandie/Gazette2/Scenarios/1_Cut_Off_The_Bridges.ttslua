@@ -1,0 +1,46 @@
+Cut_Off_The_Bridges = {}
+
+function Cut_Off_The_Bridges.GetScenarioConfig()
+    return {
+        Name = "Cut Off The Bridges",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 3,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C4_A", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C3_A", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.C1_B", {rotation =   0}},
+                    -- TODO: River tiles
+                    {"HoN.Core_Box.Terrain.C6_B", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C5_B", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C2_B", {rotation =  90}},
+                },
+                TerrainTiles = {
+
+                },
+                Objects = {
+
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [2] = "HoN.Core_Box.Tokens.Event_US",
+                    [3] = "HoN.Core_Box.Tokens.Event_Generic",
+                    [5] = "HoN.Core_Box.Tokens.Event_US",
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                -- TODO: Add Airstrike cards & other
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end
