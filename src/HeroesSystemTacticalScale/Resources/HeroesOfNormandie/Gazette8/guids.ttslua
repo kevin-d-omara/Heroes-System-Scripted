@@ -1,0 +1,7 @@
+function GetGuidTree()
+    return {
+        guid = '0c9da3',
+
+        ["fallen_tree"] = 'be5364',
+    }
+end

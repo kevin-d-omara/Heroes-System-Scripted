@@ -1,0 +1,9 @@
+function GetGuidTree()
+    return {
+        guid = '89c4be',
+
+        ["von_kamptz"] = '78056b',
+        ["us_airstrike_deck"] = 'fb7dd2',
+        ["shuffle_me_reminder"] = 'd213b5',
+    }
+end

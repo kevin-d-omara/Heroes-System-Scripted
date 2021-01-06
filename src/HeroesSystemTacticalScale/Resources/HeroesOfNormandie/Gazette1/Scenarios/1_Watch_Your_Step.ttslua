@@ -14,10 +14,14 @@ function Watch_Your_Step.GetScenarioConfig()
                     {"HoN.Core_Box.Terrain.C2_B", {rotation =  90}},
                 },
                 TerrainTiles = {
-
+                    {"HoN.Core_Box.Terrain.Thicket", "C2_B", {7,7}, "space"},
+                    {"HoN.Core_Box.Terrain.Position", "C4_B", {4,5}, "space", {rotation = 0}},
+                    {"HoN.Core_Box.Terrain.Position", "C2_B", {4,3}, "space", {rotation = 0}},
                 },
                 Objects = {
-
+                    -- HACK: Placed +0.01y to avoid it being placed underneath the terrain board.
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A", {6,0.01}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Primary_Objective_US", "C4_B", {2,0}, "interspace"},
                 },
             },
             TurnCounter = {
@@ -28,10 +32,8 @@ function Watch_Your_Step.GetScenarioConfig()
                 },
                 useRandomInitiativeOrder = false,
                 eventMarkers = {
-                    [2] = "HoN.Core_Box.Tokens.Event_US",
-                    [5] = "HoN.Core_Box.Tokens.Event_End",
+                    [6] = "HoN.Core_Box.Tokens.Event_End",
                 },
-                -- TODO: Any extras?
             },
             Players = {
                 -- Leaving empty for now since this part is not implemented.

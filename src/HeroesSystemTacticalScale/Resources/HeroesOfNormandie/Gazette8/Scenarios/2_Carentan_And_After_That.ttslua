@@ -1,0 +1,49 @@
+Carentan_And_After_That = {}
+
+function Carentan_And_After_That.GetScenarioConfig()
+    return {
+        Name = "Carentan, And After That?",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C1_B", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C6_B", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C4_B", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C3_A", {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.C2_A", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C5_A", {rotation =  90}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Thicket", "C2_A", {6,7}, "space"},
+                    {"HoN.Core_Box.Terrain.Position", "C3_A", {6,4}, "space"},
+                    {"HoN.Core_Box.Terrain.Position", "C2_A", {4,3}, "space"},
+                    {"HoN.Core_Box.Terrain.Position", "C5_A", {6,4}, "space"},
+                },
+                Objects = {
+                    {"HoN.Core_Box.Tokens.Primary_Objective_GE",               "C5_A", {3,1}, "interspace"},
+                    {"HoN.sainte_mere_eglise.us_airborne.secondary_objective", "C1_B", {6,6}, "interspace"},
+
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C6_B", {3,0}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_B", {2,0}, "interspace"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_GE",
+                    [2] = "HoN.sainte_mere_eglise.us_airborne.initiative_marker",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [4] = "HoN.Core_Box.Tokens.Event_US",
+                    [7] = "HoN.Core_Box.Tokens.Event_End",
+                },
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

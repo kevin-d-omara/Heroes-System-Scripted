@@ -1,0 +1,72 @@
+Run_Speirs_Run = {}
+
+function Run_Speirs_Run.GetScenarioConfig()
+    return {
+        Name = "Run Speirs, Run!",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 3,
+                TerrainBoards = {
+                    {"HoN.sainte_mere_eglise.terrain_board.sm1_a", {rotation =  90}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm2_a", {rotation =  90}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm3_a", {rotation =   0}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm4_a", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.C5_B",                  {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.C4_A",                  {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.C2_A",                  {rotation = 180}},
+                    {"HoN.sainte_mere_eglise.terrain_board.sm6_b", {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.C3_A",                  {rotation =   0}},
+                },
+                TerrainTiles = {
+                    {"HoN.gazette_3.haystacks_1", "C2_A", {5,3}, "interspace"},
+                    {"HoN.gazette_3.haystacks_2", "C2_A", {6,4}, "interspace"},
+                    {"HoN.gazette_3.haystacks_3", "C2_A", {6,2}, "interspace"},
+                    {"HoN.gazette_3.haystacks_4", "C2_A", {7,2}, "interspace"},
+                    {"HoN.Core_Box.Terrain.Thicket", "sm6_b", {1,57}, "space"},
+
+                    {"HoN.Core_Box.Terrain.Position", "sm4_a", {5,5}, "space"},
+                    {"HoN.Core_Box.Terrain.Position", "C5_B",  {6,4}, "space"},
+                    {"HoN.Core_Box.Terrain.Position", "C4_A",  {5,7}, "space"},
+
+                    {"HoN.Core_Box.Terrain.House_2x2", "C5_B", {2,6},   "space",      {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.House_2x1", "C5_B", {5,5.5}, "interspace", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.House_1x1", "C4_A", {2,6},   "interspace", {rotation =  90}},
+
+                    {"HoN.sainte_mere_eglise.terrain_overlays.la_fiere_grange",    "C4_A", {5.5,5}, "space",    {rotation = -90}},
+                    {"HoN.sainte_mere_eglise.terrain_overlays.la_fiere",           "C4_A", {4.5,1}, "space",    {rotation = 180}},
+                    -- Has small offset to align with grid:
+                    {"HoN.sainte_mere_eglise.terrain_overlays.la_fiere_maison_01", "C5_B", {0.96,1.028}, "interspace", {rotation = -90}},
+
+                    -- HACK: Should be done through a different interface.
+                    {"HoN.sainte_mere_eglise.terrain_overlays.church_spire", "sm1_a", {-0.9,5}, "space"},
+                },
+                Objects = {
+                    {"HoN.Core_Box.GE.Panzergrenadiere_901.Mg42", "sm4_a", {5,5}, "space", {rotation = 180, flip = true}},
+                    {"HoN.Core_Box.GE.Panzergrenadiere_901.Mg42", "C5_B",  {6,4}, "space", {rotation = 180, flip = true}},
+                    {"HoN.Core_Box.GE.Panzergrenadiere_901.Mg42", "C4_A",  {5,7}, "space", {rotation = 180, flip = true}},
+
+                    -- HACK: Using small offset to avoid bug -- they were being placed undeneath the haystacks.
+                    {"HoN.gazette_3.winters", "C2_A", {6,1.8}, "space"},
+                    {"HoN.gazette_3.speirs",  "C2_A", {7,1.8}, "space"},
+                },
+            },
+            TurnCounter = {
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.sainte_mere_eglise.us_airborne.initiative_marker",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                    [4] = "HoN.Core_Box.Tokens.Event_US",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                ruinsBag = "HoN.sainte_mere_eglise.campaign.ruins_bag_all",
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

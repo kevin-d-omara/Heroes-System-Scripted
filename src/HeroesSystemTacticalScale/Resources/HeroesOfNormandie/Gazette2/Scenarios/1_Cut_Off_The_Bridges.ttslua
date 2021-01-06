@@ -11,13 +11,18 @@ function Cut_Off_The_Bridges.GetScenarioConfig()
                     {"HoN.Core_Box.Terrain.C4_A", {rotation = -90}},
                     {"HoN.Core_Box.Terrain.C3_A", {rotation = 180}},
                     {"HoN.Core_Box.Terrain.C1_B", {rotation =   0}},
-                    -- TODO: River tiles
+                    {"HoN.gazette_2.r2_a", {rotation = -90}},
+                    {"HoN.gazette_2.r1_a", {rotation = -90}},
+                    {"HoN.gazette_2.r4_b", {rotation = -90}},
                     {"HoN.Core_Box.Terrain.C6_B", {rotation =  90}},
                     {"HoN.Core_Box.Terrain.C5_B", {rotation = -90}},
                     {"HoN.Core_Box.Terrain.C2_B", {rotation =  90}},
                 },
                 TerrainTiles = {
-
+                    {"HoN.Core_Box.Terrain.Thicket", "C4_A", {6,2}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C4_A", {7,5}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C3_A", {2,1}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C6_B", {5,7}, "space"},
                 },
                 Objects = {
 
@@ -26,17 +31,42 @@ function Cut_Off_The_Bridges.GetScenarioConfig()
             TurnCounter = {
                 path = "HoN.Core_Box.Tokens.Turn_Counter",
                 initiativeMarkers = {
-                    [1] = "HoN.Core_Box.Tokens.Initiative_US",
+                    [1] = "HoN.Core_Box.Tokens.Initiative_CW",
                     [2] = "HoN.Core_Box.Tokens.Initiative_GE",
                 },
                 useRandomInitiativeOrder = false,
                 eventMarkers = {
-                    [2] = "HoN.Core_Box.Tokens.Event_US",
-                    [3] = "HoN.Core_Box.Tokens.Event_Generic",
-                    [5] = "HoN.Core_Box.Tokens.Event_US",
+                    [6] = "HoN.Core_Box.Tokens.Event_GE",
+                    [7] = "HoN.Core_Box.Tokens.Event_GE",
                     [8] = "HoN.Core_Box.Tokens.Event_End",
                 },
-                -- TODO: Add Airstrike cards & other
+                extraObjects = {
+                    {
+                        index = 1,
+                        tile = {"HoN.gazette_2.yellow_detonator", rotation = 0},
+                        offset = {4.5, 0.0}
+                    },
+                    {
+                        index = 1,
+                        tile = {"HoN.gazette_2.yellow_explosives", rotation = 0},
+                        offset = {3.5, 0.0}
+                    },
+                    {
+                        index = 1,
+                        tile = {"HoN.gazette_2.yellow_explosives", rotation = 0},
+                        offset = {2.5, 0.0}
+                    },
+                    {
+                        index = 1,
+                        tile = {"HoN.gazette_2.yellow_explosives", rotation = 0},
+                        offset = {1.5, 0.0}
+                    },
+                    {
+                        index = 6,
+                        tile = {"HoN.carentan.campaign.88_mm_flak_18", rotation = 0},
+                        offset = {2.5, 0.0}
+                    },
+                },
             },
             Players = {
                 -- Leaving empty for now since this part is not implemented.

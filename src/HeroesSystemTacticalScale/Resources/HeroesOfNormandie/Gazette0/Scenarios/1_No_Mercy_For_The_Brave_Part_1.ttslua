@@ -22,17 +22,20 @@ function No_Mercy_For_The_Brave_Part_1.GetScenarioConfig()
                     {"HoN.Core_Box.Terrain.Thicket", "dd_5a", {7,3}, "space"},
                     {"HoN.Core_Box.Terrain.Pond", "dd_4b", {7,5.5}, "space", {rotation = -90}},
 
-                    {"HoN.d_day.terrain_overlay.position_fortified_1x1", "dd_3b", {4,3}, "space"},
-                    {"HoN.d_day.terrain_overlay.position_1x1", "dd_4b", {1,3}, "space"},
+                    {"HoN.d_day.terrain_overlay.position_fortified_1x1", "dd_3b", {4,3}, "space", {rotation = 180}},
+                    {"HoN.d_day.terrain_overlay.position_1x1", "dd_4b", {1,3}, "space", {rotation = 180}},
 
+                    {"HoN.d_day.terrain_overlay.bunker_2x2_L", "dd_5a", {5,6}, "space", {rotation = 90}},
 
+                    -- Missing:
+                    -- Set aside the american Aviation cards, shuffle them and place them close to the turn counter.
 
                     {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_01", "dd_2a", {5.5,1}, "space", {rotation =  90}},
                     {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_02", "dd_2a", {5.5,3}, "space", {rotation =  90}},
                     {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_03", "dd_2a", {5.5,5}, "space", {rotation =  90}},
                     {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_04", "dd_2a", {5.5,7}, "space", {rotation =  90}},
                     {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_05", "dd_3b", {5.5,6}, "space", {rotation =  90}},
-                    {"HoN.d_day.terrain_overlay.czech_hedgehog_beach_06", "dd_4b", {6.5,4}, "space", {rotation =  90}},
+                    {"HoN.d_day.terrain_overlay.czech_hedgehog_grass_06", "dd_4b", {6.5,3.915}, "space", {rotation =  90}},
                 },
                 Objects = {
                     {"HoN.d_day.terrain_overlay.barbed_wire_beach_07", "dd_2a", {6.5,7}, "space", {rotation =  90}},
@@ -46,6 +49,21 @@ function No_Mercy_For_The_Brave_Part_1.GetScenarioConfig()
                     {"HoN.d_day.terrain_overlay.barbed_wire_beach_08", "dd_3b", {6.5,7}, "space", {rotation =  90}},
                     {"HoN.d_day.terrain_overlay.barbed_wire_beach_08", "dd_3b", {6.5,6}, "space", {rotation =  90}},
                     {"HoN.d_day.terrain_overlay.barbed_wire_beach_10", "dd_3b", {6.5,5}, "space", {rotation =  90}},
+
+                    -- Added +0.113 x-axis so back of landing craft is flush with edge of terrain board.
+                    {"HoN.d_day.landing_craft.landing_craft_small_12", "dd_2a", {1.113,6}, "space", {rotation =  90}},
+                    {"HoN.d_day.landing_craft.landing_craft_large_03", "dd_2a", {1.613,4}, "space", {rotation =  90}},
+                    {"HoN.d_day.landing_craft.landing_craft_large_56", "dd_2a", {1.613,1}, "space", {rotation =  90}},
+                    {"HoN.d_day.landing_craft.landing_craft_small_04", "dd_3b", {1.113,4}, "space", {rotation =  90}},
+
+                    -- HACK: Placed +0.01x to avoid it being placed underneath the terrain board.
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "dd_5a", {0.01,4}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "dd_4b", {0.01,6}, "interspace"},
+
+                    {"HoN.Core_Box.Tokens.Primary_Objective_US", "C5_B", {3,4}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Secondary_Objective_US", "dd_5a", {5,6}, "space"},
+
+                    {"HoN.gazette_0.von_kamptz", "C5_B", {2,6}, "interspace"},
                 },
             },
             TurnCounter = {
@@ -61,7 +79,18 @@ function No_Mercy_For_The_Brave_Part_1.GetScenarioConfig()
                     [5] = "HoN.Core_Box.Tokens.Event_US",
                     [8] = "HoN.Core_Box.Tokens.Event_End",
                 },
-                -- TODO: Add Airstrike cards & other
+                extraObjects = {
+                    {
+                        index = 2,
+                        tile = {"HoN.gazette_0.us_airstrike_deck", rotation = 0, flip = true},
+                        offset = {2.5, 0.0}
+                    },
+                    {
+                        index = 2,
+                        tile = {"HoN.gazette_0.shuffle_me_reminder", rotation = 0},
+                        offset = {2.5, 0.0}
+                    },
+                },
             },
             Players = {
                 -- Leaving empty for now since this part is not implemented.

@@ -1,0 +1,54 @@
+Radio_Londres = {}
+
+function Radio_Londres.GetScenarioConfig()
+    return {
+        Name = "Radio Londres..",
+        Model = {
+            Battlefield = {
+                Width = 2,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C4_A", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C1_B", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C2_A", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C3_A", {rotation = 180}},
+
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Thicket", "C4_A", {2,5}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C2_A", {2,6}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C3_A", {6,7}, "space"},
+                    {"HoN.Core_Box.Terrain.Pond", "C3_A", {2.5,2}, "space", {rotation = 0}},
+
+                    {"HoN.Core_Box.Terrain.House_2x2", "C3_A", {1,7}, "space", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.House_2x1", "C2_A", {5,2.5}, "space", {rotation = 90}},
+                },
+                Objects = {
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C4_A", {2,1}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A", {4,4}, "interspace"},
+
+                    {"HoN.Core_Box.GE.Panzergrenadiere_901.Officer", "C3_A", {1,7}, "interspace"},
+                    {"HoN.civilians_under_fire.collabo", "C3_A", {0.01,6}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Item_Radio", "C3_A", {1,6}, "interspace"},
+
+                    {"HoN.civilians_under_fire.tractor", "C3_A", {2,3}, "space", {rotation = 90}},
+                },
+            },
+            TurnCounter = {
+                weatherTile = "HoN.sainte_mere_eglise.markers.weather_clear_night",
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_FFI",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                },
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

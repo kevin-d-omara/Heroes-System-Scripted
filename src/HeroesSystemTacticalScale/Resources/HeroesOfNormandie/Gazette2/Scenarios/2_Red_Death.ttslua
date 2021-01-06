@@ -14,10 +14,19 @@ function Red_Death.GetScenarioConfig()
                     {"HoN.Core_Box.Terrain.C5_B", {rotation =   0}},
                 },
                 TerrainTiles = {
-
+                    {"HoN.Core_Box.Terrain.House_1x1", "C5_B", {5.5,5.5}, "space", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.House_2x1", "C5_B", {2,2.5}, "space", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.House_2x2", "C5_B", {6,2}, "space", {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.Position", "C5_B", {1,5}, "space", {rotation = 0}},
+                    {"HoN.Core_Box.Terrain.Position", "C1_B", {5,1}, "space", {rotation = 0}},
                 },
                 Objects = {
-
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C2_B", {4,3}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C1_B", {2,4}, "interspace"},
+                    {"HoN.gazette_2.sasha", "C5_B", {5.5,2.5}, "space"},
+                    {"HoN.Core_Box.Tokens.Destruction_1", "C5_B", {4.75,5.5}, "space"},
+                    {"HoN.Core_Box.Tokens.Destruction_1", "C5_B", {2,2.5}, "space"},
+                    {"HoN.Core_Box.Tokens.Destruction_1", "C5_B", {6,2}, "space"},
                 },
             },
             TurnCounter = {
@@ -28,8 +37,7 @@ function Red_Death.GetScenarioConfig()
                 },
                 useRandomInitiativeOrder = false,
                 eventMarkers = {
-                    [2] = "HoN.Core_Box.Tokens.Event_US",
-                    [5] = "HoN.Core_Box.Tokens.Event_End",
+                    [6] = "HoN.Core_Box.Tokens.Event_End",
                 },
                 -- TODO: Any extras?
             },

@@ -1,0 +1,12 @@
+function GetObjects()
+    return {
+        guid = '9a46a2',
+
+        ["r1_a"] = '68ccf9',
+        ["r2_a"] = '2bd2f5',
+        ["r4_b"] = '775951',
+        ["yellow_detonator"] = '55a3c5',
+        ["yellow_explosives"] = '852f23',
+        ["sasha"] = 'b8e79a',
+    }
+end

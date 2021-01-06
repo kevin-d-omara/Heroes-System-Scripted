@@ -3,8 +3,8 @@
 #include <2_No_Mercy_For_The_Brave_Part_2>
 
 local Scenarios = {
-    Rendezvous,
-    Carentan_And_After_That,
+    No_Mercy_For_The_Brave_Part_1,
+    No_Mercy_For_The_Brave_Part_2,
 }
 
 function GetNumberOfScenarios()

@@ -44,6 +44,12 @@ local customUIAssets = {
     {name = "scenario-image-carentan-full-paratroopers-05", url = "https://drive.google.com/uc?export=download&id=11I-oX5fR1xEIyHA-3erRUN8VTXFRssk2"},
     {name = "scenario-image-carentan-full-paratroopers-06", url = "https://drive.google.com/uc?export=download&id=1bqd4L-r-eb-jJEbsAg1hxzgG34SyOuxQ"},
 
+    -- Civilians Under FIre Scenarios
+    {name = "scenario-image-civilians-under-fire-cover", url = "https://drive.google.com/uc?export=download&id=1MPqOpr900P9G4NlNqVC43n7bKyquQS1v"},
+    {name = "scenario-image-civilians-under-fire-01", url = "https://drive.google.com/uc?export=download&id=1F7I1gRrFGTn2QU73A36uZ5XnzLbfe7CC"},
+    {name = "scenario-image-civilians-under-fire-02", url = "https://drive.google.com/uc?export=download&id=1Wq5EBEtznGrSUM_JWgShwGe8KCtCDjhp"},
+    {name = "scenario-image-civilians-under-fire-03", url = "https://drive.google.com/uc?export=download&id=1jLJ_s9lSd8hg4Tg-r04gRWSfAE-vqh_J"},
+
     -- Gazette 0 Scenarios
     {name = "scenario-image-gazette-0-cover", url = "https://drive.google.com/uc?export=download&id=1RaQ1qbCGI7ca6q0iDQKmBNsd2UlFfjyT"},
     {name = "scenario-image-gazette-0-01", url = "https://drive.google.com/uc?export=download&id=16TO7RhwSkJktmRmRs7qv5Xkw4uYO7dhG"},

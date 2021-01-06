@@ -1,0 +1,7 @@
+function GetObjects()
+    return {
+        guid = '288b99',
+
+        ["reminder_juno_beach_bonus_tactic_3"] = '9ebb01',
+    }
+end

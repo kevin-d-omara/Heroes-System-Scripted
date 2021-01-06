@@ -10,6 +10,7 @@ function GetAliases()
             {"HoN.Core_Box.Tokens.Bonus_Tactic"          , "HoN.Core_Box.Tokens.Bonus_Tactic_.*"},
             {"HoN.Core_Box.Tokens.Secondary_Objective_US", "HoN.Core_Box.Tokens.Secondary_Objective_US_%d"},
             {"HoN.Core_Box.Tokens.Secondary_Objective_GE", "HoN.Core_Box.Tokens.Secondary_Objective_GE_%d"},
+            {"HoN.Core_Box.Tokens.Secondary_Objective_CW", "HoN.Core_Box.Tokens.Secondary_Objective_CW_%d"},
             {"HoN.Core_Box.Tokens.Item"                  , "HoN.Core_Box.Tokens.Item_.*"},
                 -- Gameplay
             {"HoN.Core_Box.Tokens.Vehicle_Damage", "HoN.Core_Box.Tokens.Vehicle_Damage_.*", {withReplacement = true}},

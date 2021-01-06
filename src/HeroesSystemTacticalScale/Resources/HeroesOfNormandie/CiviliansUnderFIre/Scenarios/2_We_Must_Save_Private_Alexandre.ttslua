@@ -1,0 +1,63 @@
+We_Must_Save_Private_Alexandre = {}
+
+function We_Must_Save_Private_Alexandre.GetScenarioConfig()
+    return {
+        Name = "We Must Save Private Alexrandre!",
+        Model = {
+            Battlefield = {
+                Width = 3,
+                Height = 2,
+                TerrainBoards = {
+                    {"HoN.Core_Box.Terrain.C4_B", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C5_B", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.C6_B", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C3_A", {rotation =  90}},
+                    {"HoN.Core_Box.Terrain.C1_B", {rotation =   0}},
+                    {"HoN.Core_Box.Terrain.C2_A", {rotation = -90}},
+                },
+                TerrainTiles = {
+                    {"HoN.Core_Box.Terrain.Thicket", "C4_B", {6,6}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C4_B", {4,1}, "space"},
+                    {"HoN.Core_Box.Terrain.Thicket", "C6_B", {4,2}, "space"},
+                    {"HoN.Core_Box.Terrain.Pond", "C2_A", {0.51,6}, "space", {rotation = 0}},
+
+                    {"HoN.civilians_under_fire.office_of_the_gestapo", "C5_B", {5,6}, "space", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.House_1x1", "C5_B", {1,5}, "interspace", {rotation = 180}},
+                    {"HoN.Core_Box.Terrain.House_2x1", "C5_B", {2,2.5}, "space", {rotation = -90}},
+                    {"HoN.Core_Box.Terrain.House_2x2", "C5_B", {7,2}, "space", {rotation = -90}},
+                },
+                Objects = {
+                    {"HoN.civilians_under_fire.alexandre", "C5_B", {3.85,6}, "interspace"},
+                    {"HoN.civilians_under_fire.locked_door", "C5_B", {4.407,6.01}, "interspace", {rotation = -90}},
+                    {"HoN.civilians_under_fire.wagon", "C4_B", {2,1}, "space", {rotation = 90}},
+                    {"HoN.civilians_under_fire.tractor", "C2_A", {1,2}, "space", {rotation = 0}},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C3_A", {5,6}, "interspace"},
+                    {"HoN.Core_Box.Tokens.Bonus_Tactic", "C2_A", {4,6}, "interspace"},
+                },
+            },
+            TurnCounter = {
+                weatherTile = "HoN.sainte_mere_eglise.markers.weather_clear_night",
+                path = "HoN.Core_Box.Tokens.Turn_Counter",
+                initiativeMarkers = {
+                    [1] = "HoN.Core_Box.Tokens.Initiative_FFI",
+                    [2] = "HoN.Core_Box.Tokens.Initiative_GE",
+                },
+                useRandomInitiativeOrder = false,
+                eventMarkers = {
+                    [3] = "HoN.Core_Box.Tokens.Event_GE",
+                    [8] = "HoN.Core_Box.Tokens.Event_End",
+                },
+                extraObjects = {
+                    {
+                        index = 1,
+                        tile = {"HoN.civilians_under_fire.keys"},
+                        offset = {2, 0.0}
+                    },
+                },
+            },
+            Players = {
+                -- Leaving empty for now since this part is not implemented.
+            },
+        },
+    }
+end

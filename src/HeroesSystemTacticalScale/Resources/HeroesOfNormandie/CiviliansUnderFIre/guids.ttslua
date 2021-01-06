@@ -1,0 +1,13 @@
+function GetGuidTree()
+    return {
+        guid = 'd002a8',
+
+        ["office_of_the_gestapo"] = 'cd1439',
+        ["keys"] = '8e7003',
+        ["locked_door"] = '08452c',
+        ["wagon"] = '61d319',
+        ["tractor"] = '70ff95',
+        ["collabo"] = '95368f',
+        ["alexandre"] = '080159',
+    }
+end

@@ -1,0 +1,40 @@
+-- TODO: move inside GetScenarios()
+#include <1_Radio_Londres>
+#include <2_We_Must_Save_Private_Alexandre>
+#include <3_Hostages>
+
+local Scenarios = {
+    Radio_Londres,
+    We_Must_Save_Private_Alexandre,
+    Hostages,
+}
+
+function GetCampaignInfo()
+    return {
+        System = 'HoN',
+        Package = 'civilians_under_fire',
+        Campaign = 'Civilians_Under_Fire',
+        NumberOfScenarios = 3,
+        MinPlayers = 2,
+        MaxPlayers = 2,
+        MinTerrainBoards = 4,
+        MaxTerrainBoards = 6,
+        -- MinArmyPoints = ,
+        -- MaxArmyPoints = ,
+        -- MinOrders = ,
+        -- MaxOrders = ,
+        -- Narrative = ,
+    }
+end
+
+function GetNumberOfScenarios()
+    return 3
+end
+
+function GetScenarioInfo(index)
+    return Scenarios[index]
+end
+
+function GetScenarioConfig(args)
+    return Scenarios[args.index].GetScenarioConfig(args.campaignData, args.userInput)
+end

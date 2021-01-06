@@ -1,10 +1,10 @@
 -- TODO: move inside GetScenarios()
 #include <1_Watch_Your_Step>
-#include <2_June_Beach>
+#include <2_Juno_Beach>
 
 local Scenarios = {
     Watch_Your_Step,
-    June_Beach,
+    Juno_Beach,
 }
 
 function GetNumberOfScenarios()
