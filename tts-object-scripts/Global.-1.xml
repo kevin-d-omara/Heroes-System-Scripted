@@ -44,7 +44,7 @@
         width="1392"
         height="1050"
         color="#DDDDDD">
-        <GridLayout padding="0 0 8 3" spacing="8 8"  height="7197" cellsize="330 505" childAlignment="UpperCenter">
+        <GridLayout padding="0 0 8 3" spacing="8 8"  height="7710" cellsize="330 505" childAlignment="UpperCenter">
                 <!--
                 When adding new scenarios, need to do four things:
 
@@ -86,7 +86,9 @@
                     <Image class="ScenarioImage" image="scenario-image-hon-core-09"></Image></Button>
                 <Button id="HoN.Core_Box|10" class="ScenarioButton" text="Tempest of Fire">
                     <Image class="ScenarioImage" image="scenario-image-hon-core-10"></Image></Button>
-                <Text/> <!-- Empty Tile / Filler -->
+
+                <!-- Empty Tile / Filler -->
+                <Text/>
 
                 <!-- D-Day Scenarios -->
                 <Button id="HoN.d_day|Cover" class="ScenarioButton" text="D-Day" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#236466">
@@ -113,7 +115,9 @@
                     <Image class="ScenarioImage" image="scenario-image-sainte-mere-eglise-05"></Image></Button>
                 <Button id="HoN.sainte_mere_eglise|6" class="ScenarioButton" text="La Fière, Part Two">
                     <Image class="ScenarioImage" image="scenario-image-sainte-mere-eglise-06"></Image></Button>
-                <Text/> <!-- Empty Tile / Filler -->
+
+                <!-- Empty Tile / Filler -->
+                <Text/>
 
                 <!-- Carentan Scenarios -->
                 <Button id="HoN.carentan|Cover" class="ScenarioButton" text="Carentan" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#434A4E">
@@ -130,7 +134,9 @@
                     <Image class="ScenarioImage" image="scenario-image-carentan-05"></Image></Button>
                 <Button id="HoN.carentan|6" class="ScenarioButton" text="Final Assault, June 12">
                     <Image class="ScenarioImage" image="scenario-image-carentan-06"></Image></Button>
-                <Text/> <!-- Empty Tile / Filler -->
+
+                <!-- Empty Tile / Filler -->
+                <Text/>
 
                 <!-- Carentan Scenarios -->
                 <Button id="HoN.carentan_full_paratroopers|Cover" class="ScenarioButton" text="Carentan (Full Paratroopers)" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#434A4E">
@@ -147,37 +153,55 @@
                     <Image class="ScenarioImage" image="scenario-image-carentan-full-paratroopers-05"></Image></Button>
                 <Button id="HoN.carentan_full_paratroopers|6" class="ScenarioButton" text="Final Assault, June 12">
                     <Image class="ScenarioImage" image="scenario-image-carentan-06"></Image></Button>
-                <Text/> <!-- Empty Tile / Filler -->
+
+                <!-- Empty Tile / Filler -->
+                <Text/>
+
+                <!-- Civilians Under Fire Scenarios -->
+                <Button id="HoN.civilians_under_fire|Cover" class="ScenarioButton" text="Civilians Under Fire" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#69A092">
+                    <Image class="ScenarioImage" image="scenario-image-civilians-under-fire-cover"></Image></Button>
+                <Button id="HoN.civilians_under_fire|1" class="ScenarioButton" text="Radio Londres...">
+                    <Image class="ScenarioImage" image="scenario-image-civilians-under-fire-01"></Image></Button>
+                <Button id="HoN.civilians_under_fire|2" class="ScenarioButton" text="We Must Save Private Alexandre!">
+                    <Image class="ScenarioImage" image="scenario-image-civilians-under-fire-02"></Image></Button>
+                <Button id="HoN.civilians_under_fire|3" class="ScenarioButton" text="Hostages...">
+                    <Image class="ScenarioImage" image="scenario-image-civilians-under-fire-03"></Image></Button>
 
                 <!-- Gazette 0 Scenarios -->
-                <Button id="HoN.gazette_0|Cover" class="ScenarioButton" text="Gazette 0 - Invasion Begins!" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#636363">
+                <Button id="HoN.gazette_0|Cover" class="ScenarioButton" text="Gazette 0 - Invasion Begins!" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#A8926A">
                     <Image class="ScenarioImage" image="scenario-image-gazette-0-cover"></Image></Button>
                 <Button id="HoN.gazette_0|1" class="ScenarioButton" text="No Mercy For The Brave (part 1)">
                     <Image class="ScenarioImage" image="scenario-image-gazette-0-01"></Image></Button>
                 <Button id="HoN.gazette_0|2" class="ScenarioButton" text="No Mercy For The Brave (part 2)">
                     <Image class="ScenarioImage" image="scenario-image-gazette-0-02"></Image></Button>
-                <Text/> <!-- Empty Tile / Filler -->
+
+                <!-- Empty Tile / Filler -->
+                <Text/>
 
                 <!-- Gazette 1 Scenarios -->
-                <Button id="HoN.gazette_1|Cover" class="ScenarioButton" text="Gazette 1 - Achtung Minen!" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#636363">
+                <Button id="HoN.gazette_1|Cover" class="ScenarioButton" text="Gazette 1 - Achtung Minen!" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#A8926A">
                     <Image class="ScenarioImage" image="scenario-image-gazette-1-cover"></Image></Button>
                 <Button id="HoN.gazette_1|1" class="ScenarioButton" text="Watch Your Step!">
                     <Image class="ScenarioImage" image="scenario-image-gazette-1-01"></Image></Button>
                 <Button id="HoN.gazette_1|2" class="ScenarioButton" text="Juno Beach">
                     <Image class="ScenarioImage" image="scenario-image-gazette-1-02"></Image></Button>
-                <Text/> <!-- Empty Tile / Filler -->
+
+                <!-- Empty Tile / Filler -->
+                <Text/>
 
                 <!-- Gazette 2 Scenarios -->
-                <Button id="HoN.gazette_2|Cover" class="ScenarioButton" text="Gazette 2 - Hobart's Funnies" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#636363">
+                <Button id="HoN.gazette_2|Cover" class="ScenarioButton" text="Gazette 2 - Hobart's Funnies" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#A8926A">
                     <Image class="ScenarioImage" image="scenario-image-gazette-2-cover"></Image></Button>
                 <Button id="HoN.gazette_2|1" class="ScenarioButton" text="Cut Off The Bridges">
                     <Image class="ScenarioImage" image="scenario-image-gazette-2-01"></Image></Button>
                 <Button id="HoN.gazette_2|2" class="ScenarioButton" text="Red Death!">
                     <Image class="ScenarioImage" image="scenario-image-gazette-2-02"></Image></Button>
-                <Text/> <!-- Empty Tile / Filler -->
+
+                <!-- Empty Tile / Filler -->
+                <Text/>
 
                 <!-- Gazette 3 Scenarios -->
-                <Button id="HoN.gazette_3|Cover" class="ScenarioButton" text="Gazette 3 - Easy Company" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#5C6C3F">
+                <Button id="HoN.gazette_3|Cover" class="ScenarioButton" text="Gazette 3 - Easy Company" fontSize="22" interactable="false" colors="#FF2EEA|#FF2EEA|#FF2EEA|#A8926A">
                     <Image class="ScenarioImage" image="scenario-image-gazette-3-cover"></Image></Button>
                 <Button id="HoN.gazette_3|1" class="ScenarioButton" text="Rendezvous">
                     <Image class="ScenarioImage" image="scenario-image-gazette-3-01"></Image></Button>
