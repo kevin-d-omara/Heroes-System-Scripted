@@ -20,4 +20,4 @@ The following are the tenets this mod follows:
 1. Clone this repository.
 1. Install the [atom-tabletopsimulator-lua](https://github.com/Berserk-Games/atom-tabletopsimulator-lua/wiki) plugin for Atom ([instructions](https://api.tabletopsimulator.com/atom/))
 1. Open up the plugin settings, and change:
-    * `Base path for files you wish to bundle or #include` => point this to the root of the cloned repository.
+    * `Base path for files you wish to bundle or #include` => point this to the `src/` directory of the cloned repository.

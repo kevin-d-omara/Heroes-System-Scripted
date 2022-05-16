@@ -64,12 +64,8 @@ function GetGuidTree()
             Vehicle_Damage_5    = 'sbk8om',
             Vehicle_Damage_6    = 'c65zk3',
 
-            -- Blast Markers
-            Blast_Grey          = 'pow5kk',
-            Blast_Generic       = 'vdp92d',
-            Blast_Green         = '6wvt1b',
-            Blast_Blue          = '3469l4',
-            Blast_Orange        = 'ucrfq8',
+            -- Blast Marker (All 4 colors on one template)
+            Blast          = '476260',
 
             -- Items
             Item_Detonator      = 'kzooxk',
